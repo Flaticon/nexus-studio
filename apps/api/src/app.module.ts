@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { BullModule } from '@nestjs/bull';
+import { AppController } from './app.controller'; 
 
 // Import modules
 import { AuthModule } from './modules/auth/auth.module';
@@ -44,8 +45,8 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         redis: {
-          host: configService.get('REDIS_HOST'),
-          port: configService.get('REDIS_PORT'),
+          host: configService.get('REDIS_HOST', 'localhost'),
+          port: configService.get('REDIS_PORT', 6379),
         },
       }),
       inject: [ConfigService],
@@ -62,5 +63,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     InsightsModule,
     DashboardModule,
   ],
+ controllers: [AppController], // Añadir esto
+  providers: [],
 })
 export class AppModule {}
