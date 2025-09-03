@@ -8,13 +8,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DashboardModule = void 0;
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const schedule_1 = require("@nestjs/schedule");
+const dashboard_controller_1 = require("./dashboard.controller");
+const dashboard_service_1 = require("./dashboard.service");
+const dashboard_metrics_schema_1 = require("./schemas/dashboard-metrics.schema");
+const alert_schema_1 = require("./schemas/alert.schema");
+const portfolio_module_1 = require("../portfolio/portfolio.module");
 let DashboardModule = class DashboardModule {
 };
 exports.DashboardModule = DashboardModule;
 exports.DashboardModule = DashboardModule = __decorate([
     (0, common_1.Module)({
-        controllers: [],
-        providers: [],
+        imports: [
+            schedule_1.ScheduleModule.forRoot(),
+            mongoose_1.MongooseModule.forFeature([
+                { name: dashboard_metrics_schema_1.DashboardMetrics.name, schema: dashboard_metrics_schema_1.DashboardMetricsSchema },
+                { name: alert_schema_1.Alert.name, schema: alert_schema_1.AlertSchema }
+            ]),
+            portfolio_module_1.PortfolioModule
+        ],
+        controllers: [dashboard_controller_1.DashboardController],
+        providers: [dashboard_service_1.DashboardService],
+        exports: [dashboard_service_1.DashboardService]
     })
 ], DashboardModule);
 //# sourceMappingURL=dashboard.module.js.map
