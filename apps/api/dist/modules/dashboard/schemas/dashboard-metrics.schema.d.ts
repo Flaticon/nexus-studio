@@ -1,5 +1,11 @@
 import { Document, Types } from 'mongoose';
-export type DashboardMetricsDocument = DashboardMetrics & Document;
+interface Timestamps {
+    createdAt: Date;
+    updatedAt: Date;
+}
+export type DashboardMetricsDocument = DashboardMetrics & Document & Timestamps & {
+    _id: Types.ObjectId;
+};
 export declare class DashboardMetrics {
     date: Date;
     startups: {
@@ -54,3 +60,4 @@ export declare const DashboardMetricsSchema: import("mongoose").Schema<Dashboard
 } & {
     __v: number;
 }>;
+export {};
