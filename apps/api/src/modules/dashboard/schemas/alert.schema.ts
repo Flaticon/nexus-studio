@@ -2,7 +2,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-export type AlertDocument = Alert & Document;
+// ✅ Interfaz para los timestamps automáticos
+interface Timestamps {
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// ✅ Tipo corregido que incluye timestamps y _id tipado
+export type AlertDocument = Alert & Document & Timestamps & {
+  _id: Types.ObjectId;
+};
 
 export enum AlertType {
   CRITICAL = 'critical',
@@ -20,7 +29,7 @@ export enum AlertCategory {
 }
 
 @Schema({ 
-  timestamps: true  // ✅ IMPORTANTE: Esto añade createdAt y updatedAt automáticamente
+  timestamps: true  // ✅ Esto añade createdAt y updatedAt automáticamente
 })
 export class Alert {
   @Prop({ required: true })
