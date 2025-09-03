@@ -2,7 +2,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-export type DashboardMetricsDocument = DashboardMetrics & Document;
+// ✅ Interfaz para los timestamps automáticos
+interface Timestamps {
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// ✅ Tipo corregido que incluye _id tipado y timestamps
+export type DashboardMetricsDocument = DashboardMetrics & Document & Timestamps & {
+  _id: Types.ObjectId;
+};
 
 @Schema({ timestamps: true })
 export class DashboardMetrics {

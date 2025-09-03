@@ -1,5 +1,11 @@
 import { Document, Types } from 'mongoose';
-export type AlertDocument = Alert & Document;
+interface Timestamps {
+    createdAt: Date;
+    updatedAt: Date;
+}
+export type AlertDocument = Alert & Document & Timestamps & {
+    _id: Types.ObjectId;
+};
 export declare enum AlertType {
     CRITICAL = "critical",
     WARNING = "warning",
@@ -35,3 +41,4 @@ export declare const AlertSchema: import("mongoose").Schema<Alert, import("mongo
 } & {
     __v: number;
 }>;
+export {};

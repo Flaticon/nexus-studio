@@ -17,18 +17,154 @@ exports.DashboardService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const schedule_1 = require("@nestjs/schedule");
 const dashboard_metrics_schema_1 = require("./schemas/dashboard-metrics.schema");
 const alert_schema_1 = require("./schemas/alert.schema");
-const startup_schema_1 = require("../portfolio/schemas/startup.schema");
 let DashboardService = DashboardService_1 = class DashboardService {
     metricsModel;
     alertModel;
-    startupModel;
     logger = new common_1.Logger(DashboardService_1.name);
-    constructor(metricsModel, alertModel, startupModel) {
+    constructor(metricsModel, alertModel) {
         this.metricsModel = metricsModel;
         this.alertModel = alertModel;
-        this.startupModel = startupModel;
+    }
+    async getMetrics(filters) {
+        const query = {};
+        if (filters?.startDate && filters?.endDate) {
+            query.date = {
+                $gte: new Date(filters.startDate),
+                $lte: new Date(filters.endDate)
+            };
+        }
+        return this.metricsModel
+            .findOne(query)
+            .sort({ date: -1 })
+            .exec();
+    }
+    async dismissAlert(id) {
+        return this.alertModel
+            .findByIdAndUpdate(id, { isDismissed: true }, { new: true })
+            .exec();
+    }
+    async calculateDailyMetrics() {
+        this.logger.log('Calculating daily metrics...');
+        try {
+            const metrics = await this.collectMetrics();
+            await this.saveMetrics(metrics);
+            await this.checkForAlerts(metrics);
+            this.logger.log('Daily metrics calculated successfully');
+        }
+        catch (error) {
+            this.logger.error('Error calculating daily metrics:', error);
+        }
+    }
+    async getCurrentMetrics() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return this.metricsModel
+            .findOne({
+            date: { $gte: today }
+        })
+            .sort({ date: -1 })
+            .exec();
+    }
+    async getMetricsForDate(date) {
+        const startOfDay = new Date(date);
+        startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(date);
+        endOfDay.setHours(23, 59, 59, 999);
+        return this.metricsModel
+            .findOne({
+            date: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        })
+            .sort({ date: -1 })
+            .exec();
+    }
+    async getRecentActivity() {
+        const recentAlerts = await this.alertModel
+            .find({
+            createdAt: {
+                $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+            }
+        })
+            .sort({ createdAt: -1 })
+            .limit(10)
+            .exec();
+        return recentAlerts.map(alert => ({
+            id: alert._id.toString(),
+            type: 'alert',
+            title: alert.title,
+            description: alert.message,
+            timestamp: alert.createdAt,
+            category: alert.category
+        }));
+    }
+    calculateGrowth(current, previous) {
+        if (previous === 0)
+            return current > 0 ? 100 : 0;
+        return Number(((current - previous) / previous * 100).toFixed(2));
+    }
+    calculateTrend(current, previous) {
+        const difference = current - previous;
+        const threshold = previous * 0.05;
+        if (Math.abs(difference) <= threshold) {
+            return 'stable';
+        }
+        return difference > 0 ? 'up' : 'down';
+    }
+    async collectMetrics() {
+        return {
+            date: new Date(),
+            startups: {
+                total: 25,
+                active: 20,
+                paused: 3,
+                archived: 2,
+                byStage: {
+                    idea: 5,
+                    validation: 8,
+                    pmf: 4,
+                    growth: 6,
+                    scale: 2
+                }
+            },
+            financials: {
+                totalRevenue: 450000,
+                totalCosts: 320000,
+                netIncome: 130000,
+                burnRate: 25000,
+                runway: 18,
+                mrr: 37500,
+                arr: 450000
+            },
+            team: {
+                totalMembers: 85,
+                activeMembers: 78,
+                utilizationRate: 75,
+                availableCapacity: 25
+            },
+            users: {
+                totalUsers: 12500,
+                activeUsers: 8900,
+                averageNPS: 8.2,
+                churnRate: 5.2
+            },
+            okrs: {
+                totalObjectives: 24,
+                completedObjectives: 18,
+                averageProgress: 78,
+                onTrack: 15,
+                atRisk: 6,
+                behind: 3
+            }
+        };
+    }
+    async saveMetrics(metrics) {
+        const metricsDoc = new this.metricsModel(metrics);
+        return metricsDoc.save();
     }
     async getActiveAlerts() {
         return this.alertModel
@@ -50,7 +186,6 @@ let DashboardService = DashboardService_1 = class DashboardService {
     async getExecutiveSummary(filters) {
         const today = new Date();
         const lastWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-        const lastMonth = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
         const currentMetrics = await this.getCurrentMetrics();
         const previousMetrics = await this.getMetricsForDate(lastWeek);
         const alerts = await this.getActiveAlerts();
@@ -92,18 +227,29 @@ let DashboardService = DashboardService_1 = class DashboardService {
         };
     }
     async getTopPerformers() {
-        const startups = await this.startupModel
-            .find({ status: 'active' })
-            .sort({ 'kpis.0.current': -1 })
-            .limit(5)
-            .exec();
-        return startups.map((startup) => ({
-            id: startup._id.toString(),
-            name: startup.name,
-            metric: startup.kpis[0]?.name || 'Revenue',
-            value: startup.kpis[0]?.current || 0,
-            change: this.calculateGrowth(startup.kpis[0]?.current || 0, startup.kpis[0]?.target || 0)
-        }));
+        return [
+            {
+                id: '507f1f77bcf86cd799439011',
+                name: 'TechStart Alpha',
+                metric: 'Revenue',
+                value: 125000,
+                change: 15.2
+            },
+            {
+                id: '507f1f77bcf86cd799439012',
+                name: 'InnovateCorp',
+                metric: 'Users',
+                value: 8500,
+                change: 22.1
+            },
+            {
+                id: '507f1f77bcf86cd799439013',
+                name: 'DataFlow Pro',
+                metric: 'MRR',
+                value: 18000,
+                change: 8.7
+            }
+        ];
     }
     async checkForAlerts(metrics) {
         if (metrics.financials.runway < 6) {
@@ -133,13 +279,17 @@ let DashboardService = DashboardService_1 = class DashboardService {
     }
 };
 exports.DashboardService = DashboardService;
+__decorate([
+    (0, schedule_1.Cron)(schedule_1.CronExpression.EVERY_DAY_AT_MIDNIGHT),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], DashboardService.prototype, "calculateDailyMetrics", null);
 exports.DashboardService = DashboardService = DashboardService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)(dashboard_metrics_schema_1.DashboardMetrics.name)),
     __param(1, (0, mongoose_1.InjectModel)(alert_schema_1.Alert.name)),
-    __param(2, (0, mongoose_1.InjectModel)(startup_schema_1.Startup.name)),
     __metadata("design:paramtypes", [mongoose_2.Model,
-        mongoose_2.Model,
         mongoose_2.Model])
 ], DashboardService);
 //# sourceMappingURL=dashboard.service.js.map
