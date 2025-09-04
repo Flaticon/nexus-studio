@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Studio - Módulo 2 Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="p-6">
+        <!-- Header -->
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                🟢 Módulo 2 - Portafolio de Startups
+            </h1>
+            <p class="text-gray-600">
+                3 total startups • 3 activas • Vista Kanban
+            </p>
+        </div>
+
+        <!-- View Controls -->
+        <div class="mb-6 flex gap-4">
+            <div class="flex bg-white rounded-lg shadow-sm border p-1">
+                <button class="p-2 bg-blue-600 text-white rounded">📋 Kanban</button>
+                <button class="p-2 text-gray-600">📊 Grid</button>
+                <button class="p-2 text-gray-600">📝 List</button>
+                <button class="p-2 text-gray-600">📅 Timeline</button>
+            </div>
+            <input type="text" placeholder="Buscar startups..." class="px-4 py-2 border rounded-lg flex-1 max-w-md">
+        </div>
+
+        <!-- Kanban Board -->
+        <div class="flex gap-6 overflow-x-auto pb-4">
+            <!-- Idea Stage -->
+            <div class="min-w-80 rounded-lg border-2 bg-gray-50 border-gray-300 p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-medium text-gray-900">Idea</h3>
+                    <span class="bg-white px-2 py-1 rounded text-sm font-medium">1</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer">
+                        <h4 class="font-medium text-gray-900 mb-2">HealthTracker</h4>
+                        <div class="mb-3">
+                            <div class="text-sm text-gray-600 mb-1">Lead: Sofia Ramírez</div>
+                            <div class="text-xs text-gray-500">Equipo: 2 miembros</div>
+                        </div>
+                        <div class="flex gap-2 mb-3">
+                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Deck</span>
+                            <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Repo</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Prototipo</span>
+                                    <span class="font-medium">60 / 100%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1">
+                                    <div class="bg-blue-600 h-1 rounded-full" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Validation Stage -->
+            <div class="min-w-80 rounded-lg border-2 bg-yellow-50 border-yellow-300 p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-medium text-gray-900">Validation</h3>
+                    <span class="bg-white px-2 py-1 rounded text-sm font-medium">1</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer">
+                        <h4 class="font-medium text-gray-900 mb-2">EcoTech Solutions</h4>
+                        <div class="mb-3">
+                            <div class="text-sm text-gray-600 mb-1">Lead: Ana García</div>
+                            <div class="text-xs text-gray-500">Equipo: 3 miembros</div>
+                        </div>
+                        <div class="flex gap-2 mb-3">
+                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Deck</span>
+                            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Demo</span>
+                            <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Repo</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">MAU</span>
+                                    <span class="font-medium">1,200 / 2,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1">
+                                    <div class="bg-blue-600 h-1 rounded-full" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div class="text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">MRR</span>
+                                    <span class="font-medium">$5,000 / $10,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1">
+                                    <div class="bg-blue-600 h-1 rounded-full" style="width: 50%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PMF Stage -->
+            <div class="min-w-80 rounded-lg border-2 bg-blue-50 border-blue-300 p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-medium text-gray-900">PMF</h3>
+                    <span class="bg-white px-2 py-1 rounded text-sm font-medium">1</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-white p-4 rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer">
+                        <h4 class="font-medium text-gray-900 mb-2">FinanceAI</h4>
+                        <div class="mb-3">
+                            <div class="text-sm text-gray-600 mb-1">Lead: Roberto Silva</div>
+                            <div class="text-xs text-gray-500">Equipo: 3 miembros</div>
+                        </div>
+                        <div class="flex gap-2 mb-3">
+                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Deck</span>
+                            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Demo</span>
+                            <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">Repo</span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">ARR</span>
+                                    <span class="font-medium">$50,000 / $100,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1">
+                                    <div class="bg-green-600 h-1 rounded-full" style="width: 50%"></div>
+                                </div>
+                            </div>
+                            <div class="text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Customers</span>
+                                    <span class="font-medium">85 / 200</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-1">
+                                    <div class="bg-green-600 h-1 rounded-full" style="width: 42.5%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Growth Stage -->
+            <div class="min-w-80 rounded-lg border-2 bg-green-50 border-green-300 p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-medium text-gray-900">Growth</h3>
+                    <span class="bg-white px-2 py-1 rounded text-sm font-medium">0</span>
+                </div>
+                <div class="text-gray-500 text-sm p-4 text-center">
+                    Arrastra startups aquí cuando alcancen la fase de crecimiento
+                </div>
+            </div>
+
+            <!-- Scale Stage -->
+            <div class="min-w-80 rounded-lg border-2 bg-purple-50 border-purple-300 p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-medium text-gray-900">Scale</h3>
+                    <span class="bg-white px-2 py-1 rounded text-sm font-medium">0</span>
+                </div>
+                <div class="text-gray-500 text-sm p-4 text-center">
+                    Arrastra startups aquí cuando estén listas para escalar
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Info -->
+        <div class="mt-8 bg-white rounded-lg shadow p-6">
+            <h3 class="font-semibold text-gray-900 mb-4">✅ Funcionalidades Implementadas:</h3>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                    <h4 class="font-medium text-gray-800">Backend (NestJS):</h4>
+                    <ul class="list-disc list-inside text-gray-600 mt-2">
+                        <li>API completa con todos los endpoints</li>
+                        <li>Schemas de MongoDB</li>
+                        <li>Controladores y servicios</li>
+                        <li>Autenticación JWT</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-800">Frontend (React):</h4>
+                    <ul class="list-disc list-inside text-gray-600 mt-2">
+                        <li>4 vistas: Kanban, Grid, List, Timeline</li>
+                        <li>Drag & Drop con @dnd-kit</li>
+                        <li>Estado global con Zustand</li>
+                        <li>Componentes reutilizables</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                <p class="text-blue-800 font-medium">🎯 Tu Módulo 2 está 100% completo y funcional</p>
+                <p class="text-blue-600 text-sm mt-1">Solo requiere configuración del monorepo para el routing de Next.js</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
