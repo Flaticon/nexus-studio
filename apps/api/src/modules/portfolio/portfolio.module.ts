@@ -4,15 +4,19 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PortfolioController } from './portfolio.controller';
 import { PortfolioService } from './portfolio.service';
 import { Startup, StartupSchema } from './schemas/startup.schema';
+import { Comparison, ComparisonSchema } from './schemas/comparison.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Startup.name, schema: StartupSchema }
+      { name: Startup.name, schema: StartupSchema },
+      { name: Comparison.name, schema: ComparisonSchema }
     ])
   ],
   controllers: [PortfolioController],
   providers: [PortfolioService],
   exports: [PortfolioService]
 })
-export class PortfolioModule {}
+export class PortfolioModule {
+  // Portfolio module with startup and comparison models
+}

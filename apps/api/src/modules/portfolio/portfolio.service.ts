@@ -331,7 +331,7 @@ export class PortfolioService {
           stage,
           count: startups.length,
           startups: startups.map(s => ({
-            id: s._id,
+            id: s.id,
             name: s.name,
             slug: s.slug,
             logo: s.logo,
@@ -425,7 +425,7 @@ export class PortfolioService {
       s.activityLog.map(a => ({
         ...a,
         startupName: s.name,
-        startupId: s._id
+        startupId: s.id
       }))
     );
 
@@ -505,7 +505,7 @@ export class PortfolioService {
     return Array.from(metricNames).map(metricName => ({
       metric: metricName,
       values: startups.map(s => ({
-        startupId: s._id,
+        startupId: s.id,
         startupName: s.name,
         value: s.metrics.find(m => m.name === metricName)?.value || 0,
         unit: s.metrics.find(m => m.name === metricName)?.unit || ''
@@ -515,9 +515,20 @@ export class PortfolioService {
 
   private aggregateTimelineForComparison(startups: StartupDocument[]) {
     return startups.map(s => ({
-      startupId: s._id,
+      startupId: s.id,
       startupName: s.name,
       timeline: s.timeline
     }));
+  }
+
+  // Remove startup
+  async remove(id: string): Promise<void> {
+    const startup = await this.startupModel.findById(id);
+    
+    if (!startup) {
+      throw new NotFoundException(`Startup with ID ${id} not found`);
+    }
+
+    await this.startupModel.findByIdAndDelete(id);
   }
 }

@@ -1,8 +1,8 @@
 // apps/api/src/modules/portfolio/schemas/comparison.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document as MongooseDocument, Types } from 'mongoose';
 
-export type ComparisonDocument = Comparison & Document;
+export type ComparisonDocument = Comparison & MongooseDocument;
 
 @Schema({ timestamps: true })
 export class Comparison {

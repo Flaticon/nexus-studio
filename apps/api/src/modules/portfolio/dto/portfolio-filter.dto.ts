@@ -1,5 +1,5 @@
 // apps/api/src/modules/portfolio/dto/portfolio-filter.dto.ts
-import { IsOptional, IsEnum, IsArray, IsString, IsDateString } from 'class-validator';
+import { IsOptional, IsEnum, IsArray, IsString, IsDateString, IsMongoId } from 'class-validator';
 import { StartupStage, StartupStatus } from '../schemas/startup.schema';
 
 export class PortfolioFilterDto {
