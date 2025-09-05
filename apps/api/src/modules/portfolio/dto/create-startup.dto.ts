@@ -1,27 +1,51 @@
 // apps/api/src/modules/portfolio/dto/create-startup.dto.ts
-import { IsString, IsEnum, IsArray, IsOptional, ValidateNested, IsMongoId } from 'class-validator';
+import { 
+  IsString, 
+  IsEnum, 
+  IsArray, 
+  IsOptional, 
+  ValidateNested, 
+  IsMongoId,
+  IsUrl,
+  IsDateString
+} from 'class-validator';
 import { Type } from 'class-transformer';
-
-enum StartupStage {
-  IDEA = 'idea',
-  VALIDATION = 'validation',
-  PMF = 'pmf',
-  GROWTH = 'growth',
-  SCALE = 'scale'
-}
+import { StartupStage, StartupStatus } from '../schemas/startup.schema';
 
 class ResourcesDto {
   @IsOptional()
-  @IsString()
+  @IsUrl()
   deck?: string;
 
   @IsOptional()
-  @IsString()
+  @IsUrl()
   demo?: string;
 
   @IsOptional()
-  @IsString()
+  @IsUrl()
   repository?: string;
+
+  @IsOptional()
+  @IsUrl()
+  documentation?: string;
+}
+
+class KeyDatesDto {
+  @IsOptional()
+  @IsDateString()
+  foundedDate?: string;
+
+  @IsOptional()
+  @IsDateString()
+  incorporationDate?: string;
+
+  @IsOptional()
+  @IsDateString()
+  firstRevenue?: string;
+
+  @IsOptional()
+  @IsDateString()
+  breakEven?: string;
 }
 
 export class CreateStartupDto {
@@ -31,8 +55,28 @@ export class CreateStartupDto {
   @IsString()
   slug: string;
 
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @IsUrl()
+  logo?: string;
+
+  @IsOptional()
+  @IsUrl()
+  website?: string;
+
+  @IsOptional()
+  @IsString()
+  industry?: string;
+
   @IsEnum(StartupStage)
   stage: StartupStage;
+
+  @IsOptional()
+  @IsEnum(StartupStatus)
+  status?: StartupStatus;
 
   @IsMongoId()
   squadLead: string;
@@ -45,4 +89,14 @@ export class CreateStartupDto {
   @ValidateNested()
   @Type(() => ResourcesDto)
   resources?: ResourcesDto;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => KeyDatesDto)
+  keyDates?: KeyDatesDto;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  tags?: string[];
 }

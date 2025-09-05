@@ -9,7 +9,9 @@ import {
   Target,
   TrendingUp,
   Activity,
-  ArrowRight
+  ArrowRight,
+  BarChart3,
+  Plug
 } from 'lucide-react';
 
 export default function Home() {
@@ -28,12 +30,12 @@ export default function Home() {
         </div>
 
         {/* Modules Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6 mb-12">
           <Link href="/dashboard" className="group">
             <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
               <Activity className="h-12 w-12 text-blue-600 mb-4" />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Dashboard Ejecutivo
+                📊 Dashboard Ejecutivo
               </h3>
               <p className="text-gray-600 text-sm mb-4">
                 Vista general con métricas clave, alertas y KPIs
@@ -55,42 +57,113 @@ export default function Home() {
             </div>
           </Link>
 
-          <div className="bg-gray-50 p-6 rounded-lg shadow-lg opacity-75">
-            <DollarSign className="h-12 w-12 text-orange-600 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              🟠 Finanzas Consolidadas
-            </h3>
-            <p className="text-gray-500 text-sm mb-4">
-              Ingresos, costos y burn rate por iniciativa
-            </p>
-            <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded">
-              Próximamente
-            </span>
-          </div>
+          <Link href="/finance" className="group">
+            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
+              <DollarSign className="h-12 w-12 text-orange-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                🟠 Finanzas Consolidadas
+              </h3>
+              <p className="text-gray-600 text-sm mb-4">
+                Ingresos, costos y burn rate por iniciativa
+              </p>
+              <ArrowRight className="h-5 w-5 text-orange-600 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
 
-          <div className="bg-gray-50 p-6 rounded-lg shadow-lg opacity-75">
-            <Users className="h-12 w-12 text-purple-600 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              🟣 OKRs Operativos
-            </h3>
-            <p className="text-gray-500 text-sm mb-4">
-              Objetivos y resultados clave por equipo
-            </p>
-            <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded">
-              Próximamente
-            </span>
-          </div>
+          <Link href="/okrs" className="group">
+            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
+              <Users className="h-12 w-12 text-purple-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                🟣 OKRs Operativos
+              </h3>
+              <p className="text-gray-600 text-sm mb-4">
+                Objetivos y resultados clave por equipo
+              </p>
+              <ArrowRight className="h-5 w-5 text-purple-600 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+
+          <Link href="/talent" className="group">
+            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
+              <Users className="h-12 w-12 text-red-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                🔥 Talent & Teams
+              </h3>
+              <p className="text-gray-600 text-sm mb-4">
+                Gestión de talento y equipos del studio
+              </p>
+              <ArrowRight className="h-5 w-5 text-red-600 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+
+          <Link href="/analytics" className="group">
+            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
+              <BarChart3 className="h-12 w-12 text-indigo-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                📈 Data Analytics
+              </h3>
+              <p className="text-gray-600 text-sm mb-4">
+                Análisis avanzado de datos e insights inteligentes
+              </p>
+              <ArrowRight className="h-5 w-5 text-indigo-600 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+
+          <Link href="/integrations" className="group">
+            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
+              <Plug className="h-12 w-12 text-cyan-600 mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                🔌 Integrations Hub
+              </h3>
+              <p className="text-gray-600 text-sm mb-4">
+                Gestiona APIs, webhooks y automatizaciones
+              </p>
+              <ArrowRight className="h-5 w-5 text-cyan-600 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
         </div>
 
         {/* Quick Access */}
-        <div className="text-center">
-          <Link href="/portfolio" className="inline-flex items-center gap-3 bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors text-lg font-medium">
-            <Briefcase className="h-6 w-6" />
-            Probar Módulo 2 - Portafolio
-            <ArrowRight className="h-5 w-5" />
-          </Link>
+        <div className="text-center space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3 max-w-7xl mx-auto">
+            <Link href="/dashboard" className="inline-flex items-center gap-2 bg-gray-800 text-white px-4 py-3 rounded-lg hover:bg-gray-900 transition-colors font-medium text-sm">
+              <Activity className="h-4 w-4" />
+              Módulo 1 - Dashboard
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+            <Link href="/portfolio" className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm">
+              <Briefcase className="h-4 w-4" />
+              Módulo 2 - Portafolio
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+            <Link href="/finance" className="inline-flex items-center gap-2 bg-orange-600 text-white px-4 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium text-sm">
+              <DollarSign className="h-4 w-4" />
+              Módulo 3 - Finanzas
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+            <Link href="/okrs" className="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium text-sm">
+              <Target className="h-4 w-4" />
+              Módulo 4 - OKRs
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+            <Link href="/talent" className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium text-sm">
+              <Users className="h-4 w-4" />
+              Módulo 5 - Talent
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+            <Link href="/analytics" className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm">
+              <BarChart3 className="h-4 w-4" />
+              Módulo 6 - Analytics
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+            <Link href="/integrations" className="inline-flex items-center gap-2 bg-cyan-600 text-white px-4 py-3 rounded-lg hover:bg-cyan-700 transition-colors font-medium text-sm">
+              <Plug className="h-4 w-4" />
+              Módulo 7 - Integrations
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
           <p className="mt-4 text-gray-600">
-            ¡El Módulo 2 está completamente implementado y listo para probar!
+            ¡Todos los 7 Módulos están completamente implementados y listos para probar!
           </p>
         </div>
       </div>

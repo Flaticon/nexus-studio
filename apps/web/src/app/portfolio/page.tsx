@@ -6,7 +6,7 @@ import {
   Grid3x3, 
   List, 
   Kanban, 
-  Timeline,
+  Calendar,
   Plus,
   Filter,
   Download,
@@ -14,15 +14,17 @@ import {
   Search
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import CreateProjectModal from '../../components/forms/CreateProjectModal';
 
 export default function PortfolioPage() {
   const [viewMode, setViewMode] = useState('kanban');
   const [showFilters, setShowFilters] = useState(false);
   const [compareMode, setCompareMode] = useState(false);
   const [selectedStartups, setSelectedStartups] = useState([]);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Mock data for demonstration
-  const mockStartups = [
+  const initialStartups = [
     {
       _id: '1',
       name: 'EcoTech Solutions',
@@ -89,16 +91,40 @@ export default function PortfolioPage() {
     }
   ];
 
+  const [startups, setStartups] = useState(initialStartups);
+
+  const handleCreateStartup = (projectData) => {
+    const newStartup = {
+      _id: projectData.id,
+      name: projectData.name,
+      stage: projectData.stage,
+      status: projectData.status,
+      industry: projectData.industry,
+      description: projectData.description,
+      initialBudget: projectData.initialBudget,
+      timeline: projectData.timeline,
+      priority: projectData.priority,
+      tags: projectData.tags,
+      createdAt: projectData.createdAt,
+      squad: projectData.squad,
+      resources: projectData.resources,
+      kpis: projectData.kpis
+    };
+
+    setStartups(prev => [...prev, newStartup]);
+    setIsCreateModalOpen(false);
+  };
+
   const stats = {
-    total: mockStartups.length,
+    total: startups.length,
     byStatus: {
-      active: mockStartups.filter(s => s.status === 'active').length,
-      paused: 0
+      active: startups.filter(s => s.status === 'active').length,
+      paused: startups.filter(s => s.status === 'paused').length
     }
   };
 
   const getStartupsByStage = (stage) => {
-    return mockStartups.filter(s => s.stage === stage);
+    return startups.filter(s => s.stage === stage);
   };
 
   const stages = ['idea', 'validation', 'pmf', 'growth', 'scale'];
@@ -122,7 +148,7 @@ export default function PortfolioPage() {
     grid: Grid3x3,
     list: List,
     kanban: Kanban,
-    timeline: Timeline
+    timeline: Calendar
   };
 
   return (
@@ -155,7 +181,10 @@ export default function PortfolioPage() {
               Export
             </button>
             
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2">
+            <button 
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+              onClick={() => setIsCreateModalOpen(true)}
+            >
               <Plus className="w-4 h-4" />
               Nueva Startup
             </button>
@@ -295,6 +324,13 @@ export default function PortfolioPage() {
           </p>
         </div>
       )}
+
+      {/* Create Project Modal */}
+      <CreateProjectModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreateStartup}
+      />
     </div>
   );
 }
