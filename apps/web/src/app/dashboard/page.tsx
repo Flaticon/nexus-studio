@@ -27,12 +27,12 @@ import {
   ChevronDown,
   Plus,
   Minus,
-  Layout,
   Maximize2,
   Minimize2
 } from 'lucide-react';
 import Link from 'next/link';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
+import Layout from '../../components/layout/Layout';
 
 export default function DashboardPage() {
   // State management for filters and views
@@ -255,19 +255,11 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      {/* Header */}
+    <Layout title="🏠 Nexus Studio Dashboard" subtitle="Vista general de todas las operaciones del venture studio">
+      <div className="p-6 bg-gray-50 min-h-screen">
+      {/* Dashboard Content */}
       <div className="mb-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              📊 Módulo 1 - Dashboard Ejecutivo
-            </h1>
-            <p className="mt-2 text-gray-600">
-              Vista general consolidada con métricas clave de todos los módulos
-            </p>
-          </div>
-          
+        <div className="flex items-center justify-end">
           <div className="flex gap-3">
             <button 
               onClick={handleRefresh}
@@ -679,6 +671,7 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
-    </div>
+      </div>
+    </Layout>
   );
 }

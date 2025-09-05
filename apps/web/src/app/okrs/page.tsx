@@ -19,14 +19,17 @@ import {
 } from 'lucide-react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import CreateOKRModal from '../../components/forms/CreateOKRModal';
+import Layout from '../../components/layout/Layout';
 
 export default function OKRsPage() {
   const [selectedQuarter, setSelectedQuarter] = useState('Q3-2025');
   const [selectedTeam, setSelectedTeam] = useState('all');
   const [viewMode, setViewMode] = useState('teams'); // 'teams', 'objectives'
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Mock OKRs data
-  const okrsData = [
+  const [okrsData, setOkrsData] = useState([
     {
       id: '1',
       team: 'EcoTech Solutions',
@@ -132,7 +135,7 @@ export default function OKRsPage() {
       owner: 'Sofia Ramírez',
       quarter: 'Q3-2025'
     }
-  ];
+  ]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -170,6 +173,11 @@ export default function OKRsPage() {
     return '#EF4444';
   };
 
+  const handleCreateOKR = (okrData) => {
+    setOkrsData(prev => [...prev, okrData]);
+    setIsCreateModalOpen(false);
+  };
+
   const filteredOKRs = selectedTeam === 'all' ? okrsData : okrsData.filter(okr => okr.team === selectedTeam);
 
   const overallStats = {
@@ -181,18 +189,12 @@ export default function OKRsPage() {
   };
 
   return (
-    <div className="p-6 min-h-screen bg-gray-50">
-      {/* Header */}
+    <Layout title="🟣 Módulo 4 - OKRs Operativos" subtitle="Objetivos y resultados clave por equipo">
+      <div className="p-6 min-h-screen bg-gray-50">
+      {/* Content */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              🟣 Módulo 4 - OKRs Operativos
-            </h1>
-            <p className="mt-2 text-gray-600">
-              Objetivos y resultados clave por equipo
-            </p>
-          </div>
           
           <div className="flex gap-3">
             <select
@@ -405,11 +407,22 @@ export default function OKRsPage() {
 
       {/* Add New OKR Button */}
       <div className="mt-8 text-center">
-        <button className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+        <button 
+          onClick={() => setIsCreateModalOpen(true)}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+        >
           <Plus className="w-5 h-5" />
           Crear Nuevo OKR
         </button>
       </div>
-    </div>
+
+      {/* Create OKR Modal */}
+      <CreateOKRModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreateOKR}
+      />
+      </div>
+    </Layout>
   );
 }

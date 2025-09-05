@@ -43,6 +43,9 @@ import {
   Layers
 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import CreateTeamMemberModal from '../../components/forms/CreateTeamMemberModal';
+import MemberProfileModal from '../../components/forms/MemberProfileModal';
+import Layout from '../../components/layout/Layout';
 
 export default function TalentPage() {
   const [selectedTeam, setSelectedTeam] = useState('all');
@@ -51,9 +54,12 @@ export default function TalentPage() {
   const [showTalentBank, setShowTalentBank] = useState(false);
   const [showSkillMatching, setShowSkillMatching] = useState(false);
   const [selectedInitiative, setSelectedInitiative] = useState('');
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
 
   // Enhanced team members data with skills and availability
-  const teamMembers = [
+  const [teamMembers, setTeamMembers] = useState([
     {
       id: '1',
       name: 'Ana García',
@@ -293,7 +299,7 @@ export default function TalentPage() {
       participationScore: 82,
       rotationReadiness: 'high'
     }
-  ];
+  ]);
 
   // Available initiatives for skill matching
   const initiatives = [
@@ -455,18 +461,12 @@ export default function TalentPage() {
   });
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      {/* Header */}
+    <Layout title="🧩 Módulo de Talento y Equipos" subtitle="Directorio de colaboradores, skills matching y banco de talentos">
+      <div className="p-6 bg-gray-50 min-h-screen">
+      {/* Content */}
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              🧩 Módulo de Talento y Equipos
-            </h1>
-            <p className="mt-2 text-gray-600">
-              Directorio de colaboradores, skills matching y banco de talentos
-            </p>
-          </div>
           
           <div className="flex gap-3">
             <button 
@@ -487,7 +487,10 @@ export default function TalentPage() {
               <Database className="w-4 h-4" />
               Banco de Talentos
             </button>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2">
+            <button 
+              onClick={() => setIsCreateModalOpen(true)}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+            >
               <UserPlus className="w-4 h-4" />
               Nuevo Colaborador
             </button>
@@ -687,7 +690,10 @@ export default function TalentPage() {
                     <div>Próximo rol: {person.preferredNextRole}</div>
                   </div>
                   
-                  <button className="w-full px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                  <button 
+                    onClick={() => alert(`Asignando ${person.name} a una iniciativa...`)}
+                    className="w-full px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
+                  >
                     Asignar a Iniciativa
                   </button>
                 </div>
@@ -873,10 +879,19 @@ export default function TalentPage() {
                     </div>
 
                     <div className="pt-3 border-t flex gap-2">
-                      <button className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+                      <button 
+                        onClick={() => {
+                          setSelectedMember(member);
+                          setIsProfileModalOpen(true);
+                        }}
+                        className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
+                      >
                         Ver Perfil
                       </button>
-                      <button className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                      <button 
+                        onClick={() => alert(`Asignando ${member.name} a una iniciativa...`)}
+                        className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                      >
                         Asignar
                       </button>
                     </div>
@@ -951,13 +966,20 @@ export default function TalentPage() {
                       </td>
                       <td className="py-4 px-4">
                         <div className="flex gap-1">
-                          <button className="p-1 hover:bg-gray-100 rounded">
+                          <button 
+                            onClick={() => {
+                              setSelectedMember(member);
+                              setIsProfileModalOpen(true);
+                            }}
+                            className="p-1 hover:bg-gray-100 rounded"
+                            title="Ver Perfil"
+                          >
                             <Eye className="w-4 h-4 text-gray-600" />
                           </button>
-                          <button className="p-1 hover:bg-gray-100 rounded">
+                          <button className="p-1 hover:bg-gray-100 rounded" title="Editar">
                             <Edit className="w-4 h-4 text-gray-600" />
                           </button>
-                          <button className="p-1 hover:bg-gray-100 rounded">
+                          <button className="p-1 hover:bg-gray-100 rounded" title="Asignar a Iniciativa">
                             <Shuffle className="w-4 h-4 text-gray-600" />
                           </button>
                         </div>
@@ -970,6 +992,26 @@ export default function TalentPage() {
           )}
         </div>
       </div>
-    </div>
+
+      {/* Modals */}
+      <CreateTeamMemberModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={(memberData) => {
+          setTeamMembers(prev => [...prev, memberData]);
+          setIsCreateModalOpen(false);
+        }}
+      />
+
+      <MemberProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => {
+          setIsProfileModalOpen(false);
+          setSelectedMember(null);
+        }}
+        member={selectedMember}
+      />
+      </div>
+    </Layout>
   );
 }

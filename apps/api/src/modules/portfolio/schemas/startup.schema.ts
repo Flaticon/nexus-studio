@@ -1,8 +1,8 @@
 // apps/api/src/modules/portfolio/schemas/startup.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document as MongooseDocument, Types } from 'mongoose';
 
-export type StartupDocument = Startup & Document;
+export type StartupDocument = Startup & MongooseDocument;
 
 // Enums
 export enum StartupStage {
@@ -45,7 +45,7 @@ class Timeline {
 }
 
 @Schema()
-class Document {
+class StartupDocumentSubSchema {
   @Prop({ required: true })
   name: string;
 
@@ -198,8 +198,8 @@ export class Startup {
     documentation?: string;
   };
 
-  @Prop({ type: [Document], default: [] })
-  documents: Document[];
+  @Prop({ type: [StartupDocumentSubSchema], default: [] })
+  documents: StartupDocumentSubSchema[];
 
   @Prop({ type: [Metric], default: [] })
   metrics: Metric[];

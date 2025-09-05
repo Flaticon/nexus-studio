@@ -11,10 +11,15 @@ import {
   Filter,
   Download,
   BarChart3,
-  Search
+  Search,
+  Edit,
+  MoreVertical,
+  Building2
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import CreateProjectModal from '../../components/forms/CreateProjectModal';
+import EditProjectModal from '../../components/forms/EditProjectModal';
+import Layout from '../../components/layout/Layout';
 
 export default function PortfolioPage() {
   const [viewMode, setViewMode] = useState('kanban');
@@ -22,6 +27,8 @@ export default function PortfolioPage() {
   const [compareMode, setCompareMode] = useState(false);
   const [selectedStartups, setSelectedStartups] = useState([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingStartup, setEditingStartup] = useState(null);
 
   // Mock data for demonstration
   const initialStartups = [
@@ -115,6 +122,19 @@ export default function PortfolioPage() {
     setIsCreateModalOpen(false);
   };
 
+  const handleEditStartup = (startupData) => {
+    setStartups(prev => prev.map(startup => 
+      startup._id === startupData._id ? startupData : startup
+    ));
+    setIsEditModalOpen(false);
+    setEditingStartup(null);
+  };
+
+  const openEditModal = (startup) => {
+    setEditingStartup(startup);
+    setIsEditModalOpen(true);
+  };
+
   const stats = {
     total: startups.length,
     byStatus: {
@@ -152,47 +172,48 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="p-6 min-h-screen bg-gray-50">
+    <div className="p-3 sm:p-6 min-h-screen bg-gray-50">
       {/* Header */}
       <div className="mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
+          <div className="flex-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 break-words">
               🟢 Módulo 2 - Portafolio de Startups
             </h1>
-            <p className="mt-2 text-gray-600">
+            <p className="mt-2 text-sm sm:text-base text-gray-600">
               {stats.total} total startups • 
               {stats.byStatus.active} activas • 
               {stats.byStatus.paused} pausadas
             </p>
           </div>
           
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             <button
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2"
+              className="px-3 sm:px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center justify-center gap-2 text-sm sm:text-base"
               onClick={() => setShowFilters(!showFilters)}
             >
               <Filter className="w-4 h-4" />
-              Filtros
+              <span className="hidden sm:inline">Filtros</span>
             </button>
             
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+            <button className="px-3 sm:px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center justify-center gap-2 text-sm sm:text-base">
               <Download className="w-4 h-4" />
-              Export
+              <span className="hidden sm:inline">Export</span>
             </button>
             
             <button 
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+              className="px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2 text-sm sm:text-base"
               onClick={() => setIsCreateModalOpen(true)}
             >
               <Plus className="w-4 h-4" />
-              Nueva Startup
+              <span className="hidden sm:inline">Nueva Startup</span>
+              <span className="sm:hidden">Nueva</span>
             </button>
           </div>
         </div>
 
         {/* View Mode Selector */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex bg-white rounded-lg shadow-sm border p-1">
             {Object.entries(viewIcons).map(([mode, Icon]) => (
               <button
@@ -207,19 +228,19 @@ export default function PortfolioPage() {
                 `}
                 title={mode.charAt(0).toUpperCase() + mode.slice(1)}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             ))}
           </div>
 
           {/* Search */}
-          <div className="flex-1 max-w-md">
+          <div className="w-full sm:flex-1 sm:max-w-md">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
               <input
                 type="text"
                 placeholder="Buscar startups..."
-                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-9 sm:pl-10 pr-4 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
@@ -228,20 +249,20 @@ export default function PortfolioPage() {
 
       {/* Kanban Board */}
       {viewMode === 'kanban' && (
-        <div className="flex gap-6 overflow-x-auto pb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 lg:gap-6 lg:overflow-x-auto lg:flex lg:pb-4">
           {stages.map(stage => {
             const stageStartups = getStartupsByStage(stage);
             
             return (
               <div
                 key={stage}
-                className={`min-w-80 rounded-lg border-2 ${stageColors[stage]} p-4`}
+                className={`w-full lg:min-w-80 rounded-lg border-2 ${stageColors[stage as keyof typeof stageColors]} p-3 lg:p-4`}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-medium text-gray-900">
-                    {stageLabels[stage]}
+                  <h3 className="text-sm sm:text-base font-medium text-gray-900">
+                    {stageLabels[stage as keyof typeof stageLabels]}
                   </h3>
-                  <span className="bg-white px-2 py-1 rounded text-sm font-medium">
+                  <span className="bg-white px-2 py-1 rounded text-xs sm:text-sm font-medium">
                     {stageStartups.length}
                   </span>
                 </div>
@@ -250,14 +271,23 @@ export default function PortfolioPage() {
                   {stageStartups.map(startup => (
                     <div
                       key={startup._id}
-                      className="bg-white p-4 rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer"
+                      className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border hover:shadow-md transition-shadow group relative"
                     >
-                      <h4 className="font-medium text-gray-900 mb-2">
-                        {startup.name}
-                      </h4>
+                      <div className="flex items-start justify-between mb-2">
+                        <h4 className="text-sm sm:text-base font-medium text-gray-900 break-words flex-1 mr-2">
+                          {startup.name}
+                        </h4>
+                        <button
+                          onClick={() => openEditModal(startup)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-100 rounded-full"
+                          title="Editar startup"
+                        >
+                          <Edit className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />
+                        </button>
+                      </div>
                       
                       <div className="mb-3">
-                        <div className="text-sm text-gray-600 mb-1">
+                        <div className="text-xs sm:text-sm text-gray-600 mb-1 break-words">
                           Lead: {startup.squad.lead.name}
                         </div>
                         <div className="text-xs text-gray-500">
@@ -265,7 +295,223 @@ export default function PortfolioPage() {
                         </div>
                       </div>
                       
-                      <div className="flex gap-2 mb-3">
+                      <div className="flex flex-wrap gap-1 sm:gap-2 mb-3">
+                        {startup.resources.deck && (
+                          <span className="text-xs bg-blue-100 text-blue-700 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
+                            Deck
+                          </span>
+                        )}
+                        {startup.resources.demo && (
+                          <span className="text-xs bg-green-100 text-green-700 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
+                            Demo
+                          </span>
+                        )}
+                        {startup.resources.repository && (
+                          <span className="text-xs bg-gray-100 text-gray-700 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
+                            Repo
+                          </span>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-2">
+                        {startup.kpis.slice(0, 2).map((kpi, idx) => (
+                          <div key={idx} className="text-xs">
+                            <div className="flex justify-between items-center mb-1">
+                              <span className="text-gray-600 font-medium">{kpi.name}</span>
+                              <span className="text-xs font-medium text-right">
+                                {kpi.current.toLocaleString()} / {kpi.target.toLocaleString()}
+                              </span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-1.5">
+                              <div 
+                                className="bg-blue-600 h-1.5 rounded-full transition-all duration-300" 
+                                style={{ width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Grid View */}
+      {viewMode === 'grid' && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+          {startups.map(startup => (
+            <div
+              key={startup._id}
+              className="bg-white p-4 lg:p-5 rounded-lg shadow-sm border hover:shadow-md transition-shadow group relative"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex-1">
+                  <h3 className="text-sm lg:text-base font-semibold text-gray-900 mb-1 break-words">
+                    {startup.name}
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                      stageColors[startup.stage as keyof typeof stageColors]
+                    }`}>
+                      {stageLabels[startup.stage as keyof typeof stageLabels]}
+                    </span>
+                    <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                      startup.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {startup.status}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => openEditModal(startup)}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-100 rounded-full"
+                  title="Editar startup"
+                >
+                  <Edit className="w-4 h-4 text-gray-600" />
+                </button>
+              </div>
+              
+              {startup.description && (
+                <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                  {startup.description}
+                </p>
+              )}
+              
+              <div className="mb-3">
+                <div className="text-xs text-gray-600 mb-1">
+                  Lead: {startup.squad.lead.name}
+                </div>
+                <div className="text-xs text-gray-500">
+                  Equipo: {startup.squad.members.length + 1} miembros
+                </div>
+              </div>
+              
+              <div className="flex flex-wrap gap-1 mb-3">
+                {startup.resources.deck && (
+                  <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                    Deck
+                  </span>
+                )}
+                {startup.resources.demo && (
+                  <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+                    Demo
+                  </span>
+                )}
+                {startup.resources.repository && (
+                  <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
+                    Repo
+                  </span>
+                )}
+              </div>
+              
+              <div className="space-y-2">
+                {startup.kpis.slice(0, 2).map((kpi, idx) => (
+                  <div key={idx} className="text-xs">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-gray-600 font-medium">{kpi.name}</span>
+                      <span className="text-xs font-medium">
+                        {kpi.current.toLocaleString()} / {kpi.target.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                      <div 
+                        className="bg-blue-600 h-1.5 rounded-full transition-all duration-300" 
+                        style={{ width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* List View */}
+      {viewMode === 'list' && (
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Startup
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Etapa
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Estado
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Team Lead
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    KPIs Principales
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Recursos
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {startups.map(startup => (
+                  <tr key={startup._id} className="hover:bg-gray-50">
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {startup.name}
+                        </div>
+                        {startup.description && (
+                          <div className="text-sm text-gray-500 max-w-xs truncate">
+                            {startup.description}
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        stageColors[startup.stage as keyof typeof stageColors]
+                      }`}>
+                        {stageLabels[startup.stage as keyof typeof stageLabels]}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        startup.status === 'active' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-gray-100 text-gray-800'
+                      }`}>
+                        {startup.status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">{startup.squad.lead.name}</div>
+                      <div className="text-sm text-gray-500">
+                        {startup.squad.members.length + 1} miembros
+                      </div>
+                    </td>
+                    <td className="px-4 py-4">
+                      <div className="space-y-1">
+                        {startup.kpis.slice(0, 2).map((kpi, idx) => (
+                          <div key={idx} className="text-xs">
+                            <span className="font-medium text-gray-600">{kpi.name}: </span>
+                            <span className="text-gray-900">
+                              {kpi.current.toLocaleString()} / {kpi.target.toLocaleString()}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-4 py-4">
+                      <div className="flex flex-wrap gap-1">
                         {startup.resources.deck && (
                           <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
                             Deck
@@ -282,46 +528,118 @@ export default function PortfolioPage() {
                           </span>
                         )}
                       </div>
-                      
-                      <div className="space-y-1">
-                        {startup.kpis.slice(0, 2).map((kpi, idx) => (
-                          <div key={idx} className="text-xs">
-                            <div className="flex justify-between">
-                              <span className="text-gray-600">{kpi.name}</span>
-                              <span className="font-medium">
-                                {kpi.current.toLocaleString()} / {kpi.target.toLocaleString()}
-                              </span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-1">
-                              <div 
-                                className="bg-blue-600 h-1 rounded-full" 
-                                style={{ width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%` }}
-                              ></div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+                    </td>
+                    <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button
+                        onClick={() => openEditModal(startup)}
+                        className="text-blue-600 hover:text-blue-900 p-1 hover:bg-gray-100 rounded"
+                        title="Editar startup"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
-      {/* Other Views Placeholder */}
-      {viewMode !== 'kanban' && (
-        <div className="bg-white rounded-lg shadow p-8 text-center">
-          <div className="text-gray-400 mb-4">
-            {React.createElement(viewIcons[viewMode], { className: "h-16 w-16 mx-auto" })}
+      {/* Timeline View */}
+      {viewMode === 'timeline' && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="space-y-6">
+            {startups.map(startup => (
+              <div key={startup._id} className="relative">
+                <div className="flex items-start space-x-4">
+                  <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <Building2 className="w-5 h-5 text-blue-600" />
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-medium text-gray-900 mb-1">
+                          {startup.name}
+                        </h3>
+                        
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            stageColors[startup.stage as keyof typeof stageColors]
+                          }`}>
+                            {stageLabels[startup.stage as keyof typeof stageLabels]}
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            Lead: {startup.squad.lead.name}
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            {startup.squad.members.length + 1} miembros
+                          </span>
+                        </div>
+                        
+                        {startup.description && (
+                          <p className="text-sm text-gray-600 mb-3">
+                            {startup.description}
+                          </p>
+                        )}
+                        
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {startup.resources.deck && (
+                            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+                              Deck
+                            </span>
+                          )}
+                          {startup.resources.demo && (
+                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+                              Demo
+                            </span>
+                          )}
+                          {startup.resources.repository && (
+                            <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
+                              Repo
+                            </span>
+                          )}
+                        </div>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          {startup.kpis.map((kpi, idx) => (
+                            <div key={idx} className="text-sm">
+                              <div className="flex justify-between items-center mb-1">
+                                <span className="text-gray-600 font-medium">{kpi.name}</span>
+                                <span className="font-medium">
+                                  {kpi.current.toLocaleString()} / {kpi.target.toLocaleString()}
+                                </span>
+                              </div>
+                              <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div 
+                                  className="bg-blue-600 h-2 rounded-full transition-all duration-300" 
+                                  style={{ width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <button
+                        onClick={() => openEditModal(startup)}
+                        className="p-2 hover:bg-gray-100 rounded-full"
+                        title="Editar startup"
+                      >
+                        <Edit className="w-4 h-4 text-gray-600" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Timeline line */}
+                {startup !== startups[startups.length - 1] && (
+                  <div className="absolute left-5 top-10 w-px h-6 bg-gray-300"></div>
+                )}
+              </div>
+            ))}
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Vista {viewMode.charAt(0).toUpperCase() + viewMode.slice(1)}
-          </h3>
-          <p className="text-gray-600">
-            Esta vista está implementada en los componentes pero requiere datos del backend para mostrar contenido.
-          </p>
         </div>
       )}
 
@@ -330,6 +648,17 @@ export default function PortfolioPage() {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onSubmit={handleCreateStartup}
+      />
+
+      {/* Edit Project Modal */}
+      <EditProjectModal
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setEditingStartup(null);
+        }}
+        onSubmit={handleEditStartup}
+        startup={editingStartup}
       />
     </div>
   );

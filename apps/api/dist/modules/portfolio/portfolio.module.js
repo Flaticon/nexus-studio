@@ -12,6 +12,7 @@ const mongoose_1 = require("@nestjs/mongoose");
 const portfolio_controller_1 = require("./portfolio.controller");
 const portfolio_service_1 = require("./portfolio.service");
 const startup_schema_1 = require("./schemas/startup.schema");
+const comparison_schema_1 = require("./schemas/comparison.schema");
 let PortfolioModule = class PortfolioModule {
 };
 exports.PortfolioModule = PortfolioModule;
@@ -19,7 +20,8 @@ exports.PortfolioModule = PortfolioModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([
-                { name: startup_schema_1.Startup.name, schema: startup_schema_1.StartupSchema }
+                { name: startup_schema_1.Startup.name, schema: startup_schema_1.StartupSchema },
+                { name: comparison_schema_1.Comparison.name, schema: comparison_schema_1.ComparisonSchema }
             ])
         ],
         controllers: [portfolio_controller_1.PortfolioController],

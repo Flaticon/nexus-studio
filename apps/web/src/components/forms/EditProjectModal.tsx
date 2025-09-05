@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X,
-  Plus,
+  Save,
   Calendar,
   DollarSign,
   Target,
@@ -12,13 +12,14 @@ import {
   Tag
 } from 'lucide-react';
 
-interface CreateProjectModalProps {
+interface EditProjectModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (projectData: any) => void;
+  startup: any;
 }
 
-export default function CreateProjectModal({ isOpen, onClose, onSubmit }: CreateProjectModalProps) {
+export default function EditProjectModal({ isOpen, onClose, onSubmit, startup }: EditProjectModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -49,6 +50,24 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }: Create
     'Ana García', 'Roberto Silva', 'Sofia Ramírez', 'Carlos López', 'María Rodríguez'
   ];
 
+  // Load startup data when modal opens
+  useEffect(() => {
+    if (isOpen && startup) {
+      setFormData({
+        name: startup.name || '',
+        description: startup.description || '',
+        stage: startup.stage || 'idea',
+        industry: startup.industry || '',
+        tags: Array.isArray(startup.tags) ? startup.tags.join(', ') : '',
+        initialBudget: startup.initialBudget?.toString() || '',
+        timeline: startup.timeline?.toString() || '',
+        teamLead: startup.squad?.lead?.name || '',
+        priority: startup.priority || 'medium'
+      });
+      setErrors({});
+    }
+  }, [isOpen, startup]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -56,48 +75,30 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }: Create
     const newErrors: Record<string, string> = {};
     if (!formData.name.trim()) newErrors.name = 'El nombre es requerido';
     if (!formData.description.trim()) newErrors.description = 'La descripción es requerida';
-    if (!formData.initialBudget) newErrors.initialBudget = 'El presupuesto inicial es requerido';
     
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
 
-    // Create project object
+    // Create updated project object
     const projectData = {
-      id: Date.now().toString(),
+      ...startup,
       ...formData,
       tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-      initialBudget: parseFloat(formData.initialBudget),
-      createdAt: new Date().toISOString(),
-      status: 'active',
+      initialBudget: formData.initialBudget ? parseFloat(formData.initialBudget) : startup.initialBudget,
+      timeline: formData.timeline ? parseInt(formData.timeline) : startup.timeline,
       squad: {
-        lead: { name: formData.teamLead, role: 'Product Lead' },
-        members: []
-      },
-      kpis: [],
-      resources: {
-        deck: null,
-        demo: null,
-        repository: null
+        ...startup.squad,
+        lead: { 
+          ...startup.squad.lead, 
+          name: formData.teamLead || startup.squad.lead.name 
+        }
       }
     };
 
     onSubmit(projectData);
-    
-    // Reset form
-    setFormData({
-      name: '',
-      description: '',
-      stage: 'idea',
-      industry: '',
-      tags: '',
-      initialBudget: '',
-      timeline: '',
-      teamLead: '',
-      priority: 'medium'
-    });
-    setErrors({});
+    onClose();
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -107,14 +108,14 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }: Create
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !startup) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-4 sm:p-6 border-b">
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Crear Nueva Startup</h2>
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Editar Startup</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors p-1"
@@ -181,7 +182,7 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }: Create
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-                Etapa Inicial
+                Etapa
               </label>
               <select
                 value={formData.stage}
@@ -214,7 +215,7 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }: Create
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-                Presupuesto Inicial (USD) *
+                Presupuesto Inicial (USD)
               </label>
               <div className="relative">
                 <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -222,13 +223,10 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }: Create
                   type="number"
                   value={formData.initialBudget}
                   onChange={(e) => handleInputChange('initialBudget', e.target.value)}
-                  className={`w-full pl-10 pr-3 py-2 text-gray-900 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 ${
-                    errors.initialBudget ? 'border-red-300' : 'border-gray-300'
-                  }`}
+                  className="w-full pl-10 pr-3 py-2 text-gray-900 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                   placeholder="50000"
                 />
               </div>
-              {errors.initialBudget && <p className="text-red-600 text-xs sm:text-sm mt-1">{errors.initialBudget}</p>}
             </div>
 
             <div>
@@ -290,10 +288,10 @@ export default function CreateProjectModal({ isOpen, onClose, onSubmit }: Create
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+              className="px-4 py-2 text-sm sm:text-base bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
             >
-              <Plus className="w-4 h-4" />
-              Crear Startup
+              <Save className="w-4 h-4" />
+              Guardar Cambios
             </button>
           </div>
         </form>
