@@ -162,9 +162,6 @@ export default function Home() {
               <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
-          <p className="mt-4 text-gray-600">
-            ¡Todas las herramientas del venture studio implementadas y listas para usar!
-          </p>
         </div>
       </div>
     </div>
