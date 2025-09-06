@@ -65,7 +65,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     },
     {
       name: 'Insights y Analytics',
-      href: '/insights',
+      href: '/analytics',
       icon: BarChart3,
       emoji: '📊',
       description: 'Análisis y reportes avanzados'
