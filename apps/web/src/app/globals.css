@@ -1,26 +1,434 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafafa;
+  --foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --border: #e2e8f0;
+  --accent: #f8fafc;
+  
+  /* Startup Stage Colors - Consistent and meaningful */
+  --stage-idea: #f0f4ff;
+  --stage-idea-border: #c7d2fe;
+  --stage-idea-text: #3730a3;
+  --stage-idea-accent: #6366f1;
+  
+  --stage-validation: #fef3c7;
+  --stage-validation-border: #fbbf24;
+  --stage-validation-text: #92400e;
+  --stage-validation-accent: #f59e0b;
+  
+  --stage-pmf: #dcfce7;
+  --stage-pmf-border: #4ade80;
+  --stage-pmf-text: #14532d;
+  --stage-pmf-accent: #22c55e;
+  
+  --stage-growth: #dbeafe;
+  --stage-growth-border: #60a5fa;
+  --stage-growth-text: #1e3a8a;
+  --stage-growth-accent: #3b82f6;
+  
+  --stage-scale: #f3e8ff;
+  --stage-scale-border: #c084fc;
+  --stage-scale-text: #581c87;
+  --stage-scale-accent: #8b5cf6;
+  
+  /* Status Colors */
+  --status-success: #10b981;
+  --status-warning: #f59e0b;
+  --status-error: #ef4444;
+  --status-info: #3b82f6;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: Inter, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --border: #334155;
+    --accent: #1e293b;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  font-variation-settings: normal;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+}
+
+/* Smooth transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Custom utilities for better UI */
+.text-balance {
+  text-wrap: balance;
+}
+
+.ring-focus {
+  @apply ring-2 ring-blue-500 ring-offset-2;
+}
+
+.card-shadow {
+  box-shadow: var(--shadow-sm);
+}
+
+.card-shadow-hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Stage-specific classes */
+.stage-idea {
+  background-color: var(--stage-idea);
+  border-color: var(--stage-idea-border);
+  color: var(--stage-idea-text);
+}
+
+.stage-validation {
+  background-color: var(--stage-validation);
+  border-color: var(--stage-validation-border);
+  color: var(--stage-validation-text);
+}
+
+.stage-pmf {
+  background-color: var(--stage-pmf);
+  border-color: var(--stage-pmf-border);
+  color: var(--stage-pmf-text);
+}
+
+.stage-growth {
+  background-color: var(--stage-growth);
+  border-color: var(--stage-growth-border);
+  color: var(--stage-growth-text);
+}
+
+.stage-scale {
+  background-color: var(--stage-scale);
+  border-color: var(--stage-scale-border);
+  color: var(--stage-scale-text);
+}
+
+/* Microinteractions and Hover States */
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-blue-700 hover:shadow-md active:scale-95 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+.btn-secondary {
+  @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-gray-200 hover:shadow-sm active:scale-95 focus:ring-2 focus:ring-gray-400 focus:ring-offset-2;
+}
+
+.input-field {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400;
+}
+
+/* Interactive elements */
+.interactive {
+  @apply transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95;
+}
+
+.card-interactive {
+  @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-1 active:scale-98;
+}
+
+.button-float {
+  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:shadow-md;
+}
+
+/* Loading states */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.loading-pulse {
+  animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Smooth progress bars */
+.progress-bar {
+  @apply transition-all duration-700 ease-out;
+}
+
+/* Icon animations */
+.icon-hover {
+  @apply transition-transform duration-200 hover:scale-110 hover:rotate-3;
+}
+
+/* Badge animations */
+.badge-float {
+  @apply transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5;
+}
+
+/* Stagger animations for lists */
+.stagger-item {
+  animation: stagger-in 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes stagger-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Skeleton loading */
+.skeleton {
+  @apply bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse rounded;
+}
+
+/* Glass morphism effects */
+.glass {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Status indicators */
+.status-indicator {
+  @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium transition-all duration-200;
+}
+
+.status-success {
+  @apply bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100;
+}
+
+.status-warning {
+  @apply bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100;
+}
+
+.status-error {
+  @apply bg-red-50 text-red-700 border border-red-200 hover:bg-red-100;
+}
+
+.status-info {
+  @apply bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100;
+}
+
+/* Advanced Microinteractions */
+.bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(20px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05) translateY(-5px);
+  }
+  70% {
+    transform: scale(0.98) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Improved Hover States */
+.hover-lift {
+  @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+}
+
+.hover-glow {
+  @apply transition-all duration-300 hover:shadow-lg;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.25), 0 10px 20px -5px rgba(59, 130, 246, 0.1);
+}
+
+.hover-scale {
+  @apply transition-transform duration-200 hover:scale-105 active:scale-95;
+}
+
+/* Enhanced Button States */
+.btn-modern {
+  @apply relative overflow-hidden transition-all duration-300 transform-gpu;
+}
+
+.btn-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-modern:hover::before {
+  left: 100%;
+}
+
+/* Subtle Animations */
+.gentle-pulse {
+  animation: gentle-pulse 2s ease-in-out infinite;
+}
+
+@keyframes gentle-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Progress Bar Enhancements */
+.progress-smooth {
+  @apply transition-all duration-1000 ease-out;
+}
+
+.progress-glow {
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+/* Card Interactions */
+.card-modern {
+  @apply transition-all duration-300 hover:shadow-2xl;
+  transform-style: preserve-3d;
+}
+
+.card-modern:hover {
+  transform: translateY(-4px) rotateX(2deg);
+}
+
+/* Loading Skeletons Enhanced */
+.skeleton-modern {
+  @apply relative overflow-hidden;
+}
+
+.skeleton-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Optimized Color Palette - Reduced Saturation */
+:root {
+  /* Softer, more professional colors */
+  --color-primary: #4f46e5;
+  --color-primary-light: #6366f1;
+  --color-primary-dark: #3730a3;
+  
+  --color-success: #059669;
+  --color-success-light: #10b981;
+  --color-success-dark: #047857;
+  
+  --color-warning: #d97706;
+  --color-warning-light: #f59e0b;
+  --color-warning-dark: #b45309;
+  
+  --color-error: #dc2626;
+  --color-error-light: #ef4444;
+  --color-error-dark: #b91c1c;
+  
+  /* Neutral grays for better readability */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+}
+
+/* Improved Focus States */
+.focus-ring {
+  @apply ring-2 ring-offset-2 ring-blue-500/50 outline-none;
+}
+
+/* Smooth Transitions */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-bounce {
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
