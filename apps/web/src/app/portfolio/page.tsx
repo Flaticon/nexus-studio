@@ -179,7 +179,7 @@ export default function PortfolioPage() {
 
   return (
     <Layout
-      title="🟢 Módulo 2 - Portafolio de Startups"
+      title="🚀 Portafolio de Startups"
       subtitle="Gestión de iniciativas, etapas, equipos y KPIs"
     >
       <div className="p-3 sm:p-6 min-h-screen bg-gray-50">
@@ -188,11 +188,10 @@ export default function PortfolioPage() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
             <div className="flex-1">
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 break-words">
-                🟢 Módulo 2 - Portafolio de Startups
+                🚀 Portafolio de Startups
               </h1>
               <p className="mt-2 text-sm sm:text-base text-gray-600">
-                {stats.total} total startups •{stats.byStatus.active} activas •
-                {stats.byStatus.paused} pausadas
+                {stats.total} total startups • {stats.byStatus.active} activas • {stats.byStatus.paused} pausadas
               </p>
             </div>
 

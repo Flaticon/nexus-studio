@@ -110,7 +110,7 @@ export default function FinancePage() {
 
   return (
     <Layout
-      title="🟠 Módulo 3 - Finanzas Consolidadas"
+      title="💰 Finanzas Consolidadas"
       subtitle="Ingresos, costos y burn rate por iniciativa"
     >
       <div className="p-6 min-h-screen bg-gray-50">
@@ -119,10 +119,10 @@ export default function FinancePage() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                🟠 Módulo 3 - Finanzas Consolidadas
+                💰 Finanzas Consolidadas
               </h1>
               <p className="mt-2 text-gray-600">
-                Ingresos, costos y burn rate por iniciativa
+                Control financiero integral del venture studio
               </p>
             </div>
 

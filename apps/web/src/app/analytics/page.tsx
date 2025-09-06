@@ -250,17 +250,17 @@ export default function AnalyticsPage() {
   );
 
   return (
-    <Layout title="📈 Módulo 6 - Data Analytics" subtitle="Análisis avanzado de datos e insights inteligentes">
+    <Layout title="📈 Data Analytics" subtitle="Análisis avanzado de datos e insights inteligentes">
     <div className="p-6 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              📈 Módulo 6 - Data Analytics
+              📈 Data Analytics
             </h1>
             <p className="mt-2 text-gray-600">
-              Análisis avanzado de datos, predicciones e insights inteligentes
+              Insights inteligentes para la toma de decisiones estratégicas
             </p>
           </div>
           

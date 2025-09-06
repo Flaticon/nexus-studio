@@ -333,7 +333,7 @@ export default function IntegrationsPage() {
 
   return (
     <Layout
-      title="🔌 Módulo 7 - Integrations Hub"
+      title="🔌 Integrations Hub"
       subtitle="Gestiona APIs, webhooks y automatizaciones"
     >
       <div className="p-6 bg-gray-50 min-h-screen">
@@ -342,11 +342,10 @@ export default function IntegrationsPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                🔌 Módulo 7 - Integrations Hub
+                🔌 Integrations Hub
               </h1>
               <p className="mt-2 text-gray-600">
-                Gestiona conexiones, APIs y automatizaciones de tu startup
-                studio
+                Conecta herramientas y automatiza procesos del venture studio
               </p>
             </div>
 

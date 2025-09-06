@@ -190,7 +190,7 @@ export default function OKRsPage() {
   };
 
   return (
-    <Layout title="🟣 Módulo 4 - OKRs Operativos" subtitle="Objetivos y resultados clave por equipo">
+    <Layout title="🎯 OKRs Operativos" subtitle="Objetivos y resultados clave por equipo">
       <div className="p-6 min-h-screen bg-gray-50">
         {/* Content */}
         <div className="mb-6">
