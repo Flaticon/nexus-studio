@@ -33,6 +33,8 @@ import {
 import Link from 'next/link';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import Layout from '../../components/layout/Layout';
+import { KanbanBoard } from '../../components/dashboard/portfolio/KanbanBoard';
+import { StartupStage, StartupStatus } from '@/types/portfolio';
 
 export default function DashboardPage() {
   // State management for filters and views
@@ -139,6 +141,109 @@ export default function DashboardPage() {
         module: 'portfolio',
         timestamp: '2 days ago'
       }
+    ],
+    
+    // Mock startups data for KanbanBoard
+    startups: [
+      {
+        _id: '1',
+        name: 'EcoTech Solutions',
+        slug: 'ecotech-solutions',
+        description: 'Plataforma de gestión ambiental para empresas',
+        stage: StartupStage.VALIDATION,
+        status: StartupStatus.ACTIVE,
+        squad: {
+          lead: { name: 'Ana García', role: 'Product Lead' },
+          members: [
+            { name: 'Carlos López', role: 'Developer' },
+            { name: 'María Rodríguez', role: 'Designer' }
+          ]
+        },
+        resources: {
+          deck: '#',
+          demo: '#',
+          repository: '#'
+        },
+        documents: [],
+        metrics: [
+          { name: 'Revenue', value: 45000, unit: 'USD', recordedAt: new Date() }
+        ],
+        kpis: [
+          { name: 'MAU', current: 1200, target: 2000, unit: 'users', lastUpdated: new Date() },
+          { name: 'MRR', current: 5000, target: 10000, unit: 'USD', lastUpdated: new Date() }
+        ],
+        timeline: [],
+        activityLog: [],
+        milestones: [],
+        tags: ['SaaS', 'Environment'],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        _id: '2',
+        name: 'FinanceAI',
+        slug: 'finance-ai',
+        description: 'Inteligencia artificial para gestión financiera',
+        stage: StartupStage.PMF,
+        status: StartupStatus.ACTIVE,
+        squad: {
+          lead: { name: 'Roberto Silva', role: 'Tech Lead' },
+          members: [
+            { name: 'Laura Martín', role: 'AI Engineer' },
+            { name: 'David Chen', role: 'Backend Dev' }
+          ]
+        },
+        resources: {
+          deck: '#',
+          demo: '#',
+          repository: '#'
+        },
+        documents: [],
+        metrics: [
+          { name: 'Revenue', value: 85000, unit: 'USD', recordedAt: new Date() }
+        ],
+        kpis: [
+          { name: 'ARR', current: 50000, target: 100000, unit: 'USD', lastUpdated: new Date() },
+          { name: 'Customers', current: 85, target: 200, unit: 'count', lastUpdated: new Date() }
+        ],
+        timeline: [],
+        activityLog: [],
+        milestones: [],
+        tags: ['AI', 'Finance'],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        _id: '3',
+        name: 'HealthTracker',
+        slug: 'health-tracker',
+        description: 'App móvil para seguimiento de salud personal',
+        stage: StartupStage.IDEA,
+        status: StartupStatus.ACTIVE,
+        squad: {
+          lead: { name: 'Sofia Ramírez', role: 'Product Manager' },
+          members: [
+            { name: 'Miguel Torres', role: 'Mobile Dev' }
+          ]
+        },
+        resources: {
+          deck: '#',
+          repository: '#'
+        },
+        documents: [],
+        metrics: [
+          { name: 'Revenue', value: 12000, unit: 'USD', recordedAt: new Date() }
+        ],
+        kpis: [
+          { name: 'Prototype', current: 60, target: 100, unit: '%', lastUpdated: new Date() }
+        ],
+        timeline: [],
+        activityLog: [],
+        milestones: [],
+        tags: ['Mobile', 'Health'],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
     ]
   };
 
@@ -178,6 +283,11 @@ export default function DashboardPage() {
       status: { visible: true, size: 'normal' },
       alerts: { visible: true, size: 'normal' }
     });
+  };
+
+  const handleStageChange = (startupId: string, newStage: StartupStage) => {
+    // This would typically update the backend
+    console.log(`Moving startup ${startupId} to ${newStage}`);
   };
 
   // Filter alerts by selected modules
@@ -649,6 +759,25 @@ export default function DashboardPage() {
         </div>
         </div>
       )}
+
+      {/* Portfolio Kanban Board */}
+      <div className="bg-white rounded-lg shadow-sm border mb-8">
+        <div className="p-6 border-b">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-gray-900">Vista Rápida del Portafolio</h3>
+            <Link href="/portfolio" className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
+              <span>Ver portafolio completo</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+        <div className="p-6">
+          <KanbanBoard 
+            startups={executiveData.startups}
+            onStageChange={handleStageChange}
+          />
+        </div>
+      </div>
 
       {/* Quick Actions */}
       <div className="mt-8 text-center">

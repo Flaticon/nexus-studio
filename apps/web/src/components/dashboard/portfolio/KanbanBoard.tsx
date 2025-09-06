@@ -9,7 +9,7 @@ import {
 } from '@dnd-kit/sortable';
 import { StartupStage, Startup } from '@/types/portfolio';
 import { KanbanColumn } from './KanbanColumn';
-import { KanbanCard } from './KanbanCard';
+import { KanbanCard } from './Kanbancard';
 
 interface KanbanBoardProps {
   startups: Startup[];

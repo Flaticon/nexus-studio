@@ -22,6 +22,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import CreateOKRModal from '../../components/forms/CreateOKRModal';
 import Layout from '../../components/layout/Layout';
 
+// OKRs (Objectives and Key Results) management page
 export default function OKRsPage() {
   const [selectedQuarter, setSelectedQuarter] = useState('Q3-2025');
   const [selectedTeam, setSelectedTeam] = useState('all');
@@ -191,237 +192,235 @@ export default function OKRsPage() {
   return (
     <Layout title="🟣 Módulo 4 - OKRs Operativos" subtitle="Objetivos y resultados clave por equipo">
       <div className="p-6 min-h-screen bg-gray-50">
-      {/* Content */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-          
-          <div className="flex gap-3">
-            <select
-              value={selectedQuarter}
-              onChange={(e) => setSelectedQuarter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+        {/* Content */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex gap-3">
+              <select
+                value={selectedQuarter}
+                onChange={(e) => setSelectedQuarter(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="Q1-2025">Q1 2025</option>
+                <option value="Q2-2025">Q2 2025</option>
+                <option value="Q3-2025">Q3 2025</option>
+                <option value="Q4-2025">Q4 2025</option>
+              </select>
+
+              <select
+                value={selectedTeam}
+                onChange={(e) => setSelectedTeam(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="all">Todos los equipos</option>
+                <option value="EcoTech Solutions">EcoTech Solutions</option>
+                <option value="FinanceAI">FinanceAI</option>
+                <option value="HealthTracker">HealthTracker</option>
+              </select>
+              
+              <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+                <Filter className="w-4 h-4" />
+                Filtros
+              </button>
+              
+              <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                Exportar
+              </button>
+            </div>
+          </div>
+
+          {/* View Mode Tabs */}
+          <div className="flex border-b">
+            <button
+              onClick={() => setViewMode('teams')}
+              className={`px-6 py-3 font-medium ${
+                viewMode === 'teams'
+                  ? 'border-b-2 border-purple-600 text-purple-600'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
             >
-              <option value="Q1-2025">Q1 2025</option>
-              <option value="Q2-2025">Q2 2025</option>
-              <option value="Q3-2025">Q3 2025</option>
-              <option value="Q4-2025">Q4 2025</option>
-            </select>
-
-            <select
-              value={selectedTeam}
-              onChange={(e) => setSelectedTeam(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              <Users className="w-4 h-4 inline mr-2" />
+              Por Equipos
+            </button>
+            <button
+              onClick={() => setViewMode('objectives')}
+              className={`px-6 py-3 font-medium ${
+                viewMode === 'objectives'
+                  ? 'border-b-2 border-purple-600 text-purple-600'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
             >
-              <option value="all">Todos los equipos</option>
-              <option value="EcoTech Solutions">EcoTech Solutions</option>
-              <option value="FinanceAI">FinanceAI</option>
-              <option value="HealthTracker">HealthTracker</option>
-            </select>
-            
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
-              <Filter className="w-4 h-4" />
-              Filtros
-            </button>
-            
-            <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              Exportar
+              <Target className="w-4 h-4 inline mr-2" />
+              Por Objetivos
             </button>
           </div>
         </div>
 
-        {/* View Mode Tabs */}
-        <div className="flex border-b">
-          <button
-            onClick={() => setViewMode('teams')}
-            className={`px-6 py-3 font-medium ${
-              viewMode === 'teams'
-                ? 'border-b-2 border-purple-600 text-purple-600'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <Users className="w-4 h-4 inline mr-2" />
-            Por Equipos
-          </button>
-          <button
-            onClick={() => setViewMode('objectives')}
-            className={`px-6 py-3 font-medium ${
-              viewMode === 'objectives'
-                ? 'border-b-2 border-purple-600 text-purple-600'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <Target className="w-4 h-4 inline mr-2" />
-            Por Objetivos
-          </button>
-        </div>
-      </div>
-
-      {/* Overview Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-gray-600">Total Objetivos</h3>
-            <Target className="w-5 h-5 text-purple-600" />
+        {/* Overview Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+          <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-medium text-gray-600">Total Objetivos</h3>
+              <Target className="w-5 h-5 text-purple-600" />
+            </div>
+            <p className="text-2xl font-bold text-gray-900">{overallStats.totalObjectives}</p>
           </div>
-          <p className="text-2xl font-bold text-gray-900">{overallStats.totalObjectives}</p>
-        </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-gray-600">En Progreso</h3>
-            <CheckCircle className="w-5 h-5 text-green-600" />
+          <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-medium text-gray-600">En Progreso</h3>
+              <CheckCircle className="w-5 h-5 text-green-600" />
+            </div>
+            <p className="text-2xl font-bold text-green-600">{overallStats.onTrack}</p>
           </div>
-          <p className="text-2xl font-bold text-green-600">{overallStats.onTrack}</p>
-        </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-gray-600">En Riesgo</h3>
-            <AlertTriangle className="w-5 h-5 text-yellow-600" />
+          <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-medium text-gray-600">En Riesgo</h3>
+              <AlertTriangle className="w-5 h-5 text-yellow-600" />
+            </div>
+            <p className="text-2xl font-bold text-yellow-600">{overallStats.atRisk}</p>
           </div>
-          <p className="text-2xl font-bold text-yellow-600">{overallStats.atRisk}</p>
-        </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-gray-600">Atrasados</h3>
-            <XCircle className="w-5 h-5 text-red-600" />
+          <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-medium text-gray-600">Atrasados</h3>
+              <XCircle className="w-5 h-5 text-red-600" />
+            </div>
+            <p className="text-2xl font-bold text-red-600">{overallStats.behind}</p>
           </div>
-          <p className="text-2xl font-bold text-red-600">{overallStats.behind}</p>
-        </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-medium text-gray-600">Progreso Promedio</h3>
-            <BarChart3 className="w-5 h-5 text-blue-600" />
+          <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-medium text-gray-600">Progreso Promedio</h3>
+              <BarChart3 className="w-5 h-5 text-blue-600" />
+            </div>
+            <p className="text-2xl font-bold text-blue-600">{overallStats.avgProgress}%</p>
           </div>
-          <p className="text-2xl font-bold text-blue-600">{overallStats.avgProgress}%</p>
         </div>
-      </div>
 
-      {/* OKRs List */}
-      <div className="space-y-6">
-        {filteredOKRs.map((okr) => (
-          <div key={okr.id} className="bg-white rounded-lg shadow-sm border">
-            {/* OKR Header */}
-            <div className="p-6 border-b">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {okr.team}
-                    </h3>
-                    <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(okr.status)}`}>
-                      {getStatusIcon(okr.status)}
-                      {getStatusLabel(okr.status)}
-                    </span>
-                  </div>
-                  <p className="text-gray-700 font-medium mb-2">{okr.objective}</p>
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
-                    <span className="flex items-center gap-1">
-                      <Users className="w-4 h-4" />
-                      {okr.owner}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      {okr.quarter}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-4">
-                  <div className="text-center">
-                    <div className="w-16 h-16">
-                      <CircularProgressbar 
-                        value={okr.overallProgress} 
-                        text={`${okr.overallProgress}%`}
-                        styles={buildStyles({
-                          textSize: '20px',
-                          pathColor: getProgressColor(okr.overallProgress),
-                          textColor: getProgressColor(okr.overallProgress),
-                          trailColor: '#E5E7EB'
-                        })}
-                      />
+        {/* OKRs List */}
+        <div className="space-y-6">
+          {filteredOKRs.map((okr) => (
+            <div key={okr.id} className="bg-white rounded-lg shadow-sm border">
+              {/* OKR Header */}
+              <div className="p-6 border-b">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {okr.team}
+                      </h3>
+                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(okr.status)}`}>
+                        {getStatusIcon(okr.status)}
+                        {getStatusLabel(okr.status)}
+                      </span>
                     </div>
-                    <p className="text-xs text-gray-600 mt-1">Progreso general</p>
+                    <p className="text-gray-700 font-medium mb-2">{okr.objective}</p>
+                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                      <span className="flex items-center gap-1">
+                        <Users className="w-4 h-4" />
+                        {okr.owner}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        {okr.quarter}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
+                    <div className="text-center">
+                      <div className="w-16 h-16">
+                        <CircularProgressbar 
+                          value={okr.overallProgress} 
+                          text={`${okr.overallProgress}%`}
+                          styles={buildStyles({
+                            textSize: '20px',
+                            pathColor: getProgressColor(okr.overallProgress),
+                            textColor: getProgressColor(okr.overallProgress),
+                            trailColor: '#E5E7EB'
+                          })}
+                        />
+                      </div>
+                      <p className="text-xs text-gray-600 mt-1">Progreso general</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Key Results */}
-            <div className="p-6">
-              <h4 className="text-sm font-medium text-gray-600 mb-4">Resultados Clave</h4>
-              <div className="space-y-4">
-                {okr.keyResults.map((kr) => (
-                  <div key={kr.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900 mb-1">{kr.description}</p>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <span>
-                          {kr.current.toLocaleString()} / {kr.target.toLocaleString()} {kr.unit}
-                        </span>
-                        <span className="text-gray-400">•</span>
-                        <span className={`font-medium ${
-                          kr.progress >= 80 ? 'text-green-600' : 
-                          kr.progress >= 60 ? 'text-yellow-600' : 'text-red-600'
-                        }`}>
-                          {kr.progress}%
-                        </span>
+              {/* Key Results */}
+              <div className="p-6">
+                <h4 className="text-sm font-medium text-gray-600 mb-4">Resultados Clave</h4>
+                <div className="space-y-4">
+                  {okr.keyResults.map((kr) => (
+                    <div key={kr.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="flex-1">
+                        <p className="font-medium text-gray-900 mb-1">{kr.description}</p>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <span>
+                            {kr.current.toLocaleString()} / {kr.target.toLocaleString()} {kr.unit}
+                          </span>
+                          <span className="text-gray-400">•</span>
+                          <span className={`font-medium ${
+                            kr.progress >= 80 ? 'text-green-600' : 
+                            kr.progress >= 60 ? 'text-yellow-600' : 'text-red-600'
+                          }`}>
+                            {kr.progress}%
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="w-24">
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="h-2 rounded-full transition-all duration-300"
-                          style={{ 
-                            width: `${Math.min(kr.progress, 100)}%`,
-                            backgroundColor: getProgressColor(kr.progress)
-                          }}
+                      
+                      <div className="w-24">
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div 
+                            className="h-2 rounded-full transition-all duration-300"
+                            style={{ 
+                              width: `${Math.min(kr.progress, 100)}%`,
+                              backgroundColor: getProgressColor(kr.progress)
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="w-12 h-12">
+                        <CircularProgressbar 
+                          value={kr.progress} 
+                          text={`${kr.progress}%`}
+                          styles={buildStyles({
+                            textSize: '16px',
+                            pathColor: getProgressColor(kr.progress),
+                            textColor: getProgressColor(kr.progress),
+                            trailColor: '#E5E7EB'
+                          })}
                         />
                       </div>
                     </div>
-
-                    <div className="w-12 h-12">
-                      <CircularProgressbar 
-                        value={kr.progress} 
-                        text={`${kr.progress}%`}
-                        styles={buildStyles({
-                          textSize: '16px',
-                          pathColor: getProgressColor(kr.progress),
-                          textColor: getProgressColor(kr.progress),
-                          trailColor: '#E5E7EB'
-                        })}
-                      />
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* Add New OKR Button */}
-      <div className="mt-8 text-center">
-        <button 
-          onClick={() => setIsCreateModalOpen(true)}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-        >
-          <Plus className="w-5 h-5" />
-          Crear Nuevo OKR
-        </button>
-      </div>
+        {/* Add New OKR Button */}
+        <div className="mt-8 text-center">
+          <button 
+            onClick={() => setIsCreateModalOpen(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          >
+            <Plus className="w-5 h-5" />
+            Crear Nuevo OKR
+          </button>
+        </div>
 
-      {/* Create OKR Modal */}
-      <CreateOKRModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onSubmit={handleCreateOKR}
-      />
+        {/* Create OKR Modal */}
+        <CreateOKRModal
+          isOpen={isCreateModalOpen}
+          onClose={() => setIsCreateModalOpen(false)}
+          onSubmit={handleCreateOKR}
+        />
       </div>
     </Layout>
   );

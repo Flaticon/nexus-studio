@@ -52,6 +52,7 @@ import {
   PolarRadiusAxis,
   Radar
 } from 'recharts';
+import Layout from '../../components/layout/Layout';
 
 export default function AnalyticsPage() {
   const [dateRange, setDateRange] = useState('3m');
@@ -249,6 +250,7 @@ export default function AnalyticsPage() {
   );
 
   return (
+    <Layout title="📈 Módulo 6 - Data Analytics" subtitle="Análisis avanzado de datos e insights inteligentes">
     <div className="p-6 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="mb-6">
@@ -566,5 +568,6 @@ export default function AnalyticsPage() {
         </div>
       )}
     </div>
+    </Layout>
   );
 }
