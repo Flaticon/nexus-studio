@@ -1,166 +1,184 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import { 
   Briefcase, 
   DollarSign, 
   Users, 
   Target,
-  TrendingUp,
   Activity,
   ArrowRight,
   BarChart3,
-  Plug
+  Plug,
+  Building2,
+  Sparkles
 } from 'lucide-react';
 
 export default function Home() {
+  const modules = [
+    {
+      href: '/dashboard',
+      icon: Activity,
+      emoji: '🏠',
+      title: 'Dashboard',
+      description: 'Vista ejecutiva con métricas clave',
+      gradient: 'from-slate-600 to-slate-800',
+      delay: '0.1s'
+    },
+    {
+      href: '/portfolio',
+      icon: Briefcase,
+      emoji: '🚀',
+      title: 'Portafolio',
+      description: 'Gestión de startups y proyectos',
+      gradient: 'from-blue-600 to-blue-800',
+      delay: '0.2s'
+    },
+    {
+      href: '/finance',
+      icon: DollarSign,
+      emoji: '💰',
+      title: 'Finanzas',
+      description: 'Control financiero integral',
+      gradient: 'from-emerald-600 to-emerald-800',
+      delay: '0.3s'
+    },
+    {
+      href: '/okrs',
+      icon: Target,
+      emoji: '🎯',
+      title: 'OKRs',
+      description: 'Objetivos y resultados clave',
+      gradient: 'from-purple-600 to-purple-800',
+      delay: '0.4s'
+    },
+    {
+      href: '/talent',
+      icon: Users,
+      emoji: '👥',
+      title: 'Talento',
+      description: 'Gestión de equipos y personas',
+      gradient: 'from-rose-600 to-rose-800',
+      delay: '0.5s'
+    },
+    {
+      href: '/analytics',
+      icon: BarChart3,
+      emoji: '📈',
+      title: 'Analytics',
+      description: 'Insights y análisis avanzado',
+      gradient: 'from-indigo-600 to-indigo-800',
+      delay: '0.6s'
+    },
+    {
+      href: '/integrations',
+      icon: Plug,
+      emoji: '🔌',
+      title: 'Integrations',
+      description: 'Conectores y automatización',
+      gradient: 'from-cyan-600 to-cyan-800',
+      delay: '0.7s'
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-6 py-12">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
-            Nexus Studio
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Plataforma integral de gestión para tu startup studio. 
-            Administra portafolio, finanzas, OKRs y equipos desde un solo lugar.
-          </p>
-        </div>
-
-        {/* Modules Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-6 mb-12">
-          <Link href="/dashboard" className="group">
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
-              <Activity className="h-12 w-12 text-blue-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                📊 Dashboard Ejecutivo
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Vista general con métricas clave, alertas y KPIs
-              </p>
-              <ArrowRight className="h-5 w-5 text-blue-600 group-hover:translate-x-1 transition-transform" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] opacity-25"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-12">
+          {/* Header */}
+          <div className="text-center mb-16 sm:mb-20">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 rounded-2xl flex items-center justify-center shadow-xl">
+                <Building2 className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+              </div>
             </div>
-          </Link>
-
-          <Link href="/portfolio" className="group">
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
-              <Briefcase className="h-12 w-12 text-green-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                🟢 Portafolio de Startups
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Gestiona iniciativas, etapas, equipos y KPIs
+            
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-gray-900 mb-4 tracking-tight">
+              Nexus Studio
+            </h1>
+            
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <Sparkles className="w-5 h-5 text-blue-600" />
+              <p className="text-lg sm:text-xl text-gray-600 font-medium">
+                Venture Studio Management Platform
               </p>
-              <ArrowRight className="h-5 w-5 text-green-600 group-hover:translate-x-1 transition-transform" />
+              <Sparkles className="w-5 h-5 text-purple-600" />
             </div>
-          </Link>
+            
+            <p className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed px-4">
+              Plataforma integral para gestionar tu venture studio con herramientas profesionales 
+              para portafolio, finanzas, OKRs y equipos.
+            </p>
+          </div>
 
-          <Link href="/finance" className="group">
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
-              <DollarSign className="h-12 w-12 text-orange-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                🟠 Finanzas Consolidadas
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Ingresos, costos y burn rate por iniciativa
-              </p>
-              <ArrowRight className="h-5 w-5 text-orange-600 group-hover:translate-x-1 transition-transform" />
+          {/* Modules Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            {modules.map((module, index) => {
+              const IconComponent = module.icon;
+              
+              return (
+                <Link 
+                  key={module.href}
+                  href={module.href} 
+                  className="group block"
+                  style={{ animationDelay: module.delay }}
+                >
+                  <div className="relative overflow-hidden bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 hover:border-gray-200 transition-all duration-300 hover:-translate-y-1 p-6 h-full">
+                    {/* Background gradient on hover */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${module.gradient} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-300`}></div>
+                    
+                    {/* Content */}
+                    <div className="relative">
+                      {/* Icon */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className={`w-12 h-12 bg-gradient-to-br ${module.gradient} rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-200`}>
+                          <IconComponent className="w-6 h-6 text-white" />
+                        </div>
+                        <span className="text-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-200">
+                          {module.emoji}
+                        </span>
+                      </div>
+                      
+                      {/* Text */}
+                      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800">
+                        {module.title}
+                      </h3>
+                      <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                        {module.description}
+                      </p>
+                      
+                      {/* Arrow */}
+                      <div className="flex items-center justify-end">
+                        <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Quick Stats */}
+          <div className="mt-16 sm:mt-20 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8">
+            <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100">
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">7</div>
+              <div className="text-xs sm:text-sm text-gray-500 font-medium">Módulos</div>
             </div>
-          </Link>
-
-          <Link href="/okrs" className="group">
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
-              <Users className="h-12 w-12 text-purple-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                🟣 OKRs Operativos
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Objetivos y resultados clave por equipo
-              </p>
-              <ArrowRight className="h-5 w-5 text-purple-600 group-hover:translate-x-1 transition-transform" />
+            <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100">
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">100%</div>
+              <div className="text-xs sm:text-sm text-gray-500 font-medium">Funcional</div>
             </div>
-          </Link>
-
-          <Link href="/talent" className="group">
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
-              <Users className="h-12 w-12 text-red-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                🔥 Talent & Teams
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Gestión de talento y equipos del studio
-              </p>
-              <ArrowRight className="h-5 w-5 text-red-600 group-hover:translate-x-1 transition-transform" />
+            <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100">
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">✓</div>
+              <div className="text-xs sm:text-sm text-gray-500 font-medium">Mobile Ready</div>
             </div>
-          </Link>
-
-          <Link href="/analytics" className="group">
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
-              <BarChart3 className="h-12 w-12 text-indigo-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                📈 Data Analytics
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Análisis avanzado de datos e insights inteligentes
-              </p>
-              <ArrowRight className="h-5 w-5 text-indigo-600 group-hover:translate-x-1 transition-transform" />
+            <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100">
+              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">⚡</div>
+              <div className="text-xs sm:text-sm text-gray-500 font-medium">Fast & Modern</div>
             </div>
-          </Link>
-
-          <Link href="/integrations" className="group">
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow group-hover:scale-105 transition-transform">
-              <Plug className="h-12 w-12 text-cyan-600 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                🔌 Integrations Hub
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Gestiona APIs, webhooks y automatizaciones
-              </p>
-              <ArrowRight className="h-5 w-5 text-cyan-600 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </Link>
-        </div>
-
-        {/* Quick Access */}
-        <div className="text-center space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3 max-w-7xl mx-auto">
-            <Link href="/dashboard" className="inline-flex items-center gap-2 bg-gray-800 text-white px-4 py-3 rounded-lg hover:bg-gray-900 transition-colors font-medium text-sm">
-              <Activity className="h-4 w-4" />
-              🏠 Dashboard
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-            <Link href="/portfolio" className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm">
-              <Briefcase className="h-4 w-4" />
-              🚀 Portafolio
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-            <Link href="/finance" className="inline-flex items-center gap-2 bg-orange-600 text-white px-4 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium text-sm">
-              <DollarSign className="h-4 w-4" />
-              💰 Finanzas
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-            <Link href="/okrs" className="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium text-sm">
-              <Target className="h-4 w-4" />
-              🎯 OKRs
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-            <Link href="/talent" className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium text-sm">
-              <Users className="h-4 w-4" />
-              👥 Talento
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-            <Link href="/analytics" className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm">
-              <BarChart3 className="h-4 w-4" />
-              📈 Analytics
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-            <Link href="/integrations" className="inline-flex items-center gap-2 bg-cyan-600 text-white px-4 py-3 rounded-lg hover:bg-cyan-700 transition-colors font-medium text-sm">
-              <Plug className="h-4 w-4" />
-              🔌 Integrations
-              <ArrowRight className="h-3 w-3" />
-            </Link>
           </div>
         </div>
       </div>
