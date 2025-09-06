@@ -128,42 +128,42 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3 max-w-7xl mx-auto">
             <Link href="/dashboard" className="inline-flex items-center gap-2 bg-gray-800 text-white px-4 py-3 rounded-lg hover:bg-gray-900 transition-colors font-medium text-sm">
               <Activity className="h-4 w-4" />
-              Módulo 1 - Dashboard
+              🏠 Dashboard
               <ArrowRight className="h-3 w-3" />
             </Link>
             <Link href="/portfolio" className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm">
               <Briefcase className="h-4 w-4" />
-              Módulo 2 - Portafolio
+              🚀 Portafolio
               <ArrowRight className="h-3 w-3" />
             </Link>
             <Link href="/finance" className="inline-flex items-center gap-2 bg-orange-600 text-white px-4 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium text-sm">
               <DollarSign className="h-4 w-4" />
-              Módulo 3 - Finanzas
+              💰 Finanzas
               <ArrowRight className="h-3 w-3" />
             </Link>
             <Link href="/okrs" className="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium text-sm">
               <Target className="h-4 w-4" />
-              Módulo 4 - OKRs
+              🎯 OKRs
               <ArrowRight className="h-3 w-3" />
             </Link>
             <Link href="/talent" className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium text-sm">
               <Users className="h-4 w-4" />
-              Módulo 5 - Talent
+              👥 Talento
               <ArrowRight className="h-3 w-3" />
             </Link>
             <Link href="/analytics" className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium text-sm">
               <BarChart3 className="h-4 w-4" />
-              Módulo 6 - Analytics
+              📈 Analytics
               <ArrowRight className="h-3 w-3" />
             </Link>
             <Link href="/integrations" className="inline-flex items-center gap-2 bg-cyan-600 text-white px-4 py-3 rounded-lg hover:bg-cyan-700 transition-colors font-medium text-sm">
               <Plug className="h-4 w-4" />
-              Módulo 7 - Integrations
+              🔌 Integrations
               <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           <p className="mt-4 text-gray-600">
-            ¡Todos los 7 Módulos están completamente implementados y listos para probar!
+            ¡Todas las herramientas del venture studio implementadas y listas para usar!
           </p>
         </div>
       </div>

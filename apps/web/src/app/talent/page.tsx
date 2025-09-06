@@ -517,7 +517,7 @@ export default function TalentPage() {
 
   return (
     <Layout
-      title="🧩 Módulo de Talento y Equipos"
+      title="👥 Talento y Equipos"
       subtitle="Directorio de colaboradores, skills matching y banco de talentos"
     >
       <div className="p-6 bg-gray-50 min-h-screen">
@@ -526,10 +526,10 @@ export default function TalentPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                🧩 Módulo de Talento y Equipos
+                👥 Talento y Equipos
               </h1>
               <p className="mt-2 text-gray-600">
-                Directorio de colaboradores, skills matching y banco de talentos
+                Gestiona el capital humano del venture studio
               </p>
             </div>
 
