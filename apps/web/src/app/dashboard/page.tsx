@@ -35,6 +35,7 @@ import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
 import Layout from '../../components/layout/Layout';
 import { KanbanBoard } from '../../components/dashboard/portfolio/KanbanBoard';
 import { StartupStage, StartupStatus } from '@/types/portfolio';
+import { ModernMetricCard } from '@/components/ui/ModernMetricCard';
 
 export default function DashboardPage() {
   // State management for filters and views
@@ -325,36 +326,64 @@ export default function DashboardPage() {
     }
   };
 
-  const MetricCard = ({ title, value, change, changeType, icon, subtitle, href }) => {
+  const CustomMetricCard = ({ title, value, change, changeType, icon, subtitle, href, format = 'number', trend = 'stable' }) => {
     const Card = (
-      <div className="bg-white p-6 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
-        <div className="flex items-center justify-between">
+      <div className="bg-white rounded-xl card-shadow hover:card-shadow-hover transition-all duration-200 p-6 border border-gray-100 hover:border-gray-200 group">
+        <div className="flex items-start justify-between">
           <div className="flex-1">
-            <p className="text-sm font-medium text-gray-600">{title}</p>
-            <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
-            {subtitle && (
-              <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
-            )}
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="text-sm font-medium text-gray-600 text-balance">{title}</h3>
+              {trend !== 'stable' && (
+                <div className="text-gray-400">
+                  <TrendingUp className={`h-3 w-3 ${trend === 'down' ? 'rotate-180' : ''}`} />
+                </div>
+              )}
+            </div>
+            
+            <div className="mb-3">
+              <p className="text-3xl font-bold text-gray-900 tracking-tight">
+                {format === 'currency' && typeof value === 'number' 
+                  ? new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(value)
+                  : format === 'percentage' && typeof value === 'number'
+                  ? `${value}%`
+                  : value
+                }
+              </p>
+              {subtitle && (
+                <p className="text-sm text-gray-500 mt-1 font-medium">{subtitle}</p>
+              )}
+            </div>
+            
             {change !== undefined && (
-              <div className={`text-sm mt-2 flex items-center gap-1 ${
-                changeType === 'positive' ? 'text-green-600' : 
-                changeType === 'negative' ? 'text-red-600' : 'text-gray-600'
+              <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
+                changeType === 'positive' ? 'text-emerald-600 bg-emerald-50 border-emerald-200' : 
+                changeType === 'negative' ? 'text-red-600 bg-red-50 border-red-200' : 
+                'text-gray-600 bg-gray-50 border-gray-200'
               }`}>
-                {changeType === 'positive' && <TrendingUp className="w-3 h-3" />}
-                {changeType === 'negative' && <TrendingUp className="w-3 h-3 rotate-180" />}
-                <span>{change > 0 ? '+' : ''}{change}% vs mes anterior</span>
+                {changeType === 'positive' && <ArrowUpIcon className="h-3 w-3" />}
+                {changeType === 'negative' && <ArrowDownIcon className="h-3 w-3" />}
+                <span>
+                  {change > 0 ? '+' : ''}{Math.abs(change)}%
+                </span>
+                <span className="text-xs opacity-75">vs anterior</span>
               </div>
             )}
           </div>
-          <div className="ml-4">
-            {icon}
-          </div>
+          
+          {icon && (
+            <div className="ml-4 p-3 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-100">
+              <div className="text-blue-600">
+                {icon}
+              </div>
+            </div>
+          )}
         </div>
+        
         {href && (
-          <div className="mt-4 pt-4 border-t">
-            <div className="flex items-center text-sm text-blue-600 hover:text-blue-800">
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <div className="flex items-center text-sm text-blue-600 hover:text-blue-700 font-medium group-hover:gap-2 transition-all">
               <span>Ver detalles</span>
-              <ArrowRight className="w-3 h-3 ml-1" />
+              <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
         )}
@@ -541,50 +570,117 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Key Metrics Grid */}
+      {/* Modern Key Metrics Grid */}
       {widgetLayout.metrics.visible && (
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 ${
-          widgetLayout.metrics.size === 'small' ? 'scale-90' : 
-          widgetLayout.metrics.size === 'large' ? 'scale-110' : ''
-        }`}>
-        <MetricCard
-          title="Startups Activas"
-          value={executiveData.portfolio.activeStartups}
-          subtitle={`de ${executiveData.portfolio.totalStartups} totales`}
-          change={15}
-          changeType="positive"
-          icon={<Briefcase className="h-8 w-8 text-green-600" />}
-          href="/portfolio"
-        />
-        
-        <MetricCard
-          title="Revenue Mensual"
-          value={`$${(executiveData.financials.totalRevenue).toLocaleString()}`}
-          change={12}
-          changeType="positive"
-          icon={<DollarSign className="h-8 w-8 text-blue-600" />}
-          href="/finance"
-        />
-        
-        <MetricCard
-          title="Progreso OKRs"
-          value={`${executiveData.okrs.avgProgress}%`}
-          subtitle={`${executiveData.okrs.onTrack}/${executiveData.okrs.totalObjectives} en track`}
-          change={8}
-          changeType="positive"
-          icon={<Target className="h-8 w-8 text-purple-600" />}
-          href="/okrs"
-        />
-        
-        <MetricCard
-          title="Team Performance"
-          value={`${executiveData.talent.avgPerformance}%`}
-          subtitle={`${executiveData.talent.totalMembers} miembros activos`}
-          change={3}
-          changeType="positive"
-          icon={<Users className="h-8 w-8 text-orange-600" />}
-          href="/talent"
-        />
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">Métricas Principales</h2>
+              <p className="text-gray-600 text-sm mt-1">Vista general de KPIs críticos del venture studio</p>
+            </div>
+          </div>
+          
+          <div className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 ${
+            widgetLayout.metrics.size === 'small' ? 'scale-90' : 
+            widgetLayout.metrics.size === 'large' ? 'scale-110' : ''
+          }`}>
+            <ModernMetricCard
+              title="Startups Activas"
+              value={executiveData.portfolio.activeStartups}
+              subtitle={`de ${executiveData.portfolio.totalStartups} totales`}
+              change={15}
+              changeType="positive"
+              trend="up"
+              color="blue"
+              icon={<Briefcase className="h-6 w-6" />}
+              size="md"
+              className="bounce-in"
+            />
+            
+            <ModernMetricCard
+              title="ARR (Annual Recurring Revenue)"
+              value={executiveData.financials.totalRevenue * 12}
+              format="currency"
+              change={12}
+              changeType="positive"
+              trend="up"
+              color="green"
+              icon={<TrendingUp className="h-6 w-6" />}
+              size="md"
+              className="bounce-in"
+            />
+            
+            <ModernMetricCard
+              title="MRR (Monthly Recurring Revenue)"
+              value={executiveData.financials.totalRevenue}
+              format="currency"
+              change={8}
+              changeType="positive"
+              trend="up"
+              color="purple"
+              icon={<DollarSign className="h-6 w-6" />}
+              size="md"
+              className="bounce-in"
+            />
+            
+            <ModernMetricCard
+              title="Team Performance"
+              value={executiveData.talent.avgPerformance}
+              format="percentage"
+              target={100}
+              showProgress={true}
+              subtitle={`${executiveData.talent.totalMembers} miembros activos`}
+              change={3}
+              changeType="positive"
+              trend="stable"
+              color="orange"
+              icon={<Users className="h-6 w-6" />}
+              size="md"
+              className="bounce-in"
+            />
+          </div>
+
+          {/* Secondary Metrics Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <ModernMetricCard
+              title="MAU (Monthly Active Users)"
+              value="2,847"
+              subtitle="Usuarios activos totales"
+              change={22}
+              changeType="positive"
+              trend="up"
+              color="blue"
+              icon={<Activity className="h-5 w-5" />}
+              size="sm"
+              className="slide-up"
+            />
+            
+            <ModernMetricCard
+              title="Customer Count"
+              value="127"
+              subtitle="Clientes pagando activamente"
+              change={18}
+              changeType="positive"
+              trend="up"
+              color="green"
+              icon={<Users className="h-5 w-5" />}
+              size="sm"
+              className="slide-up"
+            />
+            
+            <ModernMetricCard
+              title="Runway Promedio"
+              value="18"
+              subtitle="Meses de runway restante"
+              change={-5}
+              changeType="negative"
+              trend="down"
+              color="orange"
+              icon={<Calendar className="h-5 w-5" />}
+              size="sm"
+              className="slide-up"
+            />
+          </div>
         </div>
       )}
 

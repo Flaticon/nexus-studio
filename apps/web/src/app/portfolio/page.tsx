@@ -155,11 +155,19 @@ export default function PortfolioPage() {
   };
 
   const stageColors = {
-    idea: "bg-gray-100 border-gray-300",
-    validation: "bg-yellow-50 border-yellow-300",
-    pmf: "bg-blue-50 border-blue-300",
-    growth: "bg-green-50 border-green-300",
-    scale: "bg-purple-50 border-purple-300",
+    idea: "stage-idea border-2",
+    validation: "stage-validation border-2", 
+    pmf: "stage-pmf border-2",
+    growth: "stage-growth border-2",
+    scale: "stage-scale border-2",
+  };
+
+  const stageBadgeColors = {
+    idea: "bg-indigo-50 text-indigo-700 border-indigo-200",
+    validation: "bg-amber-50 text-amber-700 border-amber-200",
+    pmf: "bg-emerald-50 text-emerald-700 border-emerald-200", 
+    growth: "bg-blue-50 text-blue-700 border-blue-200",
+    scale: "bg-purple-50 text-purple-700 border-purple-200",
   };
 
   const viewIcons = {
@@ -273,67 +281,81 @@ export default function PortfolioPage() {
                     {stageStartups.map((startup) => (
                       <div
                         key={startup._id}
-                        className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border hover:shadow-md transition-shadow group relative"
+                        className="bg-white p-4 sm:p-5 rounded-xl card-shadow hover:card-shadow-hover transition-all duration-200 group relative border border-gray-100 hover:border-gray-200"
                       >
-                        <div className="flex items-start justify-between mb-2">
-                          <h4 className="text-sm sm:text-base font-medium text-gray-900 break-words flex-1 mr-2">
-                            {startup.name}
-                          </h4>
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex-1">
+                            <h4 className="text-sm sm:text-base font-semibold text-gray-900 break-words mb-1 text-balance">
+                              {startup.name}
+                            </h4>
+                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
+                              stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                            }`}>
+                              {stageLabels[startup.stage as keyof typeof stageLabels]}
+                            </span>
+                          </div>
                           <button
                             onClick={() => openEditModal(startup)}
-                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-100 rounded-full"
+                            className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-1.5 hover:bg-gray-100 rounded-lg"
                             title="Editar startup"
                           >
-                            <Edit className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600" />
+                            <Edit className="w-4 h-4 text-gray-600" />
                           </button>
                         </div>
 
-                        <div className="mb-3">
-                          <div className="text-xs sm:text-sm text-gray-600 mb-1 break-words">
-                            Lead: {startup.squad.lead.name}
+                        <div className="mb-4">
+                          <div className="text-sm text-gray-700 mb-1 font-medium">
+                            {startup.squad.lead.name}
                           </div>
                           <div className="text-xs text-gray-500">
-                            Equipo: {startup.squad.members.length + 1} miembros
+                            Team Lead • {startup.squad.members.length + 1} miembros
                           </div>
                         </div>
 
-                        <div className="flex flex-wrap gap-1 sm:gap-2 mb-3">
+                        <div className="flex flex-wrap gap-1.5 mb-4">
                           {startup.resources.deck && (
-                            <span className="text-xs bg-blue-100 text-blue-700 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
-                              Deck
+                            <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-md border border-blue-100 font-medium">
+                              📋 Deck
                             </span>
                           )}
                           {startup.resources.demo && (
-                            <span className="text-xs bg-green-100 text-green-700 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
-                              Demo
+                            <span className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded-md border border-emerald-100 font-medium">
+                              🎯 Demo
                             </span>
                           )}
                           {startup.resources.repository && (
-                            <span className="text-xs bg-gray-100 text-gray-700 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
-                              Repo
+                            <span className="text-xs bg-gray-50 text-gray-700 px-2 py-1 rounded-md border border-gray-100 font-medium">
+                              💻 Repo
                             </span>
                           )}
                         </div>
 
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                           {startup.kpis.slice(0, 2).map((kpi, idx) => (
-                            <div key={idx} className="text-xs">
-                              <div className="flex justify-between items-center mb-1">
-                                <span className="text-gray-600 font-medium">
+                            <div key={idx} className="space-y-1.5">
+                              <div className="flex justify-between items-center">
+                                <span className="text-sm text-gray-700 font-medium">
                                   {kpi.name}
                                 </span>
-                                <span className="text-xs font-medium text-right">
-                                  {kpi.current.toLocaleString()} /{" "}
-                                  {kpi.target.toLocaleString()}
+                                <span className="text-sm font-semibold text-gray-900">
+                                  {kpi.current.toLocaleString()}
+                                  <span className="text-xs text-gray-500 font-normal">
+                                    /{kpi.target.toLocaleString()}
+                                  </span>
                                 </span>
                               </div>
-                              <div className="w-full bg-gray-200 rounded-full h-1.5">
-                                <div
-                                  className="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
-                                  style={{
-                                    width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%`,
-                                  }}
-                                ></div>
+                              <div className="relative">
+                                <div className="w-full bg-gray-100 rounded-full h-2">
+                                  <div
+                                    className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-500 ease-out"
+                                    style={{
+                                      width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%`,
+                                    }}
+                                  ></div>
+                                </div>
+                                <div className="text-xs text-gray-500 mt-1 text-right">
+                                  {Math.round((kpi.current / kpi.target) * 100)}% completo
+                                </div>
                               </div>
                             </div>
                           ))}
@@ -349,39 +371,39 @@ export default function PortfolioPage() {
 
         {/* Grid View */}
         {viewMode === "grid" && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {startups.map((startup) => (
               <div
                 key={startup._id}
-                className="bg-white p-4 lg:p-5 rounded-lg shadow-sm border hover:shadow-md transition-shadow group relative"
+                className="bg-white p-5 lg:p-6 rounded-xl card-shadow hover:card-shadow-hover transition-all duration-200 group relative border border-gray-100 hover:border-gray-200"
               >
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h3 className="text-sm lg:text-base font-semibold text-gray-900 mb-1 break-words">
+                    <h3 className="text-base lg:text-lg font-semibold text-gray-900 mb-2 break-words text-balance">
                       {startup.name}
                     </h3>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span
-                        className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
-                          stageColors[startup.stage as keyof typeof stageColors]
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
+                          stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
                         }`}
                       >
                         {stageLabels[startup.stage as keyof typeof stageLabels]}
                       </span>
                       <span
-                        className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
                           startup.status === "active"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-gray-100 text-gray-800"
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                            : "bg-gray-50 text-gray-700 border-gray-200"
                         }`}
                       >
-                        {startup.status}
+                        {startup.status === "active" ? "🟢 Activa" : "⏸️ Pausada"}
                       </span>
                     </div>
                   </div>
                   <button
                     onClick={() => openEditModal(startup)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-100 rounded-full"
+                    className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-1.5 hover:bg-gray-100 rounded-lg"
                     title="Editar startup"
                   >
                     <Edit className="w-4 h-4 text-gray-600" />
@@ -389,57 +411,64 @@ export default function PortfolioPage() {
                 </div>
 
                 {startup.description && (
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                  <p className="text-sm text-gray-600 mb-4 line-clamp-2 text-balance leading-relaxed">
                     {startup.description}
                   </p>
                 )}
 
-                <div className="mb-3">
-                  <div className="text-xs text-gray-600 mb-1">
-                    Lead: {startup.squad.lead.name}
+                <div className="mb-4 p-3 bg-gray-50 rounded-lg">
+                  <div className="text-sm text-gray-700 mb-1 font-medium">
+                    {startup.squad.lead.name}
                   </div>
                   <div className="text-xs text-gray-500">
-                    Equipo: {startup.squad.members.length + 1} miembros
+                    Team Lead • {startup.squad.members.length + 1} miembros
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-1 mb-3">
+                <div className="flex flex-wrap gap-1.5 mb-4">
                   {startup.resources.deck && (
-                    <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                      Deck
+                    <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-md border border-blue-100 font-medium">
+                      📋 Deck
                     </span>
                   )}
                   {startup.resources.demo && (
-                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                      Demo
+                    <span className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded-md border border-emerald-100 font-medium">
+                      🎯 Demo
                     </span>
                   )}
                   {startup.resources.repository && (
-                    <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                      Repo
+                    <span className="text-xs bg-gray-50 text-gray-700 px-2 py-1 rounded-md border border-gray-100 font-medium">
+                      💻 Repo
                     </span>
                   )}
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {startup.kpis.slice(0, 2).map((kpi, idx) => (
-                    <div key={idx} className="text-xs">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-gray-600 font-medium">
+                    <div key={idx} className="space-y-1.5">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-700 font-medium">
                           {kpi.name}
                         </span>
-                        <span className="text-xs font-medium">
-                          {kpi.current.toLocaleString()} /{" "}
-                          {kpi.target.toLocaleString()}
+                        <span className="text-sm font-semibold text-gray-900">
+                          {kpi.current.toLocaleString()}
+                          <span className="text-xs text-gray-500 font-normal">
+                            /{kpi.target.toLocaleString()}
+                          </span>
                         </span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-1.5">
-                        <div
-                          className="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
-                          style={{
-                            width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%`,
-                          }}
-                        ></div>
+                      <div className="relative">
+                        <div className="w-full bg-gray-100 rounded-full h-2">
+                          <div
+                            className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-500 ease-out"
+                            style={{
+                              width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%`,
+                            }}
+                          ></div>
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1 text-right">
+                          {Math.round((kpi.current / kpi.target) * 100)}% completo
+                        </div>
                       </div>
                     </div>
                   ))}
