@@ -520,15 +520,15 @@ export default function TalentPage() {
       title="👥 Talento y Equipos"
       subtitle="Directorio de colaboradores, skills matching y banco de talentos"
     >
-      <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 👥 Talento y Equipos
               </h1>
-              <p className="mt-2 text-gray-600">
+              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>
                 Gestiona el capital humano del venture studio
               </p>
             </div>
@@ -536,21 +536,32 @@ export default function TalentPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowSkillMatching(!showSkillMatching)}
-                className={`px-4 py-2 border rounded-lg flex items-center gap-2 transition-colors ${
-                  showSkillMatching
-                    ? "bg-blue-50 border-blue-300 text-blue-700"
-                    : "border-gray-300 hover:bg-gray-50"
-                }`}
+                className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
+                style={{
+                  background: showSkillMatching ? 'var(--info-bg)' : 'var(--surface)',
+                  color: showSkillMatching ? 'var(--info)' : 'var(--text-primary)',
+                  boxShadow: showSkillMatching ? 'none' : 'var(--shadow-sm)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!showSkillMatching) {
+                    e.target.style.background = 'var(--surface-hover)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!showSkillMatching) {
+                    e.target.style.background = 'var(--surface)';
+                  }
+                }}
               >
                 <Target className="w-4 h-4" />
                 Skill Matching
               </button>
               <button
                 onClick={() => setShowTalentBank(!showTalentBank)}
-                className={`px-4 py-2 border rounded-lg flex items-center gap-2 transition-colors ${
+                className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
                   showTalentBank
-                    ? "bg-purple-50 border-purple-300 text-purple-700"
-                    : "border-gray-300 hover:bg-gray-50"
+                    ? "bg-purple-50 text-purple-700"
+                    : "bg-gray-50 hover:bg-gray-100"
                 }`}
               >
                 <Database className="w-4 h-4" />
@@ -568,8 +579,8 @@ export default function TalentPage() {
         </div>
 
         {/* Analytics Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white p-6 rounded-lg shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
@@ -583,7 +594,7 @@ export default function TalentPage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="bg-white p-6 rounded-lg shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
@@ -601,7 +612,7 @@ export default function TalentPage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="bg-white p-6 rounded-lg shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
@@ -619,7 +630,7 @@ export default function TalentPage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="bg-white p-6 rounded-lg shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
@@ -639,7 +650,7 @@ export default function TalentPage() {
 
         {/* Skill Matching Section */}
         {showSkillMatching && (
-          <div className="bg-white rounded-lg shadow-sm border mb-8">
+          <div className="bg-white rounded-lg shadow-sm mb-8">
             <div className="p-6 border-b">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900">
@@ -648,7 +659,7 @@ export default function TalentPage() {
                 <select
                   value={selectedInitiative}
                   onChange={(e) => setSelectedInitiative(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
                 >
                   <option value="">Seleccionar Iniciativa</option>
                   {initiatives.map((init) => (
@@ -781,7 +792,7 @@ export default function TalentPage() {
 
         {/* Talent Bank Section */}
         {showTalentBank && (
-          <div className="bg-white rounded-lg shadow-sm border mb-8">
+          <div className="bg-white rounded-lg shadow-sm mb-8">
             <div className="p-6 border-b">
               <h3 className="text-lg font-semibold text-gray-900">
                 Banco de Talentos
@@ -795,7 +806,7 @@ export default function TalentPage() {
                 {talentBank.map((person) => (
                   <div
                     key={person.id}
-                    className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                    className="rounded-lg p-4 hover:shadow-md transition-shadow bg-gray-50"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div>
@@ -849,16 +860,17 @@ export default function TalentPage() {
         )}
 
         {/* Analytics Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
           {/* Workload Distribution */}
-          <div className="bg-white rounded-lg shadow-sm border">
-            <div className="p-6 border-b">
-              <h3 className="text-lg font-semibold text-gray-900">
+          <div className="bg-white rounded-lg shadow-sm">
+            <div className="p-4 sm:p-6 border-b">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                 Distribución de Carga de Trabajo
               </h3>
             </div>
-            <div className="p-6">
-              <ResponsiveContainer width="100%" height={300}>
+            <div className="p-4 sm:p-6">
+              <div className="overflow-x-auto">
+              <ResponsiveContainer width="100%" height={300} minWidth={300}>
                 <BarChart data={workloadData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
@@ -876,18 +888,20 @@ export default function TalentPage() {
                   />
                 </BarChart>
               </ResponsiveContainer>
+              </div>
             </div>
           </div>
 
           {/* Skills Distribution */}
-          <div className="bg-white rounded-lg shadow-sm border">
-            <div className="p-6 border-b">
-              <h3 className="text-lg font-semibold text-gray-900">
+          <div className="bg-white rounded-lg shadow-sm">
+            <div className="p-4 sm:p-6 border-b">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                 Distribución de Skills
               </h3>
             </div>
-            <div className="p-6">
-              <ResponsiveContainer width="100%" height={300}>
+            <div className="p-4 sm:p-6">
+              <div className="overflow-x-auto">
+              <ResponsiveContainer width="100%" height={300} minWidth={300}>
                 <PieChart>
                   <Pie
                     dataKey="count"
@@ -904,12 +918,13 @@ export default function TalentPage() {
                   <Tooltip />
                 </PieChart>
               </ResponsiveContainer>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Team Members Grid/List */}
-        <div className="bg-white rounded-lg shadow-sm border">
+        <div className="bg-white rounded-lg shadow-sm">
           <div className="p-6 border-b">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
@@ -921,7 +936,7 @@ export default function TalentPage() {
                 <select
                   value={filterSkill}
                   onChange={(e) => setFilterSkill(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
                 >
                   <option value="all">Todos los Skills</option>
                   <option value="tech">Tech</option>
@@ -956,11 +971,11 @@ export default function TalentPage() {
 
           <div className="p-6">
             {viewMode === "grid" ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {filteredMembers.map((member) => (
                   <div
                     key={member.id}
-                    className="border rounded-lg p-6 hover:shadow-md transition-shadow"
+                    className="rounded-lg p-6 hover:shadow-md transition-shadow bg-gray-50"
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
@@ -979,7 +994,7 @@ export default function TalentPage() {
                         </div>
                       </div>
                       <span
-                        className={`px-2 py-1 text-xs rounded-full border ${getWorkloadColor(member.workload)}`}
+                        className={`px-2 py-1 text-xs rounded-full ${getWorkloadColor(member.workload)}`}
                       >
                         {member.workload}
                       </span>
@@ -1072,7 +1087,7 @@ export default function TalentPage() {
                             setSelectedMember(member);
                             setIsProfileModalOpen(true);
                           }}
-                          className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
+                          className="flex-1 px-3 py-2 text-sm rounded-lg hover:bg-gray-100 bg-gray-50"
                         >
                           Ver Perfil
                         </button>

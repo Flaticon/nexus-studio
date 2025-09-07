@@ -363,8 +363,8 @@ export default function IntegrationsPage() {
         </div>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
@@ -378,7 +378,7 @@ export default function IntegrationsPage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
@@ -395,7 +395,7 @@ export default function IntegrationsPage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
@@ -412,7 +412,7 @@ export default function IntegrationsPage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
@@ -431,8 +431,8 @@ export default function IntegrationsPage() {
         </div>
 
         {/* Filters and Search */}
-        <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-          <div className="flex flex-col md:flex-row gap-4">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-8">
+          <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
             <div className="flex-1">
               <div className="relative">
@@ -442,22 +442,45 @@ export default function IntegrationsPage() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar integraciones..."
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg focus:outline-none transition-all duration-200"
+          style={{
+            background: 'var(--surface-secondary)',
+            color: 'var(--text-primary)',
+            border: 'none'
+          }}
+          onFocus={(e) => {
+            e.target.style.background = 'var(--surface)';
+            e.target.style.boxShadow = 'var(--shadow-sm)';
+          }}
+          onBlur={(e) => {
+            e.target.style.background = 'var(--surface-secondary)';
+            e.target.style.boxShadow = 'none';
+          }}
                 />
               </div>
             </div>
 
             {/* Category Filter */}
-            <div className="flex gap-2 overflow-x-auto">
+            <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
               {integrationData.categories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
-                    selectedCategory === category.id
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
+                  className="px-4 py-2 rounded-lg whitespace-nowrap transition-all duration-200"
+                  style={{
+                    background: selectedCategory === category.id ? 'var(--module-integrations)' : 'var(--surface-secondary)',
+                    color: selectedCategory === category.id ? 'white' : 'var(--text-secondary)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedCategory !== category.id) {
+                      e.target.style.background = 'var(--surface-tertiary)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedCategory !== category.id) {
+                      e.target.style.background = 'var(--surface-secondary)';
+                    }
+                  }}
                 >
                   {category.name} ({category.count})
                 </button>
@@ -465,12 +488,14 @@ export default function IntegrationsPage() {
             </div>
 
             {/* View Toggle */}
-            <div className="flex bg-gray-100 rounded-lg p-1">
+            <div className="flex rounded-lg p-1" style={{ background: 'var(--surface-secondary)' }}>
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-2 rounded transition-colors ${
-                  viewMode === "grid" ? "bg-white shadow-sm" : ""
-                }`}
+                className="p-2 rounded transition-all duration-200"
+                style={{
+                  background: viewMode === 'grid' ? 'var(--surface)' : 'transparent',
+                  boxShadow: viewMode === 'grid' ? 'var(--shadow-sm)' : 'none'
+                }}
               >
                 <BarChart3 className="w-4 h-4" />
               </button>
@@ -493,7 +518,7 @@ export default function IntegrationsPage() {
           </h2>
 
           {viewMode === "grid" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {filteredIntegrations.map((integration) => (
                 <div
                   key={integration.id}
@@ -568,7 +593,7 @@ export default function IntegrationsPage() {
               ))}
             </div>
           ) : (
-            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="bg-gray-50">
@@ -651,14 +676,14 @@ export default function IntegrationsPage() {
 
         {/* Available Integrations */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">
             Integraciones Disponibles
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {integrationData.available.map((integration) => (
               <div
                 key={integration.id}
-                className="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow"
+                className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
               >
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-4">
@@ -705,7 +730,7 @@ export default function IntegrationsPage() {
         </div>
 
         {/* Webhooks Section */}
-        <div className="bg-white rounded-lg shadow-sm border">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="p-6 border-b">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-gray-900">
@@ -722,7 +747,7 @@ export default function IntegrationsPage() {
               {integrationData.webhooks.map((webhook) => (
                 <div
                   key={webhook.id}
-                  className="border rounded-lg p-4 hover:bg-gray-50"
+                  className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
