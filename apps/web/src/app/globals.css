@@ -2,49 +2,118 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --background: #fafafa;
-  --foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --border: #e2e8f0;
-  --accent: #f8fafc;
+  /* Modern Professional Color Palette - Based on Harmonious Design Principles */
   
-  /* Startup Stage Colors - Consistent and meaningful */
-  --stage-idea: #f0f4ff;
+  /* Base Colors - Apple HIG Inspired Neutral Foundation */
+  --background: #f2f2f7;
+  --foreground: #000000;
+  --surface: #ffffff;
+  --surface-secondary: #f2f2f7;
+  --surface-tertiary: #e5e5ea;
+  --surface-hover: rgba(0, 0, 0, 0.04);
+  --surface-selected: #007aff;
+  
+  /* Text Colors - Apple System Typography Hierarchy */
+  --text-primary: #000000;
+  --text-secondary: #3c3c43;
+  --text-tertiary: #8e8e93;
+  --text-quaternary: #c7c7cc;
+  --text-placeholder: #8e8e93;
+  
+  /* Elevation - Apple's Subtle Shadows Instead of Borders */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+  
+  /* Separator - Apple Style Hairline Separators */
+  --separator: rgba(60, 60, 67, 0.12);
+  --separator-opaque: #c6c6c8;
+  
+  /* Brand Colors - Apple System Blue */
+  --brand-primary: #007aff;
+  --brand-primary-light: rgba(0, 122, 255, 0.1);
+  --brand-primary-hover: #0056b3;
+  --brand-secondary: #5856d6;
+  --brand-tertiary: #32d74b;
+  
+  /* Semantic Colors - Apple System Colors */
+  --success: #32d74b;
+  --success-bg: rgba(50, 215, 75, 0.1);
+  --success-light: rgba(50, 215, 75, 0.05);
+  
+  --warning: #ff9f0a;
+  --warning-bg: rgba(255, 159, 10, 0.1);
+  --warning-light: rgba(255, 159, 10, 0.05);
+  
+  --error: #ff3b30;
+  --error-bg: rgba(255, 59, 48, 0.1);
+  --error-light: rgba(255, 59, 48, 0.05);
+  
+  --info: #007aff;
+  --info-bg: rgba(0, 122, 255, 0.1);
+  --info-light: rgba(0, 122, 255, 0.05);
+  
+  /* Module Colors - Apple System Inspired */
+  --module-dashboard: #5856d6; /* System Purple */
+  --module-dashboard-bg: rgba(88, 86, 214, 0.08);
+  
+  --module-portfolio: #32d74b; /* System Green */
+  --module-portfolio-bg: rgba(50, 215, 75, 0.08);
+  
+  --module-finance: #ff3b30; /* System Red */
+  --module-finance-bg: rgba(255, 59, 48, 0.08);
+  
+  --module-okrs: #af52de; /* System Purple Light */
+  --module-okrs-bg: rgba(175, 82, 222, 0.08);
+  
+  --module-talent: #ff9f0a; /* System Orange */
+  --module-talent-bg: rgba(255, 159, 10, 0.08);
+  
+  --module-analytics: #007aff; /* System Blue */
+  --module-analytics-bg: rgba(0, 122, 255, 0.08);
+  
+  --module-integrations: #5ac8fa; /* System Light Blue */
+  --module-integrations-bg: rgba(90, 200, 250, 0.08);
+  
+  /* Startup Stage Colors - Cohesive Progression */
+  --stage-idea: #f0f1ff;
   --stage-idea-border: #c7d2fe;
-  --stage-idea-text: #3730a3;
+  --stage-idea-text: #4338ca;
   --stage-idea-accent: #6366f1;
   
-  --stage-validation: #fef3c7;
-  --stage-validation-border: #fbbf24;
-  --stage-validation-text: #92400e;
-  --stage-validation-accent: #f59e0b;
+  --stage-validation: #fff7ed;
+  --stage-validation-border: #fed7aa;
+  --stage-validation-text: #c2410c;
+  --stage-validation-accent: #ea580c;
   
-  --stage-pmf: #dcfce7;
-  --stage-pmf-border: #4ade80;
-  --stage-pmf-text: #14532d;
-  --stage-pmf-accent: #22c55e;
+  --stage-pmf: #ecfdf5;
+  --stage-pmf-border: #a7f3d0;
+  --stage-pmf-text: #047857;
+  --stage-pmf-accent: #059669;
   
-  --stage-growth: #dbeafe;
-  --stage-growth-border: #60a5fa;
-  --stage-growth-text: #1e3a8a;
-  --stage-growth-accent: #3b82f6;
+  --stage-growth: #f0f9ff;
+  --stage-growth-border: #bae6fd;
+  --stage-growth-text: #0369a1;
+  --stage-growth-accent: #0284c7;
   
-  --stage-scale: #f3e8ff;
-  --stage-scale-border: #c084fc;
-  --stage-scale-text: #581c87;
-  --stage-scale-accent: #8b5cf6;
+  --stage-scale: #f5f3ff;
+  --stage-scale-border: #c4b5fd;
+  --stage-scale-text: #6d28d9;
+  --stage-scale-accent: #7c3aed;
   
-  /* Status Colors */
-  --status-success: #10b981;
-  --status-warning: #f59e0b;
-  --status-error: #ef4444;
-  --status-info: #3b82f6;
+  /* Modern Shadows - Subtle Depth */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.02);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.08);
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* Interactive States */
+  --hover-overlay: rgb(0 0 0 / 0.02);
+  --active-overlay: rgb(0 0 0 / 0.04);
+  --focus-ring: 0 0 0 3px rgb(59 130 246 / 0.1);
 }
 
 @theme inline {
@@ -56,23 +125,26 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0f172a;
-    --foreground: #f8fafc;
-    --muted: #1e293b;
-    --muted-foreground: #94a3b8;
-    --border: #334155;
-    --accent: #1e293b;
+    --background: #f2f2f7;
+    --foreground: #000000;
+    --muted: #f2f2f7;
+    --muted-foreground: #3c3c43;
+    --border: rgba(60, 60, 67, 0.12);
+    --accent: #f2f2f7;
   }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--text-primary);
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   font-variation-settings: normal;
   line-height: 1.6;
   letter-spacing: -0.011em;
+  font-smooth: antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Smooth transitions */
@@ -80,21 +152,64 @@ body {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Custom utilities for better UI */
+/* Modern Design System Utilities */
 .text-balance {
   text-wrap: balance;
 }
 
-.ring-focus {
-  @apply ring-2 ring-blue-500 ring-offset-2;
+/* Focus States - Modern and Accessible */
+.focus-modern {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
-.card-shadow {
+.focus-modern:focus {
+  box-shadow: var(--focus-ring);
+}
+
+/* Card System - Consistent Shadows and Hover States */
+.card-modern {
+  background: var(--surface);
+  border: 1px solid var(--border-secondary);
+  border-radius: 16px;
   box-shadow: var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.card-shadow-hover {
+.card-modern:hover {
   box-shadow: var(--shadow-md);
+  border-color: var(--border-primary);
+  transform: translateY(-1px);
+}
+
+.card-interactive {
+  background: var(--surface);
+  border: 1px solid var(--border-tertiary);
+  border-radius: 12px;
+  box-shadow: var(--shadow-xs);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-interactive:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-primary);
+  transform: translateY(-2px);
+}
+
+/* Surface Variants */
+.surface-primary {
+  background: var(--surface);
+  border-color: var(--border-secondary);
+}
+
+.surface-secondary {
+  background: var(--surface-secondary);
+  border-color: var(--border-tertiary);
+}
+
+.surface-tertiary {
+  background: var(--surface-tertiary);
+  border-color: var(--border-tertiary);
 }
 
 /* Stage-specific classes */
@@ -128,17 +243,90 @@ body {
   color: var(--stage-scale-text);
 }
 
-/* Microinteractions and Hover States */
+/* Modern Button System */
 .btn-primary {
-  @apply bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-blue-700 hover:shadow-md active:scale-95 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  background: var(--brand-primary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--brand-secondary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:focus {
+  box-shadow: var(--focus-ring);
 }
 
 .btn-secondary {
-  @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-gray-200 hover:shadow-sm active:scale-95 focus:ring-2 focus:ring-gray-400 focus:ring-offset-2;
+  background: var(--surface);
+  color: var(--text-secondary);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid var(--border-secondary);
+  box-shadow: var(--shadow-xs);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
-.input-field {
-  @apply w-full px-3 py-2 border border-gray-300 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400;
+.btn-secondary:hover {
+  background: var(--surface-secondary);
+  border-color: var(--border-primary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.btn-secondary:focus {
+  box-shadow: var(--focus-ring);
+}
+
+/* Modern Input System */
+.input-modern {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-secondary);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-modern::placeholder {
+  color: var(--text-placeholder);
+}
+
+.input-modern:hover {
+  border-color: var(--border-primary);
+}
+
+.input-modern:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: var(--focus-ring);
 }
 
 /* Interactive elements */

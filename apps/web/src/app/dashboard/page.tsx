@@ -395,57 +395,123 @@ export default function DashboardPage() {
 
   return (
     <Layout title="🏠 Nexus Studio Dashboard" subtitle="Vista general de todas las operaciones del venture studio">
-      <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
       {/* Dashboard Content */}
       <div className="mb-6">
-        <div className="flex items-center justify-end">
-          <div className="flex gap-3">
-            <button 
-              onClick={handleRefresh}
-              disabled={refreshing}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2 disabled:opacity-50"
-            >
-              <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-              {refreshing ? 'Actualizando...' : 'Actualizar'}
-            </button>
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              Exportar
-            </button>
-            <button 
-              onClick={() => setShowFilters(!showFilters)}
-              className={`px-4 py-2 border rounded-lg flex items-center gap-2 transition-colors ${
-                showFilters 
-                  ? 'border-blue-300 bg-blue-50 text-blue-700' 
-                  : 'border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              <Filter className="w-4 h-4" />
-              Filtros
-            </button>
-            <button 
-              onClick={() => setShowCustomView(!showCustomView)}
-              className={`px-4 py-2 border rounded-lg flex items-center gap-2 transition-colors ${
-                showCustomView 
-                  ? 'border-purple-300 bg-purple-50 text-purple-700' 
-                  : 'border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              <Eye className="w-4 h-4" />
-              Vista Personalizada
-            </button>
+        {/* Header Actions - Mobile Responsive */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-end">
+          {/* Mobile: Stack buttons in rows */}
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-end">
+            {/* Primary actions group */}
+            <div className="flex gap-2 sm:gap-3">
+              <button 
+                onClick={handleRefresh}
+                disabled={refreshing}
+                className="px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 disabled:opacity-50 transition-all duration-200 text-sm"
+                style={{
+                  background: 'var(--surface)',
+                  color: 'var(--text-primary)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!refreshing) {
+                    e.target.style.background = 'var(--surface-hover)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!refreshing) {
+                    e.target.style.background = 'var(--surface)';
+                  }
+                }}
+              >
+                <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+                <span className="hidden sm:inline">{refreshing ? 'Actualizando...' : 'Actualizar'}</span>
+                <span className="sm:hidden">↻</span>
+              </button>
+              
+              <button 
+                className="px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 text-sm"
+                style={{
+                  background: 'var(--surface)',
+                  color: 'var(--text-primary)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'var(--surface-hover)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = 'var(--surface)';
+                }}
+              >
+                <Download className="w-4 h-4" />
+                <span className="hidden sm:inline">Exportar</span>
+              </button>
+            </div>
+            
+            {/* Secondary actions group */}
+            <div className="flex gap-2 sm:gap-3">
+              <button 
+                onClick={() => setShowFilters(!showFilters)}
+                className="px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 text-sm"
+                style={{
+                  background: showFilters ? 'var(--brand-primary-light)' : 'var(--surface)',
+                  color: showFilters ? 'var(--brand-primary)' : 'var(--text-primary)',
+                  boxShadow: showFilters ? 'none' : 'var(--shadow-sm)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!showFilters) {
+                    e.target.style.background = 'var(--surface-hover)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!showFilters) {
+                    e.target.style.background = 'var(--surface)';
+                  }
+                }}
+              >
+                <Filter className="w-4 h-4" />
+                <span className="hidden sm:inline">Filtros</span>
+              </button>
+              
+              <button 
+                onClick={() => setShowCustomView(!showCustomView)}
+                className="px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 text-sm"
+                style={{
+                  background: showCustomView ? 'rgba(88, 86, 214, 0.1)' : 'var(--surface)',
+                  color: showCustomView ? '#5856d6' : 'var(--text-primary)',
+                  boxShadow: showCustomView ? 'none' : 'var(--shadow-sm)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!showCustomView) {
+                    e.target.style.background = 'var(--surface-hover)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!showCustomView) {
+                    e.target.style.background = 'var(--surface)';
+                  }
+                }}
+              >
+                <Eye className="w-4 h-4" />
+                <span className="hidden lg:inline">Vista Personalizada</span>
+                <span className="hidden sm:inline lg:hidden">Vista</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Filters Panel */}
       {showFilters && (
-        <div className="mb-6 bg-white rounded-lg shadow-sm border p-6">
+        <div className="mb-6 rounded-lg p-6" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)' }}>
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Filtros</h3>
+            <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Filtros</h3>
             <button 
               onClick={() => setShowFilters(false)}
-              className="text-gray-400 hover:text-gray-600"
+              className="transition-colors duration-200"
+              style={{ color: 'var(--text-tertiary)' }}
+              onMouseEnter={(e) => e.target.style.color = 'var(--text-secondary)'}
+              onMouseLeave={(e) => e.target.style.color = 'var(--text-tertiary)'}
             >
               <X className="w-5 h-5" />
             </button>
@@ -517,7 +583,7 @@ export default function DashboardPage() {
 
       {/* Custom View Panel */}
       {showCustomView && (
-        <div className="mb-6 bg-white rounded-lg shadow-sm border p-6">
+        <div className="mb-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900">Vista Personalizada</h3>
             <div className="flex items-center gap-2">
@@ -538,7 +604,7 @@ export default function DashboardPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {Object.entries(widgetLayout).map(([widget, config]) => (
-              <div key={widget} className="border rounded-lg p-4">
+              <div key={widget} className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-medium text-gray-900 capitalize">{widget}</h4>
                   <button
@@ -580,7 +646,7 @@ export default function DashboardPage() {
             </div>
           </div>
           
-          <div className={`grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 ${
+          <div className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 ${
             widgetLayout.metrics.size === 'small' ? 'scale-90' : 
             widgetLayout.metrics.size === 'large' ? 'scale-110' : ''
           }`}>
@@ -641,7 +707,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Secondary Metrics Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
             <ModernMetricCard
               title="MAU (Monthly Active Users)"
               value="2,847"
@@ -686,16 +752,16 @@ export default function DashboardPage() {
 
       {/* Charts Section */}
       {widgetLayout.charts.visible && (
-        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 ${
+        <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 ${
           widgetLayout.charts.size === 'small' ? 'scale-90' : 
           widgetLayout.charts.size === 'large' ? 'scale-110' : ''
         }`}>
         {/* Revenue Trend */}
-        <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border">
-          <div className="p-6 border-b">
-            <h3 className="text-lg font-semibold text-gray-900">Tendencia Financiera y OKRs</h3>
+        <div className="lg:col-span-2 bg-white rounded-lg shadow-sm">
+          <div className="p-4 sm:p-6 pb-4">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900">Tendencia Financiera y OKRs</h3>
           </div>
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={executiveData.monthlyTrends}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -720,11 +786,11 @@ export default function DashboardPage() {
         </div>
 
         {/* Startup Revenue Distribution */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-6 border-b">
-            <h3 className="text-lg font-semibold text-gray-900">Revenue por Startup</h3>
+        <div className="bg-white rounded-lg shadow-sm">
+          <div className="p-4 sm:p-6 pb-4">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900">Revenue por Startup</h3>
           </div>
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -750,13 +816,13 @@ export default function DashboardPage() {
 
       {/* Status Overview */}
       {widgetLayout.status.visible && (
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 ${
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 ${
           widgetLayout.status.size === 'small' ? 'scale-90' : 
           widgetLayout.status.size === 'large' ? 'scale-110' : ''
         }`}>
         {/* Portfolio Status */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-6 border-b">
+        <div className="bg-white rounded-lg shadow-sm">
+          <div className="p-6 pb-4">
             <h3 className="text-lg font-semibold text-gray-900">Estado del Portafolio</h3>
           </div>
           <div className="p-6">
@@ -768,7 +834,7 @@ export default function DashboardPage() {
                 </div>
               ))}
             </div>
-            <div className="mt-4 pt-4 border-t">
+            <div className="mt-4 pt-4">
               <Link href="/portfolio" className="flex items-center justify-between text-blue-600 hover:text-blue-800">
                 <span className="text-sm font-medium">Ver portafolio completo</span>
                 <ArrowRight className="w-4 h-4" />
@@ -778,8 +844,8 @@ export default function DashboardPage() {
         </div>
 
         {/* Team Overview */}
-        <div className="bg-white rounded-lg shadow-sm border">
-          <div className="p-6 border-b">
+        <div className="bg-white rounded-lg shadow-sm">
+          <div className="p-6 pb-4">
             <h3 className="text-lg font-semibold text-gray-900">Resumen del Equipo</h3>
           </div>
           <div className="p-6">
@@ -797,7 +863,7 @@ export default function DashboardPage() {
                 <span className="font-semibold text-red-600">{executiveData.talent.highWorkload} miembros</span>
               </div>
             </div>
-            <div className="mt-4 pt-4 border-t">
+            <div className="mt-4 pt-4">
               <Link href="/talent" className="flex items-center justify-between text-blue-600 hover:text-blue-800">
                 <span className="text-sm font-medium">Gestionar equipo</span>
                 <ArrowRight className="w-4 h-4" />
@@ -810,11 +876,11 @@ export default function DashboardPage() {
 
       {/* Alerts and Activities */}
       {widgetLayout.alerts.visible && (
-        <div className={`bg-white rounded-lg shadow-sm border ${
+        <div className={`bg-white rounded-lg shadow-sm ${
           widgetLayout.alerts.size === 'small' ? 'scale-90' : 
           widgetLayout.alerts.size === 'large' ? 'scale-110' : ''
         }`}>
-        <div className="p-6 border-b">
+        <div className="p-6 pb-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900">Alertas y Actividad Reciente</h3>
             <span className="text-sm text-gray-500">{filteredAlerts.length} alertas activas</span>
@@ -857,8 +923,8 @@ export default function DashboardPage() {
       )}
 
       {/* Portfolio Kanban Board */}
-      <div className="bg-white rounded-lg shadow-sm border mb-8">
-        <div className="p-6 border-b">
+      <div className="bg-white rounded-lg shadow-sm mb-8">
+        <div className="p-6 pb-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900">Vista Rápida del Portafolio</h3>
             <Link href="/portfolio" className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
@@ -877,7 +943,7 @@ export default function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="mt-8 text-center">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
           <Link href="/portfolio" className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium text-sm">
             <Briefcase className="h-4 w-4" />
             Gestionar Portafolio

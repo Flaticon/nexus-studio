@@ -113,15 +113,15 @@ export default function FinancePage() {
       title="💰 Finanzas Consolidadas"
       subtitle="Ingresos, costos y burn rate por iniciativa"
     >
-      <div className="p-6 min-h-screen bg-gray-50">
+      <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
                 💰 Finanzas Consolidadas
               </h1>
-              <p className="mt-2 text-gray-600">
+              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>
                 Control financiero integral del venture studio
               </p>
             </div>
@@ -130,19 +130,46 @@ export default function FinancePage() {
               <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="px-4 py-2 rounded-lg focus:outline-none transition-all duration-200"
+                style={{
+                  background: 'var(--surface-secondary)',
+                  color: 'var(--text-primary)',
+                  border: 'none'
+                }}
+                onFocus={(e) => {
+                  e.target.style.background = 'var(--surface)';
+                  e.target.style.boxShadow = 'var(--shadow-sm)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.background = 'var(--surface-secondary)';
+                  e.target.style.boxShadow = 'none';
+                }}
               >
                 <option value="3months">Últimos 3 meses</option>
                 <option value="6months">Últimos 6 meses</option>
                 <option value="12months">Últimos 12 meses</option>
               </select>
 
-              <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+              <button 
+                className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
+                style={{
+                  background: 'var(--surface)',
+                  color: 'var(--text-primary)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+                onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
+                onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}
+              >
                 <Filter className="w-4 h-4" />
                 Filtros
               </button>
 
-              <button className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 flex items-center gap-2">
+              <button 
+                className="px-4 py-2 rounded-lg flex items-center gap-2 text-white transition-all duration-200"
+                style={{ background: 'var(--module-finance)' }}
+                onMouseEnter={(e) => e.target.style.opacity = '0.9'}
+                onMouseLeave={(e) => e.target.style.opacity = '1'}
+              >
                 <Download className="w-4 h-4" />
                 Exportar
               </button>
@@ -151,8 +178,8 @@ export default function FinancePage() {
         </div>
 
         {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-medium text-gray-600">
                 Ingresos Totales
@@ -170,7 +197,7 @@ export default function FinancePage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-medium text-gray-600">
                 Gastos Totales
@@ -188,7 +215,7 @@ export default function FinancePage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-medium text-gray-600">
                 Burn Rate Mensual
@@ -203,7 +230,7 @@ export default function FinancePage() {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-sm font-medium text-gray-600">
                 Runway Promedio
@@ -222,13 +249,14 @@ export default function FinancePage() {
         </div>
 
         {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
           {/* Revenue Trends */}
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
               Tendencia de Ingresos vs Gastos
             </h3>
-            <ResponsiveContainer width="100%" height={300}>
+            <div className="overflow-x-auto">
+              <ResponsiveContainer width="100%" height={300} minWidth={300}>
               <BarChart data={monthlyTrends}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
@@ -241,14 +269,16 @@ export default function FinancePage() {
                 <Bar dataKey="expenses" fill="#EF4444" name="Gastos" />
               </BarChart>
             </ResponsiveContainer>
+            </div>
           </div>
 
           {/* Expenses by Category */}
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
               Distribución de Gastos
             </h3>
-            <ResponsiveContainer width="100%" height={300}>
+            <div className="overflow-x-auto">
+              <ResponsiveContainer width="100%" height={300} minWidth={300}>
               <RechartsPieChart>
                 <Pie
                   dataKey="value"
@@ -270,11 +300,12 @@ export default function FinancePage() {
                 />
               </RechartsPieChart>
             </ResponsiveContainer>
+            </div>
           </div>
         </div>
 
         {/* Startups Financial Table */}
-        <div className="bg-white rounded-lg shadow-sm border">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="p-6 border-b">
             <h3 className="text-lg font-semibold text-gray-900">
               Finanzas por Startup

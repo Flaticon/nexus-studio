@@ -134,8 +134,14 @@ export default function Home() {
                     <div className="relative">
                       {/* Icon */}
                       <div className="flex items-center justify-between mb-4">
-                        <div className={`w-12 h-12 bg-gradient-to-br ${module.gradient} rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-200`}>
-                          <IconComponent className="w-6 h-6 text-white" />
+                        <div 
+                          className="w-12 h-12 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-200"
+                          style={{ 
+                            background: 'var(--surface-secondary)',
+                            color: 'var(--text-primary)'
+                          }}
+                        >
+                          <IconComponent className="w-6 h-6" />
                         </div>
                         <span className="text-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-200">
                           {module.emoji}
@@ -143,16 +149,16 @@ export default function Home() {
                       </div>
                       
                       {/* Text */}
-                      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800">
+                      <h3 className="text-lg font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
                         {module.title}
                       </h3>
-                      <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                      <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
                         {module.description}
                       </p>
                       
                       {/* Arrow */}
                       <div className="flex items-center justify-end">
-                        <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-200" />
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-all duration-200" style={{ color: 'var(--text-tertiary)' }} />
                       </div>
                     </div>
                   </div>
@@ -163,21 +169,21 @@ export default function Home() {
 
           {/* Quick Stats */}
           <div className="mt-16 sm:mt-20 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8">
-            <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100">
-              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">7</div>
-              <div className="text-xs sm:text-sm text-gray-500 font-medium">Módulos</div>
+            <div className="text-center p-4 rounded-xl" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
+              <div className="text-2xl sm:text-3xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>7</div>
+              <div className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Módulos</div>
             </div>
-            <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100">
-              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">100%</div>
-              <div className="text-xs sm:text-sm text-gray-500 font-medium">Funcional</div>
+            <div className="text-center p-4 rounded-xl" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
+              <div className="text-2xl sm:text-3xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>100%</div>
+              <div className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Funcional</div>
             </div>
-            <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100">
-              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">✓</div>
-              <div className="text-xs sm:text-sm text-gray-500 font-medium">Mobile Ready</div>
+            <div className="text-center p-4 rounded-xl" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
+              <div className="text-2xl sm:text-3xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>✓</div>
+              <div className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Mobile Ready</div>
             </div>
-            <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-gray-100">
-              <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">⚡</div>
-              <div className="text-xs sm:text-sm text-gray-500 font-medium">Fast & Modern</div>
+            <div className="text-center p-4 rounded-xl" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
+              <div className="text-2xl sm:text-3xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>⚡</div>
+              <div className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Fast & Modern</div>
             </div>
           </div>
         </div>

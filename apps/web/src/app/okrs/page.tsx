@@ -140,11 +140,11 @@ export default function OKRsPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'on-track': return 'text-green-600 bg-green-50 border-green-200';
-      case 'at-risk': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'behind': return 'text-red-600 bg-red-50 border-red-200';
-      case 'completed': return 'text-blue-600 bg-blue-50 border-blue-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'on-track': return 'bg-green-50 text-green-600';
+      case 'at-risk': return 'bg-yellow-50 text-yellow-600';
+      case 'behind': return 'bg-red-50 text-red-600';
+      case 'completed': return 'bg-blue-50 text-blue-600';
+      default: return 'text-gray-600';
     }
   };
 
@@ -191,7 +191,7 @@ export default function OKRsPage() {
 
   return (
     <Layout title="🎯 OKRs Operativos" subtitle="Objetivos y resultados clave por equipo">
-      <div className="p-6 min-h-screen bg-gray-50">
+      <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
         {/* Content */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
@@ -199,7 +199,20 @@ export default function OKRsPage() {
               <select
                 value={selectedQuarter}
                 onChange={(e) => setSelectedQuarter(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="px-4 py-2 rounded-lg focus:outline-none transition-all duration-200"
+                style={{
+                  background: 'var(--surface-secondary)',
+                  color: 'var(--text-primary)',
+                  border: 'none'
+                }}
+                onFocus={(e) => {
+                  e.target.style.background = 'var(--surface)';
+                  e.target.style.boxShadow = 'var(--shadow-sm)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.background = 'var(--surface-secondary)';
+                  e.target.style.boxShadow = 'none';
+                }}
               >
                 <option value="Q1-2025">Q1 2025</option>
                 <option value="Q2-2025">Q2 2025</option>
@@ -210,7 +223,20 @@ export default function OKRsPage() {
               <select
                 value={selectedTeam}
                 onChange={(e) => setSelectedTeam(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="px-4 py-2 rounded-lg focus:outline-none transition-all duration-200"
+                style={{
+                  background: 'var(--surface-secondary)',
+                  color: 'var(--text-primary)',
+                  border: 'none'
+                }}
+                onFocus={(e) => {
+                  e.target.style.background = 'var(--surface)';
+                  e.target.style.boxShadow = 'var(--shadow-sm)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.background = 'var(--surface-secondary)';
+                  e.target.style.boxShadow = 'none';
+                }}
               >
                 <option value="all">Todos los equipos</option>
                 <option value="EcoTech Solutions">EcoTech Solutions</option>
@@ -218,12 +244,26 @@ export default function OKRsPage() {
                 <option value="HealthTracker">HealthTracker</option>
               </select>
               
-              <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
+              <button 
+                className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
+                style={{
+                  background: 'var(--surface)',
+                  color: 'var(--text-primary)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+                onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
+                onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}
+              >
                 <Filter className="w-4 h-4" />
                 Filtros
               </button>
               
-              <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 flex items-center gap-2">
+              <button 
+                className="px-4 py-2 rounded-lg flex items-center gap-2 text-white transition-all duration-200"
+                style={{ background: 'var(--module-okrs)' }}
+                onMouseEnter={(e) => e.target.style.opacity = '0.9'}
+                onMouseLeave={(e) => e.target.style.opacity = '1'}
+              >
                 <Download className="w-4 h-4" />
                 Exportar
               </button>
@@ -231,69 +271,110 @@ export default function OKRsPage() {
           </div>
 
           {/* View Mode Tabs */}
-          <div className="flex border-b">
+          <div className="flex" style={{ borderBottom: '1px solid var(--separator)' }}>
             <button
               onClick={() => setViewMode('teams')}
-              className={`px-6 py-3 font-medium ${
-                viewMode === 'teams'
-                  ? 'border-b-2 border-purple-600 text-purple-600'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className="px-6 py-3 font-medium transition-all duration-200"
+              style={{
+                borderBottom: viewMode === 'teams' ? '2px solid var(--module-okrs)' : '2px solid transparent',
+                color: viewMode === 'teams' ? 'var(--module-okrs)' : 'var(--text-secondary)'
+              }}
+              onMouseEnter={(e) => {
+                if (viewMode !== 'teams') {
+                  e.target.style.color = 'var(--text-primary)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (viewMode !== 'teams') {
+                  e.target.style.color = 'var(--text-secondary)';
+                }
+              }}
             >
               <Users className="w-4 h-4 inline mr-2" />
               Por Equipos
             </button>
             <button
               onClick={() => setViewMode('objectives')}
-              className={`px-6 py-3 font-medium ${
-                viewMode === 'objectives'
-                  ? 'border-b-2 border-purple-600 text-purple-600'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className="px-6 py-3 font-medium transition-all duration-200"
+              style={{
+                borderBottom: viewMode === 'objectives' ? '2px solid var(--module-okrs)' : '2px solid transparent',
+                color: viewMode === 'objectives' ? 'var(--module-okrs)' : 'var(--text-secondary)'
+              }}
+              onMouseEnter={(e) => {
+                if (viewMode !== 'objectives') {
+                  e.target.style.color = 'var(--text-primary)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (viewMode !== 'objectives') {
+                  e.target.style.color = 'var(--text-secondary)';
+                }
+              }}
             >
               <Target className="w-4 h-4 inline mr-2" />
               Por Objetivos
+            </button>
+            <button
+              onClick={() => setViewMode('progress')}
+              className="px-6 py-3 font-medium transition-all duration-200"
+              style={{
+                borderBottom: viewMode === 'progress' ? '2px solid var(--module-okrs)' : '2px solid transparent',
+                color: viewMode === 'progress' ? 'var(--module-okrs)' : 'var(--text-secondary)'
+              }}
+              onMouseEnter={(e) => {
+                if (viewMode !== 'progress') {
+                  e.target.style.color = 'var(--text-primary)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (viewMode !== 'progress') {
+                  e.target.style.color = 'var(--text-secondary)';
+                }
+              }}
+            >
+              <BarChart3 className="w-4 h-4 inline mr-2" />
+              Por Progreso
             </button>
           </div>
         </div>
 
         {/* Overview Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">Total Objetivos</h3>
+              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Total Objetivos</h3>
               <Target className="w-5 h-5 text-purple-600" />
             </div>
             <p className="text-2xl font-bold text-gray-900">{overallStats.totalObjectives}</p>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">En Progreso</h3>
+              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>En Progreso</h3>
               <CheckCircle className="w-5 h-5 text-green-600" />
             </div>
             <p className="text-2xl font-bold text-green-600">{overallStats.onTrack}</p>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">En Riesgo</h3>
+              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>En Riesgo</h3>
               <AlertTriangle className="w-5 h-5 text-yellow-600" />
             </div>
             <p className="text-2xl font-bold text-yellow-600">{overallStats.atRisk}</p>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">Atrasados</h3>
+              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Atrasados</h3>
               <XCircle className="w-5 h-5 text-red-600" />
             </div>
             <p className="text-2xl font-bold text-red-600">{overallStats.behind}</p>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">Progreso Promedio</h3>
+              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Progreso Promedio</h3>
               <BarChart3 className="w-5 h-5 text-blue-600" />
             </div>
             <p className="text-2xl font-bold text-blue-600">{overallStats.avgProgress}%</p>
@@ -303,16 +384,16 @@ export default function OKRsPage() {
         {/* OKRs List */}
         <div className="space-y-6">
           {filteredOKRs.map((okr) => (
-            <div key={okr.id} className="bg-white rounded-lg shadow-sm border">
+            <div key={okr.id} className="rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)' }}>
               {/* OKR Header */}
-              <div className="p-6 border-b">
+              <div className="p-4 sm:p-6" style={{ borderBottom: '1px solid var(--separator)' }}>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                         {okr.team}
                       </h3>
-                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(okr.status)}`}>
+                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(okr.status)}`}>
                         {getStatusIcon(okr.status)}
                         {getStatusLabel(okr.status)}
                       </span>
@@ -351,11 +432,11 @@ export default function OKRsPage() {
               </div>
 
               {/* Key Results */}
-              <div className="p-6">
-                <h4 className="text-sm font-medium text-gray-600 mb-4">Resultados Clave</h4>
+              <div className="p-4 sm:p-6">
+                <h4 className="text-xs sm:text-sm font-medium text-gray-600 mb-4">Resultados Clave</h4>
                 <div className="space-y-4">
                   {okr.keyResults.map((kr) => (
-                    <div key={kr.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                    <div key={kr.id} className="flex items-center gap-4 p-4 rounded-lg" style={{ background: 'var(--surface-secondary)' }}>
                       <div className="flex-1">
                         <p className="font-medium text-gray-900 mb-1">{kr.description}</p>
                         <div className="flex items-center gap-2 text-sm text-gray-600">
