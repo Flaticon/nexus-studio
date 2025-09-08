@@ -216,7 +216,7 @@ nexus-studio-os/
 ├── docker-compose.yml      # Docker services
 ├── turbo.json             # Turborepo config
 └── package.json           # Root package.json
-
+```
 ## ⚙️ Configuración / Configuration  
 
 ### 🌍 Environment Variables / Variables de Entorno  
@@ -237,8 +237,9 @@ MONGODB_URI=mongodb://localhost:27017/nexus_studio
 REDIS_HOST=localhost
 REDIS_PORT=6379
 JWT_SECRET=your-jwt-secret
+```
 
-🤝 Contributing / Contribuir
+## 🤝 Contributing / Contribuir
 Contributions are welcome! / ¡Las contribuciones son bienvenidas!
 
 Fork the project / Fork el proyecto
