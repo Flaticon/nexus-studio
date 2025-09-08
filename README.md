@@ -8,6 +8,7 @@ Comprehensive Operating System for Startup Studios - A minimalist C-Suite level 
 Nexus Studio OS is an all-in-one platform specifically designed for Startup Studios that need to manage multiple initiatives, distributed teams, and financial metrics in a centralized manner. Built with modern technologies to deliver performance and scalability.
 
 ### ✨ Key Features
+```plaintext
 📊 Executive Dashboard - 360° view of all startups
 💼 Portfolio Management - Complete control of initiatives from idea to scale
 💰 Consolidated Finances - Integration with Stripe, PayPal, and spreadsheets
@@ -16,12 +17,13 @@ Nexus Studio OS is an all-in-one platform specifically designed for Startup Stud
 📈 Real-time Metrics - Automatically updated KPIs
 🔄 Retrospectives - Documentation of learnings and decisions
 🔔 Smart Alerts - Notifications for critical deviations
-
+```
 ###  🛠️ Tech Stack
+```plaintext
 Frontend: Next.js 14, TypeScript, Tailwind CSS, Zustand, React Query, Recharts
 Backend: NestJS, MongoDB, Redis, JWT, Bull Queue
 DevOps: Docker, Turborepo, GitHub Actions, Vercel, Railway
-
+```
 ### 🚀Quick Start
 ### Prerequisites
 - Node.js >= 18.0.0
