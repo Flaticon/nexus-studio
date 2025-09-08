@@ -63,6 +63,7 @@ import {
 } from "recharts";
 import CreateTeamMemberModal from "../../components/forms/CreateTeamMemberModal";
 import MemberProfileModal from "../../components/forms/MemberProfileModal";
+import AssignMemberModal from "../../components/forms/AssignMemberModal";
 import Layout from "../../components/layout/Layout";
 
 export default function TalentPage() {
@@ -74,6 +75,7 @@ export default function TalentPage() {
   const [selectedInitiative, setSelectedInitiative] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
 
   // Enhanced team members data with skills and availability
@@ -502,6 +504,41 @@ export default function TalentPage() {
     return Math.round((matchingSkills.length / requiredSkills.length) * 100);
   };
 
+  // Handle member assignment to initiative
+  const handleAssignMember = (memberId: string, initiativeId: string, role?: string) => {
+    const initiative = initiatives.find(i => i.id === initiativeId);
+    if (!initiative) return;
+
+    // Update team members data
+    setTeamMembers(prev => prev.map(member => {
+      if (member.id === memberId) {
+        const initiativeName = initiative.name;
+        const updatedMember = {
+          ...member,
+          currentStartups: [...member.currentStartups, initiativeName].filter((startup, index, self) => 
+            self.indexOf(startup) === index // Remove duplicates
+          ),
+          // Adjust availability based on new assignment
+          availability: Math.max(20, member.availability - 20),
+          // Update workload
+          workload: member.availability <= 40 ? "high" : member.availability <= 70 ? "normal" : "low"
+        };
+
+        // If a specific role is provided, update it
+        if (role && role !== member.role) {
+          updatedMember.role = role;
+        }
+
+        return updatedMember;
+      }
+      return member;
+    }));
+
+    // Update initiatives data (add member to team)
+    // Note: In a real app, this would be handled by the backend
+    console.log(`Successfully assigned ${memberId} to ${initiativeId}${role ? ` as ${role}` : ''}`);
+  };
+
   const filteredMembers = teamMembers.filter((member) => {
     const teamMatch =
       selectedTeam === "all" || member.currentStartups.includes(selectedTeam);
@@ -845,9 +882,23 @@ export default function TalentPage() {
                     </div>
 
                     <button
-                      onClick={() =>
-                        alert(`Asignando ${person.name} a una iniciativa...`)
-                      }
+                      onClick={() => {
+                        // Find a member object for talent bank person or create a temporary one
+                        const tempMember = {
+                          id: person.id,
+                          name: person.name,
+                          role: person.role,
+                          skills: person.skills.map((skill, index) => ({
+                            name: skill,
+                            level: 85 + index * 2, // Simulate skill levels
+                            category: index % 2 === 0 ? "tech" : "business"
+                          })),
+                          availability: person.availability,
+                          currentStartups: []
+                        };
+                        setSelectedMember(tempMember);
+                        setIsAssignModalOpen(true);
+                      }}
                       className="w-full px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
                       Asignar a Iniciativa
@@ -1092,11 +1143,10 @@ export default function TalentPage() {
                           Ver Perfil
                         </button>
                         <button
-                          onClick={() =>
-                            alert(
-                              `Asignando ${member.name} a una iniciativa...`,
-                            )
-                          }
+                          onClick={() => {
+                            setSelectedMember(member);
+                            setIsAssignModalOpen(true);
+                          }}
                           className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                         >
                           Asignar
@@ -1222,6 +1272,10 @@ export default function TalentPage() {
                               <Edit className="w-4 h-4 text-gray-600" />
                             </button>
                             <button
+                              onClick={() => {
+                                setSelectedMember(member);
+                                setIsAssignModalOpen(true);
+                              }}
                               className="p-1 hover:bg-gray-100 rounded"
                               title="Asignar a Iniciativa"
                             >
@@ -1255,6 +1309,17 @@ export default function TalentPage() {
             setSelectedMember(null);
           }}
           member={selectedMember}
+        />
+
+        <AssignMemberModal
+          isOpen={isAssignModalOpen}
+          onClose={() => {
+            setIsAssignModalOpen(false);
+            setSelectedMember(null);
+          }}
+          member={selectedMember}
+          initiatives={initiatives}
+          onAssign={handleAssignMember}
         />
       </div>
     </Layout>
