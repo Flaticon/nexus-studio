@@ -43,7 +43,7 @@ const Layout = ({ children, title, subtitle }: LayoutProps) => {
       />
 
       {/* Main content area */}
-      <div className="lg:pl-64 transition-all duration-300 ease-out">
+      <div className="lg:pl-[280px] transition-all duration-300 ease-out">
         {/* Header */}
         <Header 
           onMenuClick={handleMenuClick}

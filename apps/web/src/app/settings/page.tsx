@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { userSettingsApi, MOCK_USER_ID, type UserSettings } from '../../lib/api/user-settings';
 import {
   Settings,
   User,
@@ -47,27 +48,45 @@ import Layout from '../../components/layout/Layout';
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile');
   const [showPassword, setShowPassword] = useState(false);
-  const [notifications, setNotifications] = useState({
-    email: true,
-    push: false,
-    sms: false,
-    desktop: true
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  
+  // Settings state
+  const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
+  const [formData, setFormData] = useState({
+    fullName: 'John Doe',
+    role: 'Venture Partner', 
+    location: 'Ciudad de México, México',
+    bio: 'Venture Partner con 10+ años de experiencia en startups de tecnología y fintech en Latinoamérica.'
   });
-  const [theme, setTheme] = useState('system');
-  const [language, setLanguage] = useState('es');
-  const [timezone, setTimezone] = useState('America/Mexico_City');
-  const [privacy, setPrivacy] = useState({
-    profileVisible: true,
-    activityTracking: false,
-    dataAnalytics: true,
-    thirdPartySharing: false
-  });
-  const [security, setSecurity] = useState({
-    twoFactorAuth: false,
-    sessionTimeout: '30',
-    loginNotifications: true,
-    deviceManagement: true
-  });
+
+  // Load settings on component mount
+  useEffect(() => {
+    loadUserSettings();
+  }, []);
+
+  const loadUserSettings = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const settings = await userSettingsApi.getUserSettings(MOCK_USER_ID);
+      setUserSettings(settings);
+      
+      // Update form data with loaded settings
+      if (settings.fullName) setFormData(prev => ({ ...prev, fullName: settings.fullName! }));
+      if (settings.role) setFormData(prev => ({ ...prev, role: settings.role! }));
+      if (settings.location) setFormData(prev => ({ ...prev, location: settings.location! }));
+      if (settings.bio) setFormData(prev => ({ ...prev, bio: settings.bio! }));
+      
+    } catch (err) {
+      setError('Error loading settings');
+      console.error('Error loading settings:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const settingsTabs = [
     {
@@ -120,29 +139,123 @@ export default function SettingsPage() {
     }
   ];
 
-  const handleSave = (section) => {
-    console.log(`Saving ${section} settings`);
-    // Future: Send to backend API
+  const handleSave = async (section: string) => {
+    try {
+      setSaving(true);
+      setError(null);
+      setSuccess(null);
+
+      let updateData: any = {};
+      
+      switch (section) {
+        case 'profile':
+          updateData = {
+            fullName: formData.fullName,
+            role: formData.role,
+            location: formData.location,
+            bio: formData.bio,
+          };
+          break;
+        case 'notifications':
+          updateData = { notifications: userSettings?.notifications };
+          break;
+        case 'appearance':
+          updateData = { appearance: userSettings?.appearance };
+          break;
+        case 'security':
+          updateData = { security: userSettings?.security };
+          break;
+        case 'privacy':
+          updateData = { privacy: userSettings?.privacy };
+          break;
+      }
+
+      const response = await userSettingsApi.updateUserSettings(MOCK_USER_ID, updateData);
+      
+      if (response.success) {
+        setSuccess(`Configuración de ${section} guardada exitosamente`);
+        await loadUserSettings(); // Reload to get latest data
+        
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccess(null), 3000);
+      }
+    } catch (err) {
+      setError(`Error guardando configuración de ${section}`);
+      console.error('Error saving settings:', err);
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleNotificationToggle = (type) => {
-    setNotifications(prev => ({
-      ...prev,
-      [type]: !prev[type]
+  const handleNotificationToggle = (type: string) => {
+    if (!userSettings) return;
+    
+    setUserSettings(prev => ({
+      ...prev!,
+      notifications: {
+        ...prev!.notifications,
+        [type]: !prev!.notifications[type as keyof typeof prev.notifications]
+      }
     }));
   };
 
-  const handlePrivacyToggle = (setting) => {
-    setPrivacy(prev => ({
-      ...prev,
-      [setting]: !prev[setting]
+  const handlePrivacyToggle = (setting: string) => {
+    if (!userSettings) return;
+    
+    setUserSettings(prev => ({
+      ...prev!,
+      privacy: {
+        ...prev!.privacy,
+        [setting]: !prev!.privacy[setting as keyof typeof prev.privacy]
+      }
     }));
   };
 
-  const handleSecurityToggle = (setting) => {
-    setSecurity(prev => ({
-      ...prev,
-      [setting]: !prev[setting]
+  const handleSecurityToggle = (setting: string) => {
+    if (!userSettings) return;
+    
+    setUserSettings(prev => ({
+      ...prev!,
+      security: {
+        ...prev!.security,
+        [setting]: !prev!.security[setting as keyof typeof prev.security]
+      }
+    }));
+  };
+
+  const handleThemeChange = (newTheme: string) => {
+    if (!userSettings) return;
+    
+    setUserSettings(prev => ({
+      ...prev!,
+      appearance: {
+        ...prev!.appearance,
+        theme: newTheme
+      }
+    }));
+  };
+
+  const handleLanguageChange = (newLanguage: string) => {
+    if (!userSettings) return;
+    
+    setUserSettings(prev => ({
+      ...prev!,
+      appearance: {
+        ...prev!.appearance,
+        language: newLanguage
+      }
+    }));
+  };
+
+  const handleTimezoneChange = (newTimezone: string) => {
+    if (!userSettings) return;
+    
+    setUserSettings(prev => ({
+      ...prev!,
+      appearance: {
+        ...prev!.appearance,
+        timezone: newTimezone
+      }
     }));
   };
 
@@ -176,6 +289,18 @@ export default function SettingsPage() {
               </p>
             </div>
           </div>
+          
+          {/* Status Messages */}
+          {error && (
+            <div className="mb-4 p-4 bg-red-100 border border-red-300 text-red-700 rounded-lg">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="mb-4 p-4 bg-green-100 border border-green-300 text-green-700 rounded-lg">
+              {success}
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
@@ -244,7 +369,8 @@ export default function SettingsPage() {
                         </label>
                         <input
                           type="text"
-                          defaultValue="John Doe"
+                          value={formData.fullName}
+                          onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
                           className="w-full px-3 py-2 bg-white border border-gray-200 hover:border-gray-300 focus:border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                         />
                       </div>
@@ -255,8 +381,9 @@ export default function SettingsPage() {
                         </label>
                         <input
                           type="email"
-                          defaultValue="john.doe@nexusstudio.com"
-                          className="w-full px-3 py-2 bg-white border border-gray-200 hover:border-gray-300 focus:border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                          value="john.doe@nexusstudio.com"
+                          readOnly
+                          className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-500"
                         />
                       </div>
 
@@ -264,7 +391,11 @@ export default function SettingsPage() {
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Rol
                         </label>
-                        <select className="w-full px-3 py-2 bg-white border border-gray-200 hover:border-gray-300 focus:border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200">
+                        <select 
+                          value={formData.role}
+                          onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
+                          className="w-full px-3 py-2 bg-white border border-gray-200 hover:border-gray-300 focus:border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
+                        >
                           <option>Venture Partner</option>
                           <option>Investment Analyst</option>
                           <option>Portfolio Manager</option>
@@ -280,7 +411,8 @@ export default function SettingsPage() {
                           <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                           <input
                             type="text"
-                            defaultValue="Ciudad de México, México"
+                            value={formData.location}
+                            onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                             className="w-full pl-10 pr-3 py-2 bg-white border border-gray-200 hover:border-gray-300 focus:border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                           />
                         </div>
@@ -293,7 +425,8 @@ export default function SettingsPage() {
                       </label>
                       <textarea
                         rows={3}
-                        defaultValue="Venture Partner con 10+ años de experiencia en startups de tecnología y fintech en Latinoamérica."
+                        value={formData.bio}
+                        onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
                         className="w-full px-3 py-2 bg-white border border-gray-200 hover:border-gray-300 focus:border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                         placeholder="Cuéntanos sobre ti..."
                       />
@@ -302,10 +435,20 @@ export default function SettingsPage() {
                     <div className="flex justify-end">
                       <button 
                         onClick={() => handleSave('profile')}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200"
+                        disabled={saving}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <Save className="w-4 h-4" />
-                        Guardar Cambios
+                        {saving ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            Guardando...
+                          </>
+                        ) : (
+                          <>
+                            <Save className="w-4 h-4" />
+                            Guardar Cambios
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -347,11 +490,11 @@ export default function SettingsPage() {
                               <button
                                 onClick={() => handleNotificationToggle(channel.key)}
                                 className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${
-                                  notifications[channel.key] ? 'bg-blue-600' : 'bg-gray-200'
+                                  userSettings?.notifications[channel.key as keyof typeof userSettings.notifications] ? 'bg-blue-600' : 'bg-gray-200'
                                 }`}
                               >
                                 <span className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition duration-200 ease-in-out ${
-                                  notifications[channel.key] ? 'translate-x-5' : 'translate-x-0'
+                                  userSettings?.notifications[channel.key as keyof typeof userSettings.notifications] ? 'translate-x-5' : 'translate-x-0'
                                 }`} />
                               </button>
                             </div>
@@ -388,10 +531,20 @@ export default function SettingsPage() {
                     <div className="flex justify-end">
                       <button 
                         onClick={() => handleSave('notifications')}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200"
+                        disabled={saving}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <Save className="w-4 h-4" />
-                        Guardar Configuración
+                        {saving ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            Guardando...
+                          </>
+                        ) : (
+                          <>
+                            <Save className="w-4 h-4" />
+                            Guardar Configuración
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -423,9 +576,9 @@ export default function SettingsPage() {
                           return (
                             <button
                               key={themeOption.id}
-                              onClick={() => setTheme(themeOption.id)}
+                              onClick={() => handleThemeChange(themeOption.id)}
                               className={`p-4 border-2 rounded-lg transition-all duration-200 ${
-                                theme === themeOption.id
+                                userSettings?.appearance.theme === themeOption.id
                                   ? 'border-blue-500 bg-blue-50'
                                   : 'border-gray-200 hover:border-gray-300'
                               }`}
@@ -449,8 +602,8 @@ export default function SettingsPage() {
                           Idioma
                         </label>
                         <select 
-                          value={language}
-                          onChange={(e) => setLanguage(e.target.value)}
+                          value={userSettings?.appearance.language || 'es'}
+                          onChange={(e) => handleLanguageChange(e.target.value)}
                           className="w-full px-3 py-2 bg-white border border-gray-200 hover:border-gray-300 focus:border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                         >
                           <option value="es">Español</option>
@@ -465,8 +618,8 @@ export default function SettingsPage() {
                           Zona Horaria
                         </label>
                         <select 
-                          value={timezone}
-                          onChange={(e) => setTimezone(e.target.value)}
+                          value={userSettings?.appearance.timezone || 'America/Mexico_City'}
+                          onChange={(e) => handleTimezoneChange(e.target.value)}
                           className="w-full px-3 py-2 bg-white border border-gray-200 hover:border-gray-300 focus:border-blue-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all duration-200"
                         >
                           <option value="America/Mexico_City">México (GMT-6)</option>
@@ -480,10 +633,20 @@ export default function SettingsPage() {
                     <div className="flex justify-end">
                       <button 
                         onClick={() => handleSave('appearance')}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200"
+                        disabled={saving}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <Save className="w-4 h-4" />
-                        Aplicar Cambios
+                        {saving ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            Guardando...
+                          </>
+                        ) : (
+                          <>
+                            <Save className="w-4 h-4" />
+                            Aplicar Cambios
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -559,11 +722,11 @@ export default function SettingsPage() {
                             <button
                               onClick={() => handleSecurityToggle(option.key)}
                               className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${
-                                security[option.key] ? 'bg-blue-600' : 'bg-gray-200'
+                                userSettings?.security[option.key as keyof typeof userSettings.security] ? 'bg-blue-600' : 'bg-gray-200'
                               }`}
                             >
                               <span className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition duration-200 ease-in-out ${
-                                security[option.key] ? 'translate-x-5' : 'translate-x-0'
+                                userSettings?.security[option.key as keyof typeof userSettings.security] ? 'translate-x-5' : 'translate-x-0'
                               }`} />
                             </button>
                           </div>
@@ -574,10 +737,20 @@ export default function SettingsPage() {
                     <div className="flex justify-end">
                       <button 
                         onClick={() => handleSave('security')}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200"
+                        disabled={saving}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <Save className="w-4 h-4" />
-                        Guardar Configuración
+                        {saving ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            Guardando...
+                          </>
+                        ) : (
+                          <>
+                            <Save className="w-4 h-4" />
+                            Guardar Configuración
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -615,11 +788,11 @@ export default function SettingsPage() {
                           <button
                             onClick={() => handlePrivacyToggle(option.key)}
                             className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 ${
-                              privacy[option.key] ? 'bg-blue-600' : 'bg-gray-200'
+                              userSettings?.privacy[option.key as keyof typeof userSettings.privacy] ? 'bg-blue-600' : 'bg-gray-200'
                             }`}
                           >
                             <span className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition duration-200 ease-in-out ${
-                              privacy[option.key] ? 'translate-x-5' : 'translate-x-0'
+                              userSettings?.privacy[option.key as keyof typeof userSettings.privacy] ? 'translate-x-5' : 'translate-x-0'
                             }`} />
                           </button>
                         </div>
@@ -629,10 +802,20 @@ export default function SettingsPage() {
                     <div className="flex justify-end">
                       <button 
                         onClick={() => handleSave('privacy')}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200"
+                        disabled={saving}
+                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        <Save className="w-4 h-4" />
-                        Guardar Configuración
+                        {saving ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            Guardando...
+                          </>
+                        ) : (
+                          <>
+                            <Save className="w-4 h-4" />
+                            Guardar Configuración
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>

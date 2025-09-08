@@ -651,7 +651,7 @@ export default function TalentPage() {
         {/* Skill Matching Section */}
         {showSkillMatching && (
           <div className="bg-white rounded-lg shadow-sm mb-8">
-            <div className="p-6 border-b">
+            <div className="p-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                   Match de Skills por Iniciativa
@@ -793,7 +793,7 @@ export default function TalentPage() {
         {/* Talent Bank Section */}
         {showTalentBank && (
           <div className="bg-white rounded-lg shadow-sm mb-8">
-            <div className="p-6 border-b">
+            <div className="p-6">
               <h3 className="text-lg font-semibold text-gray-900">
                 Banco de Talentos
               </h3>
@@ -863,7 +863,7 @@ export default function TalentPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
           {/* Workload Distribution */}
           <div className="bg-white rounded-lg shadow-sm">
-            <div className="p-4 sm:p-6 border-b">
+            <div className="p-4 sm:p-6">
               <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                 Distribución de Carga de Trabajo
               </h3>
@@ -894,7 +894,7 @@ export default function TalentPage() {
 
           {/* Skills Distribution */}
           <div className="bg-white rounded-lg shadow-sm">
-            <div className="p-4 sm:p-6 border-b">
+            <div className="p-4 sm:p-6">
               <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                 Distribución de Skills
               </h3>
@@ -925,7 +925,7 @@ export default function TalentPage() {
 
         {/* Team Members Grid/List */}
         <div className="bg-white rounded-lg shadow-sm">
-          <div className="p-6 border-b">
+          <div className="p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                 Directorio de Colaboradores
@@ -1081,7 +1081,7 @@ export default function TalentPage() {
                         </div>
                       </div>
 
-                      <div className="pt-3 border-t flex gap-2">
+                      <div className="pt-3 flex gap-2">
                         <button
                           onClick={() => {
                             setSelectedMember(member);
@@ -1136,7 +1136,7 @@ export default function TalentPage() {
                   </thead>
                   <tbody>
                     {filteredMembers.map((member) => (
-                      <tr key={member.id} className="border-t hover:bg-gray-50">
+                      <tr key={member.id} className="hover:bg-gray-50">
                         <td className="py-4 px-4">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
