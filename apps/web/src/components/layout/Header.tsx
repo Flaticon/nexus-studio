@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
-import { Menu, Bell, Search, User } from 'lucide-react';
+import React, { useState } from 'react';
+import { Menu, Bell, Search, User, HelpCircle } from 'lucide-react';
+import UserManualModal from '../help/UserManualModal';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -10,8 +11,16 @@ interface HeaderProps {
 }
 
 const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
+  const [isManualOpen, setIsManualOpen] = useState(false);
+
   return (
-    <header 
+    <>
+      <UserManualModal 
+        isOpen={isManualOpen}
+        onClose={() => setIsManualOpen(false)}
+      />
+    
+      <header 
       className="px-3 sm:px-4 py-3 flex items-center justify-between"
       style={{ 
         background: 'var(--surface)',
@@ -81,6 +90,18 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
           </div>
         </div>
 
+        {/* Help button */}
+        <button 
+          onClick={() => setIsManualOpen(true)}
+          className="p-2 rounded-lg transition-colors"
+          style={{ color: 'var(--text-secondary)' }}
+          onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
+          onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          title="Manual de Usuario"
+        >
+          <HelpCircle className="w-5 h-5" />
+        </button>
+
         {/* Notifications */}
         <button 
           className="p-2 rounded-lg transition-colors relative"
@@ -121,6 +142,7 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
         </button>
       </div>
     </header>
+    </>
   );
 };
 
