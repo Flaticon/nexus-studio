@@ -1,13 +1,13 @@
 # nexus-studio
 🚀 Nexus Studio OS
-English
-
+## English
+### 📝 Overview  
 Comprehensive Operating System for Startup Studios - A minimalist C-Suite level CRM to manage startup portfolios, teams, and real-time metrics.
 
-📋 Description
+### 📋 Description
 Nexus Studio OS is an all-in-one platform specifically designed for Startup Studios that need to manage multiple initiatives, distributed teams, and financial metrics in a centralized manner. Built with modern technologies to deliver performance and scalability.
-✨ Key Features
 
+### ✨ Key Features
 📊 Executive Dashboard - 360° view of all startups
 💼 Portfolio Management - Complete control of initiatives from idea to scale
 💰 Consolidated Finances - Integration with Stripe, PayPal, and spreadsheets
@@ -17,21 +17,22 @@ Nexus Studio OS is an all-in-one platform specifically designed for Startup Stud
 🔄 Retrospectives - Documentation of learnings and decisions
 🔔 Smart Alerts - Notifications for critical deviations
 
-🛠️ Tech Stack
+###  🛠️ Tech Stack
 Frontend: Next.js 14, TypeScript, Tailwind CSS, Zustand, React Query, Recharts
 Backend: NestJS, MongoDB, Redis, JWT, Bull Queue
 DevOps: Docker, Turborepo, GitHub Actions, Vercel, Railway
 
-🚀 Quick Start
-Prerequisites
+### 🚀Quick Start
+### Prerequisites
+- Node.js >= 18.0.0
+- pnpm >= 8.0.0
+- Docker Desktop
+- Git
 
-Node.js >= 18.0.0
-pnpm >= 8.0.0
-Docker Desktop
-Git
+### Installation
 
-Installation
-bash# 1. Clone the repository
+```bash
+# 1. Clone the repository
 git clone https://github.com/Flaticon/nexus-studio-os.git
 cd nexus-studio-os
 
@@ -74,6 +75,8 @@ pnpm run start            # Start in production
 pnpm run lint             # Run linter
 pnpm run test             # Run tests
 pnpm run format           # Format code
+```
+
 🗺️ Roadmap
 Phase 1: Core MVP ✅
 
