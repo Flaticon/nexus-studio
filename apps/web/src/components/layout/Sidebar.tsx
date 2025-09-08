@@ -11,12 +11,12 @@ import {
   Users,
   TrendingUp,
   BarChart3,
-  BookOpen,
   Menu,
   X,
   ChevronLeft,
   Settings,
-  LogOut
+  LogOut,
+  BookOpen
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -65,11 +65,11 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       description: 'Gestión de talento y colaboradores'
     },
     {
-      name: 'Aprendizajes y Retros',
+      name: 'Aprendizajes',
       href: '/learnings',
       icon: BookOpen,
-      emoji: '🟤',
-      description: 'Documentación de conocimiento y retrospectivas'
+      emoji: '📚',
+      description: 'Conocimiento y retrospectivas'
     },
     {
       name: 'Insights y Analytics',
@@ -77,13 +77,6 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       icon: BarChart3,
       emoji: '📊',
       description: 'Análisis y reportes avanzados'
-    },
-    {
-      name: 'Configuración',
-      href: '/settings',
-      icon: Settings,
-      emoji: '⚙️',
-      description: 'Configuración del sistema y cuenta'
     }
   ];
 

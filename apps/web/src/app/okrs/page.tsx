@@ -15,7 +15,12 @@ import {
   Calendar,
   BarChart3,
   Award,
-  Eye
+  Eye,
+  User,
+  UserPlus,
+  MapPin,
+  Mail,
+  Settings
 } from 'lucide-react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -26,8 +31,11 @@ import Layout from '../../components/layout/Layout';
 export default function OKRsPage() {
   const [selectedQuarter, setSelectedQuarter] = useState('Q3-2025');
   const [selectedTeam, setSelectedTeam] = useState('all');
-  const [viewMode, setViewMode] = useState('teams'); // 'teams', 'objectives'
+  const [viewMode, setViewMode] = useState('teams'); // 'teams', 'objectives', 'progress', 'collaborators'
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedOKR, setSelectedOKR] = useState(null);
+  const [selectedCollaborator, setSelectedCollaborator] = useState(null);
+  const [showAssignModal, setShowAssignModal] = useState(false);
 
   // Mock OKRs data
   const [okrsData, setOkrsData] = useState([
@@ -138,6 +146,70 @@ export default function OKRsPage() {
     }
   ]);
 
+  // Colaboradores disponibles para asignar a OKRs
+  const [collaborators, setCollaborators] = useState([
+    {
+      id: '1',
+      name: 'Ana García',
+      role: 'Product Lead',
+      email: 'ana@nexusstudio.com',
+      location: 'Madrid, España',
+      currentOKRs: ['1'],
+      availability: 85,
+      performance: 94,
+      skills: ['Product Management', 'UX/UI Design', 'Agile/Scrum'],
+      experience: 'Senior'
+    },
+    {
+      id: '2',
+      name: 'Carlos López',
+      role: 'Full Stack Developer',
+      email: 'carlos@nexusstudio.com',
+      location: 'Barcelona, España',
+      currentOKRs: ['1', '2'],
+      availability: 65,
+      performance: 91,
+      skills: ['React/Next.js', 'Node.js', 'Python'],
+      experience: 'Senior'
+    },
+    {
+      id: '3',
+      name: 'María Rodríguez',
+      role: 'UX/UI Designer',
+      email: 'maria@nexusstudio.com',
+      location: 'Valencia, España',
+      currentOKRs: ['1'],
+      availability: 90,
+      performance: 96,
+      skills: ['UI Design', 'UX Research', 'Prototyping'],
+      experience: 'Senior'
+    },
+    {
+      id: '4',
+      name: 'Roberto Silva',
+      role: 'Tech Lead',
+      email: 'roberto@nexusstudio.com',
+      location: 'Lisboa, Portugal',
+      currentOKRs: ['2'],
+      availability: 75,
+      performance: 98,
+      skills: ['System Architecture', 'AI/ML', 'Team Leadership'],
+      experience: 'Senior'
+    },
+    {
+      id: '5',
+      name: 'Sofia Ramírez',
+      role: 'Product Manager',
+      email: 'sofia@nexusstudio.com',
+      location: 'México DF, México',
+      currentOKRs: ['3'],
+      availability: 95,
+      performance: 87,
+      skills: ['Product Strategy', 'Data Analysis', 'Growth Hacking'],
+      experience: 'Mid'
+    }
+  ]);
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'on-track': return 'bg-green-50 text-green-600';
@@ -179,6 +251,28 @@ export default function OKRsPage() {
     setIsCreateModalOpen(false);
   };
 
+  const handleAssignCollaborator = (collaboratorId, okrId) => {
+    setCollaborators(prev => prev.map(collab => 
+      collab.id === collaboratorId
+        ? { ...collab, currentOKRs: [...(collab.currentOKRs || []), okrId] }
+        : collab
+    ));
+    
+    setOkrsData(prev => prev.map(okr =>
+      okr.id === okrId
+        ? { ...okr, assignedCollaborators: [...(okr.assignedCollaborators || []), collaboratorId] }
+        : okr
+    ));
+    
+    setShowAssignModal(false);
+    setSelectedOKR(null);
+  };
+
+  const getOKRTitle = (okrId) => {
+    const okr = okrsData.find(o => o.id === okrId);
+    return okr ? `${okr.team}: ${okr.objective.substring(0, 30)}...` : 'OKR no encontrado';
+  };
+
   const filteredOKRs = selectedTeam === 'all' ? okrsData : okrsData.filter(okr => okr.team === selectedTeam);
 
   // Generate data for different views
@@ -214,6 +308,7 @@ export default function OKRsPage() {
       case 'teams': return getTeamsView();
       case 'objectives': return getObjectivesView();
       case 'progress': return getProgressView();
+      case 'collaborators': return collaborators;
       default: return getTeamsView();
     }
   };
@@ -374,6 +469,27 @@ export default function OKRsPage() {
               <BarChart3 className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
               <span className="hidden xs:inline">Por </span>Progreso
             </button>
+            <button
+              onClick={() => setViewMode('collaborators')}
+              className="flex-1 sm:flex-none px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap"
+              style={{
+                borderBottom: viewMode === 'collaborators' ? '2px solid var(--module-okrs)' : '2px solid transparent',
+                color: viewMode === 'collaborators' ? 'var(--module-okrs)' : 'var(--text-secondary)'
+              }}
+              onMouseEnter={(e) => {
+                if (viewMode !== 'collaborators') {
+                  e.target.style.color = 'var(--text-primary)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (viewMode !== 'collaborators') {
+                  e.target.style.color = 'var(--text-secondary)';
+                }
+              }}
+            >
+              <UserPlus className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
+              <span className="hidden xs:inline">Directorio </span>Colaboradores
+            </button>
           </div>
           
           {/* View Description */}
@@ -392,6 +508,11 @@ export default function OKRsPage() {
               {viewMode === 'progress' && (
                 <>
                   <span className="font-medium">Vista por Progreso:</span> Ranking de equipos ordenado por porcentaje de progreso
+                </>
+              )}
+              {viewMode === 'collaborators' && (
+                <>
+                  <span className="font-medium">Directorio de Colaboradores:</span> Gestión y asignación de colaboradores a OKRs
                 </>
               )}
             </p>
@@ -441,18 +562,122 @@ export default function OKRsPage() {
           </div>
         </div>
 
-        {/* OKRs List - Dynamic View */}
-        <div className="space-y-6">
-          {currentViewData.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="text-gray-500 mb-4">
-                <Target className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                <p className="text-lg font-medium">No hay OKRs para mostrar</p>
-                <p className="text-sm">Ajusta tus filtros o crea un nuevo OKR</p>
+        {/* Content Based on View Mode */}
+        {viewMode === 'collaborators' ? (
+          /* Collaborators Directory */
+          <div className="space-y-6">
+            <div className="rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)' }}>
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-6">
+                  Directorio de Colaboradores
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {collaborators.map((collaborator) => (
+                    <div
+                      key={collaborator.id}
+                      className="rounded-lg p-6 hover:shadow-md transition-shadow"
+                      style={{ background: 'var(--surface-secondary)' }}
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-blue-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              {collaborator.name}
+                            </h4>
+                            <p className="text-sm text-gray-600">{collaborator.role}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3 mb-4">
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <Mail className="w-4 h-4" />
+                          {collaborator.email}
+                        </div>
+                        
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <MapPin className="w-4 h-4" />
+                          {collaborator.location}
+                        </div>
+                        
+                        <div>
+                          <span className="text-sm text-gray-600">Skills: </span>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {collaborator.skills.slice(0, 2).map((skill, idx) => (
+                              <span
+                                key={idx}
+                                className="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded"
+                              >
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div>
+                          <span className="text-sm text-gray-600">OKRs Actuales: </span>
+                          <div className="mt-1">
+                            {collaborator.currentOKRs && collaborator.currentOKRs.length > 0 ? (
+                              collaborator.currentOKRs.map((okrId, idx) => (
+                                <div key={idx} className="text-xs text-gray-700 bg-green-50 px-2 py-1 rounded mb-1">
+                                  {getOKRTitle(okrId)}
+                                </div>
+                              ))
+                            ) : (
+                              <span className="text-xs text-gray-500">Sin asignaciones</span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex justify-between text-sm">
+                          <div>
+                            <span className="text-gray-600">Disponibilidad:</span>
+                            <span className="font-medium text-gray-900 ml-1">
+                              {collaborator.availability}%
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-gray-600">Performance:</span>
+                            <span className="font-medium text-gray-900 ml-1">
+                              {collaborator.performance}%
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          setSelectedCollaborator(collaborator.id);
+                          setSelectedOKR(null);
+                          setShowAssignModal(true);
+                        }}
+                        className="w-full px-4 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                      >
+                        Asignar a OKR
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          ) : (
-            currentViewData.map((okr) => (
+          </div>
+        ) : (
+          /* OKRs List - Dynamic View */
+          <div className="space-y-6">
+            {currentViewData.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="text-gray-500 mb-4">
+                  <Target className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                  <p className="text-lg font-medium">No hay OKRs para mostrar</p>
+                  <p className="text-sm">Ajusta tus filtros o crea un nuevo OKR</p>
+                </div>
+              </div>
+            ) : (
+              currentViewData.map((okr) => (
             <div key={okr.id} className="rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)' }}>
               {/* OKR Header */}
               <div className="p-4 sm:p-6" style={{ borderBottom: '1px solid var(--separator)' }}>
@@ -572,9 +797,10 @@ export default function OKRsPage() {
                 </div>
               </div>
             </div>
-            ))
-          )}
-        </div>
+              ))
+            )}
+          </div>
+        )}
 
         {/* Add New OKR Button */}
         <div className="mt-8 text-center">
@@ -593,6 +819,82 @@ export default function OKRsPage() {
           onClose={() => setIsCreateModalOpen(false)}
           onSubmit={handleCreateOKR}
         />
+
+        {/* Assign to OKR Modal */}
+        {showAssignModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-lg w-full mx-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Asignar Colaborador a OKR
+              </h3>
+              
+              {selectedCollaborator && (
+                <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium text-gray-900">Colaborador seleccionado:</h4>
+                  <p className="text-sm text-gray-600">
+                    {collaborators.find(c => c.id === selectedCollaborator)?.name} - 
+                    {collaborators.find(c => c.id === selectedCollaborator)?.role}
+                  </p>
+                </div>
+              )}
+              
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Seleccionar OKR:
+                </label>
+                <select
+                  value={selectedOKR || ''}
+                  onChange={(e) => setSelectedOKR(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                >
+                  <option value="">Seleccionar OKR</option>
+                  {okrsData.map((okr) => (
+                    <option key={okr.id} value={okr.id}>
+                      {okr.team}: {okr.objective.substring(0, 40)}...
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {selectedOKR && (
+                <div className="mb-4 p-4 bg-blue-50 rounded-lg">
+                  <h4 className="font-medium text-gray-900">OKR seleccionado:</h4>
+                  <p className="text-sm text-gray-600">
+                    {okrsData.find(o => o.id === selectedOKR)?.objective}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Equipo: {okrsData.find(o => o.id === selectedOKR)?.team} | 
+                    Progreso: {okrsData.find(o => o.id === selectedOKR)?.overallProgress}%
+                  </p>
+                </div>
+              )}
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => {
+                    setShowAssignModal(false);
+                    setSelectedOKR(null);
+                    setSelectedCollaborator(null);
+                  }}
+                  className="px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => {
+                    if (selectedOKR && selectedCollaborator) {
+                      handleAssignCollaborator(selectedCollaborator, selectedOKR);
+                    }
+                  }}
+                  disabled={!selectedOKR || !selectedCollaborator}
+                  className="px-4 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Confirmar Asignación
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
