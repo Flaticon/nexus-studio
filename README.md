@@ -192,6 +192,7 @@ Aplicación móvil
 Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
 
 📁 Project Structure / Estructura del Proyecto
+```plaintext
 nexus-studio-os/
 ├── apps/
 │   ├── web/                 # Frontend Next.js
@@ -216,9 +217,13 @@ nexus-studio-os/
 ├── turbo.json             # Turborepo config
 └── package.json           # Root package.json
 
-🔧 Configuration / Configuración
-Environment Variables / Variables de Entorno
-Frontend (apps/web/.env.local)
+## ⚙️ Configuración / Configuration  
+
+### 🌍 Environment Variables / Variables de Entorno  
+
+#### Frontend (`apps/web/.env.local`)  
+
+```env
 envNEXT_PUBLIC_APP_NAME="Nexus Studio OS"
 NEXT_PUBLIC_API_URL=http://localhost:4000
 NEXTAUTH_URL=http://localhost:3000
@@ -258,6 +263,6 @@ All contributors / Todos los contribuidores
 
 <div align="center">
   <b>Nexus Studio OS</b><br>
-  Built with ❤️ for Peruvian Startups<br>
-  Construido con ❤️ para Startups Peruanas <br><br>
+  Built with ❤️ por Roberto Gonzalez<br>
+  Construido con ❤️ por Roberto Gonzalez<br><br>
 </div>
