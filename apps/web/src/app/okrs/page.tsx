@@ -181,6 +181,45 @@ export default function OKRsPage() {
 
   const filteredOKRs = selectedTeam === 'all' ? okrsData : okrsData.filter(okr => okr.team === selectedTeam);
 
+  // Generate data for different views
+  const getTeamsView = () => filteredOKRs;
+  
+  const getObjectivesView = () => {
+    return filteredOKRs.map(okr => ({
+      ...okr,
+      id: okr.id + '_obj',
+      displayTitle: okr.objective,
+      type: 'objective'
+    }));
+  };
+
+  const getProgressView = () => {
+    return filteredOKRs
+      .sort((a, b) => b.overallProgress - a.overallProgress)
+      .map((okr, index) => ({
+        ...okr,
+        id: okr.id + '_prog',
+        displayTitle: `${okr.team} - ${okr.overallProgress}%`,
+        type: 'progress',
+        rank: index + 1,
+        progressCategory: okr.overallProgress >= 80 ? 'excellent' : 
+                         okr.overallProgress >= 60 ? 'good' :
+                         okr.overallProgress >= 40 ? 'fair' : 'needs-attention'
+      }));
+  };
+
+  // Get current view data
+  const getCurrentViewData = () => {
+    switch (viewMode) {
+      case 'teams': return getTeamsView();
+      case 'objectives': return getObjectivesView();
+      case 'progress': return getProgressView();
+      default: return getTeamsView();
+    }
+  };
+
+  const currentViewData = getCurrentViewData();
+
   const overallStats = {
     totalObjectives: okrsData.length,
     onTrack: okrsData.filter(okr => okr.status === 'on-track').length,
@@ -194,12 +233,12 @@ export default function OKRsPage() {
       <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
         {/* Content */}
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex gap-3">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-4">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <select
                 value={selectedQuarter}
                 onChange={(e) => setSelectedQuarter(e.target.value)}
-                className="px-4 py-2 rounded-lg focus:outline-none transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg focus:outline-none transition-all duration-200"
                 style={{
                   background: 'var(--surface-secondary)',
                   color: 'var(--text-primary)',
@@ -223,7 +262,7 @@ export default function OKRsPage() {
               <select
                 value={selectedTeam}
                 onChange={(e) => setSelectedTeam(e.target.value)}
-                className="px-4 py-2 rounded-lg focus:outline-none transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg focus:outline-none transition-all duration-200"
                 style={{
                   background: 'var(--surface-secondary)',
                   color: 'var(--text-primary)',
@@ -245,7 +284,7 @@ export default function OKRsPage() {
               </select>
               
               <button 
-                className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200"
                 style={{
                   background: 'var(--surface)',
                   color: 'var(--text-primary)',
@@ -254,27 +293,27 @@ export default function OKRsPage() {
                 onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
                 onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}
               >
-                <Filter className="w-4 h-4" />
-                Filtros
+                <Filter className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">Filtros</span>
               </button>
               
               <button 
-                className="px-4 py-2 rounded-lg flex items-center gap-2 text-white transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 text-white transition-all duration-200"
                 style={{ background: 'var(--module-okrs)' }}
                 onMouseEnter={(e) => e.target.style.opacity = '0.9'}
                 onMouseLeave={(e) => e.target.style.opacity = '1'}
               >
-                <Download className="w-4 h-4" />
-                Exportar
+                <Download className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">Exportar</span>
               </button>
             </div>
           </div>
 
           {/* View Mode Tabs */}
-          <div className="flex" style={{ borderBottom: '1px solid var(--separator)' }}>
+          <div className="flex flex-col sm:flex-row overflow-x-auto" style={{ borderBottom: '1px solid var(--separator)' }}>
             <button
               onClick={() => setViewMode('teams')}
-              className="px-6 py-3 font-medium transition-all duration-200"
+              className="flex-1 sm:flex-none px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap"
               style={{
                 borderBottom: viewMode === 'teams' ? '2px solid var(--module-okrs)' : '2px solid transparent',
                 color: viewMode === 'teams' ? 'var(--module-okrs)' : 'var(--text-secondary)'
@@ -290,12 +329,12 @@ export default function OKRsPage() {
                 }
               }}
             >
-              <Users className="w-4 h-4 inline mr-2" />
-              Por Equipos
+              <Users className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
+              <span className="hidden xs:inline">Por </span>Equipos
             </button>
             <button
               onClick={() => setViewMode('objectives')}
-              className="px-6 py-3 font-medium transition-all duration-200"
+              className="flex-1 sm:flex-none px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap"
               style={{
                 borderBottom: viewMode === 'objectives' ? '2px solid var(--module-okrs)' : '2px solid transparent',
                 color: viewMode === 'objectives' ? 'var(--module-okrs)' : 'var(--text-secondary)'
@@ -311,12 +350,12 @@ export default function OKRsPage() {
                 }
               }}
             >
-              <Target className="w-4 h-4 inline mr-2" />
-              Por Objetivos
+              <Target className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
+              <span className="hidden xs:inline">Por </span>Objetivos
             </button>
             <button
               onClick={() => setViewMode('progress')}
-              className="px-6 py-3 font-medium transition-all duration-200"
+              className="flex-1 sm:flex-none px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap"
               style={{
                 borderBottom: viewMode === 'progress' ? '2px solid var(--module-okrs)' : '2px solid transparent',
                 color: viewMode === 'progress' ? 'var(--module-okrs)' : 'var(--text-secondary)'
@@ -332,9 +371,30 @@ export default function OKRsPage() {
                 }
               }}
             >
-              <BarChart3 className="w-4 h-4 inline mr-2" />
-              Por Progreso
+              <BarChart3 className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
+              <span className="hidden xs:inline">Por </span>Progreso
             </button>
+          </div>
+          
+          {/* View Description */}
+          <div className="mt-4 p-3 rounded-lg" style={{ background: 'var(--surface-secondary)' }}>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              {viewMode === 'teams' && (
+                <>
+                  <span className="font-medium">Vista por Equipos:</span> Organización tradicional por equipos de trabajo
+                </>
+              )}
+              {viewMode === 'objectives' && (
+                <>
+                  <span className="font-medium">Vista por Objetivos:</span> Enfoque en objetivos individuales y su progreso
+                </>
+              )}
+              {viewMode === 'progress' && (
+                <>
+                  <span className="font-medium">Vista por Progreso:</span> Ranking de equipos ordenado por porcentaje de progreso
+                </>
+              )}
+            </p>
           </div>
         </div>
 
@@ -381,24 +441,54 @@ export default function OKRsPage() {
           </div>
         </div>
 
-        {/* OKRs List */}
+        {/* OKRs List - Dynamic View */}
         <div className="space-y-6">
-          {filteredOKRs.map((okr) => (
+          {currentViewData.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-gray-500 mb-4">
+                <Target className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                <p className="text-lg font-medium">No hay OKRs para mostrar</p>
+                <p className="text-sm">Ajusta tus filtros o crea un nuevo OKR</p>
+              </div>
+            </div>
+          ) : (
+            currentViewData.map((okr) => (
             <div key={okr.id} className="rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)' }}>
               {/* OKR Header */}
               <div className="p-4 sm:p-6" style={{ borderBottom: '1px solid var(--separator)' }}>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
+                      {viewMode === 'progress' && (
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${
+                          okr.rank === 1 ? 'bg-yellow-100 text-yellow-800' :
+                          okr.rank === 2 ? 'bg-gray-100 text-gray-800' :
+                          okr.rank === 3 ? 'bg-orange-100 text-orange-800' :
+                          'bg-blue-100 text-blue-800'
+                        }`}>
+                          {okr.rank}
+                        </div>
+                      )}
                       <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                        {okr.team}
+                        {viewMode === 'teams' && okr.team}
+                        {viewMode === 'objectives' && okr.objective}
+                        {viewMode === 'progress' && okr.team}
                       </h3>
                       <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(okr.status)}`}>
                         {getStatusIcon(okr.status)}
                         {getStatusLabel(okr.status)}
                       </span>
+                      {viewMode === 'progress' && (
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          Progreso: {okr.overallProgress}%
+                        </span>
+                      )}
                     </div>
-                    <p className="text-gray-700 font-medium mb-2">{okr.objective}</p>
+                    <p className="text-gray-700 font-medium mb-2">
+                      {viewMode === 'teams' && okr.objective}
+                      {viewMode === 'objectives' && `Equipo: ${okr.team}`}
+                      {viewMode === 'progress' && okr.objective}
+                    </p>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
                       <span className="flex items-center gap-1">
                         <Users className="w-4 h-4" />
@@ -482,16 +572,17 @@ export default function OKRsPage() {
                 </div>
               </div>
             </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* Add New OKR Button */}
         <div className="mt-8 text-center">
           <button 
             onClick={() => setIsCreateModalOpen(true)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
           >
-            <Plus className="w-5 h-5" />
+            <Plus className="w-4 sm:w-5 h-4 sm:h-5 shrink-0" />
             Crear Nuevo OKR
           </button>
         </div>

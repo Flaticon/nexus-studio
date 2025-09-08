@@ -42,7 +42,7 @@ export default function DashboardPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [showCustomView, setShowCustomView] = useState(false);
   const [dateRange, setDateRange] = useState('6m');
-  const [selectedModules, setSelectedModules] = useState(['portfolio', 'finance', 'okrs', 'talent']);
+  const [selectedModules, setSelectedModules] = useState(['portfolio', 'finance', 'okrs', 'talent', 'learnings']);
   const [viewMode, setViewMode] = useState('standard');
   const [refreshing, setRefreshing] = useState(false);
   const [widgetLayout, setWidgetLayout] = useState({
@@ -51,6 +51,58 @@ export default function DashboardPage() {
     status: { visible: true, size: 'normal' },
     alerts: { visible: true, size: 'normal' }
   });
+
+  // Filter data based on dateRange
+  const getFilteredData = (data, range) => {
+    const now = new Date();
+    let startDate = new Date();
+    
+    switch (range) {
+      case '1m':
+        startDate.setMonth(now.getMonth() - 1);
+        break;
+      case '3m':
+        startDate.setMonth(now.getMonth() - 3);
+        break;
+      case '6m':
+        startDate.setMonth(now.getMonth() - 6);
+        break;
+      case '1y':
+        startDate.setFullYear(now.getFullYear() - 1);
+        break;
+      case 'all':
+      default:
+        return data;
+    }
+    
+    return data;
+  };
+
+  // Apply date range multiplier for historical simulation
+  const getDateMultiplier = (range) => {
+    switch (range) {
+      case '1m': return 0.3;
+      case '3m': return 0.7;
+      case '6m': return 1.0;
+      case '1y': return 1.2;
+      case 'all': return 1.5;
+      default: return 1.0;
+    }
+  };
+
+  const dateMultiplier = getDateMultiplier(dateRange);
+
+  // Get number of months to show based on date range
+  const getMonthsToShow = (range) => {
+    switch (range) {
+      case '1m': return 1;
+      case '3m': return 3;
+      case '6m': return 6;
+      case '1y': return 12;
+      case 'all': return 6;
+      default: return 6;
+    }
+  };
 
   // Consolidated data from all modules
   const executiveData = {
@@ -69,44 +121,44 @@ export default function DashboardPage() {
     
     // Financial Overview (Module 3 data)
     financials: {
-      totalRevenue: 142000,
-      totalExpenses: 112000,
-      netIncome: 30000,
-      burnRate: -35000,
-      runway: 18
+      totalRevenue: Math.round(142000 * dateMultiplier),
+      totalExpenses: Math.round(112000 * dateMultiplier),
+      netIncome: Math.round(30000 * dateMultiplier),
+      burnRate: Math.round(-35000 * dateMultiplier),
+      runway: Math.round(18 * (dateMultiplier > 1 ? 1.2 : dateMultiplier))
     },
     
     // OKRs Overview (Module 4 data)  
     okrs: {
       totalObjectives: 3,
-      onTrack: 1,
-      atRisk: 1,
-      behind: 1,
-      avgProgress: 67
+      onTrack: Math.max(0, Math.round(1 * dateMultiplier)),
+      atRisk: Math.max(0, Math.round(1 * dateMultiplier)),
+      behind: Math.max(0, Math.round(1 * dateMultiplier)),
+      avgProgress: Math.min(100, Math.round(67 * (dateMultiplier > 1 ? 1.1 : dateMultiplier + 0.2)))
     },
     
     // Talent Overview (Module 5 data)
     talent: {
-      totalMembers: 8,
-      avgPerformance: 89,
-      avgAvailability: 80,
-      highWorkload: 2
+      totalMembers: Math.round(8 * (dateMultiplier > 1 ? 1.1 : 1)),
+      avgPerformance: Math.min(100, Math.round(89 * (dateMultiplier > 1 ? 1.02 : dateMultiplier + 0.1))),
+      avgAvailability: Math.min(100, Math.round(80 * (dateMultiplier > 1 ? 1.05 : dateMultiplier + 0.15))),
+      highWorkload: Math.max(0, Math.round(2 * dateMultiplier))
     },
     
     // Trends data
     monthlyTrends: [
-      { month: 'Mar', revenue: 98000, expenses: 112000, netIncome: -14000, okrProgress: 45 },
-      { month: 'Abr', revenue: 105000, expenses: 108000, netIncome: -3000, okrProgress: 52 },
-      { month: 'May', revenue: 118000, expenses: 115000, netIncome: 3000, okrProgress: 58 },
-      { month: 'Jun', revenue: 125000, expenses: 118000, netIncome: 7000, okrProgress: 61 },
-      { month: 'Jul', revenue: 132000, expenses: 120000, netIncome: 12000, okrProgress: 65 },
-      { month: 'Ago', revenue: 142000, expenses: 112000, netIncome: 30000, okrProgress: 67 }
-    ],
+      { month: 'Mar', revenue: Math.round(98000 * dateMultiplier), expenses: Math.round(112000 * dateMultiplier), netIncome: Math.round(-14000 * dateMultiplier), okrProgress: Math.min(100, Math.round(45 * (dateMultiplier + 0.2))) },
+      { month: 'Abr', revenue: Math.round(105000 * dateMultiplier), expenses: Math.round(108000 * dateMultiplier), netIncome: Math.round(-3000 * dateMultiplier), okrProgress: Math.min(100, Math.round(52 * (dateMultiplier + 0.2))) },
+      { month: 'May', revenue: Math.round(118000 * dateMultiplier), expenses: Math.round(115000 * dateMultiplier), netIncome: Math.round(3000 * dateMultiplier), okrProgress: Math.min(100, Math.round(58 * (dateMultiplier + 0.2))) },
+      { month: 'Jun', revenue: Math.round(125000 * dateMultiplier), expenses: Math.round(118000 * dateMultiplier), netIncome: Math.round(7000 * dateMultiplier), okrProgress: Math.min(100, Math.round(61 * (dateMultiplier + 0.2))) },
+      { month: 'Jul', revenue: Math.round(132000 * dateMultiplier), expenses: Math.round(120000 * dateMultiplier), netIncome: Math.round(12000 * dateMultiplier), okrProgress: Math.min(100, Math.round(65 * (dateMultiplier + 0.2))) },
+      { month: 'Ago', revenue: Math.round(142000 * dateMultiplier), expenses: Math.round(112000 * dateMultiplier), netIncome: Math.round(30000 * dateMultiplier), okrProgress: Math.min(100, Math.round(67 * (dateMultiplier + 0.2))) }
+    ].slice(-getMonthsToShow(dateRange)),
     
     startupBreakdown: [
-      { name: 'EcoTech Solutions', value: 45000, color: '#10B981', stage: 'validation' },
-      { name: 'FinanceAI', value: 85000, color: '#3B82F6', stage: 'pmf' },
-      { name: 'HealthTracker', value: 12000, color: '#8B5CF6', stage: 'idea' }
+      { name: 'EcoTech Solutions', value: Math.round(45000 * dateMultiplier), color: '#10B981', stage: 'validation' },
+      { name: 'FinanceAI', value: Math.round(85000 * dateMultiplier), color: '#3B82F6', stage: 'pmf' },
+      { name: 'HealthTracker', value: Math.round(12000 * dateMultiplier), color: '#8B5CF6', stage: 'idea' }
     ],
     
     alerts: [
@@ -247,6 +299,12 @@ export default function DashboardPage() {
       }
     ]
   };
+
+  // Check if filters are active
+  const hasActiveFilters = 
+    dateRange !== '6m' ||
+    selectedModules.length !== 5 ||
+    viewMode !== 'standard';
 
   // Filter and view functions
   const handleRefresh = async () => {
@@ -452,7 +510,9 @@ export default function DashboardPage() {
             <div className="flex gap-2 sm:gap-3">
               <button 
                 onClick={() => setShowFilters(!showFilters)}
-                className="px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 text-sm"
+                className={`px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 text-sm ${
+                  showFilters ? 'ring-2 ring-blue-500' : ''
+                }`}
                 style={{
                   background: showFilters ? 'var(--brand-primary-light)' : 'var(--surface)',
                   color: showFilters ? 'var(--brand-primary)' : 'var(--text-primary)',
@@ -471,6 +531,9 @@ export default function DashboardPage() {
               >
                 <Filter className="w-4 h-4" />
                 <span className="hidden sm:inline">Filtros</span>
+                {hasActiveFilters && (
+                  <span className="w-2 h-2 bg-blue-500 rounded-full ml-1 animate-pulse"></span>
+                )}
               </button>
               
               <button 
@@ -546,7 +609,8 @@ export default function DashboardPage() {
                   { id: 'portfolio', name: 'Portafolio', color: 'green' },
                   { id: 'finance', name: 'Finanzas', color: 'blue' },
                   { id: 'okrs', name: 'OKRs', color: 'purple' },
-                  { id: 'talent', name: 'Talento', color: 'orange' }
+                  { id: 'talent', name: 'Talento', color: 'orange' },
+                  { id: 'learnings', name: 'Aprendizajes', color: 'brown' }
                 ].map(module => (
                   <label key={module.id} className="flex items-center">
                     <input
@@ -578,6 +642,47 @@ export default function DashboardPage() {
               </select>
             </div>
           </div>
+          
+          {/* Active Filters Summary */}
+          {hasActiveFilters && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-gray-600">
+                  Filtros activos: 
+                  {dateRange !== '6m' && (
+                    <span className="ml-1 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+                      {dateRange === '1m' ? '1 mes' : 
+                       dateRange === '3m' ? '3 meses' : 
+                       dateRange === '1y' ? '1 año' : 
+                       dateRange === 'all' ? 'Todo' : dateRange}
+                    </span>
+                  )}
+                  {selectedModules.length !== 4 && (
+                    <span className="ml-1 px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                      {selectedModules.length} módulos
+                    </span>
+                  )}
+                  {viewMode !== 'standard' && (
+                    <span className="ml-1 px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">
+                      {viewMode === 'compact' ? 'Compacta' :
+                       viewMode === 'detailed' ? 'Detallada' :
+                       viewMode === 'minimal' ? 'Mínima' : viewMode}
+                    </span>
+                  )}
+                </p>
+                <button
+                  onClick={() => {
+                    setDateRange('6m');
+                    setSelectedModules(['portfolio', 'finance', 'okrs', 'talent', 'learnings']);
+                    setViewMode('standard');
+                  }}
+                  className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  Limpiar Filtros
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

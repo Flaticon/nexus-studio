@@ -53,17 +53,17 @@ export const ComparisonView: FC<ComparisonViewProps> = ({
   }) || [];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4">Startup Comparison</h2>
+      <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Startup Comparison</h2>
         
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
           {startups.map((startup, index) => (
             <div 
               key={startup._id}
-              className="border rounded-lg p-4"
+              className="border rounded-lg p-3 sm:p-4">
               style={{ borderColor: colors[index] }}
             >
               <div className="flex items-center gap-3 mb-2">
@@ -71,9 +71,9 @@ export const ComparisonView: FC<ComparisonViewProps> = ({
                   className="w-3 h-3 rounded-full"
                   style={{ backgroundColor: colors[index] }}
                 />
-                <h3 className="font-medium">{startup.name}</h3>
+                <h3 className="font-medium text-sm sm:text-base truncate">{startup.name}</h3>
               </div>
-              <div className="space-y-1 text-sm text-gray-600">
+              <div className="space-y-1 text-xs sm:text-sm text-gray-600">
                 <p>Stage: {startup.stage}</p>
                 <p>Team: {startup.squad.members.length + 1} members</p>
                 <p>Founded: {startup.keyDates?.foundedDate 
@@ -87,9 +87,10 @@ export const ComparisonView: FC<ComparisonViewProps> = ({
       </div>
 
       {/* Metrics Comparison */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-medium mb-4">Metrics Comparison</h3>
-        <ResponsiveContainer width="100%" height={400}>
+      <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Metrics Comparison</h3>
+        <div className="overflow-x-auto">
+        <ResponsiveContainer width="100%" height={300} minWidth={600}>
           <BarChart data={barChartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="metric" />
@@ -105,13 +106,15 @@ export const ComparisonView: FC<ComparisonViewProps> = ({
             ))}
           </BarChart>
         </ResponsiveContainer>
+        </div>
       </div>
 
       {/* KPI Performance */}
       {radarChartData.length > 0 && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-medium mb-4">KPI Performance (%)</h3>
-          <ResponsiveContainer width="100%" height={400}>
+        <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+          <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">KPI Performance (%)</h3>
+          <div className="overflow-x-auto">
+          <ResponsiveContainer width="100%" height={300} minWidth={600}>
             <RadarChart data={radarChartData}>
               <PolarGrid />
               <PolarAngleAxis dataKey="kpi" />
@@ -129,16 +132,17 @@ export const ComparisonView: FC<ComparisonViewProps> = ({
               <Legend />
             </RadarChart>
           </ResponsiveContainer>
+          </div>
         </div>
       )}
 
       {/* Timeline Comparison */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-medium mb-4">Stage Progression</h3>
-        <div className="space-y-4">
+      <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">Stage Progression</h3>
+        <div className="space-y-3 sm:space-y-4">
           {startups.map((startup, index) => (
             <div key={startup._id}>
-              <h4 className="font-medium mb-2">{startup.name}</h4>
+              <h4 className="font-medium mb-2 text-sm sm:text-base truncate">{startup.name}</h4>
               <div className="flex items-center gap-2">
                 {Object.values(StartupStage).map(stage => {
                   const timelineEvent = startup.timeline.find(t => t.stage === stage);
@@ -149,7 +153,7 @@ export const ComparisonView: FC<ComparisonViewProps> = ({
                     <div
                       key={stage}
                       className={`
-                        flex-1 h-2 rounded
+                        flex-1 h-1.5 sm:h-2 rounded
                         ${isPassed || isCurrent 
                           ? `bg-${colors[index]}` 
                           : 'bg-gray-200'
