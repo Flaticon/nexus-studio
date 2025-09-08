@@ -31,7 +31,7 @@ DevOps: Docker, Turborepo, GitHub Actions, Vercel, Railway
 
 ### Installation
 
-```bash
+
 # 1. Clone the repository
 git clone https://github.com/Flaticon/nexus-studio-os.git
 cd nexus-studio-os
@@ -51,15 +51,16 @@ pnpm run db:up
 
 # 6. Start in development mode
 pnpm run dev
-🌐 Development URLs
 
+## 🌐 Development URLs
 Frontend: http://localhost:3000
 Backend API: http://localhost:4000
 MongoDB Admin: http://localhost:8081
 API Docs: http://localhost:4000/api-docs
 
-📝 Available Scripts
-bash# Development
+## 📝 Available Scripts
+### Development
+```bash
 pnpm run dev              # Start everything in dev mode
 pnpm run dev:web          # Frontend only
 pnpm run dev:api          # Backend only
@@ -77,7 +78,7 @@ pnpm run test             # Run tests
 pnpm run format           # Format code
 ```
 
-🗺️ Roadmap
+## 🗺️ Roadmap
 Phase 1: Core MVP ✅
 
 Setup & Authentication
@@ -96,16 +97,16 @@ Real-time Notifications
 AI Insights
 Mobile App
 
-📄 License
+### 📄 License
 This project is under the MIT License - see the LICENSE file for details.
 
 Español
 
 Sistema Operativo Integral para Startup Studios - Un CRM minimalista de nivel C-Suite para gestionar portfolios de startups, equipos y métricas en tiempo real.
 
-📋 Descripción
+### 📋 Descripción
 Nexus Studio OS es una plataforma todo-en-uno diseñada específicamente para Startup Studios que necesitan gestionar múltiples iniciativas, equipos distribuidos y métricas financieras de manera centralizada. Construido con tecnologías modernas para ofrecer rendimiento y escalabilidad.
-✨ Características Principales
+### ✨ Características Principales
 
 📊 Dashboard Ejecutivo - Vista 360° de todas las startups
 💼 Gestión de Portfolio - Control completo de iniciativas desde idea hasta escala
