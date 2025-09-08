@@ -264,27 +264,27 @@ export default function AnalyticsPage() {
             </p>
           </div>
           
-          <div className="flex gap-3">
-            <button className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200" 
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200" 
               style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', color: 'var(--text-secondary)' }}
               onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
               onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}>
-              <RefreshCw className="w-4 h-4" />
-              Actualizar
+              <RefreshCw className="w-4 h-4 shrink-0" />
+              <span className="hidden sm:inline">Actualizar</span>
             </button>
-            <button className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200" 
+            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200" 
               style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', color: 'var(--text-secondary)' }}
               onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
               onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}>
-              <Download className="w-4 h-4" />
-              Exportar
+              <Download className="w-4 h-4 shrink-0" />
+              <span className="hidden sm:inline">Exportar</span>
             </button>
-            <button className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200" 
+            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200" 
               style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', color: 'var(--text-secondary)' }}
               onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
               onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}>
-              <Filter className="w-4 h-4" />
-              Filtros
+              <Filter className="w-4 h-4 shrink-0" />
+              <span className="hidden sm:inline">Filtros</span>
             </button>
           </div>
         </div>

@@ -349,14 +349,14 @@ export default function IntegrationsPage() {
               </p>
             </div>
 
-            <div className="flex gap-3">
-              <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
-                <Download className="w-4 h-4" />
-                Exportar Logs
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center justify-center sm:justify-start gap-2">
+                <Download className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">Exportar </span>Logs
               </button>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2">
-                <Plus className="w-4 h-4" />
-                Nueva Integración
+              <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center sm:justify-start gap-2">
+                <Plus className="w-4 h-4 shrink-0" />
+                <span className="hidden xs:inline">Nueva </span>Integración
               </button>
             </div>
           </div>

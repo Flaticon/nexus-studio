@@ -74,21 +74,21 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
     <div
       ref={setNodeRef}
       className={`
-        flex-shrink-0 w-80 min-h-screen rounded-2xl border-2 transition-all duration-300
+        flex-shrink-0 w-full sm:w-80 lg:w-72 xl:w-80 min-h-[400px] sm:min-h-screen rounded-2xl border-2 transition-all duration-300
         ${config.bg}
         ${config.border}
         ${isOver ? 'border-solid shadow-lg scale-102' : 'border-dashed opacity-90 hover:opacity-100'}
       `}
     >
-      <div className="p-5">
+      <div className="p-3 sm:p-5">
         {/* Column Header */}
-        <div className="flex items-center justify-between mb-6 sticky top-5 z-10">
+        <div className="flex items-center justify-between mb-4 sm:mb-6 sticky top-3 sm:top-5 z-10">
           <div className="flex items-center gap-3">
-            <span className="text-2xl" role="img" aria-label={config.label}>
+            <span className="text-xl sm:text-2xl" role="img" aria-label={config.label}>
               {config.emoji}
             </span>
             <div>
-              <h3 className={`font-bold text-lg ${config.text}`}>
+              <h3 className={`font-bold text-base sm:text-lg ${config.text}`}>
                 {config.label}
               </h3>
               <p className="text-xs text-gray-500 font-medium">
@@ -97,7 +97,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
             </div>
           </div>
           
-          <div className={`px-3 py-1.5 text-sm font-bold rounded-full ${config.accent} shadow-sm`}>
+          <div className={`px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-bold rounded-full ${config.accent} shadow-sm`}>
             {count}
           </div>
         </div>

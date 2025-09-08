@@ -533,10 +533,10 @@ export default function TalentPage() {
               </p>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <button
                 onClick={() => setShowSkillMatching(!showSkillMatching)}
-                className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200"
                 style={{
                   background: showSkillMatching ? 'var(--info-bg)' : 'var(--surface)',
                   color: showSkillMatching ? 'var(--info)' : 'var(--text-primary)',
@@ -553,26 +553,26 @@ export default function TalentPage() {
                   }
                 }}
               >
-                <Target className="w-4 h-4" />
-                Skill Matching
+                <Target className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">Skill </span>Matching
               </button>
               <button
                 onClick={() => setShowTalentBank(!showTalentBank)}
-                className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
+                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-colors ${
                   showTalentBank
                     ? "bg-purple-50 text-purple-700"
                     : "bg-gray-50 hover:bg-gray-100"
                 }`}
               >
-                <Database className="w-4 h-4" />
-                Banco de Talentos
+                <Database className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">Banco de </span>Talentos
               </button>
               <button
                 onClick={() => setIsCreateModalOpen(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center sm:justify-start gap-2"
               >
-                <UserPlus className="w-4 h-4" />
-                Nuevo Colaborador
+                <UserPlus className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">Nuevo </span>Colaborador
               </button>
             </div>
           </div>
@@ -652,14 +652,14 @@ export default function TalentPage() {
         {showSkillMatching && (
           <div className="bg-white rounded-lg shadow-sm mb-8">
             <div className="p-6 border-b">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                   Match de Skills por Iniciativa
                 </h3>
                 <select
                   value={selectedInitiative}
                   onChange={(e) => setSelectedInitiative(e.target.value)}
-                  className="px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                  className="w-full sm:w-auto px-3 py-2 text-sm sm:text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
                 >
                   <option value="">Seleccionar Iniciativa</option>
                   {initiatives.map((init) => (
@@ -848,7 +848,7 @@ export default function TalentPage() {
                       onClick={() =>
                         alert(`Asignando ${person.name} a una iniciativa...`)
                       }
-                      className="w-full px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
+                      className="w-full px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
                       Asignar a Iniciativa
                     </button>
@@ -926,17 +926,17 @@ export default function TalentPage() {
         {/* Team Members Grid/List */}
         <div className="bg-white rounded-lg shadow-sm">
           <div className="p-6 border-b">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                 Directorio de Colaboradores
               </h3>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 {/* Filters */}
                 <select
                   value={filterSkill}
                   onChange={(e) => setFilterSkill(e.target.value)}
-                  className="px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                  className="w-full sm:w-auto px-3 py-2 text-sm sm:text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
                 >
                   <option value="all">Todos los Skills</option>
                   <option value="tech">Tech</option>

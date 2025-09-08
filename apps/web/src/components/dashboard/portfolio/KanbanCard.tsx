@@ -46,10 +46,10 @@ export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="bg-white rounded-2xl card-shadow hover:card-shadow-hover cursor-move transition-all duration-300 border border-gray-100 hover:border-gray-200 group"
+      className="bg-white rounded-xl sm:rounded-2xl card-shadow hover:card-shadow-hover cursor-move transition-all duration-300 border border-gray-100 hover:border-gray-200 group"
     >
       {/* Card Header */}
-      <div className="p-5 pb-3">
+      <div className="p-3 sm:p-5 pb-2 sm:pb-3">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3 flex-1">
             {startup.logo ? (
@@ -72,7 +72,7 @@ export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
                 className="group/link flex items-center gap-1.5 font-bold text-gray-900 hover:text-blue-600 transition-colors duration-200"
                 onClick={(e) => e.stopPropagation()}
               >
-                <span className="truncate text-lg leading-tight">{startup.name}</span>
+                <span className="truncate text-base sm:text-lg leading-tight">{startup.name}</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity duration-200" />
               </Link>
               <p className="text-xs text-gray-500 font-medium mt-0.5">

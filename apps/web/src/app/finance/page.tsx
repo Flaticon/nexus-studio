@@ -33,6 +33,16 @@ import Layout from "../../components/layout/Layout";
 export default function FinancePage() {
   const [timeRange, setTimeRange] = useState("6months");
   const [selectedMetric, setSelectedMetric] = useState("all");
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    startups: [],
+    stages: [],
+    revenueRange: { min: 0, max: 100000 },
+    runwayRange: { min: 0, max: 36 },
+    showOnlyProfitable: false,
+    sortBy: 'revenue',
+    sortOrder: 'desc'
+  });
 
   // Mock financial data
   const financialData = [
@@ -108,6 +118,101 @@ export default function FinancePage() {
     return "text-green-600 bg-green-50";
   };
 
+  // Filter and sort data
+  const filteredAndSortedData = financialData
+    .filter(item => {
+      // Filter by startup
+      if (filters.startups.length > 0 && !filters.startups.includes(item.startupName)) {
+        return false;
+      }
+      
+      // Filter by stage
+      if (filters.stages.length > 0 && !filters.stages.includes(item.stage)) {
+        return false;
+      }
+      
+      // Filter by revenue range
+      if (item.revenue < filters.revenueRange.min || item.revenue > filters.revenueRange.max) {
+        return false;
+      }
+      
+      // Filter by runway range
+      if (item.runway < filters.runwayRange.min || item.runway > filters.runwayRange.max) {
+        return false;
+      }
+      
+      // Filter only profitable
+      if (filters.showOnlyProfitable && (item.revenue - item.expenses) <= 0) {
+        return false;
+      }
+      
+      return true;
+    })
+    .sort((a, b) => {
+      let aValue, bValue;
+      
+      switch (filters.sortBy) {
+        case 'revenue':
+          aValue = a.revenue;
+          bValue = b.revenue;
+          break;
+        case 'expenses':
+          aValue = a.expenses;
+          bValue = b.expenses;
+          break;
+        case 'burnRate':
+          aValue = a.burnRate;
+          bValue = b.burnRate;
+          break;
+        case 'runway':
+          aValue = a.runway;
+          bValue = b.runway;
+          break;
+        case 'profit':
+          aValue = a.revenue - a.expenses;
+          bValue = b.revenue - b.expenses;
+          break;
+        default:
+          aValue = a.startupName;
+          bValue = b.startupName;
+      }
+      
+      if (filters.sortOrder === 'asc') {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
+    });
+
+  // Reset filters function
+  const resetFilters = () => {
+    setFilters({
+      startups: [],
+      stages: [],
+      revenueRange: { min: 0, max: 100000 },
+      runwayRange: { min: 0, max: 36 },
+      showOnlyProfitable: false,
+      sortBy: 'revenue',
+      sortOrder: 'desc'
+    });
+  };
+
+  // Available options for filters
+  const availableStartups = [...new Set(financialData.map(item => item.startupName))];
+  const availableStages = [...new Set(financialData.map(item => item.stage))];
+  
+  // Check if filters are active
+  const hasActiveFilters = 
+    filters.startups.length > 0 ||
+    filters.stages.length > 0 ||
+    filters.revenueRange.min > 0 ||
+    filters.revenueRange.max < 100000 ||
+    filters.runwayRange.min > 0 ||
+    filters.runwayRange.max < 36 ||
+    filters.showOnlyProfitable ||
+    filters.sortBy !== 'revenue' ||
+    filters.sortOrder !== 'desc';
+
   return (
     <Layout
       title="💰 Finanzas Consolidadas"
@@ -126,11 +231,11 @@ export default function FinancePage() {
               </p>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
-                className="px-4 py-2 rounded-lg focus:outline-none transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg focus:outline-none transition-all duration-200"
                 style={{
                   background: 'var(--surface-secondary)',
                   color: 'var(--text-primary)',
@@ -151,31 +256,245 @@ export default function FinancePage() {
               </select>
 
               <button 
-                className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
+                onClick={() => setShowFilters(!showFilters)}
+                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 ${
+                  showFilters ? 'ring-2 ring-blue-500' : ''
+                }`}
                 style={{
-                  background: 'var(--surface)',
-                  color: 'var(--text-primary)',
-                  boxShadow: 'var(--shadow-sm)'
+                  background: showFilters ? 'var(--info-bg)' : 'var(--surface)',
+                  color: showFilters ? 'var(--info)' : 'var(--text-primary)',
+                  boxShadow: showFilters ? 'none' : 'var(--shadow-sm)'
                 }}
-                onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-                onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}
+                onMouseEnter={(e) => {
+                  if (!showFilters) e.target.style.background = 'var(--surface-hover)'
+                }}
+                onMouseLeave={(e) => {
+                  if (!showFilters) e.target.style.background = 'var(--surface)'
+                }}
               >
-                <Filter className="w-4 h-4" />
-                Filtros
+                <Filter className="w-4 h-4 shrink-0" />
+                <span className="hidden sm:inline">Filtros</span>
+                {hasActiveFilters && (
+                  <span className="w-2 h-2 bg-blue-500 rounded-full ml-1 animate-pulse"></span>
+                )}
               </button>
 
               <button 
-                className="px-4 py-2 rounded-lg flex items-center gap-2 text-white transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 text-white transition-all duration-200"
                 style={{ background: 'var(--module-finance)' }}
                 onMouseEnter={(e) => e.target.style.opacity = '0.9'}
                 onMouseLeave={(e) => e.target.style.opacity = '1'}
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4 shrink-0" />
                 Exportar
               </button>
             </div>
           </div>
         </div>
+
+        {/* Filter Panel */}
+        {showFilters && (
+          <div className="mb-6 bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Filtros Avanzados</h3>
+              <div className="flex gap-2">
+                <button
+                  onClick={resetFilters}
+                  className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  Limpiar Filtros
+                </button>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {/* Startup Filter */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Startups</label>
+                <div className="space-y-2 max-h-32 overflow-y-auto">
+                  {availableStartups.map(startup => (
+                    <label key={startup} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={filters.startups.includes(startup)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFilters(prev => ({
+                              ...prev,
+                              startups: [...prev.startups, startup]
+                            }));
+                          } else {
+                            setFilters(prev => ({
+                              ...prev,
+                              startups: prev.startups.filter(s => s !== startup)
+                            }));
+                          }
+                        }}
+                        className="rounded border-gray-300 mr-2"
+                      />
+                      <span className="text-sm text-gray-700">{startup}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Stage Filter */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Etapas</label>
+                <div className="space-y-2">
+                  {availableStages.map(stage => (
+                    <label key={stage} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={filters.stages.includes(stage)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setFilters(prev => ({
+                              ...prev,
+                              stages: [...prev.stages, stage]
+                            }));
+                          } else {
+                            setFilters(prev => ({
+                              ...prev,
+                              stages: prev.stages.filter(s => s !== stage)
+                            }));
+                          }
+                        }}
+                        className="rounded border-gray-300 mr-2"
+                      />
+                      <span className="text-sm text-gray-700 capitalize">{stage}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Revenue Range */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Rango de Ingresos (${filters.revenueRange.min.toLocaleString()} - ${filters.revenueRange.max.toLocaleString()})
+                </label>
+                <div className="space-y-2">
+                  <input
+                    type="range"
+                    min="0"
+                    max="100000"
+                    step="5000"
+                    value={filters.revenueRange.min}
+                    onChange={(e) => setFilters(prev => ({
+                      ...prev,
+                      revenueRange: { ...prev.revenueRange, min: parseInt(e.target.value) }
+                    }))}
+                    className="w-full"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="100000"
+                    step="5000"
+                    value={filters.revenueRange.max}
+                    onChange={(e) => setFilters(prev => ({
+                      ...prev,
+                      revenueRange: { ...prev.revenueRange, max: parseInt(e.target.value) }
+                    }))}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+
+              {/* Runway Range */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Runway ({filters.runwayRange.min} - {filters.runwayRange.max} meses)
+                </label>
+                <div className="space-y-2">
+                  <input
+                    type="range"
+                    min="0"
+                    max="36"
+                    step="1"
+                    value={filters.runwayRange.min}
+                    onChange={(e) => setFilters(prev => ({
+                      ...prev,
+                      runwayRange: { ...prev.runwayRange, min: parseInt(e.target.value) }
+                    }))}
+                    className="w-full"
+                  />
+                  <input
+                    type="range"
+                    min="0"
+                    max="36"
+                    step="1"
+                    value={filters.runwayRange.max}
+                    onChange={(e) => setFilters(prev => ({
+                      ...prev,
+                      runwayRange: { ...prev.runwayRange, max: parseInt(e.target.value) }
+                    }))}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+
+              {/* Profitable Only */}
+              <div>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={filters.showOnlyProfitable}
+                    onChange={(e) => setFilters(prev => ({
+                      ...prev,
+                      showOnlyProfitable: e.target.checked
+                    }))}
+                    className="rounded border-gray-300 mr-2"
+                  />
+                  <span className="text-sm font-medium text-gray-700">Solo Rentables</span>
+                </label>
+              </div>
+
+              {/* Sort Options */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Ordenar por</label>
+                <select
+                  value={filters.sortBy}
+                  onChange={(e) => setFilters(prev => ({ ...prev, sortBy: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="revenue">Ingresos</option>
+                  <option value="expenses">Gastos</option>
+                  <option value="burnRate">Burn Rate</option>
+                  <option value="runway">Runway</option>
+                  <option value="profit">Ganancia</option>
+                  <option value="startupName">Nombre</option>
+                </select>
+                <select
+                  value={filters.sortOrder}
+                  onChange={(e) => setFilters(prev => ({ ...prev, sortOrder: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mt-2"
+                >
+                  <option value="desc">Mayor a menor</option>
+                  <option value="asc">Menor a mayor</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Results Summary */}
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <p className="text-sm text-gray-600">
+                Mostrando {filteredAndSortedData.length} de {financialData.length} startups
+                {hasActiveFilters && (
+                  <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+                    Filtros activos
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Key Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
@@ -340,7 +659,7 @@ export default function FinancePage() {
                 </tr>
               </thead>
               <tbody>
-                {financialData.map((startup, index) => (
+                {filteredAndSortedData.map((startup, index) => (
                   <tr
                     key={startup.id}
                     className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}

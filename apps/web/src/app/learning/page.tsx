@@ -363,16 +363,16 @@ export default function LearningPage() {
             </p>
           </div>
           
-          <div className="flex gap-3">
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2">
-              <Download className="w-4 h-4" />
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center justify-center sm:justify-start gap-2">
+              <Download className="w-4 h-4 shrink-0" />
               Exportar
             </button>
             <button 
               onClick={() => setShowCreateModal(true)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+              className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center sm:justify-start gap-2"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-4 h-4 shrink-0" />
               Nueva Retrospectiva
             </button>
           </div>

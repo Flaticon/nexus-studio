@@ -11,6 +11,7 @@ import {
   Users,
   TrendingUp,
   BarChart3,
+  BookOpen,
   Menu,
   X,
   ChevronLeft,
@@ -64,11 +65,25 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       description: 'Gestión de talento y colaboradores'
     },
     {
+      name: 'Aprendizajes y Retros',
+      href: '/learnings',
+      icon: BookOpen,
+      emoji: '🟤',
+      description: 'Documentación de conocimiento y retrospectivas'
+    },
+    {
       name: 'Insights y Analytics',
       href: '/analytics',
       icon: BarChart3,
       emoji: '📊',
       description: 'Análisis y reportes avanzados'
+    },
+    {
+      name: 'Configuración',
+      href: '/settings',
+      icon: Settings,
+      emoji: '⚙️',
+      description: 'Configuración del sistema y cuenta'
     }
   ];
 
@@ -228,7 +243,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         <div className="p-3">
           {!isCollapsed ? (
             <div className="space-y-2">
-              <button 
+              <Link
+                href="/settings"
                 className="flex items-center gap-3 w-full p-2.5 rounded-lg transition-all duration-200 text-sm font-medium group"
                 style={{ color: 'var(--text-secondary)' }}
                 onMouseEnter={(e) => {
@@ -242,7 +258,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               >
                 <Settings className="w-4 h-4 group-hover:rotate-45 transition-transform duration-200" />
                 Configuración
-              </button>
+              </Link>
               <button 
                 className="flex items-center gap-3 w-full p-2.5 rounded-lg transition-all duration-200 text-sm font-medium group"
                 style={{ color: 'var(--text-secondary)' }}
@@ -261,7 +277,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             </div>
           ) : (
             <div className="space-y-2">
-              <button 
+              <Link
+                href="/settings"
                 className="flex items-center justify-center w-full p-2.5 rounded-lg transition-all duration-200 icon-hover"
                 title="Configuración"
                 style={{ color: 'var(--text-secondary)' }}
@@ -275,7 +292,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 }}
               >
                 <Settings className="w-4 h-4" />
-              </button>
+              </Link>
               <button 
                 className="flex items-center justify-center w-full p-2.5 rounded-lg transition-all duration-200 icon-hover"
                 title="Cerrar Sesión"
