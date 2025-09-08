@@ -100,6 +100,7 @@ This project is under the MIT License - see the LICENSE file for details.
 
 
 ### 📁 Project Structure 
+```plaintext
 nexus-studio-os/
 ├── apps/
 │   ├── web/                 # Frontend Next.js
