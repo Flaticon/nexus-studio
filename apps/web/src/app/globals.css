@@ -620,3 +620,51 @@ body {
 .transition-bounce {
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
+
+/* Startup Landing Page Animations */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Hero text animations */
+.animate-gradient {
+  animation: gradient-shift 8s ease-in-out infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Startup card hover effects */
+.startup-card {
+  @apply transition-all duration-500 hover:shadow-2xl hover:-translate-y-3 hover:rotate-1;
+}
