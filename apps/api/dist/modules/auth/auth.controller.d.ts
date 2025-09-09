@@ -9,4 +9,7 @@ export declare class AuthController {
         message: string;
     }>;
     getProfile(req: any): any;
+    logout(): Promise<{
+        message: string;
+    }>;
 }
