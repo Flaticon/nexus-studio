@@ -22,6 +22,7 @@ const okrs_module_1 = require("./modules/okrs/okrs.module");
 const talent_module_1 = require("./modules/talent/talent.module");
 const insights_module_1 = require("./modules/insights/insights.module");
 const dashboard_module_1 = require("./modules/dashboard/dashboard.module");
+const employees_module_1 = require("./modules/employees/employees.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -62,6 +63,7 @@ exports.AppModule = AppModule = __decorate([
             talent_module_1.TalentModule,
             insights_module_1.InsightsModule,
             dashboard_module_1.DashboardModule,
+            employees_module_1.EmployeesModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [],

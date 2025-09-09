@@ -125,6 +125,37 @@ export class CompanyResource {
 
   @Prop()
   relatedResources: Types.ObjectId[]; // References to related resources
+
+  // Onboarding integration fields
+  @Prop({ default: false })
+  isOnboardingStep: boolean; // Whether this resource is part of onboarding
+
+  @Prop()
+  onboardingStepOrder: number; // Order within onboarding process
+
+  @Prop({ default: false })
+  isDepartmentSpecific: boolean; // Specific to certain departments during onboarding
+
+  @Prop()
+  estimatedCompletionTime: number; // Time to complete this step (in minutes)
+
+  @Prop({ type: String, enum: ['optional', 'required', 'conditional'] })
+  onboardingRequirement: string; // How critical this is for onboarding
+
+  @Prop({ type: [String] })
+  prerequisiteResources: string[]; // Resource IDs that must be completed first
+
+  @Prop({ type: [String] })
+  completionCriteria: string[]; // What defines completion of this resource
+
+  @Prop({ type: Object })
+  onboardingMetadata: {
+    assignedRole?: 'hr' | 'manager' | 'buddy' | 'self'; // Who assigns/manages this step
+    reminderDays?: number; // Days before due date to send reminder
+    escalationDays?: number; // Days after due date to escalate
+    autoAssign?: boolean; // Automatically assign to new employees
+    dueAfterStart?: number; // Days after start date when this is due
+  };
 }
 
 export const CompanyResourceSchema = SchemaFactory.createForClass(CompanyResource);
@@ -136,4 +167,7 @@ CompanyResourceSchema.index({ tags: 1 });
 CompanyResourceSchema.index({ isActive: 1 });
 CompanyResourceSchema.index({ applicableRoles: 1 });
 CompanyResourceSchema.index({ applicableDepartments: 1 });
+CompanyResourceSchema.index({ isOnboardingStep: 1 });
+CompanyResourceSchema.index({ onboardingStepOrder: 1 });
+CompanyResourceSchema.index({ onboardingRequirement: 1 });
 CompanyResourceSchema.index({ title: 'text', description: 'text', content: 'text' });

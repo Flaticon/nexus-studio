@@ -120,10 +120,33 @@ export class CompanyResourcesService {
       .exec();
   }
 
-  async getOnboardingResources(): Promise<CompanyResource[]> {
+  async getOnboardingResources(employeeId?: string, department?: string, role?: string): Promise<CompanyResource[]> {
+    const query: any = { 
+      isOnboardingStep: true, 
+      isActive: true 
+    };
+
+    // Filter by department if provided
+    if (department) {
+      query.$or = [
+        { applicableDepartments: { $in: [department] } },
+        { applicableDepartments: { $size: 0 } }, // Resources without department restrictions
+        { isDepartmentSpecific: false }
+      ];
+    }
+
+    // Filter by role if provided
+    if (role) {
+      query.$or = query.$or ? query.$or : [];
+      query.$or.push(
+        { applicableRoles: { $in: [role] } },
+        { applicableRoles: { $size: 0 } } // Resources without role restrictions
+      );
+    }
+
     return this.resourceModel
-      .find({ isRequired: true, isActive: true })
-      .sort({ category: 1, order: 1 })
+      .find(query)
+      .sort({ onboardingStepOrder: 1, order: 1 })
       .exec();
   }
 
@@ -273,6 +296,118 @@ export class CompanyResourcesService {
 
     for (const resourceData of defaultResources) {
       const exists = await this.resourceModel.findOne({ title: resourceData.title });
+      if (!exists) {
+        await this.create(resourceData);
+      }
+    }
+  }
+
+  // Onboarding-specific methods
+  async markResourceAsCompleted(resourceId: string, employeeId: string, completionData?: any): Promise<void> {
+    // This will be implemented to track completion in a separate completion tracking system
+    // For now, just increment view count to indicate interaction
+    await this.incrementViewCount(resourceId);
+  }
+
+  async getResourceProgress(employeeId: string): Promise<any> {
+    // This would track which resources an employee has completed
+    // Implementation depends on how we want to track progress
+    const onboardingResources = await this.getOnboardingResources();
+    return {
+      totalResources: onboardingResources.length,
+      completedResources: 0, // To be implemented with progress tracking
+      completionPercentage: 0
+    };
+  }
+
+  async getNextOnboardingResource(employeeId: string, currentResourceId?: string): Promise<CompanyResource | null> {
+    const resources = await this.getOnboardingResources();
+    
+    if (!currentResourceId) {
+      return resources[0] || null;
+    }
+
+    const currentIndex = resources.findIndex((r: any) => r._id.toString() === currentResourceId);
+    if (currentIndex >= 0 && currentIndex < resources.length - 1) {
+      return resources[currentIndex + 1];
+    }
+
+    return null;
+  }
+
+  async createOnboardingResources(): Promise<void> {
+    const onboardingResources = [
+      {
+        title: 'Bienvenida y Orientación Inicial',
+        description: 'Video de bienvenida y información general sobre la empresa',
+        type: ResourceType.VIDEO,
+        category: ResourceCategory.CULTURE,
+        externalUrl: '/videos/welcome-orientation',
+        tags: ['bienvenida', 'orientación', 'empresa'],
+        isOnboardingStep: true,
+        onboardingStepOrder: 1,
+        onboardingRequirement: 'required',
+        estimatedCompletionTime: 30,
+        onboardingMetadata: {
+          assignedRole: 'hr',
+          autoAssign: true,
+          dueAfterStart: 1
+        },
+        isRequired: true,
+        estimatedReadTime: 30,
+        accessLevel: 'internal',
+      },
+      {
+        title: 'Configuración de Cuenta y Accesos',
+        description: 'Guía paso a paso para configurar cuentas de usuario y accesos',
+        type: ResourceType.FORM,
+        category: ResourceCategory.IT_SETUP,
+        content: 'Formulario de configuración de IT...',
+        tags: ['IT', 'configuración', 'accesos'],
+        isOnboardingStep: true,
+        onboardingStepOrder: 2,
+        onboardingRequirement: 'required',
+        estimatedCompletionTime: 45,
+        onboardingMetadata: {
+          assignedRole: 'hr',
+          autoAssign: true,
+          dueAfterStart: 2
+        },
+        isRequired: true,
+        requiresCompletion: true,
+        estimatedReadTime: 45,
+        accessLevel: 'internal',
+      },
+      {
+        title: 'Revisión de Políticas de Seguridad',
+        description: 'Lectura y aceptación de políticas de seguridad empresarial',
+        type: ResourceType.POLICY,
+        category: ResourceCategory.SECURITY,
+        content: 'Políticas de seguridad detalladas...',
+        tags: ['seguridad', 'políticas', 'compliance'],
+        isOnboardingStep: true,
+        onboardingStepOrder: 3,
+        onboardingRequirement: 'required',
+        estimatedCompletionTime: 60,
+        onboardingMetadata: {
+          assignedRole: 'hr',
+          autoAssign: true,
+          dueAfterStart: 3,
+          reminderDays: 1,
+          escalationDays: 2
+        },
+        isRequired: true,
+        requiresSignature: true,
+        estimatedReadTime: 60,
+        accessLevel: 'internal',
+      }
+    ];
+
+    for (const resourceData of onboardingResources) {
+      const exists = await this.resourceModel.findOne({ 
+        title: resourceData.title,
+        isOnboardingStep: true 
+      });
       if (!exists) {
         await this.create(resourceData);
       }
