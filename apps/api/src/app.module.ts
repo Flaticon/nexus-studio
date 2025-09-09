@@ -16,6 +16,7 @@ import { OkrsModule } from './modules/okrs/okrs.module';
 import { TalentModule } from './modules/talent/talent.module';
 import { InsightsModule } from './modules/insights/insights.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { EmployeesModule } from './modules/employees/employees.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     TalentModule,
     InsightsModule,
     DashboardModule,
+    EmployeesModule,
   ],
  controllers: [AppController], // Añadir esto
   providers: [],
