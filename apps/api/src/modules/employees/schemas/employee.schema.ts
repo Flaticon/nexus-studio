@@ -58,28 +58,28 @@ export class Employee {
   @Prop()
   phoneNumber: string;
 
-  @Prop()
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
+  @Prop({ type: Object })
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zipCode?: string;
+    country?: string;
   };
 
-  @Prop()
-  emergencyContact: {
-    name: string;
-    relationship: string;
-    phoneNumber: string;
-    email: string;
+  @Prop({ type: Object })
+  emergencyContact?: {
+    name?: string;
+    relationship?: string;
+    phoneNumber?: string;
+    email?: string;
   };
 
   @Prop()
   startDate: Date;
 
   @Prop()
-  endDate: Date;
+  endDate?: Date;
 
   @Prop({ type: Types.ObjectId, ref: 'Employee' })
   managerId: Types.ObjectId;
@@ -87,68 +87,68 @@ export class Employee {
   @Prop({ type: [Types.ObjectId], ref: 'Employee' })
   directReports: Types.ObjectId[];
 
-  @Prop()
-  salary: {
-    amount: number;
-    currency: string;
-    paymentFrequency: 'hourly' | 'monthly' | 'yearly';
+  @Prop({ type: Object })
+  salary?: {
+    amount?: number;
+    currency?: string;
+    paymentFrequency?: 'hourly' | 'monthly' | 'yearly';
   };
 
-  @Prop()
-  benefits: {
-    healthInsurance: boolean;
-    dentalInsurance: boolean;
-    visionInsurance: boolean;
-    retirement401k: boolean;
-    paidTimeOff: number; // days per year
-    sickLeave: number; // days per year
+  @Prop({ type: Object })
+  benefits?: {
+    healthInsurance?: boolean;
+    dentalInsurance?: boolean;
+    visionInsurance?: boolean;
+    retirement401k?: boolean;
+    paidTimeOff?: number; // days per year
+    sickLeave?: number; // days per year
   };
 
-  @Prop()
-  skills: string[];
+  @Prop({ type: [String] })
+  skills?: string[];
 
-  @Prop()
-  certifications: {
-    name: string;
-    issuer: string;
-    issueDate: Date;
-    expirationDate: Date;
+  @Prop({ type: [Object] })
+  certifications?: {
+    name?: string;
+    issuer?: string;
+    issueDate?: Date;
+    expirationDate?: Date;
   }[];
 
   @Prop()
-  profilePicture: string;
+  profilePicture?: string;
 
   @Prop()
-  bio: string;
+  bio?: string;
 
   @Prop({ default: false })
   onboardingCompleted: boolean;
 
   @Prop({ type: Types.ObjectId, ref: 'OnboardingProgress' })
-  onboardingProgressId: Types.ObjectId;
+  onboardingProgressId?: Types.ObjectId;
 
   @Prop({ default: true })
   isActive: boolean;
 
   @Prop()
-  lastLoginAt: Date;
+  lastLoginAt?: Date;
 
   @Prop({ type: Object })
-  personalInfo: {
-    dateOfBirth: Date;
-    nationality: string;
-    maritalStatus: 'single' | 'married' | 'divorced' | 'widowed';
-    numberOfDependents: number;
+  personalInfo?: {
+    dateOfBirth?: Date;
+    nationality?: string;
+    maritalStatus?: 'single' | 'married' | 'divorced' | 'widowed';
+    numberOfDependents?: number;
   };
 
   @Prop({ type: Object })
-  workPreferences: {
-    workLocation: 'office' | 'remote' | 'hybrid';
-    preferredCommunication: 'email' | 'slack' | 'phone' | 'in_person';
-    workingHours: {
-      start: string; // "09:00"
-      end: string; // "17:00"
-      timezone: string;
+  workPreferences?: {
+    workLocation?: 'office' | 'remote' | 'hybrid';
+    preferredCommunication?: 'email' | 'slack' | 'phone' | 'in_person';
+    workingHours?: {
+      start?: string; // "09:00"
+      end?: string; // "17:00"
+      timezone?: string;
     };
   };
 }

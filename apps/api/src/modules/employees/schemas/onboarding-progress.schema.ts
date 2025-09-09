@@ -43,10 +43,10 @@ export class OnboardingStep {
   isRequired: boolean;
 
   @Prop()
-  dueDate: Date;
+  dueDate?: Date;
 
   @Prop()
-  completedAt: Date;
+  completedAt?: Date;
 
   @Prop()
   assignedTo: string; // HR person or manager responsible
@@ -54,13 +54,8 @@ export class OnboardingStep {
   @Prop()
   estimatedDuration: number; // in minutes
 
-  @Prop()
-  resources: {
-    title: string;
-    type: 'document' | 'video' | 'link' | 'form';
-    url: string;
-    description?: string;
-  }[];
+  @Prop({ type: [Types.ObjectId], ref: 'CompanyResource' })
+  resources: Types.ObjectId[]; // References to CompanyResource documents
 
   @Prop({ type: Object })
   formData: any; // For form-type steps
@@ -68,8 +63,8 @@ export class OnboardingStep {
   @Prop()
   notes: string;
 
-  @Prop()
-  feedback: {
+  @Prop({ type: Object })
+  feedback?: {
     rating: number; // 1-5
     comment: string;
     submittedAt: Date;
@@ -85,7 +80,7 @@ export class OnboardingProgress {
   startDate: Date;
 
   @Prop()
-  completedDate: Date;
+  completedDate?: Date;
 
   @Prop({ default: 0 })
   completionPercentage: number;
@@ -102,16 +97,16 @@ export class OnboardingProgress {
   @Prop({ type: Types.ObjectId, ref: 'Employee' })
   assignedBuddy: Types.ObjectId; // Mentor/buddy system
 
-  @Prop()
+  @Prop({ type: [String] })
   departmentSpecificSteps: string[]; // References to department-specific onboarding steps
 
-  @Prop()
+  @Prop({ type: [Object] })
   customSteps: OnboardingStep[]; // Custom steps added for this specific employee
 
   @Prop({ default: false })
   isCompleted: boolean;
 
-  @Prop()
+  @Prop({ type: [Object] })
   documents: {
     id: string;
     name: string;
@@ -119,10 +114,10 @@ export class OnboardingProgress {
     url: string;
     status: 'pending' | 'reviewed' | 'signed';
     uploadedAt: Date;
-    reviewedAt: Date;
+    reviewedAt?: Date;
   }[];
 
-  @Prop()
+  @Prop({ type: [Object] })
   meetings: {
     id: string;
     title: string;
@@ -133,8 +128,8 @@ export class OnboardingProgress {
     notes: string;
   }[];
 
-  @Prop()
-  feedback: {
+  @Prop({ type: Object })
+  feedback?: {
     overallRating: number; // 1-5
     comments: string;
     suggestions: string;
@@ -143,6 +138,10 @@ export class OnboardingProgress {
 
   @Prop({ default: true })
   isActive: boolean;
+
+  // Reference to the new resource progress tracking system
+  @Prop({ type: Types.ObjectId, ref: 'ResourceProgress' })
+  resourceProgress?: Types.ObjectId;
 }
 
 export const OnboardingProgressSchema = SchemaFactory.createForClass(OnboardingProgress);

@@ -9,6 +9,7 @@ import { CompanyResourcesController } from './company-resources.controller';
 import { Employee, EmployeeSchema } from './schemas/employee.schema';
 import { OnboardingProgress, OnboardingProgressSchema } from './schemas/onboarding-progress.schema';
 import { CompanyResource, CompanyResourceSchema } from './schemas/company-resource.schema';
+import { ResourceProgress, ResourceProgressSchema } from './schemas/resource-progress.schema';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CompanyResource, CompanyResourceSchema } from './schemas/company-resour
       { name: Employee.name, schema: EmployeeSchema },
       { name: OnboardingProgress.name, schema: OnboardingProgressSchema },
       { name: CompanyResource.name, schema: CompanyResourceSchema },
+      { name: ResourceProgress.name, schema: ResourceProgressSchema },
     ]),
   ],
   controllers: [

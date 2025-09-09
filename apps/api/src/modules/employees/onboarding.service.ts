@@ -35,8 +35,8 @@ export class OnboardingService {
     status: OnboardingStepStatus,
     formData?: any,
     notes?: string
-  ): Promise<OnboardingProgress> {
-    const progress = await this.getProgress(employeeId);
+  ): Promise<OnboardingProgressDocument> {
+    const progress = await this.getProgress(employeeId) as OnboardingProgressDocument;
     
     const stepIndex = progress.steps.findIndex(step => step.id === stepId);
     if (stepIndex === -1) {
@@ -76,11 +76,15 @@ export class OnboardingService {
       }
     }
 
-    return await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    const result = await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    if (!result) {
+      throw new NotFoundException('Could not update onboarding progress');
+    }
+    return result;
   }
 
-  async addCustomStep(employeeId: string, stepData: any): Promise<OnboardingProgress> {
-    const progress = await this.getProgress(employeeId);
+  async addCustomStep(employeeId: string, stepData: any): Promise<OnboardingProgressDocument> {
+    const progress = await this.getProgress(employeeId) as OnboardingProgressDocument;
     
     const customStep = {
       id: `custom_${Date.now()}`,
@@ -100,34 +104,46 @@ export class OnboardingService {
       feedback: undefined,
     };
 
-    progress.customSteps.push(customStep);
-    return await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    progress.customSteps.push(customStep as any);
+    const result = await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    if (!result) {
+      throw new NotFoundException('Could not update onboarding progress');
+    }
+    return result;
   }
 
-  async assignBuddy(employeeId: string, buddyId: string): Promise<OnboardingProgress> {
+  async assignBuddy(employeeId: string, buddyId: string): Promise<OnboardingProgressDocument> {
     if (!Types.ObjectId.isValid(buddyId)) {
       throw new NotFoundException('Invalid buddy ID');
     }
 
-    const progress = await this.getProgress(employeeId);
+    const progress = await this.getProgress(employeeId) as OnboardingProgressDocument;
     progress.assignedBuddy = new Types.ObjectId(buddyId);
     
-    return await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    const result = await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    if (!result) {
+      throw new NotFoundException('Could not update onboarding progress');
+    }
+    return result;
   }
 
-  async assignHR(employeeId: string, hrId: string): Promise<OnboardingProgress> {
+  async assignHR(employeeId: string, hrId: string): Promise<OnboardingProgressDocument> {
     if (!Types.ObjectId.isValid(hrId)) {
       throw new NotFoundException('Invalid HR ID');
     }
 
-    const progress = await this.getProgress(employeeId);
+    const progress = await this.getProgress(employeeId) as OnboardingProgressDocument;
     progress.assignedHR = new Types.ObjectId(hrId);
     
-    return await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    const result = await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    if (!result) {
+      throw new NotFoundException('Could not update onboarding progress');
+    }
+    return result;
   }
 
-  async addDocument(employeeId: string, documentData: any): Promise<OnboardingProgress> {
-    const progress = await this.getProgress(employeeId);
+  async addDocument(employeeId: string, documentData: any): Promise<OnboardingProgressDocument> {
+    const progress = await this.getProgress(employeeId) as OnboardingProgressDocument;
     
     const document = {
       id: `doc_${Date.now()}`,
@@ -136,19 +152,23 @@ export class OnboardingService {
       url: documentData.url,
       status: 'pending' as 'pending' | 'reviewed' | 'signed',
       uploadedAt: new Date(),
-      reviewedAt: undefined as Date | undefined,
+      reviewedAt: undefined,
     };
 
-    progress.documents.push(document);
-    return await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    progress.documents.push(document as any);
+    const result = await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    if (!result) {
+      throw new NotFoundException('Could not update onboarding progress');
+    }
+    return result;
   }
 
   async updateDocumentStatus(
     employeeId: string,
     documentId: string,
     status: 'pending' | 'reviewed' | 'signed'
-  ): Promise<OnboardingProgress> {
-    const progress = await this.getProgress(employeeId);
+  ): Promise<OnboardingProgressDocument> {
+    const progress = await this.getProgress(employeeId) as OnboardingProgressDocument;
     
     const docIndex = progress.documents.findIndex(doc => doc.id === documentId);
     if (docIndex === -1) {
@@ -160,11 +180,15 @@ export class OnboardingService {
       progress.documents[docIndex].reviewedAt = new Date();
     }
 
-    return await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    const result = await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    if (!result) {
+      throw new NotFoundException('Could not update onboarding progress');
+    }
+    return result;
   }
 
-  async scheduleMeeting(employeeId: string, meetingData: any): Promise<OnboardingProgress> {
-    const progress = await this.getProgress(employeeId);
+  async scheduleMeeting(employeeId: string, meetingData: any): Promise<OnboardingProgressDocument> {
+    const progress = await this.getProgress(employeeId) as OnboardingProgressDocument;
     
     const meeting = {
       id: `meeting_${Date.now()}`,
@@ -176,12 +200,16 @@ export class OnboardingService {
       notes: '',
     };
 
-    progress.meetings.push(meeting);
-    return await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    progress.meetings.push(meeting as any);
+    const result = await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    if (!result) {
+      throw new NotFoundException('Could not update onboarding progress');
+    }
+    return result;
   }
 
-  async submitFeedback(employeeId: string, feedback: any): Promise<OnboardingProgress> {
-    const progress = await this.getProgress(employeeId);
+  async submitFeedback(employeeId: string, feedback: any): Promise<OnboardingProgressDocument> {
+    const progress = await this.getProgress(employeeId) as OnboardingProgressDocument;
     
     progress.feedback = {
       overallRating: feedback.overallRating,
@@ -190,15 +218,19 @@ export class OnboardingService {
       submittedAt: new Date(),
     };
 
-    return await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    const result = await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    if (!result) {
+      throw new NotFoundException('Could not update onboarding progress');
+    }
+    return result;
   }
 
   async submitStepFeedback(
     employeeId: string,
     stepId: string,
     feedback: { rating: number; comment: string }
-  ): Promise<OnboardingProgress> {
-    const progress = await this.getProgress(employeeId);
+  ): Promise<OnboardingProgressDocument> {
+    const progress = await this.getProgress(employeeId) as OnboardingProgressDocument;
     
     const stepIndex = progress.steps.findIndex(step => step.id === stepId);
     if (stepIndex === -1) {
@@ -211,7 +243,11 @@ export class OnboardingService {
       submittedAt: new Date(),
     };
 
-    return await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    const result = await this.onboardingModel.findByIdAndUpdate(progress._id, progress, { new: true }).exec();
+    if (!result) {
+      throw new NotFoundException('Could not update onboarding progress');
+    }
+    return result;
   }
 
   async getOnboardingStats() {
