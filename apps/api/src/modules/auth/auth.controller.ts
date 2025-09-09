@@ -22,4 +22,9 @@ export class AuthController {
   getProfile(@Request() req: any) {
     return req.user;
   }
+
+  @Post('logout')
+  async logout() {
+    return { message: 'Sesión cerrada correctamente' };
+  }
 }

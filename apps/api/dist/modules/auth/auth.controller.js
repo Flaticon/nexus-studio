@@ -30,6 +30,9 @@ let AuthController = class AuthController {
     getProfile(req) {
         return req.user;
     }
+    async logout() {
+        return { message: 'Sesión cerrada correctamente' };
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
@@ -54,6 +57,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getProfile", null);
+__decorate([
+    (0, common_1.Post)('logout'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "logout", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('api/auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

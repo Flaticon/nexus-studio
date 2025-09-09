@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Menu, Bell, Search, User, HelpCircle } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, Bell, Search, User, HelpCircle, LogOut } from 'lucide-react';
 import UserManualModal from '../help/UserManualModal';
 
 interface HeaderProps {
@@ -12,6 +12,58 @@ interface HeaderProps {
 
 const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
   const [isManualOpen, setIsManualOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  const handleLogout = async () => {
+    try {
+      // Clear local storage/session storage
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Call logout endpoint if available
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      // Redirect to login page
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Still redirect even if API call fails
+      window.location.href = '/login';
+    }
+  };
+
+  // Simple user state management
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setShowUserMenu(false);
+      }
+    };
+
+    if (showUserMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showUserMenu]);
 
   return (
     <>
@@ -119,27 +171,67 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
         </button>
 
         {/* User menu */}
-        <button 
-          className="flex items-center gap-2 p-2 rounded-lg transition-colors"
-          onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-          onMouseLeave={(e) => e.target.style.background = 'transparent'}
-        >
-          <div 
-            className="w-8 h-8 rounded-full flex items-center justify-center"
-            style={{ 
-              background: 'var(--brand-primary-light)',
-              color: 'var(--brand-primary)'
-            }}
+        <div className="relative" ref={userMenuRef}>
+          <button 
+            onClick={() => setShowUserMenu(!showUserMenu)}
+            className="flex items-center gap-2 p-2 rounded-lg transition-colors"
+            onMouseEnter={(e) => (e.target as HTMLElement).style.background = 'var(--surface-hover)'}
+            onMouseLeave={(e) => (e.target as HTMLElement).style.background = 'transparent'}
           >
-            <User className="w-4 h-4" />
-          </div>
-          <span 
-            className="hidden sm:block text-sm font-medium" 
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            Admin
-          </span>
-        </button>
+            <div 
+              className="w-8 h-8 rounded-full flex items-center justify-center"
+              style={{ 
+                background: 'var(--brand-primary-light)',
+                color: 'var(--brand-primary)'
+              }}
+            >
+              <User className="w-4 h-4" />
+            </div>
+            <span 
+              className="hidden sm:block text-sm font-medium" 
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              {user?.name || user?.email || 'Usuario'}
+            </span>
+          </button>
+
+          {/* User dropdown menu */}
+          {showUserMenu && (
+            <div 
+                className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg z-20 py-1"
+                style={{ 
+                  background: 'var(--surface)',
+                  border: '1px solid var(--separator)'
+                }}
+              >
+                <div className="px-4 py-2 border-b" style={{ borderColor: 'var(--separator)' }}>
+                  <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                    {user?.name || user?.email || 'Usuario'}
+                  </p>
+                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                    {user?.email || 'usuario@email.com'}
+                  </p>
+                </div>
+                
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-sm flex items-center gap-2 transition-colors"
+                  style={{ color: 'var(--text-secondary)' }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLElement).style.background = 'var(--surface-hover)';
+                    (e.target as HTMLElement).style.color = 'var(--error)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLElement).style.background = 'transparent';
+                    (e.target as HTMLElement).style.color = 'var(--text-secondary)';
+                  }}
+                >
+                  <LogOut className="w-4 h-4" />
+                  Cerrar sesión
+                </button>
+              </div>
+          )}
+        </div>
       </div>
     </header>
     </>
