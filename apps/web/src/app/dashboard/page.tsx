@@ -386,11 +386,11 @@ export default function DashboardPage() {
 
   const CustomMetricCard = ({ title, value, change, changeType, icon, subtitle, href, format = 'number', trend = 'stable' }) => {
     const Card = (
-      <div className="bg-white rounded-xl card-shadow hover:card-shadow-hover transition-all duration-200 p-6 border border-gray-100 hover:border-gray-200 group">
+      <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-gray-200 group hover:scale-105">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-sm font-medium text-gray-600 text-balance">{title}</h3>
+              <h3 className="text-sm font-bold tracking-tight text-gray-600 text-balance">{title}</h3>
               {trend !== 'stable' && (
                 <div className="text-gray-400">
                   <TrendingUp className={`h-3 w-3 ${trend === 'down' ? 'rotate-180' : ''}`} />
@@ -429,8 +429,8 @@ export default function DashboardPage() {
           </div>
           
           {icon && (
-            <div className="ml-4 p-3 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-100">
-              <div className="text-blue-600">
+            <div className="ml-4 p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl group-hover:scale-105 transition-transform duration-200">
+              <div className="text-white">
                 {icon}
               </div>
             </div>
@@ -465,7 +465,7 @@ export default function DashboardPage() {
               <button 
                 onClick={handleRefresh}
                 disabled={refreshing}
-                className="px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 disabled:opacity-50 transition-all duration-200 text-sm"
+                className="px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 disabled:opacity-50 transition-all duration-200 text-sm font-medium"
                 style={{
                   background: 'var(--surface)',
                   color: 'var(--text-primary)',
@@ -488,7 +488,7 @@ export default function DashboardPage() {
               </button>
               
               <button 
-                className="px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 text-sm"
+                className="px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium bg-gradient-to-r from-emerald-500 to-green-600 text-white hover:from-emerald-600 hover:to-green-700"
                 style={{
                   background: 'var(--surface)',
                   color: 'var(--text-primary)',
@@ -510,7 +510,7 @@ export default function DashboardPage() {
             <div className="flex gap-2 sm:gap-3">
               <button 
                 onClick={() => setShowFilters(!showFilters)}
-                className={`px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 text-sm ${
+                className={`px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium ${
                   showFilters ? 'ring-2 ring-blue-500' : ''
                 }`}
                 style={{
@@ -538,7 +538,7 @@ export default function DashboardPage() {
               
               <button 
                 onClick={() => setShowCustomView(!showCustomView)}
-                className="px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200 text-sm"
+                className="px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium"
                 style={{
                   background: showCustomView ? 'rgba(88, 86, 214, 0.1)' : 'var(--surface)',
                   color: showCustomView ? '#5856d6' : 'var(--text-primary)',
@@ -566,9 +566,11 @@ export default function DashboardPage() {
 
       {/* Filters Panel */}
       {showFilters && (
-        <div className="mb-6 rounded-lg p-6" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)' }}>
+        <div className="mb-6 rounded-2xl p-6 bg-white shadow-md border border-gray-100 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Filtros</h3>
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              🔍 Filtros
+            </h3>
             <button 
               onClick={() => setShowFilters(false)}
               className="transition-colors duration-200"
@@ -688,9 +690,11 @@ export default function DashboardPage() {
 
       {/* Custom View Panel */}
       {showCustomView && (
-        <div className="mb-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="mb-6 bg-white rounded-2xl shadow-md border border-gray-100 p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Vista Personalizada</h3>
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              ⚙️ Vista Personalizada
+            </h3>
             <div className="flex items-center gap-2">
               <button 
                 onClick={resetLayout}
@@ -746,8 +750,10 @@ export default function DashboardPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">Métricas Principales</h2>
-              <p className="text-gray-600 text-sm mt-1">Vista general de KPIs críticos del venture studio</p>
+              <h2 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
+                📊 Métricas Principales
+              </h2>
+              <p className="text-gray-600 text-sm mt-1 font-medium">Vista general de KPIs críticos del venture studio</p>
             </div>
           </div>
           
@@ -862,9 +868,11 @@ export default function DashboardPage() {
           widgetLayout.charts.size === 'large' ? 'scale-110' : ''
         }`}>
         {/* Revenue Trend */}
-        <div className="lg:col-span-2 bg-white rounded-lg shadow-sm">
+        <div className="lg:col-span-2 bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
           <div className="p-4 sm:p-6 pb-4">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900">Tendencia Financiera y OKRs</h3>
+            <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              📈 Tendencia Financiera y OKRs
+            </h3>
           </div>
           <div className="p-4 sm:p-6">
             <ResponsiveContainer width="100%" height={300}>
@@ -891,9 +899,11 @@ export default function DashboardPage() {
         </div>
 
         {/* Startup Revenue Distribution */}
-        <div className="bg-white rounded-lg shadow-sm">
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
           <div className="p-4 sm:p-6 pb-4">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900">Revenue por Startup</h3>
+            <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              🥧 Revenue por Startup
+            </h3>
           </div>
           <div className="p-4 sm:p-6">
             <ResponsiveContainer width="100%" height={300}>
@@ -926,9 +936,11 @@ export default function DashboardPage() {
           widgetLayout.status.size === 'large' ? 'scale-110' : ''
         }`}>
         {/* Portfolio Status */}
-        <div className="bg-white rounded-lg shadow-sm">
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
           <div className="p-6 pb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Estado del Portafolio</h3>
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              💼 Estado del Portafolio
+            </h3>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-3 gap-4">
@@ -949,9 +961,11 @@ export default function DashboardPage() {
         </div>
 
         {/* Team Overview */}
-        <div className="bg-white rounded-lg shadow-sm">
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
           <div className="p-6 pb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Resumen del Equipo</h3>
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              👥 Resumen del Equipo
+            </h3>
           </div>
           <div className="p-6">
             <div className="space-y-4">
@@ -981,14 +995,18 @@ export default function DashboardPage() {
 
       {/* Alerts and Activities */}
       {widgetLayout.alerts.visible && (
-        <div className={`bg-white rounded-lg shadow-sm ${
+        <div className={`bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 ${
           widgetLayout.alerts.size === 'small' ? 'scale-90' : 
           widgetLayout.alerts.size === 'large' ? 'scale-110' : ''
         }`}>
         <div className="p-6 pb-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900">Alertas y Actividad Reciente</h3>
-            <span className="text-sm text-gray-500">{filteredAlerts.length} alertas activas</span>
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              🔔 Alertas y Actividad Reciente
+            </h3>
+            <span className="text-sm font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
+              {filteredAlerts.length} alertas activas
+            </span>
           </div>
         </div>
         <div className="p-6">
@@ -1003,18 +1021,20 @@ export default function DashboardPage() {
               </div>
             ) : (
               filteredAlerts.map((alert) => (
-              <div key={alert.id} className={`p-4 rounded-lg border ${getAlertColor(alert.type)}`}>
+              <div key={alert.id} className={`p-4 rounded-2xl border ${getAlertColor(alert.type)} hover:shadow-md transition-all duration-200`}>
                 <div className="flex items-start gap-3">
-                  {getAlertIcon(alert.type)}
+                  <div className="w-8 h-8 rounded-full bg-white bg-opacity-50 flex items-center justify-center">
+                    {getAlertIcon(alert.type)}
+                  </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-medium">{alert.title}</h4>
-                      <span className="text-xs opacity-75">{alert.timestamp}</span>
+                      <h4 className="font-bold tracking-tight">{alert.title}</h4>
+                      <span className="text-xs opacity-75 font-medium bg-white bg-opacity-30 px-2 py-1 rounded-full">{alert.timestamp}</span>
                     </div>
-                    <p className="text-sm mt-1 opacity-90">{alert.message}</p>
+                    <p className="text-sm mt-1 opacity-90 font-medium">{alert.message}</p>
                     <div className="flex items-center gap-2 mt-2">
-                      <span className="text-xs bg-white bg-opacity-50 px-2 py-1 rounded capitalize">
-                        {alert.module}
+                      <span className="text-xs bg-gradient-to-r from-white to-gray-100 bg-opacity-70 px-3 py-1 rounded-full font-bold capitalize border border-white border-opacity-30">
+                        {alert.module === 'finance' ? '💰 Finanzas' : alert.module === 'okrs' ? '🎯 OKRs' : alert.module === 'talent' ? '👥 Talento' : alert.module === 'portfolio' ? '💼 Portafolio' : alert.module}
                       </span>
                     </div>
                   </div>
@@ -1028,10 +1048,12 @@ export default function DashboardPage() {
       )}
 
       {/* Portfolio Kanban Board */}
-      <div className="bg-white rounded-lg shadow-sm mb-8">
+      <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 mb-8">
         <div className="p-6 pb-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900">Vista Rápida del Portafolio</h3>
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              📊 Vista Rápida del Portafolio
+            </h3>
             <Link href="/portfolio" className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
               <span>Ver portafolio completo</span>
               <ArrowRight className="w-4 h-4" />
@@ -1049,19 +1071,19 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       <div className="mt-8 text-center">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
-          <Link href="/portfolio" className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium text-sm">
+          <Link href="/portfolio" className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-3 rounded-2xl hover:from-green-600 hover:to-emerald-700 transition-all duration-200 font-bold text-sm shadow-md hover:shadow-lg hover:scale-105">
             <Briefcase className="h-4 w-4" />
             Gestionar Portafolio
           </Link>
-          <Link href="/finance" className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm">
+          <Link href="/finance" className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-3 rounded-2xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 font-bold text-sm shadow-md hover:shadow-lg hover:scale-105">
             <DollarSign className="h-4 w-4" />
             Ver Finanzas
           </Link>
-          <Link href="/okrs" className="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium text-sm">
+          <Link href="/okrs" className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-violet-600 text-white px-4 py-3 rounded-2xl hover:from-purple-600 hover:to-violet-700 transition-all duration-200 font-bold text-sm shadow-md hover:shadow-lg hover:scale-105">
             <Target className="h-4 w-4" />
             Revisar OKRs
           </Link>
-          <Link href="/talent" className="inline-flex items-center gap-2 bg-orange-600 text-white px-4 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium text-sm">
+          <Link href="/talent" className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-600 text-white px-4 py-3 rounded-2xl hover:from-orange-600 hover:to-amber-700 transition-all duration-200 font-bold text-sm shadow-md hover:shadow-lg hover:scale-105">
             <Users className="h-4 w-4" />
             Gestionar Equipo
           </Link>

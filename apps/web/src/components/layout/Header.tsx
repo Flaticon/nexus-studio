@@ -73,29 +73,26 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
       />
     
       <header 
-      className="px-3 sm:px-4 py-3 flex items-center justify-between"
-      style={{ 
-        background: 'var(--surface)',
-        borderBottom: '1px solid var(--separator)'
-      }}
+      className="px-4 sm:px-6 py-4 flex items-center justify-between bg-white shadow-sm border-b border-gray-100 backdrop-blur-md bg-white/95"
     >
       {/* Left side - Menu button and title */}
       <div className="flex items-center gap-4">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2 rounded-lg transition-colors"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-          onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          className="lg:hidden p-2 rounded-xl transition-all duration-200 hover:bg-gray-100 hover:scale-105 text-gray-600 hover:text-gray-800"
         >
           <Menu className="w-5 h-5" />
         </button>
         
         {title && (
-          <div>
-            <h1 className="text-base sm:text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{title}</h1>
+          <div className="ml-2 lg:ml-0">
+            <h1 className="text-lg sm:text-xl font-bold tracking-tight text-gray-900">
+              {title.replace(/[🏠💰📊🎯👥📚]/g, '').trim()}
+            </h1>
             {subtitle && (
-              <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>{subtitle}</p>
+              <p className="text-sm font-medium text-gray-600 mt-0.5">
+                {subtitle.replace(/[🏠💰📊🎯👥📚]/g, '').trim()}
+              </p>
             )}
           </div>
         )}
@@ -105,10 +102,7 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
       <div className="flex items-center gap-3">
         {/* Search button (mobile) */}
         <button 
-          className="p-2 rounded-lg transition-colors sm:hidden"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-          onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          className="p-2 rounded-xl transition-all duration-200 hover:bg-gray-100 hover:scale-105 text-gray-600 hover:text-gray-800 sm:hidden"
         >
           <Search className="w-5 h-5" />
         </button>
@@ -116,28 +110,11 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
         {/* Search bar (desktop) */}
         <div className="hidden md:flex items-center">
           <div className="relative">
-            <Search 
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" 
-              style={{ color: 'var(--text-tertiary)' }}
-            />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Buscar..."
-              className="pl-10 pr-4 py-2 rounded-lg focus:outline-none w-48 lg:w-64 transition-all duration-200"
-              style={{ 
-                background: 'var(--surface-secondary)',
-                border: 'none',
-                color: 'var(--text-primary)',
-                '::placeholder': { color: 'var(--text-tertiary)' }
-              }}
-              onFocus={(e) => {
-                e.target.style.background = 'var(--surface)';
-                e.target.style.boxShadow = 'var(--shadow-sm)';
-              }}
-              onBlur={(e) => {
-                e.target.style.background = 'var(--surface-secondary)';
-                e.target.style.boxShadow = 'none';
-              }}
+              placeholder="Buscar en Nexus Studio..."
+              className="pl-10 pr-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white w-64 lg:w-80 transition-all duration-200 text-gray-900 placeholder-gray-500 font-medium"
             />
           </div>
         </div>
@@ -145,10 +122,7 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
         {/* Help button */}
         <button 
           onClick={() => setIsManualOpen(true)}
-          className="p-2 rounded-lg transition-colors"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-          onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          className="p-2 rounded-xl transition-all duration-200 hover:bg-gray-100 hover:scale-105 text-gray-600 hover:text-gray-800"
           title="Manual de Usuario"
         >
           <HelpCircle className="w-5 h-5" />
@@ -156,17 +130,11 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
 
         {/* Notifications */}
         <button 
-          className="p-2 rounded-lg transition-colors relative"
-          style={{ color: 'var(--text-secondary)' }}
-          onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-          onMouseLeave={(e) => e.target.style.background = 'transparent'}
+          className="p-2 rounded-xl transition-all duration-200 hover:bg-gray-100 hover:scale-105 text-gray-600 hover:text-gray-800 relative"
         >
           <Bell className="w-5 h-5" />
-          <div 
-            className="absolute -top-1 -right-1 w-3 h-3 rounded-full flex items-center justify-center"
-            style={{ background: 'var(--error)' }}
-          >
-            <span className="text-xs text-white font-medium">3</span>
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-sm">
+            <span className="text-xs text-white font-bold">3</span>
           </div>
         </button>
 
@@ -174,61 +142,39 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
         <div className="relative" ref={userMenuRef}>
           <button 
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-2 p-2 rounded-lg transition-colors"
-            onMouseEnter={(e) => (e.target as HTMLElement).style.background = 'var(--surface-hover)'}
-            onMouseLeave={(e) => (e.target as HTMLElement).style.background = 'transparent'}
+            className="flex items-center gap-3 p-2 rounded-xl transition-all duration-200 hover:bg-gray-100 hover:scale-105"
           >
-            <div 
-              className="w-8 h-8 rounded-full flex items-center justify-center"
-              style={{ 
-                background: 'var(--brand-primary-light)',
-                color: 'var(--brand-primary)'
-              }}
-            >
-              <User className="w-4 h-4" />
+            <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-md">
+              <User className="w-4 h-4 text-white" />
             </div>
-            <span 
-              className="hidden sm:block text-sm font-medium" 
-              style={{ color: 'var(--text-secondary)' }}
-            >
+            <span className="hidden sm:block text-sm font-bold text-gray-700">
               {user?.name || user?.email || 'Usuario'}
             </span>
           </button>
 
           {/* User dropdown menu */}
           {showUserMenu && (
-            <div 
-                className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg z-20 py-1"
-                style={{ 
-                  background: 'var(--surface)',
-                  border: '1px solid var(--separator)'
-                }}
-              >
-                <div className="px-4 py-2 border-b" style={{ borderColor: 'var(--separator)' }}>
-                  <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+            <div className="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-xl border border-gray-100 z-20 py-2 backdrop-blur-lg">
+                <div className="px-4 py-3 border-b border-gray-100">
+                  <p className="text-sm font-bold text-gray-900">
                     {user?.name || user?.email || 'Usuario'}
                   </p>
-                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  <p className="text-xs font-medium text-gray-600 mt-0.5">
                     {user?.email || 'usuario@email.com'}
                   </p>
                 </div>
                 
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-sm flex items-center gap-2 transition-colors"
-                  style={{ color: 'var(--text-secondary)' }}
-                  onMouseEnter={(e) => {
-                    (e.target as HTMLElement).style.background = 'var(--surface-hover)';
-                    (e.target as HTMLElement).style.color = 'var(--error)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.target as HTMLElement).style.background = 'transparent';
-                    (e.target as HTMLElement).style.color = 'var(--text-secondary)';
-                  }}
-                >
-                  <LogOut className="w-4 h-4" />
-                  Cerrar sesión
-                </button>
+                <div className="p-2">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-3 py-2.5 text-sm flex items-center gap-3 transition-all duration-200 rounded-xl hover:bg-red-50 hover:text-red-600 text-gray-700 font-medium"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
+                      <LogOut className="w-4 h-4 text-red-600" />
+                    </div>
+                    Cerrar sesión
+                  </button>
+                </div>
               </div>
           )}
         </div>
