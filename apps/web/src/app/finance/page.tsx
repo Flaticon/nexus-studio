@@ -27,6 +27,8 @@ import {
   Pie,
   LineChart,
   Line,
+  AreaChart,
+  Area,
 } from "recharts";
 import Layout from "../../components/layout/Layout";
 
@@ -88,11 +90,11 @@ export default function FinancePage() {
   ];
 
   const expensesByCategory = [
-    { name: "Personal", value: 65000, color: "#8B5CF6" },
-    { name: "Marketing", value: 25000, color: "#10B981" },
-    { name: "Infraestructura", value: 35000, color: "#F59E0B" },
-    { name: "Legal/Admin", value: 15000, color: "#EF4444" },
-    { name: "I+D", value: 45000, color: "#3B82F6" },
+    { name: "Personal", value: 65000, color: "#8B5CF6", icon: "👥" },
+    { name: "Marketing", value: 25000, color: "#10B981", icon: "📢" },
+    { name: "Infraestructura", value: 35000, color: "#F59E0B", icon: "🏢" },
+    { name: "Legal/Admin", value: 15000, color: "#EF4444", icon: "💼" },
+    { name: "I+D", value: 45000, color: "#3B82F6", icon: "🔬" },
   ];
 
   const totalRevenue = financialData.reduce(
@@ -223,10 +225,10 @@ export default function FinancePage() {
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 💰 Finanzas Consolidadas
               </h1>
-              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>
+              <p className="mt-2 font-medium" style={{ color: 'var(--text-secondary)' }}>
                 Control financiero integral del venture studio
               </p>
             </div>
@@ -257,7 +259,7 @@ export default function FinancePage() {
 
               <button 
                 onClick={() => setShowFilters(!showFilters)}
-                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 ${
+                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium ${
                   showFilters ? 'ring-2 ring-blue-500' : ''
                 }`}
                 style={{
@@ -280,7 +282,7 @@ export default function FinancePage() {
               </button>
 
               <button 
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 text-white transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 text-white transition-all duration-200 font-medium bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700"
                 style={{ background: 'var(--module-finance)' }}
                 onMouseEnter={(e) => e.target.style.opacity = '0.9'}
                 onMouseLeave={(e) => e.target.style.opacity = '1'}
@@ -294,19 +296,21 @@ export default function FinancePage() {
 
         {/* Filter Panel */}
         {showFilters && (
-          <div className="mb-6 bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+          <div className="mb-6 bg-white rounded-2xl shadow-md border border-gray-100 p-4 sm:p-6 backdrop-blur-sm">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Filtros Avanzados</h3>
+              <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                🔍 Filtros Avanzados
+              </h3>
               <div className="flex gap-2">
                 <button
                   onClick={resetFilters}
-                  className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 border border-gray-200 rounded-full hover:bg-gray-50 transition-all duration-200"
                 >
                   Limpiar Filtros
                 </button>
                 <button
                   onClick={() => setShowFilters(false)}
-                  className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-800 border border-gray-200 rounded-full hover:bg-gray-50 transition-all duration-200"
                 >
                   Cerrar
                 </button>
@@ -483,11 +487,11 @@ export default function FinancePage() {
             </div>
 
             {/* Results Summary */}
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <p className="text-sm text-gray-600">
-                Mostrando {filteredAndSortedData.length} de {financialData.length} startups
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <p className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                📊 Mostrando {filteredAndSortedData.length} de {financialData.length} startups
                 {hasActiveFilters && (
-                  <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
+                  <span className="px-2 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 rounded-full text-xs font-bold">
                     Filtros activos
                   </span>
                 )}
@@ -498,162 +502,348 @@ export default function FinancePage() {
 
         {/* Key Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">
-                Ingresos Totales
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                💰 Ingresos Totales
               </h3>
-              <DollarSign className="w-5 h-5 text-green-600" />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <DollarSign className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
               ${totalRevenue.toLocaleString()}
             </p>
-            <div className="flex items-center mt-2">
-              <ArrowUp className="w-4 h-4 text-green-600" />
-              <span className="text-sm text-green-600 ml-1">
+            <div className="flex items-center">
+              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                <ArrowUp className="w-3 h-3 text-green-600" />
+              </div>
+              <span className="text-sm font-medium text-green-600">
                 +12.5% vs mes anterior
               </span>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">
-                Gastos Totales
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                📊 Gastos Totales
               </h3>
-              <TrendingDown className="w-5 h-5 text-red-600" />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <TrendingDown className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
               ${totalExpenses.toLocaleString()}
             </p>
-            <div className="flex items-center mt-2">
-              <ArrowDown className="w-4 h-4 text-red-600" />
-              <span className="text-sm text-red-600 ml-1">
+            <div className="flex items-center">
+              <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mr-2">
+                <ArrowDown className="w-3 h-3 text-red-600" />
+              </div>
+              <span className="text-sm font-medium text-red-600">
                 -3.2% vs mes anterior
               </span>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">
-                Burn Rate Mensual
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                🔥 Burn Rate Mensual
               </h3>
-              <AlertCircle className="w-5 h-5 text-orange-600" />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <AlertCircle className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
               ${Math.abs(totalBurnRate).toLocaleString()}
             </p>
-            <div className="flex items-center mt-2">
-              <span className="text-sm text-gray-600">Mejorando tendencia</span>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-orange-100 to-amber-100">
+                <span className="text-sm font-medium text-orange-700">Mejorando tendencia</span>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">
-                Runway Promedio
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                📅 Runway Promedio
               </h3>
-              <Calendar className="w-5 h-5 text-blue-600" />
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <Calendar className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
               {avgRunway} meses
             </p>
-            <div className="flex items-center mt-2">
-              <span className="text-sm text-gray-600">
-                Basado en burn rate actual
-              </span>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100">
+                <span className="text-sm font-medium text-blue-700">
+                  Basado en burn rate actual
+                </span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
-          {/* Revenue Trends */}
-          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
-              Tendencia de Ingresos vs Gastos
+        <div className="space-y-6 mb-8">
+          {/* Net Income Trend Chart */}
+          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 mb-4 flex items-center gap-2">
+              📊 Tendencia de Ingresos Netos
             </h3>
             <div className="overflow-x-auto">
-              <ResponsiveContainer width="100%" height={300} minWidth={300}>
-              <BarChart data={monthlyTrends}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip
-                  formatter={(value) => [`$${value.toLocaleString()}`, ""]}
-                  labelFormatter={(label) => `Mes: ${label}`}
-                />
-                <Bar dataKey="revenue" fill="#10B981" name="Ingresos" />
-                <Bar dataKey="expenses" fill="#EF4444" name="Gastos" />
-              </BarChart>
-            </ResponsiveContainer>
+              <ResponsiveContainer width="100%" height={300} minWidth={400}>
+                <AreaChart 
+                  data={monthlyTrends} 
+                  margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                >
+                  <defs>
+                    <linearGradient id="netIncomeGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                      <stop offset="100%" stopColor="#3B82F6" stopOpacity={0.05}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid 
+                    strokeDasharray="3 3" 
+                    stroke="#F3F4F6" 
+                    strokeOpacity={0.7}
+                  />
+                  <XAxis 
+                    dataKey="month" 
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                    dy={10}
+                  />
+                  <YAxis 
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                    tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: '12px',
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                      padding: '12px 16px',
+                      fontSize: '14px',
+                      fontWeight: '600'
+                    }}
+                    formatter={(value) => [`$${value.toLocaleString()}`, '💰 Ingreso Neto']}
+                    labelFormatter={(label) => `📅 ${label} 2025`}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="netIncome"
+                    stroke="#3B82F6"
+                    strokeWidth={3}
+                    fill="url(#netIncomeGradient)"
+                    dot={{ r: 6, fill: '#3B82F6', strokeWidth: 2, stroke: '#FFFFFF' }}
+                    activeDot={{ r: 8, fill: '#3B82F6', strokeWidth: 3, stroke: '#FFFFFF' }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          {/* Revenue Trends */}
+          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 mb-4 flex items-center gap-2">
+              📈 Tendencia de Ingresos vs Gastos
+            </h3>
+            <div className="overflow-x-auto">
+              <ResponsiveContainer width="100%" height={350} minWidth={300}>
+                <BarChart 
+                  data={monthlyTrends} 
+                  margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                  barCategoryGap={"20%"}
+                >
+                  <defs>
+                    <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10B981" stopOpacity={0.9}/>
+                      <stop offset="100%" stopColor="#059669" stopOpacity={0.7}/>
+                    </linearGradient>
+                    <linearGradient id="expensesGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#EF4444" stopOpacity={0.9}/>
+                      <stop offset="100%" stopColor="#DC2626" stopOpacity={0.7}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid 
+                    strokeDasharray="3 3" 
+                    stroke="#F3F4F6" 
+                    strokeOpacity={0.7}
+                  />
+                  <XAxis 
+                    dataKey="month" 
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                    dy={10}
+                  />
+                  <YAxis 
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                    tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: '12px',
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                      padding: '12px 16px',
+                      fontSize: '14px',
+                      fontWeight: '600'
+                    }}
+                    formatter={(value, name) => [
+                      `$${value.toLocaleString()}`, 
+                      name === 'revenue' ? '💰 Ingresos' : '💸 Gastos'
+                    ]}
+                    labelFormatter={(label) => `📅 ${label} 2025`}
+                    cursor={{ fill: 'rgba(59, 130, 246, 0.05)', radius: 8 }}
+                  />
+                  <Bar 
+                    dataKey="revenue" 
+                    fill="url(#revenueGradient)" 
+                    name="revenue" 
+                    radius={[4, 4, 0, 0]}
+                    stroke="#10B981"
+                    strokeWidth={1}
+                  />
+                  <Bar 
+                    dataKey="expenses" 
+                    fill="url(#expensesGradient)" 
+                    name="expenses" 
+                    radius={[4, 4, 0, 0]}
+                    stroke="#EF4444"
+                    strokeWidth={1}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </div>
 
           {/* Expenses by Category */}
-          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border border-gray-200">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
-              Distribución de Gastos
+          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 mb-4 flex items-center gap-2">
+              🥧 Distribución de Gastos
             </h3>
-            <div className="overflow-x-auto">
-              <ResponsiveContainer width="100%" height={300} minWidth={300}>
-              <RechartsPieChart>
-                <Pie
-                  dataKey="value"
-                  data={expensesByCategory}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  fill="#8884d8"
-                  label={({ name, percent }) =>
-                    `${name} ${(percent * 100).toFixed(0)}%`
-                  }
-                >
-                  {expensesByCategory.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value) => [`$${value.toLocaleString()}`, ""]}
-                />
-              </RechartsPieChart>
-            </ResponsiveContainer>
+            <div className="space-y-4">
+              <div className="overflow-x-auto">
+                <ResponsiveContainer width="100%" height={280} minWidth={300}>
+                  <RechartsPieChart>
+                    <defs>
+                      {expensesByCategory.map((entry, index) => (
+                        <linearGradient key={`gradient-${index}`} id={`gradient-${index}`} x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stopColor={entry.color} stopOpacity={0.9}/>
+                          <stop offset="100%" stopColor={entry.color} stopOpacity={0.6}/>
+                        </linearGradient>
+                      ))}
+                    </defs>
+                    <Pie
+                      dataKey="value"
+                      data={expensesByCategory}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={90}
+                      innerRadius={40}
+                      paddingAngle={3}
+                      stroke="#ffffff"
+                      strokeWidth={2}
+                    >
+                      {expensesByCategory.map((entry, index) => (
+                        <Cell 
+                          key={`cell-${index}`} 
+                          fill={`url(#gradient-${index})`}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: '#FFFFFF',
+                        border: 'none',
+                        borderRadius: '12px',
+                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        padding: '12px 16px',
+                        fontSize: '14px',
+                        fontWeight: '600'
+                      }}
+                      formatter={(value, name) => {
+                        const entry = expensesByCategory.find(e => e.name === name);
+                        return [`$${value.toLocaleString()}`, `${entry?.icon || ''} ${name}`];
+                      }}
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+              </div>
+              
+              {/* Enhanced Legend */}
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 pt-4 border-t border-gray-100">
+                {expensesByCategory.map((entry, index) => {
+                  const percentage = ((entry.value / expensesByCategory.reduce((sum, item) => sum + item.value, 0)) * 100).toFixed(1);
+                  return (
+                    <div key={entry.name} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div 
+                        className="w-4 h-4 rounded-full flex-shrink-0" 
+                        style={{ backgroundColor: entry.color }}
+                      ></div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1">
+                          <span className="text-xs">{entry.icon}</span>
+                          <span className="text-sm font-bold text-gray-900 truncate">{entry.name}</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-gray-600">${(entry.value / 1000).toFixed(0)}K</span>
+                          <span className="text-xs font-bold text-gray-800">{percentage}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
+          </div>
           </div>
         </div>
 
         {/* Startups Financial Table */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="p-6 border-b">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Finanzas por Startup
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+          <div className="p-6 border-b border-gray-100">
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              🏢 Finanzas por Startup
             </h3>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
                 <tr>
-                  <th className="text-left py-3 px-6 font-medium text-gray-600">
+                  <th className="text-left py-4 px-6 font-bold tracking-tight text-gray-700">
                     Startup
                   </th>
-                  <th className="text-left py-3 px-6 font-medium text-gray-600">
+                  <th className="text-left py-4 px-6 font-bold tracking-tight text-gray-700">
                     Etapa
                   </th>
-                  <th className="text-right py-3 px-6 font-medium text-gray-600">
+                  <th className="text-right py-4 px-6 font-bold tracking-tight text-gray-700">
                     Ingresos
                   </th>
-                  <th className="text-right py-3 px-6 font-medium text-gray-600">
+                  <th className="text-right py-4 px-6 font-bold tracking-tight text-gray-700">
                     Gastos
                   </th>
-                  <th className="text-right py-3 px-6 font-medium text-gray-600">
+                  <th className="text-right py-4 px-6 font-bold tracking-tight text-gray-700">
                     Burn Rate
                   </th>
-                  <th className="text-right py-3 px-6 font-medium text-gray-600">
+                  <th className="text-right py-4 px-6 font-bold tracking-tight text-gray-700">
                     Runway
                   </th>
-                  <th className="text-left py-3 px-6 font-medium text-gray-600">
+                  <th className="text-left py-4 px-6 font-bold tracking-tight text-gray-700">
                     Última Act.
                   </th>
                 </tr>
@@ -662,42 +852,49 @@ export default function FinancePage() {
                 {filteredAndSortedData.map((startup, index) => (
                   <tr
                     key={startup.id}
-                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                    className={`hover:bg-gray-50 transition-colors duration-200 ${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                   >
                     <td className="py-4 px-6">
-                      <div className="font-medium text-gray-900">
-                        {startup.startupName}
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                          <span className="text-sm font-bold text-white">
+                            {startup.startupName.charAt(0)}
+                          </span>
+                        </div>
+                        <div className="font-bold tracking-tight text-gray-900">
+                          {startup.startupName}
+                        </div>
                       </div>
                     </td>
                     <td className="py-4 px-6">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {startup.stage}
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800">
+                        {startup.stage === 'idea' ? '💡 Idea' : startup.stage === 'validation' ? '🧪 Validación' : '🎯 PMF'}
                       </span>
                     </td>
                     <td className="py-4 px-6 text-right">
-                      <span className="text-green-600 font-medium">
+                      <span className="font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">
                         ${startup.revenue.toLocaleString()}
                       </span>
                     </td>
                     <td className="py-4 px-6 text-right">
-                      <span className="text-red-600 font-medium">
+                      <span className="font-bold text-red-600 bg-red-50 px-2 py-1 rounded-full">
                         ${startup.expenses.toLocaleString()}
                       </span>
                     </td>
                     <td className="py-4 px-6 text-right">
-                      <span className="text-orange-600 font-medium">
+                      <span className="font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-full">
                         ${Math.abs(startup.burnRate).toLocaleString()}
                       </span>
                     </td>
                     <td className="py-4 px-6 text-right">
                       <span
-                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getRunwayColor(startup.runway)}`}
+                        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${getRunwayColor(startup.runway).replace('bg-', 'bg-gradient-to-r from-').replace('text-', 'text-')}`}
                       >
-                        {startup.runway} meses
+                        {startup.runway < 12 ? '⚠️' : startup.runway < 18 ? '🔶' : '✅'} {startup.runway} meses
                       </span>
                     </td>
                     <td className="py-4 px-6">
-                      <span className="text-gray-600 text-sm">
+                      <span className="text-gray-500 text-sm font-medium bg-gray-100 px-2 py-1 rounded-full">
                         {startup.lastUpdate}
                       </span>
                     </td>

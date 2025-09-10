@@ -276,13 +276,13 @@ export default function PortfolioPage() {
                   return (
                     <div
                       key={stage}
-                      className={`flex-shrink-0 w-80 rounded-lg border-2 ${stageColors[stage as keyof typeof stageColors]} p-4`}
+                      className={`flex-shrink-0 w-80 rounded-2xl border-2 ${stageColors[stage as keyof typeof stageColors]} p-5 shadow-sm`}
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-base font-medium text-gray-900">
+                        <h3 className="text-lg font-bold text-gray-900 tracking-tight">
                           {stageLabels[stage as keyof typeof stageLabels]}
                         </h3>
-                        <span className="bg-white px-2 py-1 rounded text-sm font-medium">
+                        <span className="bg-white px-3 py-1.5 rounded-full text-sm font-bold shadow-sm">
                           {stageStartups.length}
                         </span>
                       </div>
@@ -290,62 +290,70 @@ export default function PortfolioPage() {
                         {stageStartups.map((startup) => (
                           <div
                             key={startup._id}
-                            className="bg-white p-4 rounded-xl card-shadow hover:card-shadow-hover transition-all duration-200 group relative border border-gray-100 hover:border-gray-200"
+                            className="bg-white p-5 rounded-2xl border border-gray-200/60 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 group backdrop-blur-sm"
                           >
-                            {/* Desktop Kanban Card Content - Same as before */}
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex-1">
-                                <h4 className="text-base font-semibold text-gray-900 break-words mb-1 text-balance">
-                                  {startup.name}
-                                </h4>
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                                  stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
-                                }`}>
-                                  {stageLabels[startup.stage as keyof typeof stageLabels]}
-                                </span>
+                            {/* Header Section */}
+                            <div className="flex items-start justify-between mb-4">
+                              <div className="flex items-center gap-3 flex-1">
+                                <div className="w-11 h-11 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+                                  <span className="text-base font-bold text-white tracking-tight">
+                                    {startup.name.charAt(0)}
+                                  </span>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <h4 className="text-lg font-bold text-gray-900 tracking-tight leading-tight">
+                                    {startup.name}
+                                  </h4>
+                                  <p className="text-sm text-gray-600 mt-1 font-medium">
+                                    {startup.squad.lead.name} • {startup.squad.members.length + 1} miembros
+                                  </p>
+                                </div>
                               </div>
                               <button
                                 onClick={() => openEditModal(startup)}
-                                className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-1.5 hover:bg-gray-100 rounded-lg"
+                                className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-2 hover:bg-blue-50 rounded-xl"
                                 title="Editar startup"
                               >
-                                <Edit className="w-4 h-4 text-gray-600" />
+                                <Edit className="w-4 h-4 text-blue-600" />
                               </button>
                             </div>
-                            {/* Rest of desktop card content... */}
-                            <div className="mb-4">
-                              <div className="text-sm text-gray-700 mb-1 font-medium">
-                                {startup.squad.lead.name}
-                              </div>
-                              <div className="text-xs text-gray-500">
-                                Team Lead • {startup.squad.members.length + 1} miembros
-                              </div>
+                            
+                            {/* Stage Badge */}
+                            <div className="mb-5">
+                              <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${
+                                stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                              }`}>
+                                {stageLabels[startup.stage as keyof typeof stageLabels]}
+                              </span>
                             </div>
-                            <div className="flex flex-wrap gap-1.5 mb-4">
+                            
+                            {/* Resources */}
+                            <div className="flex flex-wrap gap-2 mb-5">
                               {startup.resources.deck && (
-                                <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-md border border-blue-100 font-medium">
+                                <span className="text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full border border-blue-200 font-semibold">
                                   📋 Deck
                                 </span>
                               )}
                               {startup.resources.demo && (
-                                <span className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded-md border border-emerald-100 font-medium">
+                                <span className="text-xs bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200 font-semibold">
                                   🎯 Demo
                                 </span>
                               )}
                               {startup.resources.repository && (
-                                <span className="text-xs bg-gray-50 text-gray-700 px-2 py-1 rounded-md border border-gray-100 font-medium">
+                                <span className="text-xs bg-purple-50 text-purple-700 px-3 py-1.5 rounded-full border border-purple-200 font-semibold">
                                   💻 Repo
                                 </span>
                               )}
                             </div>
-                            <div className="space-y-3">
+                            {/* KPIs - Modern */}
+                            <div className="space-y-4 pt-4 border-t border-gray-100">
                               {startup.kpis.slice(0, 2).map((kpi, idx) => (
-                                <div key={idx} className="space-y-1.5">
-                                  <div className="flex justify-between items-center">
-                                    <span className="text-sm text-gray-700 font-medium">
+                                <div key={idx} className="space-y-2">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-sm font-semibold text-gray-700">
                                       {kpi.name}
                                     </span>
-                                    <span className="text-sm font-semibold text-gray-900">
+                                    <span className="text-sm font-bold text-gray-900">
                                       {kpi.current.toLocaleString()}
                                       <span className="text-xs text-gray-500 font-normal">
                                         /{kpi.target.toLocaleString()}
@@ -355,13 +363,13 @@ export default function PortfolioPage() {
                                   <div className="relative">
                                     <div className="w-full bg-gray-100 rounded-full h-2">
                                       <div
-                                        className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-500 ease-out"
+                                        className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500 ease-out"
                                         style={{
                                           width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%`,
                                         }}
-                                      ></div>
+                                      />
                                     </div>
-                                    <div className="text-xs text-gray-500 mt-1 text-right">
+                                    <div className="text-xs text-gray-500 mt-1 text-right font-medium">
                                       {Math.round((kpi.current / kpi.target) * 100)}% completo
                                     </div>
                                   </div>
@@ -384,13 +392,13 @@ export default function PortfolioPage() {
                 return (
                   <div
                     key={stage}
-                    className={`rounded-lg border-2 ${stageColors[stage as keyof typeof stageColors]} p-3`}
+                    className={`rounded-2xl border-2 ${stageColors[stage as keyof typeof stageColors]} p-4 shadow-sm`}
                   >
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-sm font-medium text-gray-900">
+                      <h3 className="text-base font-bold text-gray-900 tracking-tight">
                         {stageLabels[stage as keyof typeof stageLabels]}
                       </h3>
-                      <span className="bg-white px-2 py-1 rounded text-xs font-medium">
+                      <span className="bg-white px-3 py-1.5 rounded-full text-sm font-bold shadow-sm">
                         {stageStartups.length}
                       </span>
                     </div>
@@ -400,65 +408,81 @@ export default function PortfolioPage() {
                       {stageStartups.map((startup) => (
                         <div
                           key={startup._id}
-                          className="bg-white p-3 rounded-xl card-shadow hover:card-shadow-hover transition-all duration-200 group relative border border-gray-100 hover:border-gray-200"
+                          className="bg-white p-4 rounded-2xl border border-gray-200/60 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 group backdrop-blur-sm"
                         >
                           {/* Mobile Card Header */}
                           <div className="flex items-start justify-between mb-3">
-                            <div className="flex-1">
-                              <h4 className="text-sm font-semibold text-gray-900 break-words mb-1">
-                                {startup.name}
-                              </h4>
-                              <div className="text-xs text-gray-600 mb-2">
-                                {startup.squad.lead.name} • {startup.squad.members.length + 1} miembros
+                            <div className="flex items-center gap-2 flex-1">
+                              <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-md">
+                                <span className="text-sm font-bold text-white tracking-tight">
+                                  {startup.name.charAt(0)}
+                                </span>
+                              </div>
+                              <div className="flex-1">
+                                <h4 className="text-base font-bold text-gray-900 truncate tracking-tight">
+                                  {startup.name}
+                                </h4>
+                                <div className="text-sm text-gray-600 mt-0.5 font-medium">
+                                  {startup.squad.lead.name} • {startup.squad.members.length + 1} miembros
+                                </div>
                               </div>
                             </div>
                             <button
                               onClick={() => openEditModal(startup)}
-                              className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+                              className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-blue-50 rounded-xl transition-all duration-200"
                               title="Editar startup"
                             >
-                              <Edit className="w-4 h-4 text-gray-600" />
+                              <Edit className="w-4 h-4 text-blue-600" />
                             </button>
                           </div>
 
+                          {/* Mobile Stage Badge */}
+                          <div className="mb-4">
+                            <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${
+                              stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                            }`}>
+                              {stageLabels[startup.stage as keyof typeof stageLabels]}
+                            </span>
+                          </div>
+
                           {/* Mobile Resources */}
-                          <div className="flex flex-wrap gap-1.5 mb-3">
+                          <div className="flex flex-wrap gap-2 mb-4">
                             {startup.resources.deck && (
-                              <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-md">
+                              <span className="text-xs bg-blue-50 text-blue-700 px-2.5 py-1.5 rounded-full border border-blue-200 font-semibold">
                                 📋 Deck
                               </span>
                             )}
                             {startup.resources.demo && (
-                              <span className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded-md">
+                              <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1.5 rounded-full border border-emerald-200 font-semibold">
                                 🎯 Demo
                               </span>
                             )}
                             {startup.resources.repository && (
-                              <span className="text-xs bg-gray-50 text-gray-700 px-2 py-1 rounded-md">
+                              <span className="text-xs bg-purple-50 text-purple-700 px-2.5 py-1.5 rounded-full border border-purple-200 font-semibold">
                                 💻 Repo
                               </span>
                             )}
                           </div>
 
-                          {/* Mobile KPIs - Simplified */}
-                          <div className="space-y-2">
+                          {/* Mobile KPIs - Modern */}
+                          <div className="pt-3 border-t border-gray-100">
                             {startup.kpis.slice(0, 1).map((kpi, idx) => (
-                              <div key={idx} className="space-y-1">
-                                <div className="flex justify-between items-center">
-                                  <span className="text-xs text-gray-700 font-medium">
+                              <div key={idx} className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-sm font-semibold text-gray-700">
                                     {kpi.name}
                                   </span>
-                                  <span className="text-xs font-semibold text-gray-900">
+                                  <span className="text-sm font-bold text-gray-900">
                                     {Math.round((kpi.current / kpi.target) * 100)}%
                                   </span>
                                 </div>
-                                <div className="w-full bg-gray-100 rounded-full h-1.5">
+                                <div className="w-full bg-gray-100 rounded-full h-2">
                                   <div
-                                    className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
+                                    className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
                                     style={{
                                       width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%`,
                                     }}
-                                  ></div>
+                                  />
                                 </div>
                               </div>
                             ))}
@@ -479,38 +503,45 @@ export default function PortfolioPage() {
             {startups.map((startup) => (
               <div
                 key={startup._id}
-                className="bg-white p-4 rounded-xl card-shadow hover:card-shadow-hover transition-all duration-200 group relative border border-gray-100 hover:border-gray-200"
+                className="bg-white p-5 rounded-2xl group relative border border-gray-200/60 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 backdrop-blur-sm"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 break-words">
-                      {startup.name}
-                    </h3>
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                          stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
-                        }`}
-                      >
-                        {stageLabels[startup.stage as keyof typeof stageLabels]}
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+                      <span className="text-sm font-bold text-white tracking-tight">
+                        {startup.name.charAt(0)}
                       </span>
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
-                          startup.status === "active"
-                            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                            : "bg-gray-50 text-gray-700 border-gray-200"
-                        }`}
-                      >
-                        {startup.status === "active" ? "🟢 Activa" : "⏸️ Pausada"}
-                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base font-bold text-gray-900 mb-2 break-words tracking-tight leading-tight">
+                        {startup.name}
+                      </h3>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span
+                          className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${
+                            stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                          }`}
+                        >
+                          {stageLabels[startup.stage as keyof typeof stageLabels]}
+                        </span>
+                        <span
+                          className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${
+                            startup.status === "active"
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                              : "bg-gray-50 text-gray-700 border-gray-200"
+                          }`}
+                        >
+                          {startup.status === "active" ? "🟢 Activa" : "⏸️ Pausada"}
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <button
                     onClick={() => openEditModal(startup)}
-                    className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-1.5 hover:bg-gray-100 rounded-lg"
+                    className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-2 hover:bg-blue-50 rounded-xl"
                     title="Editar startup"
                   >
-                    <Edit className="w-4 h-4 text-gray-600" />
+                    <Edit className="w-4 h-4 text-blue-600" />
                   </button>
                 </div>
 
@@ -520,41 +551,41 @@ export default function PortfolioPage() {
                   </p>
                 )}
 
-                <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                  <div className="text-sm text-gray-700 mb-1 font-medium">
+                <div className="mb-5 p-4 bg-gray-50/50 rounded-2xl border border-gray-100">
+                  <div className="text-sm text-gray-700 mb-1 font-semibold">
                     {startup.squad.lead.name}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-sm text-gray-600 font-medium">
                     Team Lead • {startup.squad.members.length + 1} miembros
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5 mb-4">
+                <div className="flex flex-wrap gap-2 mb-5">
                   {startup.resources.deck && (
-                    <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-md border border-blue-100 font-medium">
+                    <span className="text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full border border-blue-200 font-semibold">
                       📋 Deck
                     </span>
                   )}
                   {startup.resources.demo && (
-                    <span className="text-xs bg-emerald-50 text-emerald-700 px-2 py-1 rounded-md border border-emerald-100 font-medium">
+                    <span className="text-xs bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200 font-semibold">
                       🎯 Demo
                     </span>
                   )}
                   {startup.resources.repository && (
-                    <span className="text-xs bg-gray-50 text-gray-700 px-2 py-1 rounded-md border border-gray-100 font-medium">
+                    <span className="text-xs bg-purple-50 text-purple-700 px-3 py-1.5 rounded-full border border-purple-200 font-semibold">
                       💻 Repo
                     </span>
                   )}
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {startup.kpis.slice(0, 2).map((kpi, idx) => (
-                    <div key={idx} className="space-y-1.5">
+                    <div key={idx} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-700 font-medium">
+                        <span className="text-sm text-gray-700 font-semibold">
                           {kpi.name}
                         </span>
-                        <span className="text-sm font-semibold text-gray-900">
+                        <span className="text-sm font-bold text-gray-900">
                           {kpi.current.toLocaleString()}
                           <span className="text-xs text-gray-500 font-normal">
                             /{kpi.target.toLocaleString()}
@@ -564,13 +595,13 @@ export default function PortfolioPage() {
                       <div className="relative">
                         <div className="w-full bg-gray-100 rounded-full h-2">
                           <div
-                            className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-500 ease-out"
+                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500 ease-out"
                             style={{
                               width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%`,
                             }}
-                          ></div>
+                          />
                         </div>
-                        <div className="text-xs text-gray-500 mt-1 text-right">
+                        <div className="text-xs text-gray-500 mt-1 text-right font-medium">
                           {Math.round((kpi.current / kpi.target) * 100)}% completo
                         </div>
                       </div>
@@ -584,121 +615,129 @@ export default function PortfolioPage() {
 
         {/* List View */}
         {viewMode === "list" && (
-          <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200/60 overflow-hidden backdrop-blur-sm">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-gray-100">
+                <thead className="bg-gray-50/50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                       Startup
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                       Etapa
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                       Estado
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                       Team Lead
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                       KPIs Principales
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                       Recursos
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                       Acciones
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-gray-100">
                   {startups.map((startup) => (
-                    <tr key={startup._id} className="hover:bg-gray-50">
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div>
-                          <div className="text-sm font-medium text-gray-900">
-                            {startup.name}
+                    <tr key={startup._id} className="hover:bg-blue-50/30 transition-colors duration-200">
+                      <td className="px-6 py-5 whitespace-nowrap">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm">
+                            <span className="text-xs font-bold text-white tracking-tight">
+                              {startup.name.charAt(0)}
+                            </span>
                           </div>
-                          {startup.description && (
-                            <div className="text-sm text-gray-500 max-w-xs truncate">
-                              {startup.description}
+                          <div>
+                            <div className="text-sm font-bold text-gray-900 tracking-tight">
+                              {startup.name}
                             </div>
-                          )}
+                            {startup.description && (
+                              <div className="text-sm text-gray-600 max-w-xs truncate font-medium">
+                                {startup.description}
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
+                      <td className="px-6 py-5 whitespace-nowrap">
                         <span
-                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            stageColors[
-                              startup.stage as keyof typeof stageColors
-                            ]
+                          className={`inline-flex px-3 py-1.5 text-xs font-bold rounded-full border ${
+                            stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
                           }`}
                         >
-                          {
-                            stageLabels[
-                              startup.stage as keyof typeof stageLabels
-                            ]
-                          }
+                          {stageLabels[startup.stage as keyof typeof stageLabels]}
                         </span>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
+                      <td className="px-6 py-5 whitespace-nowrap">
                         <span
-                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                          className={`inline-flex px-3 py-1.5 text-xs font-bold rounded-full border ${
                             startup.status === "active"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-gray-100 text-gray-800"
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                              : "bg-gray-50 text-gray-700 border-gray-200"
                           }`}
                         >
-                          {startup.status}
+                          {startup.status === "active" ? "🟢 Activa" : "⏸️ Pausada"}
                         </span>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
+                      <td className="px-6 py-5 whitespace-nowrap">
+                        <div className="text-sm font-bold text-gray-900">
                           {startup.squad.lead.name}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-600 font-medium">
                           {startup.squad.members.length + 1} miembros
                         </div>
                       </td>
-                      <td className="px-4 py-4">
-                        <div className="space-y-1">
+                      <td className="px-6 py-5">
+                        <div className="space-y-2">
                           {startup.kpis.slice(0, 2).map((kpi, idx) => (
-                            <div key={idx} className="text-xs">
-                              <span className="font-medium text-gray-600">
-                                {kpi.name}:{" "}
-                              </span>
-                              <span className="text-gray-900">
-                                {kpi.current.toLocaleString()} /{" "}
-                                {kpi.target.toLocaleString()}
-                              </span>
+                            <div key={idx} className="text-sm">
+                              <div className="font-semibold text-gray-700">
+                                {kpi.name}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-gray-900">
+                                  {kpi.current.toLocaleString()}
+                                </span>
+                                <span className="text-gray-500 font-medium">
+                                  / {kpi.target.toLocaleString()}
+                                </span>
+                                <span className="text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full font-bold">
+                                  {Math.round((kpi.current / kpi.target) * 100)}%
+                                </span>
+                              </div>
                             </div>
                           ))}
                         </div>
                       </td>
-                      <td className="px-4 py-4">
-                        <div className="flex flex-wrap gap-1">
+                      <td className="px-6 py-5">
+                        <div className="flex flex-wrap gap-1.5">
                           {startup.resources.deck && (
-                            <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                              Deck
+                            <span className="text-xs bg-blue-50 text-blue-700 px-2.5 py-1.5 rounded-full border border-blue-200 font-semibold">
+                              📋 Deck
                             </span>
                           )}
                           {startup.resources.demo && (
-                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                              Demo
+                            <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1.5 rounded-full border border-emerald-200 font-semibold">
+                              🎯 Demo
                             </span>
                           )}
                           {startup.resources.repository && (
-                            <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                              Repo
+                            <span className="text-xs bg-purple-50 text-purple-700 px-2.5 py-1.5 rounded-full border border-purple-200 font-semibold">
+                              💻 Repo
                             </span>
                           )}
                         </div>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
                         <button
                           onClick={() => openEditModal(startup)}
-                          className="text-blue-600 hover:text-blue-900 p-1 hover:bg-gray-100 rounded"
+                          className="text-blue-600 hover:text-blue-800 p-2 hover:bg-blue-50 rounded-xl transition-all duration-200"
                           title="Editar startup"
                         >
                           <Edit className="w-4 h-4" />
@@ -714,87 +753,88 @@ export default function PortfolioPage() {
 
         {/* Timeline View */}
         {viewMode === "timeline" && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="space-y-6">
-              {startups.map((startup) => (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200/60 backdrop-blur-sm p-8">
+            <div className="space-y-8">
+              {startups.map((startup, index) => (
                 <div key={startup._id} className="relative">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                      <Building2 className="w-5 h-5 text-blue-600" />
+                  <div className="flex items-start space-x-5">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-md">
+                      <span className="text-base font-bold text-white tracking-tight">
+                        {startup.name.charAt(0)}
+                      </span>
                     </div>
 
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0 bg-gray-50/50 rounded-2xl p-6 border border-gray-100">
+                      <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
-                          <h3 className="text-lg font-medium text-gray-900 mb-1">
+                          <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight leading-tight">
                             {startup.name}
                           </h3>
 
-                          <div className="flex items-center gap-3 mb-2">
+                          <div className="flex items-center gap-3 mb-4">
                             <span
-                              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                stageColors[
-                                  startup.stage as keyof typeof stageColors
-                                ]
+                              className={`inline-flex px-3 py-1.5 text-xs font-bold rounded-full border ${
+                                stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
                               }`}
                             >
-                              {
-                                stageLabels[
-                                  startup.stage as keyof typeof stageLabels
-                                ]
-                              }
+                              {stageLabels[startup.stage as keyof typeof stageLabels]}
                             </span>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-gray-600 font-medium">
                               Lead: {startup.squad.lead.name}
                             </span>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-gray-600 font-medium">
                               {startup.squad.members.length + 1} miembros
                             </span>
                           </div>
 
                           {startup.description && (
-                            <p className="text-sm text-gray-600 mb-3">
+                            <p className="text-sm text-gray-600 mb-5 leading-relaxed font-medium">
                               {startup.description}
                             </p>
                           )}
 
-                          <div className="flex flex-wrap gap-2 mb-3">
+                          <div className="flex flex-wrap gap-2 mb-5">
                             {startup.resources.deck && (
-                              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                                Deck
+                              <span className="text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full border border-blue-200 font-semibold">
+                                📋 Deck
                               </span>
                             )}
                             {startup.resources.demo && (
-                              <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                                Demo
+                              <span className="text-xs bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200 font-semibold">
+                                🎯 Demo
                               </span>
                             )}
                             {startup.resources.repository && (
-                              <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                                Repo
+                              <span className="text-xs bg-purple-50 text-purple-700 px-3 py-1.5 rounded-full border border-purple-200 font-semibold">
+                                💻 Repo
                               </span>
                             )}
                           </div>
 
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             {startup.kpis.map((kpi, idx) => (
-                              <div key={idx} className="text-sm">
-                                <div className="flex justify-between items-center mb-1">
-                                  <span className="text-gray-600 font-medium">
+                              <div key={idx} className="bg-white p-4 rounded-2xl border border-gray-200/60 shadow-sm">
+                                <div className="flex justify-between items-center mb-3">
+                                  <span className="text-sm font-semibold text-gray-700">
                                     {kpi.name}
                                   </span>
-                                  <span className="font-medium">
-                                    {kpi.current.toLocaleString()} /{" "}
-                                    {kpi.target.toLocaleString()}
+                                  <span className="text-sm font-bold text-gray-900">
+                                    {kpi.current.toLocaleString()}
+                                    <span className="text-xs text-gray-500 font-normal">
+                                      / {kpi.target.toLocaleString()}
+                                    </span>
                                   </span>
                                 </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div className="w-full bg-gray-100 rounded-full h-2">
                                   <div
-                                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                                    className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
                                     style={{
                                       width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%`,
                                     }}
-                                  ></div>
+                                  />
+                                </div>
+                                <div className="text-xs text-gray-500 mt-2 text-right font-medium">
+                                  {Math.round((kpi.current / kpi.target) * 100)}% completo
                                 </div>
                               </div>
                             ))}
@@ -803,18 +843,18 @@ export default function PortfolioPage() {
 
                         <button
                           onClick={() => openEditModal(startup)}
-                          className="p-2 hover:bg-gray-100 rounded-full"
+                          className="p-2 hover:bg-blue-50 rounded-2xl transition-all duration-200"
                           title="Editar startup"
                         >
-                          <Edit className="w-4 h-4 text-gray-600" />
+                          <Edit className="w-5 h-5 text-blue-600" />
                         </button>
                       </div>
                     </div>
                   </div>
 
                   {/* Timeline line */}
-                  {startup !== startups[startups.length - 1] && (
-                    <div className="absolute left-5 top-10 w-px h-6 bg-gray-300"></div>
+                  {index !== startups.length - 1 && (
+                    <div className="absolute left-6 top-14 w-px h-8 bg-gradient-to-b from-blue-300 to-purple-300"></div>
                   )}
                 </div>
               ))}
