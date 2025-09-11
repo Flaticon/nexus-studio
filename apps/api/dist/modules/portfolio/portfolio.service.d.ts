@@ -1,6 +1,6 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Startup, StartupDocument, StartupStage } from './schemas/startup.schema';
-import { ComparisonDocument } from './schemas/comparison.schema';
+import { Comparison, ComparisonDocument } from './schemas/comparison.schema';
 import { CreateStartupDto } from './dto/create-startup.dto';
 import { UpdateStartupDto } from './dto/update-startup.dto';
 import { PortfolioFilterDto } from './dto/portfolio-filter.dto';
@@ -11,11 +11,15 @@ export declare class PortfolioService {
     constructor(startupModel: Model<StartupDocument>, comparisonModel: Model<ComparisonDocument>);
     create(createStartupDto: CreateStartupDto): Promise<Startup>;
     findAll(filters: PortfolioFilterDto): Promise<{
-        data: any;
+        data: (import("mongoose").Document<unknown, {}, StartupDocument, {}, {}> & Startup & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+            _id: unknown;
+        }> & {
+            __v: number;
+        })[];
         pagination: {
             page: number;
             limit: number;
-            total: any;
+            total: number;
             pages: number;
         };
     }>;
@@ -28,36 +32,97 @@ export declare class PortfolioService {
     completeMilestone(startupId: string, milestoneIndex: number): Promise<Startup>;
     getPipelineView(): Promise<{
         stage: StartupStage;
-        count: any;
-        startups: any;
+        count: number;
+        startups: {
+            id: any;
+            name: string;
+            slug: string;
+            logo: string | undefined;
+            mainKpi: {
+                name: string;
+                current: number;
+                target: number;
+                unit: string;
+                lastUpdated: Date;
+            };
+            revenue: number;
+        }[];
     }[]>;
     compareStartups(startupIds: string[]): Promise<{
-        startups: any;
+        startups: {
+            id: unknown;
+            name: string;
+            stage: StartupStage;
+            status: import("./schemas/startup.schema").StartupStatus;
+        }[];
         metrics: {
             metric: string;
             values: {
                 startupId: any;
-                startupName: any;
-                value: any;
-                unit: any;
+                startupName: string;
+                value: number;
+                unit: string;
             }[];
         }[];
         timeline: {
             startupId: any;
-            startupName: any;
-            timeline: any;
+            startupName: string;
+            timeline: {
+                stage: string;
+                date: Date;
+                description?: string;
+                milestone?: string;
+            }[];
         }[];
-        team: any;
+        team: {
+            id: unknown;
+            name: string;
+            teamSize: number;
+        }[];
     }>;
-    saveComparison(name: string, startupIds: string[], metrics: string[], userId: string): Promise<any>;
-    getSavedComparisons(userId?: string): Promise<any>;
-    getActivityLog(startupId?: string, limit?: number): Promise<any>;
+    saveComparison(name: string, startupIds: string[], metrics: string[], userId: string): Promise<import("mongoose").Document<unknown, {}, ComparisonDocument, {}, {}> & Comparison & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    }>;
+    getSavedComparisons(userId?: string): Promise<(import("mongoose").Document<unknown, {}, ComparisonDocument, {}, {}> & Comparison & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
+    getActivityLog(startupId?: string, limit?: number): Promise<{
+        action: string;
+        description: string;
+        userId: Types.ObjectId;
+        userName: string;
+        changes?: Record<string, any>;
+        timestamp: Date;
+    }[]>;
     getStatistics(): Promise<{
-        total: any;
-        byStage: any;
-        byStatus: any;
-        recentActivity: any;
-        topPerformers: any;
+        total: number;
+        byStage: {
+            stage: StartupStage;
+            count: number;
+        }[];
+        byStatus: {
+            active: number;
+            paused: number;
+            archived: number;
+        };
+        recentActivity: {
+            action: string;
+            description: string;
+            userId: Types.ObjectId;
+            userName: string;
+            changes?: Record<string, any>;
+            timestamp: Date;
+        }[];
+        topPerformers: {
+            id: unknown;
+            name: string;
+            revenue: number;
+            growth: number;
+        }[];
     }>;
     private getCountByStage;
     private getCountByStatus;

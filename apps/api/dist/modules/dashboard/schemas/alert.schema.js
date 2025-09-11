@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AlertSchema = exports.Alert = exports.AlertCategory = exports.AlertType = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
@@ -60,7 +59,7 @@ __decorate([
 ], Alert.prototype, "category", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ type: mongoose_2.Types.ObjectId, ref: 'Startup' }),
-    __metadata("design:type", typeof (_a = typeof mongoose_2.Types !== "undefined" && mongoose_2.Types.ObjectId) === "function" ? _a : Object)
+    __metadata("design:type", mongoose_2.Types.ObjectId)
 ], Alert.prototype, "startupId", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: false }),
