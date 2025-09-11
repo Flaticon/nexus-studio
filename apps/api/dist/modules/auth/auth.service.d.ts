@@ -3,7 +3,7 @@ export declare class AuthService {
     private jwtService;
     constructor(jwtService: JwtService);
     login(loginDto: any): Promise<{
-        access_token: string;
+        access_token: any;
     }>;
     register(registerDto: any): Promise<{
         message: string;

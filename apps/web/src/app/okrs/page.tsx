@@ -379,21 +379,16 @@ export default function OKRsPage() {
               </select>
               
               <button 
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200"
-                style={{
-                  background: 'var(--surface)',
-                  color: 'var(--text-primary)',
-                  boxShadow: 'var(--shadow-sm)'
-                }}
-                onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-                onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200"
+                onMouseEnter={(e) => e.target.style.background = '#f8fafc'}
+                onMouseLeave={(e) => e.target.style.background = 'white'}
               >
                 <Filter className="w-4 h-4 shrink-0" />
                 <span className="hidden sm:inline">Filtros</span>
               </button>
               
               <button 
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 text-white transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 text-white transition-all duration-200 font-medium bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700"
                 style={{ background: 'var(--module-okrs)' }}
                 onMouseEnter={(e) => e.target.style.opacity = '0.9'}
                 onMouseLeave={(e) => e.target.style.opacity = '1'}
@@ -519,46 +514,109 @@ export default function OKRsPage() {
           </div>
         </div>
 
-        {/* Overview Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Total Objetivos</h3>
-              <Target className="w-5 h-5 text-purple-600" />
+        {/* Key Metrics Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                🎯 Total Objetivos
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <Target className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-gray-900">{overallStats.totalObjectives}</p>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {overallStats.totalObjectives}
+            </p>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-purple-100 to-indigo-100">
+                <span className="text-sm font-medium text-purple-700">Activos este trimestre</span>
+              </div>
+            </div>
           </div>
 
-          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>En Progreso</h3>
-              <CheckCircle className="w-5 h-5 text-green-600" />
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                ✅ En Progreso
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <CheckCircle className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-green-600">{overallStats.onTrack}</p>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {overallStats.onTrack}
+            </p>
+            <div className="flex items-center">
+              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                <TrendingUp className="w-3 h-3 text-green-600" />
+              </div>
+              <span className="text-sm font-medium text-green-600">
+                Cumpliendo objetivos
+              </span>
+            </div>
           </div>
 
-          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>En Riesgo</h3>
-              <AlertTriangle className="w-5 h-5 text-yellow-600" />
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                ⚠️ En Riesgo
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <AlertTriangle className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-yellow-600">{overallStats.atRisk}</p>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {overallStats.atRisk}
+            </p>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100">
+                <span className="text-sm font-medium text-orange-700">Requiere atención</span>
+              </div>
+            </div>
           </div>
 
-          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Atrasados</h3>
-              <XCircle className="w-5 h-5 text-red-600" />
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                🔴 Atrasados
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <XCircle className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-red-600">{overallStats.behind}</p>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {overallStats.behind}
+            </p>
+            <div className="flex items-center">
+              <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mr-2">
+                <Clock className="w-3 h-3 text-red-600" />
+              </div>
+              <span className="text-sm font-medium text-red-600">
+                Necesita intervención
+              </span>
+            </div>
           </div>
 
-          <div className="p-6 rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Progreso Promedio</h3>
-              <BarChart3 className="w-5 h-5 text-blue-600" />
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                📊 Progreso Promedio
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <BarChart3 className="w-5 h-5 text-white" />
+              </div>
             </div>
-            <p className="text-2xl font-bold text-blue-600">{overallStats.avgProgress}%</p>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {overallStats.avgProgress}%
+            </p>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100">
+                <span className="text-sm font-medium text-blue-700">
+                  Del trimestre actual
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -566,51 +624,52 @@ export default function OKRsPage() {
         {viewMode === 'collaborators' ? (
           /* Collaborators Directory */
           <div className="space-y-6">
-            <div className="rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)' }}>
-              <div className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                  Directorio de Colaboradores
+            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+              <div className="p-6 border-b border-gray-100">
+                <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                  👥 Directorio de Colaboradores
                 </h3>
-                
+              </div>
+              
+              <div className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {collaborators.map((collaborator) => (
                     <div
                       key={collaborator.id}
-                      className="rounded-lg p-6 hover:shadow-md transition-shadow"
-                      style={{ background: 'var(--surface-secondary)' }}
+                      className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 hover:shadow-lg hover:from-gray-100 hover:to-gray-200 transition-all duration-300 border border-gray-200"
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                            <User className="w-6 h-6 text-blue-600" />
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                            <User className="w-6 h-6 text-white" />
                           </div>
                           <div>
-                            <h4 className="font-semibold text-gray-900">
+                            <h4 className="font-bold tracking-tight text-gray-900">
                               {collaborator.name}
                             </h4>
-                            <p className="text-sm text-gray-600">{collaborator.role}</p>
+                            <p className="text-sm font-medium text-gray-600">{collaborator.role}</p>
                           </div>
                         </div>
                       </div>
 
                       <div className="space-y-3 mb-4">
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <div className="flex items-center gap-2 text-sm text-gray-600 bg-white px-3 py-2 rounded-full">
                           <Mail className="w-4 h-4" />
-                          {collaborator.email}
+                          <span className="truncate">{collaborator.email}</span>
                         </div>
                         
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <div className="flex items-center gap-2 text-sm text-gray-600 bg-white px-3 py-2 rounded-full">
                           <MapPin className="w-4 h-4" />
-                          {collaborator.location}
+                          <span>{collaborator.location}</span>
                         </div>
                         
                         <div>
-                          <span className="text-sm text-gray-600">Skills: </span>
-                          <div className="flex flex-wrap gap-1 mt-1">
+                          <span className="text-sm font-bold text-gray-700">💡 Skills:</span>
+                          <div className="flex flex-wrap gap-2 mt-2">
                             {collaborator.skills.slice(0, 2).map((skill, idx) => (
                               <span
                                 key={idx}
-                                className="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded"
+                                className="px-3 py-1 text-xs font-bold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 rounded-full"
                               >
                                 {skill}
                               </span>
@@ -619,32 +678,28 @@ export default function OKRsPage() {
                         </div>
 
                         <div>
-                          <span className="text-sm text-gray-600">OKRs Actuales: </span>
-                          <div className="mt-1">
+                          <span className="text-sm font-bold text-gray-700">🎯 OKRs Actuales:</span>
+                          <div className="mt-2">
                             {collaborator.currentOKRs && collaborator.currentOKRs.length > 0 ? (
                               collaborator.currentOKRs.map((okrId, idx) => (
-                                <div key={idx} className="text-xs text-gray-700 bg-green-50 px-2 py-1 rounded mb-1">
+                                <div key={idx} className="text-xs font-medium text-gray-700 bg-gradient-to-r from-green-100 to-emerald-100 px-3 py-2 rounded-full mb-2">
                                   {getOKRTitle(okrId)}
                                 </div>
                               ))
                             ) : (
-                              <span className="text-xs text-gray-500">Sin asignaciones</span>
+                              <span className="text-xs font-medium text-gray-500 bg-gray-200 px-3 py-1 rounded-full">Sin asignaciones</span>
                             )}
                           </div>
                         </div>
 
-                        <div className="flex justify-between text-sm">
-                          <div>
-                            <span className="text-gray-600">Disponibilidad:</span>
-                            <span className="font-medium text-gray-900 ml-1">
-                              {collaborator.availability}%
-                            </span>
+                        <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-200">
+                          <div className="text-center bg-white p-3 rounded-xl">
+                            <div className="text-lg font-bold text-gray-900">{collaborator.availability}%</div>
+                            <div className="text-xs font-medium text-gray-600">🟢 Disponibilidad</div>
                           </div>
-                          <div>
-                            <span className="text-gray-600">Performance:</span>
-                            <span className="font-medium text-gray-900 ml-1">
-                              {collaborator.performance}%
-                            </span>
+                          <div className="text-center bg-white p-3 rounded-xl">
+                            <div className="text-lg font-bold text-gray-900">{collaborator.performance}%</div>
+                            <div className="text-xs font-medium text-gray-600">⭐ Performance</div>
                           </div>
                         </div>
                       </div>
@@ -655,9 +710,9 @@ export default function OKRsPage() {
                           setSelectedOKR(null);
                           setShowAssignModal(true);
                         }}
-                        className="w-full px-4 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                        className="w-full px-4 py-3 text-sm font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-xl hover:from-purple-600 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg"
                       >
-                        Asignar a OKR
+                        🎯 Asignar a OKR
                       </button>
                     </div>
                   ))}
@@ -678,48 +733,52 @@ export default function OKRsPage() {
               </div>
             ) : (
               currentViewData.map((okr) => (
-            <div key={okr.id} className="rounded-lg" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-md)' }}>
+            <div key={okr.id} className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
               {/* OKR Header */}
-              <div className="p-4 sm:p-6" style={{ borderBottom: '1px solid var(--separator)' }}>
+              <div className="p-4 sm:p-6 border-b border-gray-100">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-3 mb-3">
                       {viewMode === 'progress' && (
-                        <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${
-                          okr.rank === 1 ? 'bg-yellow-100 text-yellow-800' :
-                          okr.rank === 2 ? 'bg-gray-100 text-gray-800' :
-                          okr.rank === 3 ? 'bg-orange-100 text-orange-800' :
-                          'bg-blue-100 text-blue-800'
+                        <div className={`flex items-center justify-center w-10 h-10 rounded-full text-sm font-bold ${
+                          okr.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
+                          okr.rank === 2 ? 'bg-gradient-to-br from-gray-400 to-gray-500 text-white' :
+                          okr.rank === 3 ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white' :
+                          'bg-gradient-to-br from-blue-400 to-indigo-500 text-white'
                         }`}>
                           {okr.rank}
                         </div>
                       )}
-                      <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                        {viewMode === 'teams' && okr.team}
-                        {viewMode === 'objectives' && okr.objective}
-                        {viewMode === 'progress' && okr.team}
-                      </h3>
-                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(okr.status)}`}>
-                        {getStatusIcon(okr.status)}
-                        {getStatusLabel(okr.status)}
-                      </span>
-                      {viewMode === 'progress' && (
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                          Progreso: {okr.overallProgress}%
-                        </span>
-                      )}
+                      <div className="flex-1">
+                        <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 mb-1">
+                          {viewMode === 'teams' && okr.team}
+                          {viewMode === 'objectives' && okr.objective}
+                          {viewMode === 'progress' && okr.team}
+                        </h3>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold ${getStatusColor(okr.status).replace('bg-', 'bg-gradient-to-r from-').replace('text-', 'text-')}`}>
+                            {getStatusIcon(okr.status)}
+                            {getStatusLabel(okr.status)}
+                          </span>
+                          {viewMode === 'progress' && (
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800">
+                              📊 {okr.overallProgress}%
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-gray-700 font-medium mb-2">
+                    <p className="text-gray-700 font-medium mb-3 text-sm sm:text-base">
                       {viewMode === 'teams' && okr.objective}
-                      {viewMode === 'objectives' && `Equipo: ${okr.team}`}
+                      {viewMode === 'objectives' && `🏢 Equipo: ${okr.team}`}
                       {viewMode === 'progress' && okr.objective}
                     </p>
                     <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <span className="flex items-center gap-1">
+                      <span className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
                         <Users className="w-4 h-4" />
                         {okr.owner}
                       </span>
-                      <span className="flex items-center gap-1">
+                      <span className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
                         <Calendar className="w-4 h-4" />
                         {okr.quarter}
                       </span>
@@ -728,19 +787,20 @@ export default function OKRsPage() {
                   
                   <div className="flex items-center gap-4">
                     <div className="text-center">
-                      <div className="w-16 h-16">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20">
                         <CircularProgressbar 
                           value={okr.overallProgress} 
                           text={`${okr.overallProgress}%`}
                           styles={buildStyles({
-                            textSize: '20px',
+                            textSize: '18px',
                             pathColor: getProgressColor(okr.overallProgress),
                             textColor: getProgressColor(okr.overallProgress),
-                            trailColor: '#E5E7EB'
+                            trailColor: '#F3F4F6',
+                            pathTransitionDuration: 0.5,
                           })}
                         />
                       </div>
-                      <p className="text-xs text-gray-600 mt-1">Progreso general</p>
+                      <p className="text-xs font-medium text-gray-600 mt-2">📈 Progreso general</p>
                     </div>
                   </div>
                 </div>
@@ -748,20 +808,22 @@ export default function OKRsPage() {
 
               {/* Key Results */}
               <div className="p-4 sm:p-6">
-                <h4 className="text-xs sm:text-sm font-medium text-gray-600 mb-4">Resultados Clave</h4>
+                <h4 className="text-sm sm:text-base font-bold tracking-tight text-gray-900 mb-4 flex items-center gap-2">
+                  🎯 Resultados Clave
+                </h4>
                 <div className="space-y-4">
                   {okr.keyResults.map((kr) => (
-                    <div key={kr.id} className="flex items-center gap-4 p-4 rounded-lg" style={{ background: 'var(--surface-secondary)' }}>
+                    <div key={kr.id} className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 transition-all duration-200 border border-gray-200">
                       <div className="flex-1">
-                        <p className="font-medium text-gray-900 mb-1">{kr.description}</p>
+                        <p className="font-bold text-gray-900 mb-2">{kr.description}</p>
                         <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <span>
+                          <span className="bg-white px-2 py-1 rounded-full font-medium">
                             {kr.current.toLocaleString()} / {kr.target.toLocaleString()} {kr.unit}
                           </span>
                           <span className="text-gray-400">•</span>
-                          <span className={`font-medium ${
-                            kr.progress >= 80 ? 'text-green-600' : 
-                            kr.progress >= 60 ? 'text-yellow-600' : 'text-red-600'
+                          <span className={`font-bold px-2 py-1 rounded-full ${
+                            kr.progress >= 80 ? 'bg-green-100 text-green-700' : 
+                            kr.progress >= 60 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
                           }`}>
                             {kr.progress}%
                           </span>
@@ -769,26 +831,27 @@ export default function OKRsPage() {
                       </div>
                       
                       <div className="w-24">
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-gray-300 rounded-full h-3">
                           <div 
-                            className="h-2 rounded-full transition-all duration-300"
+                            className="h-3 rounded-full transition-all duration-500"
                             style={{ 
                               width: `${Math.min(kr.progress, 100)}%`,
-                              backgroundColor: getProgressColor(kr.progress)
+                              background: `linear-gradient(to right, ${getProgressColor(kr.progress)}, ${getProgressColor(kr.progress)}99)`
                             }}
                           />
                         </div>
                       </div>
 
-                      <div className="w-12 h-12">
+                      <div className="w-14 h-14">
                         <CircularProgressbar 
                           value={kr.progress} 
                           text={`${kr.progress}%`}
                           styles={buildStyles({
-                            textSize: '16px',
+                            textSize: '14px',
                             pathColor: getProgressColor(kr.progress),
                             textColor: getProgressColor(kr.progress),
-                            trailColor: '#E5E7EB'
+                            trailColor: '#F3F4F6',
+                            pathTransitionDuration: 0.5,
                           })}
                         />
                       </div>
@@ -806,10 +869,10 @@ export default function OKRsPage() {
         <div className="mt-8 text-center">
           <button 
             onClick={() => setIsCreateModalOpen(true)}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-2xl hover:from-purple-600 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
-            <Plus className="w-4 sm:w-5 h-4 sm:h-5 shrink-0" />
-            Crear Nuevo OKR
+            <Plus className="w-5 sm:w-6 h-5 sm:h-6 shrink-0" />
+            🚀 Crear Nuevo OKR
           </button>
         </div>
 
@@ -822,30 +885,30 @@ export default function OKRsPage() {
 
         {/* Assign to OKR Modal */}
         {showAssignModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 max-w-lg w-full mx-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Asignar Colaborador a OKR
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+            <div className="bg-white rounded-2xl p-6 max-w-lg w-full mx-4 shadow-2xl border border-gray-200">
+              <h3 className="text-xl font-bold tracking-tight text-gray-900 mb-6 flex items-center gap-2">
+                🎯 Asignar Colaborador a OKR
               </h3>
               
               {selectedCollaborator && (
-                <div className="mb-4 p-4 bg-gray-50 rounded-lg">
-                  <h4 className="font-medium text-gray-900">Colaborador seleccionado:</h4>
-                  <p className="text-sm text-gray-600">
+                <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+                  <h4 className="font-bold text-gray-900 mb-2">👤 Colaborador seleccionado:</h4>
+                  <p className="text-sm font-medium text-gray-700">
                     {collaborators.find(c => c.id === selectedCollaborator)?.name} - 
                     {collaborators.find(c => c.id === selectedCollaborator)?.role}
                   </p>
                 </div>
               )}
               
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Seleccionar OKR:
+              <div className="mb-6">
+                <label className="block text-sm font-bold text-gray-700 mb-3">
+                  🎯 Seleccionar OKR:
                 </label>
                 <select
                   value={selectedOKR || ''}
                   onChange={(e) => setSelectedOKR(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium"
                 >
                   <option value="">Seleccionar OKR</option>
                   {okrsData.map((okr) => (
@@ -857,15 +920,19 @@ export default function OKRsPage() {
               </div>
 
               {selectedOKR && (
-                <div className="mb-4 p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-medium text-gray-900">OKR seleccionado:</h4>
-                  <p className="text-sm text-gray-600">
+                <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+                  <h4 className="font-bold text-gray-900 mb-2">✅ OKR seleccionado:</h4>
+                  <p className="text-sm font-medium text-gray-700 mb-2">
                     {okrsData.find(o => o.id === selectedOKR)?.objective}
                   </p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Equipo: {okrsData.find(o => o.id === selectedOKR)?.team} | 
-                    Progreso: {okrsData.find(o => o.id === selectedOKR)?.overallProgress}%
-                  </p>
+                  <div className="flex items-center gap-2 text-xs font-medium text-gray-600">
+                    <span className="bg-white px-2 py-1 rounded-full">
+                      🏢 {okrsData.find(o => o.id === selectedOKR)?.team}
+                    </span>
+                    <span className="bg-white px-2 py-1 rounded-full">
+                      📊 {okrsData.find(o => o.id === selectedOKR)?.overallProgress}%
+                    </span>
+                  </div>
                 </div>
               )}
 
@@ -876,9 +943,9 @@ export default function OKRsPage() {
                     setSelectedOKR(null);
                     setSelectedCollaborator(null);
                   }}
-                  className="px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  className="px-6 py-3 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition-all duration-200"
                 >
-                  Cancelar
+                  ❌ Cancelar
                 </button>
                 <button
                   onClick={() => {
@@ -887,9 +954,9 @@ export default function OKRsPage() {
                     }
                   }}
                   disabled={!selectedOKR || !selectedCollaborator}
-                  className="px-4 py-2 text-sm bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-6 py-3 text-sm font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
-                  Confirmar Asignación
+                  ✅ Confirmar Asignación
                 </button>
               </div>
             </div>

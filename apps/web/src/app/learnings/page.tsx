@@ -585,47 +585,54 @@ export default function LearningsPage() {
         <div className="mb-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                🟤 Aprendizajes y Retrospectivas
+              <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+                🧠 Aprendizajes y Retrospectivas
               </h1>
-              <p className="mt-2 text-gray-600">
-                Documentación de conocimiento, retrospectivas y decisiones clave del venture studio
+              <p className="mt-2 text-gray-600 font-medium">
+                Knowledge management inteligente y retrospectivas estratégicas del venture studio
               </p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <button 
                 onClick={() => setShowFilters(!showFilters)}
-                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 ${
-                  showFilters ? 'ring-2 ring-blue-500' : ''
+                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium ${
+                  showFilters ? 'ring-2 ring-purple-500' : ''
                 }`}
                 style={{
-                  background: showFilters ? 'var(--info-bg)' : 'var(--surface)',
+                  background: showFilters ? 'var(--info-bg)' : 'white',
                   color: showFilters ? 'var(--info)' : 'var(--text-primary)',
-                  boxShadow: showFilters ? 'none' : 'var(--shadow-sm)'
+                  boxShadow: showFilters ? 'none' : 'var(--shadow-sm)',
+                  border: '1px solid var(--separator)'
+                }}
+                onMouseEnter={(e) => {
+                  if (!showFilters) e.target.style.background = '#f8fafc'
+                }}
+                onMouseLeave={(e) => {
+                  if (!showFilters) e.target.style.background = 'white'
                 }}
               >
                 <Filter className="w-4 h-4 shrink-0" />
-                <span className="hidden sm:inline">Filtros</span>
+                <span className="hidden sm:inline">🔍 Filtros</span>
                 {(selectedType !== 'all' || selectedFilter !== 'all' || selectedTags.length > 0 || searchTerm) && (
-                  <span className="w-2 h-2 bg-blue-500 rounded-full ml-1 animate-pulse"></span>
+                  <span className="w-2 h-2 bg-purple-500 rounded-full ml-1 animate-pulse"></span>
                 )}
               </button>
               
               <button 
                 onClick={exportData}
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-white text-gray-700 rounded-lg hover:bg-gray-50 shadow-sm border border-gray-200 hover:border-gray-300 flex items-center justify-center sm:justify-start gap-2 transition-all duration-200"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-white text-gray-700 rounded-full hover:bg-gray-50 shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium"
               >
                 <Download className="w-4 h-4 shrink-0" />
-                <span className="hidden sm:inline">Exportar</span>
+                <span className="hidden sm:inline">📊 Exportar</span>
               </button>
               
               <button 
                 onClick={handleCreateNew}
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center sm:justify-start gap-2"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full hover:from-purple-600 hover:to-indigo-700 flex items-center justify-center sm:justify-start gap-2 font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 <Plus className="w-4 h-4 shrink-0" />
-                <span className="hidden xs:inline">Nueva </span>Retrospectiva
+                <span className="hidden xs:inline">🚀 Nueva </span>Retrospectiva
               </button>
             </div>
           </div>
@@ -749,85 +756,174 @@ export default function LearningsPage() {
           </div>
         )}
 
-        {/* Analytics Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:border-gray-200 transition-colors duration-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Aprendizajes</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">{analyticsData.totalLearnings}</p>
+        {/* Key Metrics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                📚 Total Aprendizajes
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <BookOpen className="w-5 h-5 text-white" />
               </div>
-              <BookOpen className="w-8 h-8 text-blue-500" />
             </div>
-            <p className="text-xs text-gray-500 mt-2">Últimos 3 meses</p>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">{analyticsData.totalLearnings}</p>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100">
+                <span className="text-sm font-medium text-blue-700">Últimos 3 meses</span>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:border-gray-200 transition-colors duration-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Tasa Implementación</p>
-                <p className="text-2xl font-bold text-green-600 mt-1">{analyticsData.implementationRate}%</p>
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                ✅ Tasa Implementación
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <CheckCircle className="w-5 h-5 text-white" />
               </div>
-              <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
-            <p className="text-xs text-gray-500 mt-2">Acciones completadas</p>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">{analyticsData.implementationRate}%</p>
+            <div className="flex items-center">
+              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                <TrendingUp className="w-3 h-3 text-green-600" />
+              </div>
+              <span className="text-sm font-medium text-green-600">
+                Acciones completadas
+              </span>
+            </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:border-gray-200 transition-colors duration-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Satisfacción Promedio</p>
-                <p className="text-2xl font-bold text-purple-600 mt-1">{analyticsData.avgSatisfaction}/5.0</p>
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                ⭐ Satisfacción Promedio
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <Star className="w-5 h-5 text-white" />
               </div>
-              <Star className="w-8 h-8 text-purple-500" />
             </div>
-            <p className="text-xs text-gray-500 mt-2">Rating de sesiones</p>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">{analyticsData.avgSatisfaction}/5.0</p>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-purple-100 to-violet-100">
+                <span className="text-sm font-medium text-purple-700">Rating de sesiones</span>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:border-gray-200 transition-colors duration-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Score de Impacto</p>
-                <p className="text-2xl font-bold text-orange-600 mt-1">{analyticsData.impactScore}/100</p>
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                ⚡ Score de Impacto
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <Zap className="w-5 h-5 text-white" />
               </div>
-              <Zap className="w-8 h-8 text-orange-500" />
             </div>
-            <p className="text-xs text-gray-500 mt-2">Impacto medido</p>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">{analyticsData.impactScore}/100</p>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-orange-100 to-amber-100">
+                <span className="text-sm font-medium text-orange-700">Impacto medido</span>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:border-gray-200 transition-colors duration-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Por Tipo</p>
-                <div className="text-sm mt-1 space-y-1">
-                  <div className="flex justify-between">
-                    <span className="text-blue-600">Producto:</span>
-                    <span>{analyticsData.byType.producto}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-green-600">Equipo:</span>
-                    <span>{analyticsData.byType.equipo}</span>
-                  </div>
-                </div>
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                📊 Por Tipo
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-500 to-slate-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <BarChart3 className="w-5 h-5 text-white" />
               </div>
-              <BarChart3 className="w-8 h-8 text-gray-500" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between bg-blue-50 px-3 py-2 rounded-lg">
+                <span className="text-sm font-bold text-blue-700">💻 Producto:</span>
+                <span className="text-sm font-bold text-blue-900">{analyticsData.byType.producto}</span>
+              </div>
+              <div className="flex items-center justify-between bg-green-50 px-3 py-2 rounded-lg">
+                <span className="text-sm font-bold text-green-700">👥 Equipo:</span>
+                <span className="text-sm font-bold text-green-900">{analyticsData.byType.equipo}</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Trends Chart */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:border-gray-200 transition-colors duration-200 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Tendencias de Aprendizaje</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={monthlyTrends}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Area type="monotone" dataKey="learnings" stackId="1" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.6} />
-              <Area type="monotone" dataKey="decisions" stackId="1" stroke="#10B981" fill="#10B981" fillOpacity={0.6} />
-            </AreaChart>
-          </ResponsiveContainer>
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 mb-8">
+          <div className="p-6 border-b border-gray-100">
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              📈 Tendencias de Aprendizaje
+            </h3>
+          </div>
+          <div className="p-6">
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart 
+                data={monthlyTrends}
+                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+              >
+                <defs>
+                  <linearGradient id="learningsGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor="#3B82F6" stopOpacity={0.1}/>
+                  </linearGradient>
+                  <linearGradient id="decisionsGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#10B981" stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor="#10B981" stopOpacity={0.1}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid 
+                  strokeDasharray="3 3" 
+                  stroke="#F3F4F6" 
+                  strokeOpacity={0.7}
+                />
+                <XAxis 
+                  dataKey="month" 
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                />
+                <YAxis 
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '12px',
+                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    padding: '12px 16px',
+                    fontSize: '14px',
+                    fontWeight: '600'
+                  }}
+                  formatter={(value, name) => [
+                    value, 
+                    name === 'learnings' ? '🧠 Aprendizajes' : '📝 Decisiones'
+                  ]}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="learnings" 
+                  stackId="1" 
+                  stroke="#3B82F6" 
+                  fill="url(#learningsGradient)"
+                  strokeWidth={2}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="decisions" 
+                  stackId="1" 
+                  stroke="#10B981" 
+                  fill="url(#decisionsGradient)"
+                  strokeWidth={2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
         {/* View Mode Tabs */}

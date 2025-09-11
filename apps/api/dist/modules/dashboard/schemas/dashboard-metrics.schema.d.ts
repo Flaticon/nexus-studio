@@ -51,13 +51,5 @@ export declare class DashboardMetrics {
         behind: number;
     };
 }
-export declare const DashboardMetricsSchema: import("mongoose").Schema<DashboardMetrics, import("mongoose").Model<DashboardMetrics, any, any, any, Document<unknown, any, DashboardMetrics, any, {}> & DashboardMetrics & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, DashboardMetrics, Document<unknown, {}, import("mongoose").FlatRecord<DashboardMetrics>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<DashboardMetrics> & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}>;
+export declare const DashboardMetricsSchema: any;
 export {};

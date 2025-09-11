@@ -560,148 +560,170 @@ export default function TalentPage() {
       <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
         {/* Header */}
         <div className="mb-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
                 👥 Talento y Equipos
               </h1>
-              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>
-                Gestiona el capital humano del venture studio
+              <p className="mt-2 font-medium" style={{ color: 'var(--text-secondary)' }}>
+                Capital humano del venture studio: matching, disponibilidad y performance
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <button
                 onClick={() => setShowSkillMatching(!showSkillMatching)}
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200"
+                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium ${
+                  showSkillMatching ? 'ring-2 ring-purple-500' : ''
+                }`}
                 style={{
-                  background: showSkillMatching ? 'var(--info-bg)' : 'var(--surface)',
+                  background: showSkillMatching ? 'var(--info-bg)' : 'white',
                   color: showSkillMatching ? 'var(--info)' : 'var(--text-primary)',
-                  boxShadow: showSkillMatching ? 'none' : 'var(--shadow-sm)'
+                  boxShadow: showSkillMatching ? 'none' : 'var(--shadow-sm)',
+                  border: '1px solid var(--separator)'
                 }}
                 onMouseEnter={(e) => {
-                  if (!showSkillMatching) {
-                    e.target.style.background = 'var(--surface-hover)';
-                  }
+                  if (!showSkillMatching) e.target.style.background = '#f8fafc'
                 }}
                 onMouseLeave={(e) => {
-                  if (!showSkillMatching) {
-                    e.target.style.background = 'var(--surface)';
-                  }
+                  if (!showSkillMatching) e.target.style.background = 'white'
                 }}
               >
                 <Target className="w-4 h-4 shrink-0" />
-                <span className="hidden sm:inline">Skill </span>Matching
+                <span className="hidden sm:inline">🎯 Skill</span> Matching
+                {showSkillMatching && <span className="w-2 h-2 bg-purple-500 rounded-full ml-1 animate-pulse"></span>}
               </button>
+              
               <button
                 onClick={() => setShowTalentBank(!showTalentBank)}
-                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-colors ${
+                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium ${
                   showTalentBank
-                    ? "bg-purple-50 text-purple-700"
-                    : "bg-gray-50 hover:bg-gray-100"
+                    ? "bg-gradient-to-r from-purple-100 to-indigo-100 text-purple-700 ring-2 ring-purple-500"
+                    : "bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200"
                 }`}
               >
                 <Database className="w-4 h-4 shrink-0" />
-                <span className="hidden sm:inline">Banco de </span>Talentos
+                <span className="hidden sm:inline">💼 Banco de</span> Talentos
               </button>
+              
               <button
                 onClick={() => setIsCreateModalOpen(true)}
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center sm:justify-start gap-2"
+                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:from-blue-600 hover:to-indigo-700 flex items-center justify-center sm:justify-start gap-2 font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 <UserPlus className="w-4 h-4 shrink-0" />
-                <span className="hidden sm:inline">Nuevo </span>Colaborador
+                <span className="hidden sm:inline">🚀 Nuevo</span> Colaborador
               </button>
             </div>
           </div>
         </div>
 
-        {/* Analytics Overview */}
+        {/* Key Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Colaboradores Activos
-                </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
-                  {teamMembers.length}
-                </p>
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                👥 Colaboradores Activos
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <Users className="w-5 h-5 text-white" />
               </div>
-              <Users className="h-8 w-8 text-blue-600" />
+            </div>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {teamMembers.length}
+            </p>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100">
+                <span className="text-sm font-medium text-blue-700">En el venture studio</span>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Disponibilidad Promedio
-                </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
-                  {Math.round(
-                    teamMembers.reduce((sum, m) => sum + m.availability, 0) /
-                      teamMembers.length,
-                  )}
-                  %
-                </p>
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                🟢 Disponibilidad Promedio
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <Activity className="w-5 h-5 text-white" />
               </div>
-              <Activity className="h-8 w-8 text-green-600" />
+            </div>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {Math.round(
+                teamMembers.reduce((sum, m) => sum + m.availability, 0) /
+                  teamMembers.length,
+              )}%
+            </p>
+            <div className="flex items-center">
+              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                <TrendingUp className="w-3 h-3 text-green-600" />
+              </div>
+              <span className="text-sm font-medium text-green-600">
+                Capacidad disponible
+              </span>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Performance Promedio
-                </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
-                  {Math.round(
-                    teamMembers.reduce((sum, m) => sum + m.performance, 0) /
-                      teamMembers.length,
-                  )}
-                  %
-                </p>
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                ⭐ Performance Promedio
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <Star className="w-5 h-5 text-white" />
               </div>
-              <Star className="h-8 w-8 text-yellow-600" />
+            </div>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {Math.round(
+                teamMembers.reduce((sum, m) => sum + m.performance, 0) /
+                  teamMembers.length,
+              )}%
+            </p>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100">
+                <span className="text-sm font-medium text-orange-700">Excelencia del equipo</span>
+              </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Listos para Rotación
-                </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
-                  {
-                    teamMembers.filter((m) => m.rotationReadiness === "high")
-                      .length
-                  }
-                </p>
+          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold tracking-tight text-gray-600">
+                🔄 Listos para Rotación
+              </h3>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                <Shuffle className="w-5 h-5 text-white" />
               </div>
-              <Shuffle className="h-8 w-8 text-purple-600" />
+            </div>
+            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+              {teamMembers.filter((m) => m.rotationReadiness === "high").length}
+            </p>
+            <div className="flex items-center">
+              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-purple-100 to-indigo-100">
+                <span className="text-sm font-medium text-purple-700">
+                  Movilidad interna
+                </span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Skill Matching Section */}
         {showSkillMatching && (
-          <div className="bg-white rounded-lg shadow-sm mb-8">
-            <div className="p-6">
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 mb-8">
+            <div className="p-6 border-b border-gray-100">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                  Match de Skills por Iniciativa
+                <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                  🎯 Match de Skills por Iniciativa
                 </h3>
                 <select
                   value={selectedInitiative}
                   onChange={(e) => setSelectedInitiative(e.target.value)}
-                  className="w-full sm:w-auto px-3 py-2 text-sm sm:text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                  className="w-full sm:w-auto px-4 py-3 text-sm sm:text-base rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200"
                 >
-                  <option value="">Seleccionar Iniciativa</option>
+                  <option value="">🔍 Seleccionar Iniciativa</option>
                   {initiatives.map((init) => (
                     <option key={init.id} value={init.id}>
-                      {init.name}
+                      🚀 {init.name}
                     </option>
                   ))}
                 </select>
@@ -829,13 +851,13 @@ export default function TalentPage() {
 
         {/* Talent Bank Section */}
         {showTalentBank && (
-          <div className="bg-white rounded-lg shadow-sm mb-8">
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900">
-                Banco de Talentos
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 mb-8">
+            <div className="p-6 border-b border-gray-100">
+              <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                💼 Banco de Talentos
               </h3>
-              <p className="text-sm text-gray-600 mt-1">
-                Colaboradores disponibles para nuevas iniciativas
+              <p className="text-sm font-medium text-gray-600 mt-1">
+                Colaboradores disponibles para nuevas iniciativas y rotaciones
               </p>
             </div>
             <div className="p-6">
@@ -843,31 +865,36 @@ export default function TalentPage() {
                 {talentBank.map((person) => (
                   <div
                     key={person.id}
-                    className="rounded-lg p-4 hover:shadow-md transition-shadow bg-gray-50"
+                    className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 hover:shadow-lg hover:from-gray-100 hover:to-gray-200 transition-all duration-300 border border-gray-200"
                   >
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h4 className="font-medium text-gray-900">
-                          {person.name}
-                        </h4>
-                        <p className="text-sm text-gray-600">{person.role}</p>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center">
+                          <User className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold tracking-tight text-gray-900">
+                            {person.name}
+                          </h4>
+                          <p className="text-sm font-medium text-gray-600">{person.role}</p>
+                        </div>
                       </div>
                       <span
-                        className={`px-2 py-1 text-xs rounded-full ${getRotationReadinessColor(person.rotationReadiness)}`}
+                        className={`px-3 py-1 text-xs font-bold rounded-full ${getRotationReadinessColor(person.rotationReadiness).replace('bg-', 'bg-gradient-to-r from-').replace('text-', 'text-')}`}
                       >
-                        {person.rotationReadiness}
+                        ⚡ {person.rotationReadiness}
                       </span>
                     </div>
 
-                    <div className="mb-3">
-                      <div className="text-xs text-gray-500 mb-1">
-                        Top Skills
+                    <div className="mb-4">
+                      <div className="text-sm font-bold text-gray-700 mb-2">
+                        💡 Top Skills
                       </div>
-                      <div className="flex flex-wrap gap-1">
+                      <div className="flex flex-wrap gap-2">
                         {person.skills.slice(0, 3).map((skill, idx) => (
                           <span
                             key={idx}
-                            className="px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded"
+                            className="px-3 py-1 text-xs font-bold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 rounded-full"
                           >
                             {skill}
                           </span>
@@ -875,10 +902,16 @@ export default function TalentPage() {
                       </div>
                     </div>
 
-                    <div className="text-sm text-gray-600 mb-3">
-                      <div>Experiencia: {person.experience}</div>
-                      <div>Último proyecto: {person.lastProject}</div>
-                      <div>Próximo rol: {person.preferredNextRole}</div>
+                    <div className="text-sm text-gray-600 mb-4 space-y-2">
+                      <div className="bg-white px-3 py-2 rounded-xl">
+                        <strong>📈 Experiencia:</strong> {person.experience}
+                      </div>
+                      <div className="bg-white px-3 py-2 rounded-xl">
+                        <strong>📅 Último proyecto:</strong> {person.lastProject}
+                      </div>
+                      <div className="bg-white px-3 py-2 rounded-xl">
+                        <strong>🎯 Próximo rol:</strong> {person.preferredNextRole}
+                      </div>
                     </div>
 
                     <button
@@ -899,9 +932,9 @@ export default function TalentPage() {
                         setSelectedMember(tempMember);
                         setIsAssignModalOpen(true);
                       }}
-                      className="w-full px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="w-full px-4 py-3 text-sm font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-xl hover:from-purple-600 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg"
                     >
-                      Asignar a Iniciativa
+                      🚀 Asignar a Iniciativa
                     </button>
                   </div>
                 ))}
@@ -911,75 +944,255 @@ export default function TalentPage() {
         )}
 
         {/* Analytics Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
           {/* Workload Distribution */}
-          <div className="bg-white rounded-lg shadow-sm">
-            <div className="p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                Distribución de Carga de Trabajo
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <div className="p-4 sm:p-6 border-b border-gray-100">
+              <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                📊 Distribución de Carga de Trabajo
               </h3>
             </div>
             <div className="p-4 sm:p-6">
               <div className="overflow-x-auto">
-              <ResponsiveContainer width="100%" height={300} minWidth={300}>
-                <BarChart data={workloadData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar
-                    dataKey="workload"
-                    fill="#EF4444"
-                    name="Carga de Trabajo %"
-                  />
-                  <Bar
-                    dataKey="availability"
-                    fill="#10B981"
-                    name="Disponibilidad %"
-                  />
-                </BarChart>
-              </ResponsiveContainer>
+                <ResponsiveContainer width="100%" height={300} minWidth={300}>
+                  <BarChart 
+                    data={workloadData} 
+                    margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                    barCategoryGap={"20%"}
+                  >
+                    <defs>
+                      <linearGradient id="workloadGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#EF4444" stopOpacity={0.9}/>
+                        <stop offset="100%" stopColor="#DC2626" stopOpacity={0.7}/>
+                      </linearGradient>
+                      <linearGradient id="availabilityGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#10B981" stopOpacity={0.9}/>
+                        <stop offset="100%" stopColor="#059669" stopOpacity={0.7}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid 
+                      strokeDasharray="3 3" 
+                      stroke="#F3F4F6" 
+                      strokeOpacity={0.7}
+                    />
+                    <XAxis 
+                      dataKey="name" 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                      dy={10}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: '#FFFFFF',
+                        border: 'none',
+                        borderRadius: '12px',
+                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        padding: '12px 16px',
+                        fontSize: '14px',
+                        fontWeight: '600'
+                      }}
+                      formatter={(value, name) => [
+                        `${value}%`, 
+                        name === 'workload' ? '🔥 Carga de Trabajo' : '🟢 Disponibilidad'
+                      ]}
+                      cursor={{ fill: 'rgba(59, 130, 246, 0.05)', radius: 8 }}
+                    />
+                    <Bar 
+                      dataKey="workload"
+                      fill="url(#workloadGradient)"
+                      name="workload"
+                      radius={[4, 4, 0, 0]}
+                      stroke="#EF4444"
+                      strokeWidth={1}
+                    />
+                    <Bar 
+                      dataKey="availability"
+                      fill="url(#availabilityGradient)"
+                      name="availability"
+                      radius={[4, 4, 0, 0]}
+                      stroke="#10B981"
+                      strokeWidth={1}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </div>
 
           {/* Skills Distribution */}
-          <div className="bg-white rounded-lg shadow-sm">
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <div className="p-4 sm:p-6 border-b border-gray-100">
+              <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                🥧 Distribución de Skills
+              </h3>
+            </div>
             <div className="p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                Distribución de Skills
+              <div className="space-y-4">
+                <div className="overflow-x-auto">
+                  <ResponsiveContainer width="100%" height={280} minWidth={300}>
+                    <PieChart>
+                      <defs>
+                        {skillsDistribution.map((entry, index) => (
+                          <linearGradient key={`gradient-${index}`} id={`skillGradient-${index}`} x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stopColor={entry.color} stopOpacity={0.9}/>
+                            <stop offset="100%" stopColor={entry.color} stopOpacity={0.6}/>
+                          </linearGradient>
+                        ))}
+                      </defs>
+                      <Pie
+                        dataKey="count"
+                        data={skillsDistribution}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={90}
+                        innerRadius={40}
+                        paddingAngle={3}
+                        stroke="#ffffff"
+                        strokeWidth={2}
+                      >
+                        {skillsDistribution.map((entry, index) => (
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={`url(#skillGradient-${index})`}
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: '#FFFFFF',
+                          border: 'none',
+                          borderRadius: '12px',
+                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                          padding: '12px 16px',
+                          fontSize: '14px',
+                          fontWeight: '600'
+                        }}
+                        formatter={(value, name) => [`${value} skills`, `💡 ${name}`]}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                
+                {/* Enhanced Legend */}
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 pt-4 border-t border-gray-100">
+                  {skillsDistribution.map((entry, index) => {
+                    const percentage = ((entry.count / skillsDistribution.reduce((sum, item) => sum + item.count, 0)) * 100).toFixed(1);
+                    return (
+                      <div key={entry.category} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+                        <div 
+                          className="w-4 h-4 rounded-full flex-shrink-0" 
+                          style={{ backgroundColor: entry.color }}
+                        ></div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1">
+                            <span className="text-sm font-bold text-gray-900 truncate">{entry.category}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-medium text-gray-600">{entry.count} skills</span>
+                            <span className="text-xs font-bold text-gray-800">{percentage}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Participation Trends */}
+          <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+            <div className="p-4 sm:p-6 border-b border-gray-100">
+              <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                📈 Tendencias de Participación
               </h3>
             </div>
             <div className="p-4 sm:p-6">
               <div className="overflow-x-auto">
-              <ResponsiveContainer width="100%" height={300} minWidth={300}>
-                <PieChart>
-                  <Pie
-                    dataKey="count"
-                    data={skillsDistribution}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    label={({ category, count }) => `${category}: ${count}`}
+                <ResponsiveContainer width="100%" height={300} minWidth={300}>
+                  <LineChart
+                    data={participationTrends}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
                   >
-                    {skillsDistribution.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
+                    <defs>
+                      <linearGradient id="participationGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.8}/>
+                        <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0.1}/>
+                      </linearGradient>
+                      <linearGradient id="retentionGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#06B6D4" stopOpacity={0.8}/>
+                        <stop offset="100%" stopColor="#06B6D4" stopOpacity={0.1}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid 
+                      strokeDasharray="3 3" 
+                      stroke="#F3F4F6" 
+                      strokeOpacity={0.7}
+                    />
+                    <XAxis 
+                      dataKey="month" 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                      domain={[75, 100]}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: '#FFFFFF',
+                        border: 'none',
+                        borderRadius: '12px',
+                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        padding: '12px 16px',
+                        fontSize: '14px',
+                        fontWeight: '600'
+                      }}
+                      formatter={(value, name) => [
+                        `${value}%`, 
+                        name === 'participation' ? '📊 Participación' : '🎯 Retención'
+                      ]}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="participation"
+                      stroke="#8B5CF6"
+                      strokeWidth={3}
+                      dot={{ fill: '#8B5CF6', r: 4, strokeWidth: 2, stroke: '#FFFFFF' }}
+                      activeDot={{ r: 6, strokeWidth: 2, stroke: '#FFFFFF' }}
+                      fill="url(#participationGradient)"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="retention"
+                      stroke="#06B6D4"
+                      strokeWidth={3}
+                      dot={{ fill: '#06B6D4', r: 4, strokeWidth: 2, stroke: '#FFFFFF' }}
+                      activeDot={{ r: 6, strokeWidth: 2, stroke: '#FFFFFF' }}
+                      fill="url(#retentionGradient)"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </div>
         </div>
 
         {/* Team Members Grid/List */}
-        <div className="bg-white rounded-lg shadow-sm">
-          <div className="p-6">
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+          <div className="p-6 border-b border-gray-100">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900">
-                Directorio de Colaboradores
+              <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                👥 Directorio de Colaboradores
               </h3>
 
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
@@ -987,30 +1200,34 @@ export default function TalentPage() {
                 <select
                   value={filterSkill}
                   onChange={(e) => setFilterSkill(e.target.value)}
-                  className="w-full sm:w-auto px-3 py-2 text-sm sm:text-base rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                  className="w-full sm:w-auto px-4 py-3 text-sm sm:text-base rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200"
                 >
-                  <option value="all">Todos los Skills</option>
-                  <option value="tech">Tech</option>
-                  <option value="design">Design</option>
-                  <option value="product">Product</option>
-                  <option value="business">Business</option>
-                  <option value="marketing">Marketing</option>
+                  <option value="all">🔍 Todos los Skills</option>
+                  <option value="tech">💻 Tech</option>
+                  <option value="design">🎨 Design</option>
+                  <option value="product">📱 Product</option>
+                  <option value="business">💼 Business</option>
+                  <option value="marketing">📈 Marketing</option>
                 </select>
 
                 {/* View Toggle */}
-                <div className="flex bg-gray-100 rounded-lg p-1">
+                <div className="flex bg-white rounded-full border border-gray-200 p-1 shadow-sm">
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`p-2 rounded transition-colors ${
-                      viewMode === "grid" ? "bg-white shadow-sm" : ""
+                    className={`p-2 rounded-full transition-all duration-200 ${
+                      viewMode === "grid" 
+                        ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md" 
+                        : "text-gray-600 hover:bg-gray-100"
                     }`}
                   >
                     <BarChart3 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
-                    className={`p-2 rounded transition-colors ${
-                      viewMode === "list" ? "bg-white shadow-sm" : ""
+                    className={`p-2 rounded-full transition-all duration-200 ${
+                      viewMode === "list" 
+                        ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md" 
+                        : "text-gray-600 hover:bg-gray-100"
                     }`}
                   >
                     <Users className="w-4 h-4" />
@@ -1026,28 +1243,28 @@ export default function TalentPage() {
                 {filteredMembers.map((member) => (
                   <div
                     key={member.id}
-                    className="rounded-lg p-6 hover:shadow-md transition-shadow bg-gray-50"
+                    className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 hover:shadow-lg hover:from-gray-100 hover:to-gray-200 transition-all duration-300 border border-gray-200 group"
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                          <User className="w-6 h-6 text-blue-600" />
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+                          <User className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-gray-900">
+                          <h4 className="font-bold tracking-tight text-gray-900">
                             {member.name}
                           </h4>
-                          <p className="text-sm text-gray-600">{member.role}</p>
-                          <p className="text-xs text-gray-500 flex items-center gap-1">
+                          <p className="text-sm font-medium text-gray-600">{member.role}</p>
+                          <p className="text-xs font-medium text-gray-500 flex items-center gap-1 bg-white px-2 py-1 rounded-full mt-1">
                             <MapPin className="w-3 h-3" />
                             {member.location}
                           </p>
                         </div>
                       </div>
                       <span
-                        className={`px-2 py-1 text-xs rounded-full ${getWorkloadColor(member.workload)}`}
+                        className={`px-3 py-1 text-xs font-bold rounded-full ${getWorkloadColor(member.workload).replace('bg-', 'bg-gradient-to-r from-').replace('text-', 'text-')}`}
                       >
-                        {member.workload}
+                        🔥 {member.workload}
                       </span>
                     </div>
 

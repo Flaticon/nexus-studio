@@ -30,10 +30,15 @@
   /* Separator - Apple Style Hairline Separators */
   --separator: rgba(60, 60, 67, 0.12);
   --separator-opaque: #c6c6c8;
+  --border: rgba(60, 60, 67, 0.12);
+  --border-secondary: rgba(60, 60, 67, 0.08);
+  --border-tertiary: rgba(60, 60, 67, 0.04);
+  --border-primary: rgba(60, 60, 67, 0.18);
   
   /* Brand Colors - Apple System Blue */
   --brand-primary: #007aff;
   --brand-primary-light: rgba(0, 122, 255, 0.1);
+  --brand-primary-dark: #0056b3;
   --brand-primary-hover: #0056b3;
   --brand-secondary: #5856d6;
   --brand-tertiary: #32d74b;
