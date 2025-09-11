@@ -32,5 +32,13 @@ export declare class Alert {
     metadata?: Record<string, any>;
     expiresAt?: Date;
 }
-export declare const AlertSchema: any;
+export declare const AlertSchema: import("mongoose").Schema<Alert, import("mongoose").Model<Alert, any, any, any, Document<unknown, any, Alert, any, {}> & Alert & {
+    _id: Types.ObjectId;
+} & {
+    __v: number;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Alert, Document<unknown, {}, import("mongoose").FlatRecord<Alert>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<Alert> & {
+    _id: Types.ObjectId;
+} & {
+    __v: number;
+}>;
 export {};

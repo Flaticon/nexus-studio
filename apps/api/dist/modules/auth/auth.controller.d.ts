@@ -1,12 +1,24 @@
-import { AuthService } from './auth.service';
+import { AuthService, type LoginDto, type RegisterDto } from './auth.service';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
-    login(loginDto: any): Promise<{
-        access_token: any;
+    login(loginDto: LoginDto): Promise<{
+        access_token: string;
+        user: {
+            id: any;
+            email: any;
+            firstName: any;
+            lastName: any;
+        };
     }>;
-    register(registerDto: any): Promise<{
+    register(registerDto: RegisterDto): Promise<{
         message: string;
+        user: {
+            id: any;
+            email: string;
+            firstName: string;
+            lastName: string;
+        };
     }>;
     getProfile(req: any): any;
     logout(): Promise<{

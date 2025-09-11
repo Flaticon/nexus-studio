@@ -8,11 +8,15 @@ export declare class PortfolioController {
     constructor(portfolioService: PortfolioService);
     create(createStartupDto: CreateStartupDto): Promise<import("./schemas/startup.schema").Startup>;
     findAll(filters: PortfolioFilterDto): Promise<{
-        data: any;
+        data: (import("mongoose").Document<unknown, {}, import("./schemas/startup.schema").StartupDocument, {}, {}> & import("./schemas/startup.schema").Startup & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+            _id: unknown;
+        }> & {
+            __v: number;
+        })[];
         pagination: {
             page: number;
             limit: number;
-            total: any;
+            total: number;
             pages: number;
         };
     }>;
@@ -26,35 +30,96 @@ export declare class PortfolioController {
     completeMilestone(id: string, index: number): Promise<import("./schemas/startup.schema").Startup>;
     getPipelineView(): Promise<{
         stage: import("./schemas/startup.schema").StartupStage;
-        count: any;
-        startups: any;
+        count: number;
+        startups: {
+            id: any;
+            name: string;
+            slug: string;
+            logo: string | undefined;
+            mainKpi: {
+                name: string;
+                current: number;
+                target: number;
+                unit: string;
+                lastUpdated: Date;
+            };
+            revenue: number;
+        }[];
     }[]>;
     getStatistics(): Promise<{
-        total: any;
-        byStage: any;
-        byStatus: any;
-        recentActivity: any;
-        topPerformers: any;
+        total: number;
+        byStage: {
+            stage: import("./schemas/startup.schema").StartupStage;
+            count: number;
+        }[];
+        byStatus: {
+            active: number;
+            paused: number;
+            archived: number;
+        };
+        recentActivity: {
+            action: string;
+            description: string;
+            userId: import("mongoose").Types.ObjectId;
+            userName: string;
+            changes?: Record<string, any>;
+            timestamp: Date;
+        }[];
+        topPerformers: {
+            id: unknown;
+            name: string;
+            revenue: number;
+            growth: number;
+        }[];
     }>;
-    getActivityLog(startupId?: string): Promise<any>;
+    getActivityLog(startupId?: string): Promise<{
+        action: string;
+        description: string;
+        userId: import("mongoose").Types.ObjectId;
+        userName: string;
+        changes?: Record<string, any>;
+        timestamp: Date;
+    }[]>;
     compareStartups(startupIds: string[]): Promise<{
-        startups: any;
+        startups: {
+            id: unknown;
+            name: string;
+            stage: import("./schemas/startup.schema").StartupStage;
+            status: import("./schemas/startup.schema").StartupStatus;
+        }[];
         metrics: {
             metric: string;
             values: {
                 startupId: any;
-                startupName: any;
-                value: any;
-                unit: any;
+                startupName: string;
+                value: number;
+                unit: string;
             }[];
         }[];
         timeline: {
             startupId: any;
-            startupName: any;
-            timeline: any;
+            startupName: string;
+            timeline: {
+                stage: string;
+                date: Date;
+                description?: string;
+                milestone?: string;
+            }[];
         }[];
-        team: any;
+        team: {
+            id: unknown;
+            name: string;
+            teamSize: number;
+        }[];
     }>;
-    saveComparison(name: string, startupIds: string[], metrics: string[], req: any): Promise<any>;
-    getSavedComparisons(req: any): Promise<any>;
+    saveComparison(name: string, startupIds: string[], metrics: string[], req: any): Promise<import("mongoose").Document<unknown, {}, import("./schemas/comparison.schema").ComparisonDocument, {}, {}> & import("./schemas/comparison.schema").Comparison & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    }>;
+    getSavedComparisons(req: any): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/comparison.schema").ComparisonDocument, {}, {}> & import("./schemas/comparison.schema").Comparison & import("mongoose").Document<unknown, any, any, Record<string, any>, {}> & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
 }
