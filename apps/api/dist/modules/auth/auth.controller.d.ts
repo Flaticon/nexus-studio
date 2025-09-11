@@ -3,7 +3,7 @@ export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
     login(loginDto: any): Promise<{
-        access_token: string;
+        access_token: any;
     }>;
     register(registerDto: any): Promise<{
         message: string;

@@ -196,31 +196,26 @@ export default function PortfolioPage() {
             {/* Action Buttons - Mobile Optimized */}
             <div className="flex flex-wrap gap-2 justify-center sm:justify-end">
               <button
-                className="px-3 py-2 rounded-lg flex items-center gap-2 text-sm transition-all duration-200"
-                style={{
-                  background: 'var(--surface)',
-                  color: 'var(--text-primary)',
-                  boxShadow: 'var(--shadow-sm)'
-                }}
-                onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-                onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}
+                className="px-3 py-2 rounded-full flex items-center gap-2 text-sm transition-all duration-200 font-medium bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200"
                 onClick={() => setShowFilters(!showFilters)}
+                onMouseEnter={(e) => e.target.style.background = '#f8fafc'}
+                onMouseLeave={(e) => e.target.style.background = 'white'}
               >
                 <Filter className="w-4 h-4" />
-                <span className="hidden sm:inline">Filtros</span>
+                <span className="hidden sm:inline">🔍 Filtros</span>
               </button>
 
-              <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2 text-sm">
+              <button className="px-3 py-2 rounded-full flex items-center gap-2 text-sm font-medium bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-200">
                 <Download className="w-4 h-4" />
-                <span className="hidden sm:inline">Export</span>
+                <span className="hidden sm:inline">📊 Export</span>
               </button>
 
               <button
-                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 text-sm font-medium"
+                className="px-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full hover:from-blue-600 hover:to-indigo-700 flex items-center gap-2 text-sm font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
                 onClick={() => setIsCreateModalOpen(true)}
               >
                 <Plus className="w-4 h-4" />
-                <span className="hidden xs:inline">Nueva</span>
+                <span className="hidden xs:inline">🚀 Nueva</span>
                 <span className="hidden sm:inline">Startup</span>
               </button>
             </div>
@@ -232,14 +227,14 @@ export default function PortfolioPage() {
             <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-3">
               {/* View Mode Selector */}
               <div className="flex justify-center xs:justify-start">
-                <div className="inline-flex bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+                <div className="inline-flex bg-white rounded-full shadow-md border border-gray-200 p-1">
                   {Object.entries(viewIcons).map(([mode, Icon]) => (
                     <button
                       key={mode}
                       onClick={() => setViewMode(mode)}
-                      className={`p-2 rounded transition-colors ${
+                      className={`p-3 rounded-full transition-all duration-200 ${
                         viewMode === mode
-                          ? "bg-blue-600 text-white"
+                          ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md"
                           : "text-gray-600 hover:bg-gray-100"
                       }`}
                       title={mode.charAt(0).toUpperCase() + mode.slice(1)}
@@ -253,11 +248,11 @@ export default function PortfolioPage() {
               {/* Search */}
               <div className="flex-1 max-w-md">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input
                     type="text"
-                    placeholder="Buscar startups..."
-                    className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    placeholder="🔍 Buscar startups y equipos..."
+                    className="w-full pl-12 pr-4 py-3 text-sm font-medium border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-md hover:shadow-lg transition-all duration-200"
                   />
                 </div>
               </div>

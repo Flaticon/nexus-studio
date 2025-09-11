@@ -869,30 +869,97 @@ export default function DashboardPage() {
         }`}>
         {/* Revenue Trend */}
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
-          <div className="p-4 sm:p-6 pb-4">
+          <div className="p-4 sm:p-6 pb-4 border-b border-gray-100">
             <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
               📈 Tendencia Financiera y OKRs
             </h3>
           </div>
           <div className="p-4 sm:p-6">
             <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={executiveData.monthlyTrends}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
+              <LineChart 
+                data={executiveData.monthlyTrends}
+                margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+              >
+                <defs>
+                  <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#10B981" stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor="#10B981" stopOpacity={0.1}/>
+                  </linearGradient>
+                  <linearGradient id="netIncomeGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#3B82F6" stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor="#3B82F6" stopOpacity={0.1}/>
+                  </linearGradient>
+                  <linearGradient id="okrGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0.1}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid 
+                  strokeDasharray="3 3" 
+                  stroke="#F3F4F6" 
+                  strokeOpacity={0.7}
+                />
+                <XAxis 
+                  dataKey="month" 
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                />
+                <YAxis 
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: '#6B7280', fontSize: 12, fontWeight: 600 }}
+                />
                 <Tooltip 
+                  contentStyle={{
+                    backgroundColor: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '12px',
+                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    padding: '12px 16px',
+                    fontSize: '14px',
+                    fontWeight: '600'
+                  }}
                   formatter={(value, name) => [
                     name === 'netIncome' || name === 'revenue' || name === 'expenses' 
                       ? `$${value.toLocaleString()}` 
                       : `${value}%`,
-                    name === 'netIncome' ? 'Net Income' : 
-                    name === 'revenue' ? 'Revenue' :
-                    name === 'expenses' ? 'Expenses' : 'OKR Progress'
+                    name === 'netIncome' ? '💰 Net Income' : 
+                    name === 'revenue' ? '📈 Revenue' :
+                    name === 'expenses' ? '💸 Expenses' : '🎯 OKR Progress'
                   ]}
+                  cursor={{ stroke: 'rgba(59, 130, 246, 0.1)', strokeWidth: 2 }}
                 />
-                <Line type="monotone" dataKey="revenue" stroke="#10B981" strokeWidth={2} name="revenue" />
-                <Line type="monotone" dataKey="netIncome" stroke="#3B82F6" strokeWidth={2} name="netIncome" />
-                <Line type="monotone" dataKey="okrProgress" stroke="#8B5CF6" strokeWidth={2} name="okrProgress" />
+                <Line 
+                  type="monotone" 
+                  dataKey="revenue" 
+                  stroke="#10B981" 
+                  strokeWidth={3} 
+                  name="revenue"
+                  dot={{ fill: '#10B981', r: 4, strokeWidth: 2, stroke: '#FFFFFF' }}
+                  activeDot={{ r: 6, strokeWidth: 2, stroke: '#FFFFFF' }}
+                  fill="url(#revenueGradient)"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="netIncome" 
+                  stroke="#3B82F6" 
+                  strokeWidth={3} 
+                  name="netIncome"
+                  dot={{ fill: '#3B82F6', r: 4, strokeWidth: 2, stroke: '#FFFFFF' }}
+                  activeDot={{ r: 6, strokeWidth: 2, stroke: '#FFFFFF' }}
+                  fill="url(#netIncomeGradient)"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="okrProgress" 
+                  stroke="#8B5CF6" 
+                  strokeWidth={3} 
+                  name="okrProgress"
+                  dot={{ fill: '#8B5CF6', r: 4, strokeWidth: 2, stroke: '#FFFFFF' }}
+                  activeDot={{ r: 6, strokeWidth: 2, stroke: '#FFFFFF' }}
+                  fill="url(#okrGradient)"
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -900,30 +967,90 @@ export default function DashboardPage() {
 
         {/* Startup Revenue Distribution */}
         <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
-          <div className="p-4 sm:p-6 pb-4">
+          <div className="p-4 sm:p-6 pb-4 border-b border-gray-100">
             <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
               🥧 Revenue por Startup
             </h3>
           </div>
           <div className="p-4 sm:p-6">
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  dataKey="value"
-                  data={executiveData.startupBreakdown}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  fill="#8884d8"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                >
-                  {executiveData.startupBreakdown.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(value) => [`$${value.toLocaleString()}`, '']} />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="space-y-4">
+              <ResponsiveContainer width="100%" height={280}>
+                <PieChart>
+                  <defs>
+                    {executiveData.startupBreakdown.map((entry, index) => (
+                      <linearGradient key={`gradient-${index}`} id={`pieGradient-${index}`} x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor={entry.color} stopOpacity={0.9}/>
+                        <stop offset="100%" stopColor={entry.color} stopOpacity={0.6}/>
+                      </linearGradient>
+                    ))}
+                  </defs>
+                  <Pie
+                    dataKey="value"
+                    data={executiveData.startupBreakdown}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={90}
+                    innerRadius={40}
+                    paddingAngle={3}
+                    stroke="#ffffff"
+                    strokeWidth={2}
+                  >
+                    {executiveData.startupBreakdown.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={`url(#pieGradient-${index})`}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: '12px',
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                      padding: '12px 16px',
+                      fontSize: '14px',
+                      fontWeight: '600'
+                    }}
+                    formatter={(value) => [`$${value.toLocaleString()}`, '💰 Revenue']} 
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              
+              {/* Enhanced Legend */}
+              <div className="grid grid-cols-1 gap-3 pt-4 border-t border-gray-100">
+                {executiveData.startupBreakdown.map((entry, index) => {
+                  const totalRevenue = executiveData.startupBreakdown.reduce((sum, item) => sum + item.value, 0);
+                  const percentage = ((entry.value / totalRevenue) * 100).toFixed(1);
+                  return (
+                    <div key={entry.name} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <div 
+                          className="w-4 h-4 rounded-full flex-shrink-0" 
+                          style={{ backgroundColor: entry.color }}
+                        ></div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-bold text-gray-900 truncate">{entry.name}</span>
+                            <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                              entry.stage === 'pmf' ? 'bg-green-100 text-green-700' :
+                              entry.stage === 'validation' ? 'bg-blue-100 text-blue-700' :
+                              'bg-purple-100 text-purple-700'
+                            }`}>
+                              {entry.stage}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm font-bold text-gray-900">${entry.value.toLocaleString()}</div>
+                        <div className="text-xs text-gray-600">{percentage}%</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
         </div>

@@ -226,26 +226,29 @@ export default function AnalyticsPage() {
   };
 
   const MetricCard = ({ title, value, change, changeType, icon, subtitle }) => (
-    <div className="p-6 rounded-lg hover:shadow-md transition-shadow" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
-      <div className="flex items-center justify-between">
-        <div className="flex-1">
-          <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{title}</p>
-          <p className="text-2xl font-bold mt-1" style={{ color: 'var(--text-primary)' }}>{value}</p>
-          {subtitle && <p className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>{subtitle}</p>}
-          {change !== undefined && (
-            <div className={`text-sm mt-2 flex items-center gap-1 ${
-              changeType === 'up' ? 'text-green-600' : 
-              changeType === 'down' ? 'text-red-600' : 'text-gray-600'
-            }`}>
-              {changeType === 'up' && <ArrowUp className="w-3 h-3" />}
-              {changeType === 'down' && <ArrowDown className="w-3 h-3" />}
-              {changeType === 'neutral' && <Minus className="w-3 h-3" />}
-              <span>{Math.abs(change)}% vs período anterior</span>
-            </div>
-          )}
+    <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-bold tracking-tight text-gray-600">
+          {title}
+        </h3>
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
+          {icon}
         </div>
-        <div className="ml-4">{icon}</div>
       </div>
+      <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">{value}</p>
+      {subtitle && <p className="text-sm font-medium text-gray-600 mb-2">{subtitle}</p>}
+      {change !== undefined && (
+        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
+          changeType === 'up' ? 'text-emerald-600 bg-emerald-50 border-emerald-200' : 
+          changeType === 'down' ? 'text-red-600 bg-red-50 border-red-200' : 
+          'text-gray-600 bg-gray-50 border-gray-200'
+        }`}>
+          {changeType === 'up' && <ArrowUp className="w-3 h-3" />}
+          {changeType === 'down' && <ArrowDown className="w-3 h-3" />}
+          {changeType === 'neutral' && <Minus className="w-3 h-3" />}
+          <span>{Math.abs(change)}% vs período anterior</span>
+        </div>
+      )}
     </div>
   );
 
@@ -256,44 +259,41 @@ export default function AnalyticsPage() {
       <div className="mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
-              📈 Data Analytics
+            <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+              📊 Data Analytics
             </h1>
-            <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>
-              Insights inteligentes para la toma de decisiones estratégicas
+            <p className="mt-2 font-medium" style={{ color: 'var(--text-secondary)' }}>
+              Análisis avanzado de datos e insights predictivos para decisiones estratégicas
             </p>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200" 
-              style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', color: 'var(--text-secondary)' }}
-              onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-              onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}>
+            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200" 
+              onMouseEnter={(e) => e.target.style.background = '#f8fafc'}
+              onMouseLeave={(e) => e.target.style.background = 'white'}>
               <RefreshCw className="w-4 h-4 shrink-0" />
-              <span className="hidden sm:inline">Actualizar</span>
+              <span className="hidden sm:inline">🔄 Actualizar</span>
             </button>
-            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200" 
-              style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', color: 'var(--text-secondary)' }}
-              onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-              onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}>
+            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200" 
+              onMouseEnter={(e) => e.target.style.background = '#f8fafc'}
+              onMouseLeave={(e) => e.target.style.background = 'white'}>
               <Download className="w-4 h-4 shrink-0" />
-              <span className="hidden sm:inline">Exportar</span>
+              <span className="hidden sm:inline">📊 Exportar</span>
             </button>
-            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg flex items-center justify-center sm:justify-start gap-2 transition-all duration-200" 
-              style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)', color: 'var(--text-secondary)' }}
-              onMouseEnter={(e) => e.target.style.background = 'var(--surface-hover)'}
-              onMouseLeave={(e) => e.target.style.background = 'var(--surface)'}>
+            <button className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200" 
+              onMouseEnter={(e) => e.target.style.background = '#f8fafc'}
+              onMouseLeave={(e) => e.target.style.background = 'white'}>
               <Filter className="w-4 h-4 shrink-0" />
-              <span className="hidden sm:inline">Filtros</span>
+              <span className="hidden sm:inline">🔍 Filtros</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* View Mode Selector */}
-      <div className="mb-6 rounded-lg p-4" style={{ background: 'var(--surface)', boxShadow: 'var(--shadow-sm)' }}>
+      <div className="mb-6 bg-white rounded-2xl shadow-md border border-gray-100 p-4">
         <div className="flex items-center gap-4">
-          <div className="flex rounded-lg p-1" style={{ background: 'var(--surface-secondary)' }}>
+          <div className="flex bg-gray-100 rounded-full p-1">
             {[
               { id: 'overview', label: 'Vista General', icon: BarChart3 },
               { id: 'trends', label: 'Tendencias', icon: LineChart },
@@ -304,24 +304,11 @@ export default function AnalyticsPage() {
               <button
                 key={id}
                 onClick={() => setViewMode(id)}
-                className="px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-200"
-                style={{
-                  background: viewMode === id ? 'var(--surface)' : 'transparent',
-                  color: viewMode === id ? 'var(--brand-primary)' : 'var(--text-secondary)',
-                  boxShadow: viewMode === id ? 'var(--shadow-sm)' : 'none'
-                }}
-                onMouseEnter={(e) => {
-                  if (viewMode !== id) {
-                    e.target.style.background = 'var(--surface)';
-                    e.target.style.boxShadow = 'var(--shadow-sm)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (viewMode !== id) {
-                    e.target.style.background = 'transparent';
-                    e.target.style.boxShadow = 'none';
-                  }
-                }}
+                className={`px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 font-medium ${
+                  viewMode === id 
+                    ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md' 
+                    : 'text-gray-600 hover:bg-white hover:shadow-sm'
+                }`}
               >
                 <Icon className="w-4 h-4" />
                 <span className="hidden md:inline">{label}</span>
@@ -330,17 +317,16 @@ export default function AnalyticsPage() {
           </div>
 
           <div className="ml-auto flex items-center gap-2">
-            <label className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Periodo:</label>
+            <label className="text-sm font-bold text-gray-700">📅 Periodo:</label>
             <select 
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
-              className="px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              style={{ background: 'var(--surface)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-sm)' }}
+              className="px-3 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-medium bg-gray-100 border border-gray-200"
             >
-              <option value="1m">1 mes</option>
-              <option value="3m">3 meses</option>
-              <option value="6m">6 meses</option>
-              <option value="1y">1 año</option>
+              <option value="1m">📅 1 mes</option>
+              <option value="3m">📅 3 meses</option>
+              <option value="6m">📅 6 meses</option>
+              <option value="1y">📅 1 año</option>
             </select>
           </div>
         </div>
@@ -352,32 +338,32 @@ export default function AnalyticsPage() {
           {/* Key Metrics */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
             <MetricCard
-              title="Revenue Total"
+              title="💰 Revenue Total"
               value="$142K"
               change={18}
               changeType="up"
-              icon={<DollarSign className="h-8 w-8 text-green-600" />}
+              icon={<DollarSign className="h-5 w-5 text-white" />}
             />
             <MetricCard
-              title="Usuarios Activos"
+              title="👥 Usuarios Activos"
               value="2,480"
               change={24}
               changeType="up"
-              icon={<Users className="h-8 w-8 text-blue-600" />}
+              icon={<Users className="h-5 w-5 text-white" />}
             />
             <MetricCard
-              title="Retención Promedio"
+              title="🎯 Retención Promedio"
               value="89%"
               change={5}
               changeType="up"
-              icon={<Activity className="h-8 w-8 text-purple-600" />}
+              icon={<Activity className="h-5 w-5 text-white" />}
             />
             <MetricCard
-              title="NPS Score"
+              title="⭐ NPS Score"
               value="58"
               change={12}
               changeType="up"
-              icon={<Target className="h-8 w-8 text-orange-600" />}
+              icon={<Target className="h-5 w-5 text-white" />}
             />
           </div>
 

@@ -101,13 +101,5 @@ export declare class Startup {
     tags: string[];
     metadata?: Record<string, any>;
 }
-export declare const StartupSchema: import("mongoose").Schema<Startup, import("mongoose").Model<Startup, any, any, any, MongooseDocument<unknown, any, Startup, any, {}> & Startup & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Startup, MongooseDocument<unknown, {}, import("mongoose").FlatRecord<Startup>, {}, import("mongoose").ResolveSchemaOptions<import("mongoose").DefaultSchemaOptions>> & import("mongoose").FlatRecord<Startup> & {
-    _id: Types.ObjectId;
-} & {
-    __v: number;
-}>;
+export declare const StartupSchema: any;
 export {};

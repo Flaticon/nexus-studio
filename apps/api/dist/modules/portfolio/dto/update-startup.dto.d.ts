@@ -1,5 +1,4 @@
-import { CreateStartupDto } from './create-startup.dto';
-declare const UpdateStartupDto_base: import("@nestjs/mapped-types").MappedType<Partial<CreateStartupDto>>;
+declare const UpdateStartupDto_base: any;
 export declare class UpdateStartupDto extends UpdateStartupDto_base {
 }
 export {};
