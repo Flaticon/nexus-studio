@@ -29,6 +29,13 @@ export default function PortfolioPage() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingStartup, setEditingStartup] = useState(null);
+  
+  // Filter states
+  const [filters, setFilters] = useState({
+    stage: '',
+    status: '',
+    search: ''
+  });
 
   // Mock data for demonstration
   const initialStartups = [
@@ -95,6 +102,25 @@ export default function PortfolioPage() {
   ];
 
   const [startups, setStartups] = useState(initialStartups);
+  
+  // Filter function
+  const filteredStartups = startups.filter((startup) => {
+    const matchesStage = !filters.stage || startup.stage === filters.stage;
+    const matchesStatus = !filters.status || startup.status === filters.status;
+    const matchesSearch = !filters.search || 
+      startup.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+      startup.squad.lead.name.toLowerCase().includes(filters.search.toLowerCase());
+    
+    return matchesStage && matchesStatus && matchesSearch;
+  });
+  
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+  
+  const clearFilters = () => {
+    setFilters({ stage: '', status: '', search: '' });
+  };
 
   const handleCreateStartup = (projectData) => {
     const newStartup = {
@@ -134,15 +160,15 @@ export default function PortfolioPage() {
   };
 
   const stats = {
-    total: startups.length,
+    total: filteredStartups.length,
     byStatus: {
-      active: startups.filter((s) => s.status === "active").length,
-      paused: startups.filter((s) => s.status === "paused").length,
+      active: filteredStartups.filter((s) => s.status === "active").length,
+      paused: filteredStartups.filter((s) => s.status === "paused").length,
     },
   };
 
   const getStartupsByStage = (stage) => {
-    return startups.filter((s) => s.stage === stage);
+    return filteredStartups.filter((s) => s.stage === stage);
   };
 
   const stages = ["idea", "validation", "pmf", "growth", "scale"];
@@ -202,12 +228,12 @@ export default function PortfolioPage() {
                 onMouseLeave={(e) => e.target.style.background = 'white'}
               >
                 <Filter className="w-4 h-4" />
-                <span className="hidden sm:inline">🔍 Filtros</span>
+                <span className="hidden sm:inline">Filtros</span>
               </button>
 
               <button className="px-3 py-2 rounded-full flex items-center gap-2 text-sm font-medium bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-200">
                 <Download className="w-4 h-4" />
-                <span className="hidden sm:inline">📊 Export</span>
+                <span className="hidden sm:inline">Export</span>
               </button>
 
               <button
@@ -215,7 +241,7 @@ export default function PortfolioPage() {
                 onClick={() => setIsCreateModalOpen(true)}
               >
                 <Plus className="w-4 h-4" />
-                <span className="hidden xs:inline">🚀 Nueva</span>
+                <span className="hidden xs:inline">Nueva</span>
                 <span className="hidden sm:inline">Startup</span>
               </button>
             </div>
@@ -251,7 +277,9 @@ export default function PortfolioPage() {
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input
                     type="text"
-                    placeholder="🔍 Buscar startups y equipos..."
+                    placeholder="Buscar startups y equipos..."
+                    value={filters.search}
+                    onChange={(e) => handleFilterChange('search', e.target.value)}
                     className="w-full pl-12 pr-4 py-3 text-sm font-medium border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-md hover:shadow-lg transition-all duration-200"
                   />
                 </div>
@@ -259,6 +287,105 @@ export default function PortfolioPage() {
             </div>
           </div>
         </div>
+
+        {/* Filters Panel */}
+        {showFilters && (
+          <div className="mb-6 bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-900">Filtros</h3>
+              <button
+                onClick={clearFilters}
+                className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+              >
+                Limpiar filtros
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Stage Filter */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Etapa
+                </label>
+                <select
+                  value={filters.stage}
+                  onChange={(e) => handleFilterChange('stage', e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                >
+                  <option value="">Todas las etapas</option>
+                  <option value="idea">Idea</option>
+                  <option value="validation">Validation</option>
+                  <option value="pmf">PMF</option>
+                  <option value="growth">Growth</option>
+                  <option value="scale">Scale</option>
+                </select>
+              </div>
+              
+              {/* Status Filter */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Estado
+                </label>
+                <select
+                  value={filters.status}
+                  onChange={(e) => handleFilterChange('status', e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                >
+                  <option value="">Todos los estados</option>
+                  <option value="active">Activa</option>
+                  <option value="paused">Pausada</option>
+                </select>
+              </div>
+              
+              {/* Active Filters Indicator */}
+              <div className="flex items-center gap-2">
+                {(filters.stage || filters.status || filters.search) && (
+                  <div className="flex flex-wrap gap-2">
+                    {filters.stage && (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                        Etapa: {stageLabels[filters.stage]}
+                        <button
+                          onClick={() => handleFilterChange('stage', '')}
+                          className="hover:bg-blue-200 rounded-full p-0.5"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                    {filters.status && (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
+                        Estado: {filters.status === 'active' ? 'Activa' : 'Pausada'}
+                        <button
+                          onClick={() => handleFilterChange('status', '')}
+                          className="hover:bg-green-200 rounded-full p-0.5"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                    {filters.search && (
+                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">
+                        Buscar: {filters.search}
+                        <button
+                          onClick={() => handleFilterChange('search', '')}
+                          className="hover:bg-purple-200 rounded-full p-0.5"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <p className="text-sm text-gray-600">
+                Mostrando {filteredStartups.length} de {startups.length} startups
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Kanban Board */}
         {viewMode === "kanban" && (
@@ -495,7 +622,7 @@ export default function PortfolioPage() {
         {/* Grid View */}
         {viewMode === "grid" && (
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-            {startups.map((startup) => (
+            {filteredStartups.map((startup) => (
               <div
                 key={startup._id}
                 className="bg-white p-5 rounded-2xl group relative border border-gray-200/60 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 backdrop-blur-sm"
@@ -526,7 +653,7 @@ export default function PortfolioPage() {
                               : "bg-gray-50 text-gray-700 border-gray-200"
                           }`}
                         >
-                          {startup.status === "active" ? "🟢 Activa" : "⏸️ Pausada"}
+                          {startup.status === "active" ? "Activa" : "Pausada"}
                         </span>
                       </div>
                     </div>
@@ -639,7 +766,7 @@ export default function PortfolioPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-100">
-                  {startups.map((startup) => (
+                  {filteredStartups.map((startup) => (
                     <tr key={startup._id} className="hover:bg-blue-50/30 transition-colors duration-200">
                       <td className="px-6 py-5 whitespace-nowrap">
                         <div className="flex items-center gap-3">
@@ -677,7 +804,7 @@ export default function PortfolioPage() {
                               : "bg-gray-50 text-gray-700 border-gray-200"
                           }`}
                         >
-                          {startup.status === "active" ? "🟢 Activa" : "⏸️ Pausada"}
+                          {startup.status === "active" ? "Activa" : "Pausada"}
                         </span>
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap">
@@ -750,7 +877,7 @@ export default function PortfolioPage() {
         {viewMode === "timeline" && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200/60 backdrop-blur-sm p-8">
             <div className="space-y-8">
-              {startups.map((startup, index) => (
+              {filteredStartups.map((startup, index) => (
                 <div key={startup._id} className="relative">
                   <div className="flex items-start space-x-5">
                     <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-md">
@@ -848,7 +975,7 @@ export default function PortfolioPage() {
                   </div>
 
                   {/* Timeline line */}
-                  {index !== startups.length - 1 && (
+                  {index !== filteredStartups.length - 1 && (
                     <div className="absolute left-6 top-14 w-px h-8 bg-gradient-to-b from-blue-300 to-purple-300"></div>
                   )}
                 </div>
