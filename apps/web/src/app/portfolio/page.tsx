@@ -22,7 +22,7 @@ import EditProjectModal from "../../components/forms/EditProjectModal";
 import Layout from "../../components/layout/Layout";
 
 export default function PortfolioPage() {
-  const [viewMode, setViewMode] = useState("kanban");
+  const [viewMode, setViewMode] = useState("grid");
   const [showFilters, setShowFilters] = useState(false);
   const [compareMode, setCompareMode] = useState(false);
   const [selectedStartups, setSelectedStartups] = useState([]);
