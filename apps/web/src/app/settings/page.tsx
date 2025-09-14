@@ -57,9 +57,10 @@ export default function SettingsPage() {
   const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
   const [formData, setFormData] = useState({
     fullName: 'John Doe',
-    role: 'Venture Partner', 
+    role: 'Venture Partner',
     location: 'Ciudad de México, México',
-    bio: 'Venture Partner con 10+ años de experiencia en startups de tecnología y fintech en Latinoamérica.'
+    bio: 'Venture Partner con 10+ años de experiencia en startups de tecnología y fintech en Latinoamérica.',
+    avatar: null // User profile image URL
   });
 
   // Load settings on component mount
@@ -351,14 +352,41 @@ export default function SettingsPage() {
                   <div className="space-y-6">
                     {/* Profile Photo */}
                     <div className="flex items-center gap-4">
-                      <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                        JD
+                      <div className="relative">
+                        <div className="w-20 h-20 rounded-full overflow-hidden shadow-lg ring-4 ring-blue-100">
+                          {formData.avatar ? (
+                            <img
+                              src={formData.avatar}
+                              alt="Profile"
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.parentElement.querySelector('.fallback-avatar').style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <div
+                            className="fallback-avatar w-full h-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white text-2xl font-bold"
+                            style={{
+                              display: formData.avatar ? 'none' : 'flex'
+                            }}
+                          >
+                            {formData.fullName
+                              ? formData.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+                              : 'JD'
+                            }
+                          </div>
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-white rounded-full shadow-lg flex items-center justify-center">
+                          <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+                        </div>
                       </div>
                       <div>
-                        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors">
                           Cambiar Foto
                         </button>
                         <p className="text-xs text-gray-500 mt-1">JPG, GIF o PNG. Máximo 1MB.</p>
+                        <p className="text-xs text-blue-600 mt-0.5 font-medium">Recomendado: 400x400px</p>
                       </div>
                     </div>
 
