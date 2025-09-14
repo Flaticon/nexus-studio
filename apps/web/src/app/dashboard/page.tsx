@@ -2,10 +2,10 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  Briefcase, 
-  DollarSign, 
-  Users, 
+import {
+  Briefcase,
+  DollarSign,
+  Users,
   Target,
   TrendingUp,
   Activity,
@@ -14,46 +14,25 @@ import {
   XCircle,
   Clock,
   ArrowRight,
-  ArrowUp,
-  ArrowDown,
-  Award,
   Calendar,
-  BarChart3,
-  Eye,
   Filter,
   Bell,
   X,
-  Settings,
   Download,
-  RefreshCw,
-  ChevronDown,
-  Plus,
-  Minus,
-  Maximize2,
-  Minimize2
+  RefreshCw
 } from 'lucide-react';
 import Link from 'next/link';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import Layout from '../../components/layout/Layout';
-import { KanbanBoard } from '../../components/dashboard/portfolio/KanbanBoard';
 import { StartupStage, StartupStatus } from '@/types/portfolio';
 import { ModernMetricCard } from '@/components/ui/ModernMetricCard';
 
 export default function DashboardPage() {
   // State management for filters and views
   const [showFilters, setShowFilters] = useState(false);
-  const [showCustomView, setShowCustomView] = useState(false);
   const [dateRange, setDateRange] = useState('6m');
   const [selectedModules, setSelectedModules] = useState(['portfolio', 'finance', 'okrs', 'talent', 'learnings']);
-  const [viewMode, setViewMode] = useState('standard');
   const [refreshing, setRefreshing] = useState(false);
-  const [dashboardTemplate, setDashboardTemplate] = useState('executive'); // Nueva plantilla por defecto
-  const [widgetLayout, setWidgetLayout] = useState({
-    metrics: { visible: true, size: 'normal' },
-    charts: { visible: true, size: 'normal' },
-    status: { visible: true, size: 'normal' },
-    alerts: { visible: true, size: 'normal' }
-  });
 
   // Filter data based on dateRange
   const getFilteredData = (data, range) => {
@@ -304,10 +283,9 @@ export default function DashboardPage() {
   };
 
   // Check if filters are active
-  const hasActiveFilters = 
+  const hasActiveFilters =
     dateRange !== '6m' ||
-    selectedModules.length !== 5 ||
-    viewMode !== 'standard';
+    selectedModules.length !== 5;
 
   // Filter and view functions
   const handleRefresh = async () => {
@@ -317,13 +295,14 @@ export default function DashboardPage() {
   };
 
   const toggleModule = (module) => {
-    setSelectedModules(prev => 
-      prev.includes(module) 
+    setSelectedModules(prev =>
+      prev.includes(module)
         ? prev.filter(m => m !== module)
         : [...prev, module]
     );
   };
 
+<<<<<<< HEAD
   const toggleWidgetVisibility = (widget) => {
     setWidgetLayout(prev => ({
       ...prev,
@@ -406,21 +385,14 @@ export default function DashboardPage() {
     // This would typically update the backend
     console.log(`Moving startup ${startupId} to ${newStage}`);
   };
+=======
+>>>>>>> f1d9e84f (feat: improve dashboard UX and portfolio default view)
 
   // Filter alerts by selected modules
   const filteredAlerts = executiveData.alerts.filter(alert => 
     selectedModules.includes(alert.module)
   );
 
-  // Filter data based on view mode
-  const getViewModeClass = () => {
-    switch (viewMode) {
-      case 'compact': return 'text-sm';
-      case 'detailed': return 'text-lg';
-      case 'minimal': return 'text-xs';
-      default: return '';
-    }
-  };
 
   const getAlertColor = (type) => {
     switch (type) {
@@ -624,6 +596,7 @@ export default function DashboardPage() {
                 )}
               </button>
               
+<<<<<<< HEAD
               <button 
                 onClick={() => setShowCustomView(!showCustomView)}
                 className={`px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium ${
@@ -649,6 +622,8 @@ export default function DashboardPage() {
                 <span className="hidden lg:inline">Plantillas Dashboard</span>
                 <span className="hidden sm:inline lg:hidden">Plantillas</span>
               </button>
+=======
+>>>>>>> f1d9e84f (feat: improve dashboard UX and portfolio default view)
             </div>
           </div>
         </div>
@@ -672,7 +647,7 @@ export default function DashboardPage() {
             </button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Date Range Filter */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -717,22 +692,6 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* View Mode */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Modo de Vista
-              </label>
-              <select 
-                value={viewMode}
-                onChange={(e) => setViewMode(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="standard">Vista Estándar</option>
-                <option value="compact">Vista Compacta</option>
-                <option value="detailed">Vista Detallada</option>
-                <option value="minimal">Vista Mínima</option>
-              </select>
-            </div>
           </div>
           
           {/* Active Filters Summary */}
@@ -754,19 +713,11 @@ export default function DashboardPage() {
                       {selectedModules.length} módulos
                     </span>
                   )}
-                  {viewMode !== 'standard' && (
-                    <span className="ml-1 px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">
-                      {viewMode === 'compact' ? 'Compacta' :
-                       viewMode === 'detailed' ? 'Detallada' :
-                       viewMode === 'minimal' ? 'Mínima' : viewMode}
-                    </span>
-                  )}
                 </p>
                 <button
                   onClick={() => {
                     setDateRange('6m');
                     setSelectedModules(['portfolio', 'finance', 'okrs', 'talent', 'learnings']);
-                    setViewMode('standard');
                   }}
                   className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
@@ -778,6 +729,7 @@ export default function DashboardPage() {
         </div>
       )}
 
+<<<<<<< HEAD
       {/* Dashboard Templates Selector */}
       {showCustomView && (
         <div className="mb-6 bg-gradient-to-br from-white to-purple-50/30 rounded-2xl shadow-lg border border-purple-200/50 overflow-hidden">
@@ -886,23 +838,21 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+=======
+>>>>>>> f1d9e84f (feat: improve dashboard UX and portfolio default view)
 
       {/* Modern Key Metrics Grid */}
-      {widgetLayout.metrics.visible && (
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
-                📊 Métricas Principales
-              </h2>
-              <p className="text-gray-600 text-sm mt-1 font-medium">Vista general de KPIs críticos del venture studio</p>
-            </div>
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
+              📊 Métricas Principales
+            </h2>
+            <p className="text-gray-600 text-sm mt-1 font-medium">Vista general de KPIs críticos del venture studio</p>
           </div>
-          
-          <div className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 ${
-            widgetLayout.metrics.size === 'small' ? 'scale-90' : 
-            widgetLayout.metrics.size === 'large' ? 'scale-110' : ''
-          }`}>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
             <ModernMetricCard
               title="Startups Activas"
               value={executiveData.portfolio.activeStartups}
@@ -957,52 +907,52 @@ export default function DashboardPage() {
               size="md"
               className="bounce-in"
             />
-          </div>
-
-          {/* Secondary Metrics Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
-            <ModernMetricCard
-              title="MAU (Monthly Active Users)"
-              value="2,847"
-              subtitle="Usuarios activos totales"
-              change={22}
-              changeType="positive"
-              trend="up"
-              color="blue"
-              icon={<Activity className="h-5 w-5" />}
-              size="sm"
-              className="slide-up"
-            />
-            
-            <ModernMetricCard
-              title="Customer Count"
-              value="127"
-              subtitle="Clientes pagando activamente"
-              change={18}
-              changeType="positive"
-              trend="up"
-              color="green"
-              icon={<Users className="h-5 w-5" />}
-              size="sm"
-              className="slide-up"
-            />
-            
-            <ModernMetricCard
-              title="Runway Promedio"
-              value="18"
-              subtitle="Meses de runway restante"
-              change={-5}
-              changeType="negative"
-              trend="down"
-              color="orange"
-              icon={<Calendar className="h-5 w-5" />}
-              size="sm"
-              className="slide-up"
-            />
-          </div>
         </div>
-      )}
 
+        {/* Secondary Metrics Row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
+          <ModernMetricCard
+            title="MAU (Monthly Active Users)"
+            value="2,847"
+            subtitle="Usuarios activos totales"
+            change={22}
+            changeType="positive"
+            trend="up"
+            color="blue"
+            icon={<Activity className="h-5 w-5" />}
+            size="sm"
+            className="slide-up"
+          />
+
+          <ModernMetricCard
+            title="Customer Count"
+            value="127"
+            subtitle="Clientes pagando activamente"
+            change={18}
+            changeType="positive"
+            trend="up"
+            color="green"
+            icon={<Users className="h-5 w-5" />}
+            size="sm"
+            className="slide-up"
+          />
+
+          <ModernMetricCard
+            title="Runway Promedio"
+            value="18"
+            subtitle="Meses de runway restante"
+            change={-5}
+            changeType="negative"
+            trend="down"
+            color="orange"
+            icon={<Calendar className="h-5 w-5" />}
+            size="sm"
+            className="slide-up"
+          />
+        </div>
+      </div>
+
+<<<<<<< HEAD
       {/* Charts Section - Reorganized Layout */}
       {widgetLayout.charts.visible && (
         <div className="mb-8">
@@ -1026,6 +976,16 @@ export default function DashboardPage() {
                 <span className="text-xs text-slate-600 font-medium">Actualizado hace 5min</span>
               </div>
             </div>
+=======
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+        {/* Revenue Trend */}
+        <div className="lg:col-span-2 bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
+          <div className="p-4 sm:p-6 pb-4 border-b border-gray-100">
+            <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              📈 Tendencia Financiera y OKRs
+            </h3>
+>>>>>>> f1d9e84f (feat: improve dashboard UX and portfolio default view)
           </div>
 
           {/* Financial Summary Cards */}
@@ -1368,6 +1328,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
+<<<<<<< HEAD
         
         {/* Performance Insights Sidebar */}
         <div className="space-y-4">
@@ -1494,11 +1455,55 @@ export default function DashboardPage() {
               <Link href="/portfolio" className="group flex items-center justify-between p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all duration-200 hover:scale-105">
                 <span className="text-sm font-bold">Ver Dashboard Completo</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+=======
+      </div>
+
+      {/* Status Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
+        {/* Portfolio Status */}
+        <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+          <div className="p-6 pb-4 bg-white/80 backdrop-blur-sm rounded-t-2xl border-b border-gray-100/50">
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              💼 Estado del Portafolio
+            </h3>
+            <p className="text-sm text-gray-600 mt-1">Distribución por etapas de desarrollo</p>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-5 gap-3">
+              {Object.entries(executiveData.portfolio.byStage).map(([stage, count]) => (
+                <div key={stage} className="text-center group-hover:scale-105 transition-transform duration-200">
+                  <div className={`w-12 h-12 mx-auto rounded-2xl flex items-center justify-center mb-2 shadow-sm ${
+                    stage === 'idea' ? 'bg-gradient-to-br from-purple-400 to-purple-600' :
+                    stage === 'validation' ? 'bg-gradient-to-br from-blue-400 to-blue-600' :
+                    stage === 'pmf' ? 'bg-gradient-to-br from-green-400 to-green-600' :
+                    stage === 'growth' ? 'bg-gradient-to-br from-yellow-400 to-yellow-600' :
+                    'bg-gradient-to-br from-red-400 to-red-600'
+                  }`}>
+                    <span className="text-xl font-bold text-white">{count}</span>
+                  </div>
+                  <div className={`text-xs font-semibold uppercase tracking-wider ${
+                    stage === 'idea' ? 'text-purple-700' :
+                    stage === 'validation' ? 'text-blue-700' :
+                    stage === 'pmf' ? 'text-green-700' :
+                    stage === 'growth' ? 'text-yellow-700' :
+                    'text-red-700'
+                  }`}>
+                    {stage}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 pt-4 border-t border-gray-100/50">
+              <Link href="/portfolio" className="flex items-center justify-between text-blue-600 hover:text-blue-800 group/link">
+                <span className="text-sm font-medium">Ver portafolio completo</span>
+                <ArrowRight className="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform" />
+>>>>>>> f1d9e84f (feat: improve dashboard UX and portfolio default view)
               </Link>
             </div>
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Enhanced Team Overview */}
         <div className="bg-gradient-to-br from-white to-emerald-50/30 rounded-2xl shadow-xl border border-emerald-200/50 hover:shadow-2xl transition-all duration-500 overflow-hidden">
           <div className="p-6 pb-4 bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-emerald-200/60">
@@ -1573,19 +1578,76 @@ export default function DashboardPage() {
               <Link href="/talent" className="group flex items-center justify-between p-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all duration-200 hover:scale-105">
                 <span className="text-sm font-bold">Gestionar Equipo</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+=======
+        {/* Team Overview */}
+        <div className="bg-gradient-to-br from-orange-50 via-white to-amber-50 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
+          <div className="p-6 pb-4 bg-white/80 backdrop-blur-sm rounded-t-2xl border-b border-gray-100/50">
+            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+              👥 Resumen del Equipo
+            </h3>
+            <p className="text-sm text-gray-600 mt-1">{executiveData.talent.totalMembers} miembros activos</p>
+          </div>
+          <div className="p-6">
+            <div className="space-y-5">
+              {/* Availability */}
+              <div className="relative">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">Disponibilidad Promedio</span>
+                  <span className="font-bold text-orange-600">{executiveData.talent.avgAvailability}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2.5 shadow-inner">
+                  <div
+                    className="bg-gradient-to-r from-orange-400 to-orange-500 h-2.5 rounded-full shadow-sm transition-all duration-1000 ease-out group-hover:shadow-md"
+                    style={{ width: `${executiveData.talent.avgAvailability}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* Performance */}
+              <div className="relative">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-medium text-gray-700">Performance Promedio</span>
+                  <span className="font-bold text-green-600">{executiveData.talent.avgPerformance}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2.5 shadow-inner">
+                  <div
+                    className="bg-gradient-to-r from-green-400 to-green-500 h-2.5 rounded-full shadow-sm transition-all duration-1000 ease-out group-hover:shadow-md"
+                    style={{ width: `${executiveData.talent.avgPerformance}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* High Workload Alert */}
+              <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                    <AlertTriangle className="w-4 h-4 text-red-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-red-800">Alta Carga de Trabajo</div>
+                    <div className="text-xs text-red-600">Requiere atención</div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-bold text-red-600">{executiveData.talent.highWorkload}</div>
+                  <div className="text-xs text-red-500">miembros</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-gray-100/50">
+              <Link href="/talent" className="flex items-center justify-between text-blue-600 hover:text-blue-800 group/link">
+                <span className="text-sm font-medium">Gestionar equipo</span>
+                <ArrowRight className="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform" />
+>>>>>>> f1d9e84f (feat: improve dashboard UX and portfolio default view)
               </Link>
             </div>
           </div>
         </div>
-        </div>
-      )}
+      </div>
 
       {/* Alerts and Activities */}
-      {widgetLayout.alerts.visible && (
-        <div className={`bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 ${
-          widgetLayout.alerts.size === 'small' ? 'scale-90' : 
-          widgetLayout.alerts.size === 'large' ? 'scale-110' : ''
-        }`}>
+      <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
         <div className="p-6 pb-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
@@ -1631,27 +1693,185 @@ export default function DashboardPage() {
             )}
           </div>
         </div>
-        </div>
-      )}
+      </div>
 
-      {/* Portfolio Kanban Board */}
-      <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 mb-8">
-        <div className="p-6 pb-4">
+      {/* Enhanced Portfolio Quick View */}
+      <div className="bg-gradient-to-br from-blue-50 via-white to-purple-50 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 mb-8">
+        <div className="p-6 pb-4 bg-white/80 backdrop-blur-sm rounded-t-2xl border-b border-gray-100">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
-              📊 Vista Rápida del Portafolio
+              🚀 Vista Rápida del Portafolio
             </h3>
-            <Link href="/portfolio" className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
-              <span>Ver portafolio completo</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="flex items-center gap-3">
+              <div className="text-xs text-gray-500 bg-white/70 px-3 py-1 rounded-full border border-gray-200">
+                {executiveData.portfolio.totalStartups} startups activas
+              </div>
+              <Link href="/portfolio" className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-lg transition-all">
+                <span>Ver completo</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
+
+        {/* Enhanced Startup Cards Grid */}
         <div className="p-6">
-          <KanbanBoard 
-            startups={executiveData.startups}
-            onStageChange={handleStageChange}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {executiveData.startups.map((startup) => (
+              <div key={startup._id} className="group relative bg-white/90 backdrop-blur-sm rounded-xl shadow-md hover:shadow-lg border border-gray-200/50 hover:border-gray-300 transition-all duration-300 overflow-hidden">
+                {/* Stage indicator */}
+                <div className={`absolute top-0 left-0 right-0 h-1 ${
+                  startup.stage === 'idea' ? 'bg-gradient-to-r from-purple-400 to-pink-400' :
+                  startup.stage === 'validation' ? 'bg-gradient-to-r from-blue-400 to-cyan-400' :
+                  startup.stage === 'pmf' ? 'bg-gradient-to-r from-green-400 to-emerald-400' :
+                  startup.stage === 'growth' ? 'bg-gradient-to-r from-yellow-400 to-orange-400' :
+                  'bg-gradient-to-r from-red-400 to-pink-400'
+                }`}></div>
+
+                <div className="p-5">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex-1">
+                      <h4 className="font-bold text-gray-900 text-lg mb-1 group-hover:text-blue-600 transition-colors">
+                        {startup.name}
+                      </h4>
+                      <p className="text-gray-600 text-sm line-clamp-2 mb-2">
+                        {startup.description}
+                      </p>
+                    </div>
+                    <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      startup.stage === 'idea' ? 'bg-purple-100 text-purple-700' :
+                      startup.stage === 'validation' ? 'bg-blue-100 text-blue-700' :
+                      startup.stage === 'pmf' ? 'bg-green-100 text-green-700' :
+                      startup.stage === 'growth' ? 'bg-yellow-100 text-yellow-700' :
+                      'bg-red-100 text-red-700'
+                    }`}>
+                      {startup.stage.toUpperCase()}
+                    </div>
+                  </div>
+
+                  {/* Team info */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex -space-x-2">
+                      <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full border-2 border-white flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">
+                          {startup.squad.lead.name.charAt(0)}
+                        </span>
+                      </div>
+                      {startup.squad.members.slice(0, 2).map((member, idx) => (
+                        <div key={idx} className="w-6 h-6 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full border-2 border-white flex items-center justify-center">
+                          <span className="text-xs font-bold text-white">
+                            {member.name.charAt(0)}
+                          </span>
+                        </div>
+                      ))}
+                      {startup.squad.members.length > 2 && (
+                        <div className="w-6 h-6 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full border-2 border-white flex items-center justify-center">
+                          <span className="text-xs font-bold text-gray-700">
+                            +{startup.squad.members.length - 2}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <span className="text-xs text-gray-500 font-medium">
+                      {startup.squad.members.length + 1} miembros
+                    </span>
+                  </div>
+
+                  {/* Metrics */}
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                    <div className="flex items-center gap-4">
+                      <div>
+                        <div className="text-lg font-bold text-gray-900">
+                          ${startup.metrics[0]?.value.toLocaleString()}
+                        </div>
+                        <div className="text-xs text-gray-500">Revenue</div>
+                      </div>
+                      {startup.kpis[0] && (
+                        <div>
+                          <div className="text-sm font-semibold text-gray-700">
+                            {startup.kpis[0].current} / {startup.kpis[0].target}
+                          </div>
+                          <div className="text-xs text-gray-500">{startup.kpis[0].name}</div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Progress indicator */}
+                    {startup.kpis[0] && (
+                      <div className="w-12 h-12 relative">
+                        <svg className="w-12 h-12 transform -rotate-90">
+                          <circle
+                            cx="24"
+                            cy="24"
+                            r="20"
+                            stroke="#E5E7EB"
+                            strokeWidth="3"
+                            fill="transparent"
+                          />
+                          <circle
+                            cx="24"
+                            cy="24"
+                            r="20"
+                            stroke={
+                              startup.stage === 'idea' ? '#8B5CF6' :
+                              startup.stage === 'validation' ? '#3B82F6' :
+                              startup.stage === 'pmf' ? '#10B981' :
+                              '#F59E0B'
+                            }
+                            strokeWidth="3"
+                            fill="transparent"
+                            strokeDasharray={`${2 * Math.PI * 20}`}
+                            strokeDashoffset={`${2 * Math.PI * 20 * (1 - (startup.kpis[0].current / startup.kpis[0].target))}`}
+                            className="transition-all duration-500"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-xs font-bold text-gray-700">
+                            {Math.round((startup.kpis[0].current / startup.kpis[0].target) * 100)}%
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1 mt-3">
+                    {startup.tags.map((tag, idx) => (
+                      <span key={idx} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Stage Summary */}
+          <div className="mt-6 pt-6 border-t border-gray-200/50">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-sm font-semibold text-gray-700">Distribución por Etapas</h4>
+              <div className="text-xs text-gray-500">Total: {executiveData.portfolio.totalStartups} startups</div>
+            </div>
+            <div className="grid grid-cols-5 gap-2">
+              {Object.entries(executiveData.portfolio.byStage).map(([stage, count]) => (
+                <div key={stage} className="text-center p-3 bg-white/70 rounded-lg border border-gray-100">
+                  <div className="text-lg font-bold text-gray-900">{count}</div>
+                  <div className="text-xs text-gray-600 capitalize font-medium">{stage}</div>
+                  <div className={`h-1 rounded-full mt-2 ${
+                    stage === 'idea' ? 'bg-purple-400' :
+                    stage === 'validation' ? 'bg-blue-400' :
+                    stage === 'pmf' ? 'bg-green-400' :
+                    stage === 'growth' ? 'bg-yellow-400' :
+                    'bg-red-400'
+                  }`}></div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
