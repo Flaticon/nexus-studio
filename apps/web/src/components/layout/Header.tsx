@@ -444,15 +444,39 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
               e.target.style.background = 'transparent';
             }}
           >
-            <div 
-              className="w-9 h-9 rounded-full flex items-center justify-center shadow-lg"
-              style={{ 
+            <div
+              className="w-9 h-9 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden"
+              style={{
                 background: 'linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark))',
                 opacity: 1,
                 visibility: 'visible'
               }}
             >
-              <User className="w-4 h-4 text-white" />
+              {user?.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.parentElement.querySelector('.fallback-avatar').style.display = 'flex';
+                  }}
+                />
+              ) : null}
+              <div
+                className="fallback-avatar w-full h-full flex items-center justify-center text-white font-bold text-sm"
+                style={{
+                  display: user?.avatar ? 'none' : 'flex',
+                  background: 'inherit'
+                }}
+              >
+                {user?.name
+                  ? user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+                  : user?.email
+                    ? user.email.substring(0, 2).toUpperCase()
+                    : 'US'
+                }
+              </div>
             </div>
             <span 
               className="hidden sm:block text-sm font-bold"

@@ -1247,8 +1247,32 @@ export default function TalentPage() {
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                          <User className="w-6 h-6 text-white" />
+                        <div className="relative w-12 h-12 rounded-full overflow-hidden group-hover:scale-105 transition-transform duration-200 ring-2 ring-white shadow-lg">
+                          {member.avatar ? (
+                            <img
+                              src={member.avatar}
+                              alt={`${member.name} avatar`}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.parentElement.querySelector('.fallback-avatar').style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <div
+                            className="fallback-avatar w-full h-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm"
+                            style={{
+                              display: member.avatar ? 'none' : 'flex'
+                            }}
+                          >
+                            {member.name
+                              .split(' ')
+                              .map(n => n[0])
+                              .join('')
+                              .substring(0, 2)
+                              .toUpperCase()
+                            }
+                          </div>
                         </div>
                         <div>
                           <h4 className="font-bold tracking-tight text-gray-900">
@@ -1406,8 +1430,32 @@ export default function TalentPage() {
                       <tr key={member.id} className="hover:bg-gray-50">
                         <td className="py-4 px-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                              <User className="w-4 h-4 text-blue-600" />
+                            <div className="relative w-8 h-8 rounded-full overflow-hidden ring-1 ring-gray-200">
+                              {member.avatar ? (
+                                <img
+                                  src={member.avatar}
+                                  alt={`${member.name} avatar`}
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    e.target.style.display = 'none';
+                                    e.target.parentElement.querySelector('.fallback-avatar').style.display = 'flex';
+                                  }}
+                                />
+                              ) : null}
+                              <div
+                                className="fallback-avatar w-full h-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs"
+                                style={{
+                                  display: member.avatar ? 'none' : 'flex'
+                                }}
+                              >
+                                {member.name
+                                  .split(' ')
+                                  .map(n => n[0])
+                                  .join('')
+                                  .substring(0, 2)
+                                  .toUpperCase()
+                                }
+                              </div>
                             </div>
                             <div>
                               <div className="font-medium text-gray-900">

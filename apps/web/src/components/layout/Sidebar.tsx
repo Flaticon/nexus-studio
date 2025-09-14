@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Home,
   Building2,
@@ -27,7 +27,27 @@ interface SidebarProps {
 
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      // Clear stored tokens and session data
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      sessionStorage.clear();
+
+      // Call logout API if you have one
+      // await fetch('/api/auth/logout', { method: 'POST' });
+
+      // Redirect to home page or login
+      router.push('/');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Still redirect even if logout API fails
+      router.push('/');
+    }
+  };
 
   const navigationItems = [
     {
@@ -294,7 +314,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                 </div>
                 Configuración
               </Link>
-              <button 
+              <button
+                onClick={handleLogout}
                 className="flex items-center gap-3 w-full p-3 rounded-xl text-sm font-medium group transition-all duration-200"
                 style={{ color: 'var(--text-secondary)' }}
                 onMouseEnter={(e) => {
@@ -330,7 +351,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
               >
                 <Settings className="w-5 h-5" />
               </Link>
-              <button 
+              <button
+                onClick={handleLogout}
                 className="flex items-center justify-center w-full p-3 rounded-xl transition-all duration-200"
                 title="Cerrar Sesión"
                 style={{ color: 'var(--text-secondary)' }}
