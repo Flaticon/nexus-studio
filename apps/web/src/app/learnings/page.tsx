@@ -438,7 +438,8 @@ export default function LearningsPage() {
     const learning = learningsData.find(l => l.id === learningId);
     if (learning) {
       console.log('Viewing details for learning:', learning);
-      // Future: Navigate to learning detail page or show detailed modal
+      // Navigate to dashboard
+      window.location.href = '/dashboard';
     }
   };
 
@@ -1078,10 +1079,10 @@ export default function LearningsPage() {
                           <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityColor(learning.priority)}`}>
                             {learning.priority}
                           </span>
-                          <button 
+                          <button
                             onClick={() => handleViewDetails(learning.id)}
                             className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200"
-                            title="Ver detalles"
+                            title="Ver memo en vivo"
                           >
                             <Eye className="w-4 h-4" />
                           </button>
@@ -1174,12 +1175,12 @@ export default function LearningsPage() {
                       <CheckCircle className="w-4 h-4 text-green-500" />
                       <span className="text-sm">{learning.metrics.implemented}/{learning.metrics.actionItems} completadas</span>
                     </div>
-                    <button 
+                    <button
                       onClick={() => handleViewDetails(learning.id)}
                       className="text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-all duration-200"
                     >
                       <ArrowRight className="w-4 h-4" />
-                      Ver detalles
+                      Ver memo en vivo
                     </button>
                   </div>
                 </div>

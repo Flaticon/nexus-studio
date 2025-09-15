@@ -162,22 +162,24 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
         onClose={() => setIsManualOpen(false)}
       />
     
-      <header 
-        className="px-4 sm:px-6 py-3 flex items-center justify-between backdrop-blur-lg border-b transition-all duration-300"
-        style={{ 
+      <header
+        className="px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3 flex items-center justify-between backdrop-blur-lg border-b transition-all duration-300 min-h-[60px] sm:min-h-[64px]"
+        style={{
           background: 'rgba(255, 255, 255, 0.95)',
           borderColor: 'var(--border)',
           boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1)'
         }}
       >
       {/* Left side - Menu button and title */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2.5 rounded-xl transition-all duration-200 hover:scale-105"
-          style={{ 
+          className="lg:hidden p-2.5 sm:p-3 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation"
+          style={{
             color: 'var(--text-secondary)',
-            background: 'transparent'
+            background: 'transparent',
+            minWidth: '44px',
+            minHeight: '44px'
           }}
           onMouseEnter={(e) => {
             e.target.style.background = 'var(--surface-hover)';
@@ -187,25 +189,32 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
             e.target.style.background = 'transparent';
             e.target.style.color = 'var(--text-secondary)';
           }}
+          aria-label="Abrir menú de navegación"
         >
-          <Menu className="w-5 h-5 drop-shadow-sm" />
+          <Menu className="w-5 h-5 sm:w-6 sm:h-6 drop-shadow-sm" />
         </button>
         
         {title && (
-          <div className="ml-2 lg:ml-0">
+          <div className="flex-1 min-w-0 overflow-hidden">
             <h1
-              className="text-lg sm:text-xl font-bold tracking-tight transition-colors duration-200"
-              style={{ color: 'var(--text-primary)' }}
+              className="text-base sm:text-lg lg:text-xl font-bold tracking-tight transition-colors duration-200 truncate"
+              style={{
+                color: 'var(--text-primary)',
+                lineHeight: '1.3'
+              }}
             >
-{title.replace(/[🏠💰📊🎯👥📚🚀📈]/g, '').trim()}
+              {title.replace(/[🏠💰📊🎯👥📚🚀📈]/g, '').trim()}
             </h1>
             {subtitle && (
               <p
-                className="text-sm font-medium mt-0.5 transition-colors duration-200"
-                style={{ color: 'var(--text-secondary)' }}
+                className="text-xs sm:text-sm font-medium mt-0.5 transition-colors duration-200 leading-relaxed"
+                style={{
+                  color: 'var(--text-secondary)',
+                  lineHeight: '1.4'
+                }}
               >
                 {/* Mobile version - shortened text */}
-                <span className="block sm:hidden">
+                <span className="block sm:hidden truncate">
                   {(() => {
                     const cleanSubtitle = subtitle.replace(/[🏠💰📊🎯👥📚🚀📈]/g, '').trim();
                     // Shortened versions for mobile based on actual app content
@@ -215,16 +224,17 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
                     if (cleanSubtitle.includes('Objetivos y resultados clave')) return 'Objetivos por equipo';
                     if (cleanSubtitle.includes('Directorio de colaboradores')) return 'Gestión de talento';
                     if (cleanSubtitle.includes('Documentación de conocimiento')) return 'Base de conocimiento';
+                    if (cleanSubtitle.includes('Knowledge management inteligente')) return 'Base de conocimiento';
                     if (cleanSubtitle.includes('Personaliza tu experiencia')) return 'Configuración';
                     if (cleanSubtitle.includes('Gestiona APIs, webhooks')) return 'Integraciones';
                     if (cleanSubtitle.includes('Gestión de iniciativas')) return 'Portfolio de startups';
-                    // Fallback: truncate to first 35 characters
-                    return cleanSubtitle.length > 35 ? cleanSubtitle.substring(0, 35) + '...' : cleanSubtitle;
+                    // Fallback: truncate to first 30 characters for better mobile display
+                    return cleanSubtitle.length > 30 ? cleanSubtitle.substring(0, 30) + '...' : cleanSubtitle;
                   })()}
                 </span>
                 {/* Desktop version - full text */}
                 <span className="hidden sm:block">
-{subtitle.replace(/[🏠💰📊🎯👥📚🚀📈]/g, '').trim()}
+                  {subtitle.replace(/[🏠💰📊🎯👥📚🚀📈]/g, '').trim()}
                 </span>
               </p>
             )}
@@ -233,24 +243,27 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
       </div>
 
       {/* Right side - Search and user actions */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
         {/* Search button (mobile) */}
-        <button 
-          className="p-2.5 rounded-xl transition-all duration-200 hover:scale-105 sm:hidden"
-          style={{ 
+        <button
+          className="p-2.5 sm:p-3 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 sm:hidden touch-manipulation"
+          style={{
             color: 'var(--text-secondary)',
-            background: 'transparent'
+            background: 'transparent',
+            minWidth: '44px',
+            minHeight: '44px'
           }}
           onMouseEnter={(e) => {
-            e.target.style.background = 'var(--surface-hover)';
-            e.target.style.color = 'var(--text-primary)';
+            (e.target as HTMLElement).style.background = 'var(--surface-hover)';
+            (e.target as HTMLElement).style.color = 'var(--text-primary)';
           }}
           onMouseLeave={(e) => {
-            e.target.style.background = 'transparent';
-            e.target.style.color = 'var(--text-secondary)';
+            (e.target as HTMLElement).style.background = 'transparent';
+            (e.target as HTMLElement).style.color = 'var(--text-secondary)';
           }}
+          aria-label="Buscar"
         >
-          <Search className="w-5 h-5 drop-shadow-sm" />
+          <Search className="w-5 h-5 sm:w-6 sm:h-6 drop-shadow-sm" />
         </button>
 
         {/* Search bar (desktop) */}
@@ -285,59 +298,68 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
         </div>
 
         {/* Help button */}
-        <button 
+        <button
           onClick={() => setIsManualOpen(true)}
-          className="p-2.5 rounded-xl"
+          className="p-2.5 sm:p-3 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation"
           title="Manual de Usuario"
-          style={{ 
+          style={{
             color: 'var(--text-secondary)',
-            background: 'transparent'
+            background: 'transparent',
+            minWidth: '44px',
+            minHeight: '44px'
           }}
           onMouseEnter={(e) => {
-            e.target.style.background = 'var(--surface-hover)';
-            e.target.style.color = 'var(--text-primary)';
+            (e.target as HTMLElement).style.background = 'var(--surface-hover)';
+            (e.target as HTMLElement).style.color = 'var(--text-primary)';
           }}
           onMouseLeave={(e) => {
-            e.target.style.background = 'transparent';
-            e.target.style.color = 'var(--text-secondary)';
+            (e.target as HTMLElement).style.background = 'transparent';
+            (e.target as HTMLElement).style.color = 'var(--text-secondary)';
           }}
+          aria-label="Manual de usuario"
         >
-          <HelpCircle className="w-5 h-5" />
+          <HelpCircle className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
 
         {/* Notifications */}
         <div className="relative" ref={notificationRef}>
-          <button 
+          <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="p-2.5 rounded-xl relative"
-            style={{ 
+            className="p-2.5 sm:p-3 rounded-xl relative transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation"
+            style={{
               color: 'var(--text-secondary)',
-              background: 'transparent'
+              background: 'transparent',
+              minWidth: '44px',
+              minHeight: '44px'
             }}
             onMouseEnter={(e) => {
-              e.target.style.background = 'var(--surface-hover)';
-              e.target.style.color = 'var(--text-primary)';
+              (e.target as HTMLElement).style.background = 'var(--surface-hover)';
+              (e.target as HTMLElement).style.color = 'var(--text-primary)';
             }}
             onMouseLeave={(e) => {
-              e.target.style.background = 'transparent';
-              e.target.style.color = 'var(--text-secondary)';
+              (e.target as HTMLElement).style.background = 'transparent';
+              (e.target as HTMLElement).style.color = 'var(--text-secondary)';
             }}
+            aria-label={`Notificaciones${unreadCount > 0 ? ` - ${unreadCount} sin leer` : ''}`}
+            aria-expanded={showNotifications}
           >
-            <Bell className="w-5 h-5" />
+            <Bell className="w-5 h-5 sm:w-6 sm:h-6" />
             {unreadCount > 0 && (
-              <div 
-                className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center shadow-lg"
+              <div
+                className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 min-w-[18px] sm:min-w-[20px] h-[18px] sm:h-[20px] rounded-full flex items-center justify-center shadow-lg animate-pulse"
                 style={{ background: 'linear-gradient(135deg, #ef4444, #dc2626)' }}
               >
-                <span className="text-xs text-white font-bold">{unreadCount}</span>
+                <span className="text-xs sm:text-sm text-white font-bold px-1">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
               </div>
             )}
           </button>
 
           {/* Notifications dropdown */}
           {showNotifications && (
-            <div 
-              className="absolute right-0 mt-3 w-80 rounded-2xl shadow-xl border z-20 backdrop-blur-lg max-h-96 overflow-hidden"
+            <div
+              className="absolute right-0 mt-3 w-72 sm:w-80 rounded-2xl shadow-xl border z-20 backdrop-blur-lg max-h-80 sm:max-h-96 overflow-hidden transform transition-all duration-200 ease-out"
               style={{
                 background: 'var(--surface)',
                 borderColor: 'var(--border)',
@@ -388,19 +410,19 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
                   notifications.map((notification) => (
                     <div
                       key={notification.id}
-                      className="p-3 border-b last:border-b-0 hover:bg-opacity-50"
-                      style={{ 
+                      className="p-3 sm:p-4 border-b last:border-b-0 hover:bg-opacity-50 transition-colors duration-200 min-h-[60px] flex items-start"
+                      style={{
                         borderColor: 'var(--border)',
                         background: notification.read ? 'transparent' : 'var(--brand-primary-light)'
                       }}
                       onMouseEnter={(e) => {
                         if (notification.read) {
-                          e.target.style.background = 'var(--surface-hover)';
+                          (e.target as HTMLElement).style.background = 'var(--surface-hover)';
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (notification.read) {
-                          e.target.style.background = 'transparent';
+                          (e.target as HTMLElement).style.background = 'transparent';
                         }
                       }}
                     >
@@ -452,21 +474,25 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
 
         {/* User menu */}
         <div className="relative" ref={userMenuRef}>
-          <button 
+          <button
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-3 p-2 rounded-xl"
-            style={{ 
-              background: 'transparent'
+            className="flex items-center gap-2 sm:gap-3 p-2 sm:p-2.5 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation"
+            style={{
+              background: 'transparent',
+              minWidth: '44px',
+              minHeight: '44px'
             }}
             onMouseEnter={(e) => {
-              e.target.style.background = 'var(--surface-hover)';
+              (e.target as HTMLElement).style.background = 'var(--surface-hover)';
             }}
             onMouseLeave={(e) => {
-              e.target.style.background = 'transparent';
+              (e.target as HTMLElement).style.background = 'transparent';
             }}
+            aria-label="Menú de usuario"
+            aria-expanded={showUserMenu}
           >
             <div
-              className="w-9 h-9 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden ring-2 ring-white/20"
               style={{
                 background: 'linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark))',
                 opacity: 1,
@@ -479,29 +505,29 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
                   alt="Profile"
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.parentElement.querySelector('.fallback-avatar').style.display = 'flex';
+                    (e.target as HTMLElement).style.display = 'none';
+                    (e.target as HTMLElement).parentElement?.querySelector('.fallback-avatar')?.setAttribute('style', 'display: flex');
                   }}
                 />
               ) : null}
               <div
-                className="fallback-avatar w-full h-full flex items-center justify-center text-white font-bold text-sm"
+                className="fallback-avatar w-full h-full flex items-center justify-center text-white font-bold text-xs sm:text-sm"
                 style={{
                   display: user?.avatar ? 'none' : 'flex',
                   background: 'inherit'
                 }}
               >
                 {user?.name
-                  ? user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+                  ? user.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
                   : user?.email
                     ? user.email.substring(0, 2).toUpperCase()
                     : 'US'
                 }
               </div>
             </div>
-            <span 
-              className="hidden sm:block text-sm font-bold"
-              style={{ 
+            <span
+              className="hidden md:block text-sm font-bold truncate max-w-[120px]"
+              style={{
                 color: 'var(--text-primary)',
                 opacity: 1,
                 visibility: 'visible'
@@ -513,8 +539,8 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
 
           {/* User dropdown menu */}
           {showUserMenu && (
-            <div 
-              className="absolute right-0 mt-3 w-56 rounded-2xl shadow-xl border z-20 py-2 backdrop-blur-lg"
+            <div
+              className="absolute right-0 mt-3 w-52 sm:w-56 rounded-2xl shadow-xl border z-20 py-2 backdrop-blur-lg transform transition-all duration-200 ease-out"
               style={{
                 background: 'var(--surface)',
                 borderColor: 'var(--border)',
@@ -542,23 +568,26 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
                 <div className="p-2">
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left px-3 py-2.5 text-sm flex items-center gap-3 transition-all duration-200 rounded-xl font-medium hover:scale-[1.02]"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="w-full text-left px-3 py-3 sm:py-2.5 text-sm flex items-center gap-3 transition-all duration-200 rounded-xl font-medium hover:scale-[1.02] active:scale-[0.98] touch-manipulation"
+                    style={{
+                      color: 'var(--text-primary)',
+                      minHeight: '44px'
+                    }}
                     onMouseEnter={(e) => {
-                      e.target.style.background = 'var(--error-bg)';
-                      e.target.style.color = 'var(--error)';
+                      (e.target as HTMLElement).style.background = 'var(--error-bg)';
+                      (e.target as HTMLElement).style.color = 'var(--error)';
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.background = 'transparent';
-                      e.target.style.color = 'var(--text-primary)';
+                      (e.target as HTMLElement).style.background = 'transparent';
+                      (e.target as HTMLElement).style.color = 'var(--text-primary)';
                     }}
                   >
-                    <div 
+                    <div
                       className="w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200"
                       style={{ background: 'var(--error-bg)' }}
                     >
-                      <LogOut 
-                        className="w-4 h-4 drop-shadow-sm" 
+                      <LogOut
+                        className="w-4 h-4 drop-shadow-sm"
                         style={{ color: 'var(--error)' }}
                       />
                     </div>
