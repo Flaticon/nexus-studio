@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { 
-  Briefcase, 
-  DollarSign, 
-  Users, 
+import { useRouter } from 'next/navigation';
+import {
+  Briefcase,
+  DollarSign,
+  Users,
   Target,
   Activity,
   ArrowRight,
@@ -22,6 +23,7 @@ import LoginModal from '../components/auth/LoginModal';
 import RegisterModal from '../components/auth/RegisterModal';
 
 export default function Home() {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -254,7 +256,10 @@ export default function Home() {
               >
                 🚀 Lanza tu Studio
               </button>
-              <button className="px-10 py-5 border-2 border-gray-300 text-gray-700 rounded-2xl font-bold text-lg hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 hover:scale-105">
+              <button
+                onClick={() => router.push('/dashboard')}
+                className="px-10 py-5 border-2 border-gray-300 text-gray-700 rounded-2xl font-bold text-lg hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 hover:scale-105"
+              >
                 🎬 Ver Demo en Vivo
               </button>
             </div>
