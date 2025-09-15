@@ -193,18 +193,39 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
         
         {title && (
           <div className="ml-2 lg:ml-0">
-            <h1 
+            <h1
               className="text-lg sm:text-xl font-bold tracking-tight transition-colors duration-200"
               style={{ color: 'var(--text-primary)' }}
             >
-              {title.replace(/[🏠💰📊🎯👥📚🚀]/g, '').trim()}
+{title.replace(/[🏠💰📊🎯👥📚🚀📈]/g, '').trim()}
             </h1>
             {subtitle && (
-              <p 
+              <p
                 className="text-sm font-medium mt-0.5 transition-colors duration-200"
                 style={{ color: 'var(--text-secondary)' }}
               >
-                {subtitle.replace(/[🏠💰📊🎯👥📚🚀]/g, '').trim()}
+                {/* Mobile version - shortened text */}
+                <span className="block sm:hidden">
+                  {(() => {
+                    const cleanSubtitle = subtitle.replace(/[🏠💰📊🎯👥📚🚀📈]/g, '').trim();
+                    // Shortened versions for mobile based on actual app content
+                    if (cleanSubtitle.includes('Vista general de todas las operaciones')) return 'Panel de control principal';
+                    if (cleanSubtitle.includes('Ingresos, costos y burn rate')) return 'Gestión financiera';
+                    if (cleanSubtitle.includes('Análisis avanzado de datos')) return 'Métricas y análisis';
+                    if (cleanSubtitle.includes('Objetivos y resultados clave')) return 'Objetivos por equipo';
+                    if (cleanSubtitle.includes('Directorio de colaboradores')) return 'Gestión de talento';
+                    if (cleanSubtitle.includes('Documentación de conocimiento')) return 'Base de conocimiento';
+                    if (cleanSubtitle.includes('Personaliza tu experiencia')) return 'Configuración';
+                    if (cleanSubtitle.includes('Gestiona APIs, webhooks')) return 'Integraciones';
+                    if (cleanSubtitle.includes('Gestión de iniciativas')) return 'Portfolio de startups';
+                    // Fallback: truncate to first 35 characters
+                    return cleanSubtitle.length > 35 ? cleanSubtitle.substring(0, 35) + '...' : cleanSubtitle;
+                  })()}
+                </span>
+                {/* Desktop version - full text */}
+                <span className="hidden sm:block">
+{subtitle.replace(/[🏠💰📊🎯👥📚🚀📈]/g, '').trim()}
+                </span>
               </p>
             )}
           </div>

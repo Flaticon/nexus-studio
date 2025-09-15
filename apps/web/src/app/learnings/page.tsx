@@ -577,7 +577,7 @@ export default function LearningsPage() {
 
   return (
     <Layout
-      title="🟤 Aprendizajes y Retrospectivas"
+      title="📚 Aprendizajes y Retrospectivas"
       subtitle="Documentación de conocimiento y decisiones clave"
     >
       <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
