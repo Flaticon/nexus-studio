@@ -43,7 +43,7 @@ const Layout = ({ children, title, subtitle }: LayoutProps) => {
       />
 
       {/* Main content area */}
-      <div className="lg:pl-[280px] transition-all duration-300 ease-out">
+      <div className="lg:pl-[288px] transition-all duration-300 ease-out">
         {/* Header */}
         <Header 
           onMenuClick={handleMenuClick}
@@ -53,18 +53,7 @@ const Layout = ({ children, title, subtitle }: LayoutProps) => {
 
         {/* Page content */}
         <main className="min-h-screen">
-          <div className="relative">
-            {/* Subtle background pattern */}
-            <div className="absolute inset-0 opacity-[0.02]" style={{
-              backgroundImage: `radial-gradient(circle at 1px 1px, var(--text-primary) 1px, transparent 0)`,
-              backgroundSize: '20px 20px'
-            }}></div>
-            
-            {/* Content */}
-            <div className="relative">
-              {children}
-            </div>
-          </div>
+          {children}
         </main>
       </div>
     </div>

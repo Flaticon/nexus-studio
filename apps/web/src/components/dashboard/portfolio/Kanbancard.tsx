@@ -31,10 +31,14 @@ export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{
+        ...style,
+        background: 'var(--surface)',
+        borderColor: 'var(--border)'
+      }}
       {...attributes}
       {...listeners}
-      className="bg-white rounded-xl cursor-move border border-gray-200 hover:border-gray-300 group shadow-sm hover:shadow-md transition-all duration-200 relative"
+      className="rounded-xl cursor-move border hover:shadow-lg hover:-translate-y-1 group transition-all duration-200 relative"
     >
       
       <div className="p-4">
@@ -80,42 +84,46 @@ export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
         <div className="border-t border-gray-100 pt-3 space-y-3">
           {startup.metrics.find(m => m.name === 'Revenue') && (
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-gray-500">
+              <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                 <DollarSign className="w-4 h-4" />
                 <span className="text-sm font-medium">Revenue</span>
               </div>
-              <span className="text-sm font-semibold text-gray-900">
+              <span className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
                 ${(startup.metrics.find(m => m.name === 'Revenue')?.value || 0).toLocaleString()}
               </span>
             </div>
           )}
           
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-gray-500">
+            <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
               <Users className="w-4 h-4" />
               <span className="text-sm font-medium">Team</span>
             </div>
-            <span className="text-sm font-semibold text-gray-900">
+            <span className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
               {startup.squad.members.length + 1}
             </span>
           </div>
 
           {startup.kpis[0] && (
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-gray-500">
+              <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                 <TrendingUp className="w-4 h-4" />
                 <span className="text-sm font-medium">{startup.kpis[0].name}</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-16 bg-gray-100 rounded-full h-1.5">
+                <div className="w-16 rounded-full h-1.5" style={{ backgroundColor: 'var(--border-light)' }}>
                   <div
-                    className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
+                    className="h-1.5 rounded-full transition-all duration-300"
                     style={{
                       width: `${Math.min((startup.kpis[0].current / startup.kpis[0].target) * 100, 100)}%`,
+                      backgroundColor: 'var(--color-primary)'
                     }}
                   />
                 </div>
-                <span className="text-sm font-semibold text-gray-900 min-w-[3rem] text-right">
+                <span
+                  className="text-sm font-bold px-2 py-1 rounded-full text-white min-w-[3rem] text-center"
+                  style={{ backgroundColor: 'var(--color-primary)' }}
+                >
                   {Math.round((startup.kpis[0].current / startup.kpis[0].target) * 100)}%
                 </span>
               </div>

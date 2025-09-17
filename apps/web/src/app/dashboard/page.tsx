@@ -37,17 +37,15 @@ import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
 import Layout from '../../components/layout/Layout';
 import { KanbanBoard } from '../../components/dashboard/portfolio/KanbanBoard';
 import { StartupStage, StartupStatus } from '@/types/portfolio';
-import { ModernMetricCard } from '@/components/ui/ModernMetricCard';
+import { MetricsGrid, Metric } from '@/components/ui/MetricsGrid';
 
 export default function DashboardPage() {
   // State management for filters and views
   const [showFilters, setShowFilters] = useState(false);
-  const [showCustomView, setShowCustomView] = useState(false);
   const [dateRange, setDateRange] = useState('6m');
   const [selectedModules, setSelectedModules] = useState(['portfolio', 'finance', 'okrs', 'talent', 'learnings']);
   const [viewMode, setViewMode] = useState('standard');
   const [refreshing, setRefreshing] = useState(false);
-  const [dashboardTemplate, setDashboardTemplate] = useState('executive'); // Nueva plantilla por defecto
   const [widgetLayout, setWidgetLayout] = useState({
     metrics: { visible: true, size: 'normal' },
     charts: { visible: true, size: 'normal' },
@@ -303,6 +301,77 @@ export default function DashboardPage() {
     ]
   };
 
+  // Primary metrics data for new design system
+  const dashboardMetrics: Metric[] = [
+    {
+      id: 'active-startups',
+      title: 'Startups Activas',
+      value: executiveData.portfolio.activeStartups,
+      change: { value: 15, type: 'positive' },
+      icon: Briefcase,
+      description: `de ${executiveData.portfolio.totalStartups} totales`,
+      color: 'primary'
+    },
+    {
+      id: 'arr',
+      title: 'ARR',
+      value: `$${(executiveData.financials.totalRevenue * 12).toLocaleString()}`,
+      change: { value: 12, type: 'positive' },
+      icon: TrendingUp,
+      description: 'Annual Recurring Revenue',
+      color: 'success'
+    },
+    {
+      id: 'mrr',
+      title: 'MRR',
+      value: `$${executiveData.financials.totalRevenue.toLocaleString()}`,
+      change: { value: 8, type: 'positive' },
+      icon: DollarSign,
+      description: 'Monthly Recurring Revenue',
+      color: 'warning'
+    },
+    {
+      id: 'team-performance',
+      title: 'Team Performance',
+      value: `${executiveData.talent.avgPerformance}%`,
+      change: { value: 3, type: 'positive' },
+      icon: Users,
+      description: `${executiveData.talent.totalMembers} miembros activos`,
+      color: 'danger'
+    }
+  ];
+
+  // Secondary metrics data
+  const secondaryMetrics: Metric[] = [
+    {
+      id: 'mau',
+      title: 'MAU (Monthly Active Users)',
+      value: '2,847',
+      change: { value: 22, type: 'positive' },
+      icon: Activity,
+      description: 'Usuarios activos totales',
+      color: 'primary'
+    },
+    {
+      id: 'customer-count',
+      title: 'Customer Count',
+      value: '127',
+      change: { value: 18, type: 'positive' },
+      icon: Users,
+      description: 'Clientes pagando activamente',
+      color: 'success'
+    },
+    {
+      id: 'runway',
+      title: 'Runway Promedio',
+      value: '18',
+      change: { value: -5, type: 'negative' },
+      icon: Calendar,
+      description: 'Meses de runway restante',
+      color: 'warning'
+    }
+  ];
+
   // Check if filters are active
   const hasActiveFilters = 
     dateRange !== '6m' ||
@@ -338,69 +407,6 @@ export default function DashboardPage() {
     }));
   };
 
-  // Plantillas de dashboard predefinidas
-  const dashboardTemplates = {
-    executive: {
-      name: 'Vista Ejecutiva',
-      description: 'KPIs clave y métricas de alto nivel para toma de decisiones',
-      icon: '👔',
-      focus: ['metrics', 'charts'],
-      layout: {
-        metrics: { visible: true, size: 'large' },
-        charts: { visible: true, size: 'normal' },
-        status: { visible: false, size: 'small' },
-        alerts: { visible: true, size: 'small' }
-      }
-    },
-    operational: {
-      name: 'Vista Operacional', 
-      description: 'Estado detallado del portafolio y equipo para gestión diaria',
-      icon: '⚙️',
-      focus: ['status', 'alerts'],
-      layout: {
-        metrics: { visible: true, size: 'small' },
-        charts: { visible: false, size: 'normal' },
-        status: { visible: true, size: 'large' },
-        alerts: { visible: true, size: 'normal' }
-      }
-    },
-    analytical: {
-      name: 'Vista Analítica',
-      description: 'Gráficos y tendencias detalladas para análisis profundo',
-      icon: '📊',
-      focus: ['charts', 'metrics'],
-      layout: {
-        metrics: { visible: true, size: 'normal' },
-        charts: { visible: true, size: 'large' },
-        status: { visible: true, size: 'small' },
-        alerts: { visible: false, size: 'small' }
-      }
-    },
-    monitoring: {
-      name: 'Vista Monitoreo',
-      description: 'Alertas y actividad en tiempo real para supervisión continua',
-      icon: '🔔',
-      focus: ['alerts', 'status'],
-      layout: {
-        metrics: { visible: true, size: 'small' },
-        charts: { visible: false, size: 'normal' },
-        status: { visible: true, size: 'normal' },
-        alerts: { visible: true, size: 'large' }
-      }
-    }
-  };
-
-  const applyTemplate = (templateKey) => {
-    const template = dashboardTemplates[templateKey];
-    if (template) {
-      setDashboardTemplate(templateKey);
-      setWidgetLayout(template.layout);
-    }
-  };
-
-  const resetLayout = () => {
-    applyTemplate('executive');
-  };
 
   const handleStageChange = (startupId: string, newStage: StartupStage) => {
     // This would typically update the backend
@@ -487,7 +493,7 @@ export default function DashboardPage() {
           </div>
           
           {icon && (
-            <div className="ml-4 p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl group-hover:scale-105 transition-transform duration-200">
+            <div className="ml-4 p-3 bg-blue-600 rounded-lg">
               <div className="text-white">
                 {icon}
               </div>
@@ -510,7 +516,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <Layout title="🏠 Nexus Studio Dashboard" subtitle="Vista general de todas las operaciones del venture studio">
+    <Layout title="Nexus Studio Dashboard" subtitle="Vista general de todas las operaciones del venture studio">
       <style jsx>{`
         @keyframes slideIn0 {
           from { width: 0%; }
@@ -541,7 +547,7 @@ export default function DashboardPage() {
           100% { transform: translateY(0); opacity: 1; }
         }
       `}</style>
-      <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
+      <div className="p-6 min-h-screen bg-neutral-50">
       {/* Dashboard Content */}
       <div className="mb-6">
         {/* Header Actions - Mobile Responsive */}
@@ -575,19 +581,8 @@ export default function DashboardPage() {
                 <span className="sm:hidden">↻</span>
               </button>
               
-              <button 
-                className="px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium bg-gradient-to-r from-emerald-500 to-green-600 text-white hover:from-emerald-600 hover:to-green-700"
-                style={{
-                  background: 'var(--surface)',
-                  color: 'var(--text-primary)',
-                  boxShadow: 'var(--shadow-sm)'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = 'var(--surface-hover)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = 'var(--surface)';
-                }}
+              <button
+                className="px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-150 text-sm font-medium bg-green-600 hover:bg-green-700 text-white"
               >
                 <Download className="w-4 h-4" />
                 <span className="hidden sm:inline">Exportar</span>
@@ -624,31 +619,6 @@ export default function DashboardPage() {
                 )}
               </button>
               
-              <button 
-                onClick={() => setShowCustomView(!showCustomView)}
-                className={`px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium ${
-                  showCustomView ? 'ring-2 ring-purple-500' : ''
-                }`}
-                style={{
-                  background: showCustomView ? 'rgba(147, 51, 234, 0.1)' : 'var(--surface)',
-                  color: showCustomView ? '#9333ea' : 'var(--text-primary)',
-                  boxShadow: showCustomView ? 'none' : 'var(--shadow-sm)'
-                }}
-                onMouseEnter={(e) => {
-                  if (!showCustomView) {
-                    e.target.style.background = 'var(--surface-hover)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!showCustomView) {
-                    e.target.style.background = 'var(--surface)';
-                  }
-                }}
-              >
-                <Settings className="w-4 h-4" />
-                <span className="hidden lg:inline">Plantillas Dashboard</span>
-                <span className="hidden sm:inline lg:hidden">Plantillas</span>
-              </button>
             </div>
           </div>
         </div>
@@ -659,7 +629,7 @@ export default function DashboardPage() {
         <div className="mb-6 rounded-2xl p-6 bg-white shadow-md border border-gray-100 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
-              🔍 Filtros
+              Filtros
             </h3>
             <button 
               onClick={() => setShowFilters(false)}
@@ -778,226 +748,38 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Dashboard Templates Selector */}
-      {showCustomView && (
-        <div className="mb-6 bg-gradient-to-br from-white to-purple-50/30 rounded-2xl shadow-lg border border-purple-200/50 overflow-hidden">
-          <div className="p-6 pb-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-b border-purple-200/60">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
-                  🎯 Plantillas de Dashboard
-                </h3>
-                <p className="text-xs text-gray-600 mt-1 font-medium">Elige la vista que mejor se adapte a tu rol y necesidades</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-purple-600 bg-purple-100 px-3 py-1.5 rounded-full font-semibold">
-                  Actual: {dashboardTemplates[dashboardTemplate]?.name}
-                </span>
-                <button 
-                  onClick={() => setShowCustomView(false)}
-                  className="text-gray-400 hover:text-gray-600 p-1"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {Object.entries(dashboardTemplates).map(([key, template]) => (
-                <div 
-                  key={key} 
-                  className={`relative group cursor-pointer rounded-xl p-5 transition-all duration-300 border-2 ${
-                    dashboardTemplate === key 
-                      ? 'border-purple-500 bg-purple-50 shadow-lg scale-105' 
-                      : 'border-gray-200 bg-white hover:border-purple-300 hover:shadow-md hover:scale-102'
-                  }`}
-                  onClick={() => applyTemplate(key)}
-                >
-                  {/* Selected indicator */}
-                  {dashboardTemplate === key && (
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-4 h-4 text-white" />
-                    </div>
-                  )}
-                  
-                  <div className="text-center">
-                    {/* Icon */}
-                    <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-200">
-                      {template.icon}
-                    </div>
-                    
-                    {/* Template name */}
-                    <h4 className={`font-bold text-sm mb-2 ${
-                      dashboardTemplate === key ? 'text-purple-900' : 'text-gray-900'
-                    }`}>
-                      {template.name}
-                    </h4>
-                    
-                    {/* Description */}
-                    <p className={`text-xs leading-relaxed ${
-                      dashboardTemplate === key ? 'text-purple-700' : 'text-gray-600'
-                    }`}>
-                      {template.description}
-                    </p>
-                    
-                    {/* Focus areas */}
-                    <div className="mt-3 flex flex-wrap gap-1 justify-center">
-                      {template.focus.map(focus => (
-                        <span 
-                          key={focus}
-                          className={`text-xs px-2 py-1 rounded-full font-medium ${
-                            dashboardTemplate === key 
-                              ? 'bg-purple-200 text-purple-800' 
-                              : 'bg-gray-100 text-gray-700'
-                          }`}
-                        >
-                          {focus === 'metrics' ? '📊 Métricas' :
-                           focus === 'charts' ? '📈 Gráficos' :
-                           focus === 'status' ? '📋 Estado' :
-                           focus === 'alerts' ? '🔔 Alertas' : focus}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* Hover effect */}
-                  <div className={`absolute inset-0 rounded-xl transition-opacity duration-300 ${
-                    dashboardTemplate === key ? 'bg-purple-500/5' : 'bg-purple-500/0 group-hover:bg-purple-500/5'
-                  }`}></div>
-                </div>
-              ))}
-            </div>
-            
-            {/* Quick actions */}
-            <div className="mt-6 pt-4 border-t border-purple-200/50 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Settings className="w-4 h-4" />
-                <span>Haz clic en cualquier plantilla para aplicarla instantáneamente</span>
-              </div>
-              <button
-                onClick={() => applyTemplate('executive')}
-                className="px-4 py-2 text-sm text-purple-700 bg-purple-100 hover:bg-purple-200 rounded-lg transition-colors duration-200"
-              >
-                Restablecer a Ejecutiva
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Modern Key Metrics Grid */}
       {widgetLayout.metrics.visible && (
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
-                📊 Métricas Principales
+              <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+                Métricas Principales
               </h2>
-              <p className="text-gray-600 text-sm mt-1 font-medium">Vista general de KPIs críticos del venture studio</p>
+              <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                Vista general de KPIs críticos del venture studio
+              </p>
             </div>
           </div>
-          
-          <div className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 ${
-            widgetLayout.metrics.size === 'small' ? 'scale-90' : 
+
+          <div className={`${
+            widgetLayout.metrics.size === 'small' ? 'scale-90' :
             widgetLayout.metrics.size === 'large' ? 'scale-110' : ''
           }`}>
-            <ModernMetricCard
-              title="Startups Activas"
-              value={executiveData.portfolio.activeStartups}
-              subtitle={`de ${executiveData.portfolio.totalStartups} totales`}
-              change={15}
-              changeType="positive"
-              trend="up"
-              color="blue"
-              icon={<Briefcase className="h-6 w-6" />}
-              size="md"
-              className="bounce-in"
-            />
-            
-            <ModernMetricCard
-              title="ARR (Annual Recurring Revenue)"
-              value={executiveData.financials.totalRevenue * 12}
-              format="currency"
-              change={12}
-              changeType="positive"
-              trend="up"
-              color="green"
-              icon={<TrendingUp className="h-6 w-6" />}
-              size="md"
-              className="bounce-in"
-            />
-            
-            <ModernMetricCard
-              title="MRR (Monthly Recurring Revenue)"
-              value={executiveData.financials.totalRevenue}
-              format="currency"
-              change={8}
-              changeType="positive"
-              trend="up"
-              color="purple"
-              icon={<DollarSign className="h-6 w-6" />}
-              size="md"
-              className="bounce-in"
-            />
-            
-            <ModernMetricCard
-              title="Team Performance"
-              value={executiveData.talent.avgPerformance}
-              format="percentage"
-              target={100}
-              showProgress={true}
-              subtitle={`${executiveData.talent.totalMembers} miembros activos`}
-              change={3}
-              changeType="positive"
-              trend="stable"
-              color="orange"
-              icon={<Users className="h-6 w-6" />}
-              size="md"
-              className="bounce-in"
+            <MetricsGrid
+              metrics={dashboardMetrics}
+              columns={4}
+              gap={3}
             />
           </div>
 
           {/* Secondary Metrics Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
-            <ModernMetricCard
-              title="MAU (Monthly Active Users)"
-              value="2,847"
-              subtitle="Usuarios activos totales"
-              change={22}
-              changeType="positive"
-              trend="up"
-              color="blue"
-              icon={<Activity className="h-5 w-5" />}
-              size="sm"
-              className="slide-up"
-            />
-            
-            <ModernMetricCard
-              title="Customer Count"
-              value="127"
-              subtitle="Clientes pagando activamente"
-              change={18}
-              changeType="positive"
-              trend="up"
-              color="green"
-              icon={<Users className="h-5 w-5" />}
-              size="sm"
-              className="slide-up"
-            />
-            
-            <ModernMetricCard
-              title="Runway Promedio"
-              value="18"
-              subtitle="Meses de runway restante"
-              change={-5}
-              changeType="negative"
-              trend="down"
-              color="orange"
-              icon={<Calendar className="h-5 w-5" />}
-              size="sm"
-              className="slide-up"
+          <div className="mt-6">
+            <MetricsGrid
+              metrics={secondaryMetrics}
+              columns={3}
+              gap={3}
             />
           </div>
         </div>
@@ -1012,12 +794,12 @@ export default function DashboardPage() {
             widgetLayout.charts.size === 'large' ? 'scale-110' : ''
           }`}>
             {/* Advanced Financial Trend Analysis */}
-            <div className="bg-gradient-to-br from-white to-blue-50/30 rounded-2xl shadow-xl border border-slate-200/50 hover:shadow-2xl transition-all duration-500 overflow-hidden">
-          <div className="p-6 pb-4 bg-gradient-to-r from-slate-50 to-blue-50 border-b border-slate-200/60">
+            <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-150">
+          <div className="p-6 pb-4 bg-gray-50 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                  📈 Análisis Financiero Avanzado
+                  Análisis Financiero Avanzado
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 font-medium">Tendencias de revenue, gastos y progreso de objetivos</p>
               </div>
@@ -1139,9 +921,9 @@ export default function DashboardPage() {
                     name === 'netIncome' || name === 'revenue' || name === 'expenses' 
                       ? `$${value.toLocaleString()}` 
                       : `${value}%`,
-                    name === 'netIncome' ? '💰 Ingreso Neto' : 
-                    name === 'revenue' ? '📈 Ingresos' :
-                    name === 'expenses' ? '💸 Gastos' : '🎯 Progreso OKRs'
+                    name === 'netIncome' ? 'Ingreso Neto' :
+                    name === 'revenue' ? 'Ingresos' :
+                    name === 'expenses' ? 'Gastos' : 'Progreso OKRs'
                   ]}
                   labelStyle={{ color: '#1E293B', fontWeight: 700, marginBottom: '8px' }}
                   cursor={{ stroke: 'rgba(59, 130, 246, 0.15)', strokeWidth: 40, fill: 'rgba(59, 130, 246, 0.05)' }}
@@ -1183,13 +965,13 @@ export default function DashboardPage() {
           </div>
 
           {/* Legend and Insights */}
-          <div className="p-6 pt-0 bg-gradient-to-r from-slate-50/50 to-blue-50/50 border-t border-slate-200/40">
+          <div className="p-6 pt-0 bg-gray-50 border-t border-gray-200">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h4 className="text-sm font-bold text-slate-700 mb-3">Leyenda</h4>
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
-                    <div className="w-4 h-3 bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full"></div>
+                    <div className="w-4 h-3 bg-emerald-500 rounded-full"></div>
                     <span className="text-xs font-medium text-slate-700">Revenue Total</span>
                   </div>
                   <div className="flex items-center gap-3">
@@ -1204,7 +986,7 @@ export default function DashboardPage() {
               </div>
               
               <div>
-                <h4 className="text-sm font-bold text-slate-700 mb-3">💡 Insights Clave</h4>
+                <h4 className="text-sm font-bold text-slate-700 mb-3">Insights Clave</h4>
                 <div className="space-y-1">
                   <div className="text-xs text-slate-600">• Revenue creciendo 18% mensual promedio</div>
                   <div className="text-xs text-slate-600">• Margen neto mejorado a {Math.round((executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.netIncome / executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.revenue) * 100)}%</div>
@@ -1221,11 +1003,11 @@ export default function DashboardPage() {
             widgetLayout.charts.size === 'large' ? 'scale-110' : ''
           }`}>
             {/* Modern Portfolio Performance Panel */}
-            <div className="lg:col-span-2 bg-gradient-to-br from-slate-50 to-blue-50/30 rounded-2xl shadow-xl border border-slate-200/50 hover:shadow-2xl transition-all duration-500">
+            <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-150">
           <div className="p-6 pb-4 border-b border-slate-200/60">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                🚀 Performance del Portafolio
+                Performance del Portafolio
               </h3>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -1252,10 +1034,10 @@ export default function DashboardPage() {
                 {executiveData.startupBreakdown.map((startup, index) => {
                   const totalRevenue = executiveData.startupBreakdown.reduce((sum, item) => sum + item.value, 0);
                   const percentage = ((startup.value / totalRevenue) * 100).toFixed(1);
-                  const gradientClasses = [
-                    'from-teal-500 to-teal-600',
-                    'from-blue-500 to-blue-600', 
-                    'from-indigo-500 to-indigo-600'
+                  const colorClasses = [
+                    'bg-teal-500',
+                    'bg-blue-500',
+                    'bg-indigo-500'
                   ];
                   
                   return (
@@ -1263,13 +1045,13 @@ export default function DashboardPage() {
                       key={startup.name} 
                       className="group relative overflow-hidden rounded-xl bg-white border border-slate-200/60 hover:border-slate-300 hover:shadow-lg transition-all duration-300"
                     >
-                      {/* Background gradient overlay */}
-                      <div className={`absolute inset-0 bg-gradient-to-r ${gradientClasses[index]} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}></div>
+                      {/* Background overlay */}
+                      <div className="absolute inset-0 bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       
                       <div className="relative p-4">
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center gap-3">
-                            <div className={`w-12 h-12 bg-gradient-to-br ${gradientClasses[index]} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300`}>
+                            <div className={`w-12 h-12 ${colorClasses[index]} rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300`}>
                               <span className="text-white font-bold text-lg">
                                 {startup.name.charAt(0)}
                               </span>
@@ -1302,8 +1084,8 @@ export default function DashboardPage() {
                             <span className="text-xs font-bold text-slate-800">{percentage}%</span>
                           </div>
                           <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-                            <div 
-                              className={`h-full bg-gradient-to-r ${gradientClasses[index]} transition-all duration-700 ease-out shadow-sm`}
+                            <div
+                              className={`h-full ${colorClasses[index]} transition-all duration-700 ease-out`}
                               style={{ 
                                 width: `${percentage}%`,
                                 animation: `slideIn${index} 1s ease-out ${index * 0.2}s both`
@@ -1346,9 +1128,9 @@ export default function DashboardPage() {
               </div>
 
               {/* Portfolio Insights */}
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200/50">
+              <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
                 <h4 className="font-bold text-blue-900 mb-2 flex items-center gap-2">
-                  💡 Insights del Portafolio
+                  Insights del Portafolio
                 </h4>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm text-blue-800">
@@ -1372,9 +1154,9 @@ export default function DashboardPage() {
         {/* Performance Insights Sidebar */}
         <div className="space-y-4">
               {/* Key Performance Indicators */}
-              <div className="bg-gradient-to-br from-white to-indigo-50/30 rounded-2xl shadow-lg border border-indigo-200/50 p-6">
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h4 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  📊 KPIs Clave
+                  KPIs Clave
                 </h4>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
@@ -1397,9 +1179,9 @@ export default function DashboardPage() {
               </div>
               
               {/* Market Insights */}
-              <div className="bg-gradient-to-br from-white to-purple-50/30 rounded-2xl shadow-lg border border-purple-200/50 p-6">
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h4 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  🎯 Market Insights
+                  Market Insights
                 </h4>
                 <div className="space-y-3">
                   <div className="bg-emerald-50 rounded-lg p-3 border border-emerald-200/50">
@@ -1429,12 +1211,12 @@ export default function DashboardPage() {
           widgetLayout.status.size === 'large' ? 'scale-110' : ''
         }`}>
         {/* Enhanced Portfolio Status */}
-        <div className="bg-gradient-to-br from-white to-indigo-50/30 rounded-2xl shadow-xl border border-indigo-200/50 hover:shadow-2xl transition-all duration-500 overflow-hidden">
-          <div className="p-6 pb-4 bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-indigo-200/60">
+        <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-150">
+          <div className="p-6 pb-4 bg-gray-50 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                  🚀 Pipeline de Startups
+                  Pipeline de Startups
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 font-medium">Distribución por etapa de desarrollo</p>
               </div>
@@ -1448,11 +1230,11 @@ export default function DashboardPage() {
             <div className="space-y-4">
               {Object.entries(executiveData.portfolio.byStage).map(([stage, count]) => {
                 const stageConfig = {
-                  idea: { label: 'Idea', color: 'from-indigo-500 to-indigo-600', bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200', icon: '💡' },
-                  validation: { label: 'Validation', color: 'from-blue-500 to-blue-600', bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200', icon: '🔬' },
-                  pmf: { label: 'PMF', color: 'from-teal-500 to-teal-600', bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200', icon: '✅' },
-                  growth: { label: 'Growth', color: 'from-slate-500 to-slate-600', bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-200', icon: '📈' },
-                  scale: { label: 'Scale', color: 'from-gray-500 to-gray-600', bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200', icon: '🌟' }
+                  idea: { label: 'Idea', color: 'bg-indigo-500', bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' },
+                  validation: { label: 'Validation', color: 'bg-blue-500', bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
+                  pmf: { label: 'PMF', color: 'bg-teal-500', bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' },
+                  growth: { label: 'Growth', color: 'bg-slate-500', bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-200' },
+                  scale: { label: 'Scale', color: 'bg-gray-500', bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200' }
                 };
                 const config = stageConfig[stage] || stageConfig.idea;
                 const percentage = executiveData.portfolio.totalStartups > 0 ? ((count / executiveData.portfolio.totalStartups) * 100).toFixed(0) : 0;
@@ -1461,8 +1243,8 @@ export default function DashboardPage() {
                   <div key={stage} className={`${config.bg} rounded-xl p-4 border ${config.border} hover:shadow-md transition-all duration-300 group`}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 bg-gradient-to-br ${config.color} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300`}>
-                          <span className="text-white text-lg">{config.icon}</span>
+                        <div className={`w-12 h-12 ${config.color} rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300`}>
+                          <span className="text-white text-sm font-bold">{config.label.charAt(0)}</span>
                         </div>
                         <div>
                           <div className="font-bold text-slate-900">{config.label}</div>
@@ -1479,8 +1261,8 @@ export default function DashboardPage() {
                     {/* Progress Bar */}
                     <div className="mt-3 pt-3 border-t border-white/50">
                       <div className="w-full bg-white/70 rounded-full h-2">
-                        <div 
-                          className={`h-full bg-gradient-to-r ${config.color} rounded-full transition-all duration-700 ease-out`}
+                        <div
+                          className={`h-full ${config.color} rounded-full transition-all duration-700 ease-out`}
                           style={{ width: `${percentage}%` }}
                         ></div>
                       </div>
@@ -1500,12 +1282,12 @@ export default function DashboardPage() {
         </div>
 
         {/* Enhanced Team Overview */}
-        <div className="bg-gradient-to-br from-white to-emerald-50/30 rounded-2xl shadow-xl border border-emerald-200/50 hover:shadow-2xl transition-all duration-500 overflow-hidden">
-          <div className="p-6 pb-4 bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-emerald-200/60">
+        <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-150">
+          <div className="p-6 pb-4 bg-gray-50 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                  👥 Performance del Equipo
+                  Performance del Equipo
                 </h3>
                 <p className="text-xs text-slate-600 mt-1 font-medium">Métricas clave de productividad</p>
               </div>
@@ -1527,8 +1309,8 @@ export default function DashboardPage() {
                   <span className="text-2xl font-bold text-emerald-900">{executiveData.talent.avgAvailability}%</span>
                 </div>
                 <div className="w-full bg-white/70 rounded-full h-2">
-                  <div 
-                    className="h-full bg-gradient-to-r from-emerald-500 to-green-600 rounded-full transition-all duration-700 ease-out"
+                  <div
+                    className="h-full bg-emerald-500 rounded-full transition-all duration-700 ease-out"
                     style={{ width: `${executiveData.talent.avgAvailability}%` }}
                   ></div>
                 </div>
@@ -1545,8 +1327,8 @@ export default function DashboardPage() {
                   <span className="text-2xl font-bold text-blue-900">{executiveData.talent.avgPerformance}%</span>
                 </div>
                 <div className="w-full bg-white/70 rounded-full h-2">
-                  <div 
-                    className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full transition-all duration-700 ease-out"
+                  <div
+                    className="h-full bg-blue-500 rounded-full transition-all duration-700 ease-out"
                     style={{ width: `${executiveData.talent.avgPerformance}%` }}
                   ></div>
                 </div>
@@ -1620,8 +1402,8 @@ export default function DashboardPage() {
                     </div>
                     <p className="text-sm mt-1 opacity-90 font-medium">{alert.message}</p>
                     <div className="flex items-center gap-2 mt-2">
-                      <span className="text-xs bg-gradient-to-r from-white to-gray-100 bg-opacity-70 px-3 py-1 rounded-full font-bold capitalize border border-white border-opacity-30">
-                        {alert.module === 'finance' ? '💰 Finanzas' : alert.module === 'okrs' ? '🎯 OKRs' : alert.module === 'talent' ? '👥 Talento' : alert.module === 'portfolio' ? '💼 Portafolio' : alert.module}
+                      <span className="text-xs bg-white bg-opacity-70 px-3 py-1 rounded-full font-bold capitalize border border-white border-opacity-30">
+                        {alert.module === 'finance' ? 'Finanzas' : alert.module === 'okrs' ? 'OKRs' : alert.module === 'talent' ? 'Talento' : alert.module === 'portfolio' ? 'Portafolio' : alert.module}
                       </span>
                     </div>
                   </div>
@@ -1658,19 +1440,19 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       <div className="mt-8 text-center">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
-          <Link href="/portfolio" className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-3 rounded-2xl hover:from-green-600 hover:to-emerald-700 transition-all duration-200 font-bold text-sm shadow-md hover:shadow-lg hover:scale-105">
+          <Link href="/portfolio" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
             <Briefcase className="h-4 w-4" />
             Gestionar Portafolio
           </Link>
-          <Link href="/finance" className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-3 rounded-2xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 font-bold text-sm shadow-md hover:shadow-lg hover:scale-105">
+          <Link href="/finance" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
             <DollarSign className="h-4 w-4" />
             Ver Finanzas
           </Link>
-          <Link href="/okrs" className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-violet-600 text-white px-4 py-3 rounded-2xl hover:from-purple-600 hover:to-violet-700 transition-all duration-200 font-bold text-sm shadow-md hover:shadow-lg hover:scale-105">
+          <Link href="/okrs" className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
             <Target className="h-4 w-4" />
             Revisar OKRs
           </Link>
-          <Link href="/talent" className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-600 text-white px-4 py-3 rounded-2xl hover:from-orange-600 hover:to-amber-700 transition-all duration-200 font-bold text-sm shadow-md hover:shadow-lg hover:scale-105">
+          <Link href="/talent" className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
             <Users className="h-4 w-4" />
             Gestionar Equipo
           </Link>

@@ -54,7 +54,6 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       name: 'Dashboard',
       href: '/dashboard',
       icon: Home,
-      emoji: '🏠',
       description: 'Vista general y métricas principales',
       color: 'var(--module-dashboard)'
     },
@@ -62,7 +61,6 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       name: 'Portfolio',
       href: '/portfolio',
       icon: Building2,
-      emoji: '🚀',
       description: 'Gestión de startups y proyectos',
       color: 'var(--module-portfolio)'
     },
@@ -70,7 +68,6 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       name: 'Finanzas',
       href: '/finance',
       icon: TrendingUp,
-      emoji: '💰',
       description: 'Control financiero y presupuestos',
       color: 'var(--module-finance)'
     },
@@ -78,7 +75,6 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       name: 'OKRs',
       href: '/okrs',
       icon: Target,
-      emoji: '🎯',
       description: 'Objetivos y resultados clave',
       color: 'var(--module-okrs)'
     },
@@ -86,7 +82,6 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       name: 'Talento',
       href: '/talent',
       icon: Users,
-      emoji: '👥',
       description: 'Gestión de talento y equipos',
       color: 'var(--module-talent)'
     },
@@ -94,7 +89,6 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       name: 'Aprendizajes',
       href: '/learnings',
       icon: BookOpen,
-      emoji: '📚',
       description: 'Conocimiento y retrospectivas',
       color: 'var(--brand-secondary)'
     },
@@ -102,7 +96,6 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       name: 'Analytics',
       href: '/analytics',
       icon: BarChart3,
-      emoji: '📊',
       description: 'Análisis y reportes avanzados',
       color: 'var(--module-analytics)'
     },
@@ -110,7 +103,6 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       name: 'Integrations Hub',
       href: '/integrations',
       icon: Zap,
-      emoji: '⚡',
       description: 'Conexiones y automatizaciones',
       color: 'var(--module-integrations)'
     }
@@ -129,43 +121,35 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       )}
 
       {/* Sidebar */}
-      <div 
+      <div
         className={`fixed top-0 left-0 h-full z-50 transition-all duration-300 border-r ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0 ${
-          isCollapsed ? 'w-16' : 'w-64'
+          isCollapsed ? 'w-18' : 'w-72'
         }`}
-        style={{ 
+        style={{
           background: 'var(--surface)',
-          boxShadow: 'var(--shadow-lg)',
-          borderColor: 'var(--border)'
+          borderColor: 'var(--border)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)'
         }}
       >
         
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: 'var(--border)' }}>
+        <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: 'var(--border)' }}>
           <div className="flex items-center gap-3">
-            <div 
-              className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-xl relative overflow-hidden"
-              style={{ 
-                background: 'linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark))',
-                opacity: 1,
-                visibility: 'visible'
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg"
+              style={{
+                background: 'var(--color-primary)'
               }}
               title={isCollapsed ? "Nexus Studio" : ""}
             >
-              <div 
-                className="absolute inset-0 opacity-20"
-                style={{
-                  background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)'
-                }}
-              />
-              <Building2 className="w-6 h-6 text-white relative z-10" />
+              <Building2 className="w-6 h-6 text-white" />
             </div>
             {!isCollapsed && (
               <div>
-                <h1 className="font-bold text-xl tracking-tight" style={{ color: 'var(--text-primary)' }}>Nexus Studio</h1>
-                <p className="text-xs font-semibold tracking-wider uppercase" style={{ color: 'var(--text-secondary)', opacity: 0.8 }}>Venture Studio</p>
+                <h1 className="text-title" style={{ color: 'var(--text-primary)' }}>Nexus Studio</h1>
+                <p className="text-caption" style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-family)' }}>Venture Studio</p>
               </div>
             )}
           </div>
@@ -201,7 +185,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-5 space-y-2 overflow-y-auto">
+        <nav className="flex-1 p-6 space-y-3 overflow-y-auto">
           {navigationItems.map((item, index) => {
             const Icon = item.icon;
             const active = isActive(item.href);
@@ -216,89 +200,42 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                     onClose();
                   }
                 }}
-                className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-200 group relative ${
-                  active 
-                    ? 'nav-item-active' 
-                    : 'nav-item-inactive hover:bg-opacity-50'
+                className={`flex items-center gap-4 p-4 rounded-xl transition-all duration-150 group relative ${
+                  active
+                    ? 'bg-gray-100 text-gray-900'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                 }`}
-                style={{
-                  background: active 
-                    ? `${item.color}20` 
-                    : 'transparent',
-                  color: active ? item.color : 'var(--text-secondary)',
-                  boxShadow: active ? `0 4px 12px ${item.color}30` : 'none',
-                  border: active ? `1px solid ${item.color}40` : '1px solid transparent'
-                }}
               >
                 {/* Active indicator */}
                 {active && (
-                  <div 
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 rounded-r-full"
-                    style={{ 
-                      background: `linear-gradient(to bottom, ${item.color}, ${item.color}CC)`
-                    }}
-                  ></div>
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-black rounded-r-lg shadow-sm"></div>
                 )}
                 
-                <div 
-                  className="flex-shrink-0 relative"
-                  style={{
-                    color: active ? item.color : 'inherit'
-                  }}
-                >
-                  {active && !isCollapsed && (
-                    <div 
-                      className="absolute -inset-1 rounded-lg opacity-20"
-                      style={{ background: item.color }}
-                    />
-                  )}
-                  {isCollapsed ? (
-                    <span className="text-lg relative z-10">{item.emoji}</span>
-                  ) : (
-                    <Icon className="w-5 h-5 relative z-10" />
-                  )}
+                <div className="flex-shrink-0">
+                  <Icon className={isCollapsed ? "w-6 h-6" : "w-6 h-6"} />
                 </div>
                 
                 {!isCollapsed && (
                   <div className="flex-1 min-w-0">
-                    <div 
-                      className="font-semibold text-sm tracking-tight"
-                      style={{ color: active ? item.color : 'inherit' }}
-                    >
+                    <div className="text-body font-medium">
                       {item.name}
                     </div>
-                    {!active && (
-                      <div 
-                        className="text-xs mt-0.5 opacity-70"
-                        style={{ color: 'var(--text-secondary)' }}
-                      >
-                        {item.description}
-                      </div>
-                    )}
                   </div>
                 )}
                 
-                {active && !isCollapsed && (
-                  <div 
-                    className="w-2 h-2 rounded-full flex-shrink-0" 
-                    style={{ 
-                      background: item.color,
-                      boxShadow: `0 0 6px ${item.color}60`
-                    }}
-                  />
-                )}
               </Link>
             );
           })}
         </nav>
 
         {/* Footer */}
-        <div className="p-5 border-t" style={{ borderColor: 'var(--border)' }}>
+        <div className="p-6 border-t" style={{ borderColor: 'var(--border)' }}>
           {!isCollapsed ? (
             <div className="space-y-3">
               <Link
                 href="/settings"
-                className="flex items-center gap-3 w-full p-3 rounded-xl text-sm font-medium group transition-all duration-200"
+                className="flex items-center gap-3 w-full p-4 rounded-xl text-base font-normal group transition-all duration-150"
+                style={{ fontFamily: 'var(--font-family)' }}
                 style={{ color: 'var(--text-secondary)' }}
                 onMouseEnter={(e) => {
                   e.target.style.color = 'var(--text-primary)';
@@ -309,14 +246,15 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                   e.target.style.background = 'transparent';
                 }}
               >
-                <div className="w-5 h-5 flex items-center justify-center">
-                  <Settings className="w-4 h-4" />
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <Settings className="w-5 h-5" />
                 </div>
                 Configuración
               </Link>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-3 w-full p-3 rounded-xl text-sm font-medium group transition-all duration-200"
+                className="flex items-center gap-3 w-full p-4 rounded-xl text-base font-normal group transition-all duration-150"
+                style={{ fontFamily: 'var(--font-family)' }}
                 style={{ color: 'var(--text-secondary)' }}
                 onMouseEnter={(e) => {
                   e.target.style.color = 'var(--error)';
@@ -327,8 +265,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                   e.target.style.background = 'transparent';
                 }}
               >
-                <div className="w-5 h-5 flex items-center justify-center">
-                  <LogOut className="w-4 h-4" />
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <LogOut className="w-5 h-5" />
                 </div>
                 Cerrar Sesión
               </button>
@@ -337,7 +275,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             <div className="space-y-3">
               <Link
                 href="/settings"
-                className="flex items-center justify-center w-full p-3 rounded-xl transition-all duration-200"
+                className="flex items-center justify-center w-full p-4 rounded-xl transition-all duration-150"
                 title="Configuración"
                 style={{ color: 'var(--text-secondary)' }}
                 onMouseEnter={(e) => {
@@ -349,11 +287,11 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                   e.target.style.background = 'transparent';
                 }}
               >
-                <Settings className="w-5 h-5" />
+                <Settings className="w-6 h-6" />
               </Link>
               <button
                 onClick={handleLogout}
-                className="flex items-center justify-center w-full p-3 rounded-xl transition-all duration-200"
+                className="flex items-center justify-center w-full p-4 rounded-xl transition-all duration-150"
                 title="Cerrar Sesión"
                 style={{ color: 'var(--text-secondary)' }}
                 onMouseEnter={(e) => {
@@ -365,7 +303,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                   e.target.style.background = 'transparent';
                 }}
               >
-                <LogOut className="w-5 h-5" />
+                <LogOut className="w-6 h-6" />
               </button>
             </div>
           )}

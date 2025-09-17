@@ -163,54 +163,42 @@ const Header = ({ onMenuClick, title, subtitle }: HeaderProps) => {
       />
     
       <header
-        className="px-3 sm:px-4 lg:px-6 py-2.5 sm:py-3 flex items-center justify-between backdrop-blur-lg border-b transition-all duration-300 min-h-[60px] sm:min-h-[64px]"
+        className="px-3 sm:px-4 lg:px-6 py-3 flex items-center justify-between border-b transition-all duration-150 min-h-[64px]"
         style={{
-          background: 'rgba(255, 255, 255, 0.95)',
-          borderColor: 'var(--border)',
-          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1)'
+          background: 'white',
+          borderColor: 'var(--border)'
         }}
       >
       {/* Left side - Menu button and title */}
       <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
         <button
           onClick={onMenuClick}
-          className="lg:hidden p-2.5 sm:p-3 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation"
+          className="lg:hidden p-2 rounded-lg transition-all duration-150 hover:bg-gray-100"
           style={{
             color: 'var(--text-secondary)',
-            background: 'transparent',
-            minWidth: '44px',
-            minHeight: '44px'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = 'var(--surface-hover)';
-            e.target.style.color = 'var(--text-primary)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = 'transparent';
-            e.target.style.color = 'var(--text-secondary)';
+            minWidth: '40px',
+            minHeight: '40px'
           }}
           aria-label="Abrir menú de navegación"
         >
-          <Menu className="w-5 h-5 sm:w-6 sm:h-6 drop-shadow-sm" />
+          <Menu className="w-5 h-5" />
         </button>
         
         {title && (
           <div className="flex-1 min-w-0 overflow-hidden">
             <h1
-              className="text-base sm:text-lg lg:text-xl font-bold tracking-tight transition-colors duration-200 truncate"
+              className="text-lg font-medium transition-colors duration-150 truncate"
               style={{
-                color: 'var(--text-primary)',
-                lineHeight: '1.3'
+                color: 'var(--text-primary)'
               }}
             >
               {title.replace(/[🏠💰📊🎯👥📚🚀📈]/g, '').trim()}
             </h1>
             {subtitle && (
               <p
-                className="text-xs sm:text-sm font-medium mt-0.5 transition-colors duration-200 leading-relaxed"
+                className="text-sm mt-1 transition-colors duration-150"
                 style={{
-                  color: 'var(--text-secondary)',
-                  lineHeight: '1.4'
+                  color: 'var(--text-secondary)'
                 }}
               >
                 {/* Mobile version - shortened text */}

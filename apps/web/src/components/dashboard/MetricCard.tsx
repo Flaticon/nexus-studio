@@ -25,9 +25,9 @@ export const MetricCard: FC<MetricCardProps> = ({
 }) => {
   const getChangeColor = () => {
     switch (changeType) {
-      case 'positive': return 'text-emerald-600 bg-emerald-50 border-emerald-200';
-      case 'negative': return 'text-red-600 bg-red-50 border-red-200';
-      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+      case 'positive': return 'text-emerald-700 bg-emerald-50';
+      case 'negative': return 'text-red-700 bg-red-50';
+      default: return 'text-gray-700 bg-gray-50';
     }
   };
 
@@ -53,29 +53,29 @@ export const MetricCard: FC<MetricCardProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-xl card-shadow hover:card-shadow-hover transition-all duration-200 p-6 border border-gray-100 hover:border-gray-200">
+    <div className="bg-white rounded-lg border border-gray-100 hover:border-gray-200 transition-all duration-150 p-6">
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-sm font-medium text-gray-600 text-balance">{title}</h3>
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-sm font-normal text-gray-600">{title}</h3>
             {getTrendIcon() && (
               <div className="text-gray-400">
                 {getTrendIcon()}
               </div>
             )}
           </div>
-          
+
           <div className="mb-3">
-            <p className="text-3xl font-bold text-gray-900 tracking-tight">
+            <p className="text-2xl font-semibold text-gray-900">
               {formatValue(value)}
             </p>
             {subtitle && (
-              <p className="text-sm text-gray-500 mt-1 font-medium">{subtitle}</p>
+              <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
             )}
           </div>
-          
+
           {change !== undefined && (
-            <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${getChangeColor()}`}>
+            <div className={`inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs ${getChangeColor()}`}>
               {change > 0 ? (
                 <ArrowUpIcon className="h-3 w-3" />
               ) : change < 0 ? (
@@ -84,14 +84,13 @@ export const MetricCard: FC<MetricCardProps> = ({
               <span>
                 {change > 0 ? '+' : ''}{Math.abs(change)}%
               </span>
-              <span className="text-xs opacity-75">vs anterior</span>
             </div>
           )}
         </div>
-        
+
         {icon && (
-          <div className="ml-4 p-3 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-100">
-            <div className="text-blue-600">
+          <div className="ml-4 p-2 bg-gray-50 rounded-lg">
+            <div className="text-gray-600">
               {icon}
             </div>
           </div>
