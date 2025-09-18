@@ -12,7 +12,7 @@ interface MetricCardProps {
   };
   icon?: LucideIcon;
   description?: string;
-  color?: 'primary' | 'success' | 'warning' | 'danger';
+  color?: 'primary' | 'success' | 'warning' | 'danger' | 'purple' | 'teal' | 'indigo' | 'orange';
 }
 
 export const MetricCard: React.FC<MetricCardProps> = ({
@@ -27,23 +27,43 @@ export const MetricCard: React.FC<MetricCardProps> = ({
     switch (color) {
       case 'success':
         return {
-          accent: 'var(--color-success)',
-          background: 'var(--color-success-light)'
+          accent: '#059669', // Emerald-600 (más intenso)
+          background: '#ECFDF5'
         };
       case 'warning':
         return {
-          accent: 'var(--color-warning)',
-          background: 'var(--color-warning-light)'
+          accent: '#D97706', // Amber-600 (más intenso)
+          background: '#FFFBEB'
         };
       case 'danger':
         return {
-          accent: 'var(--color-danger)',
-          background: 'var(--color-danger-light)'
+          accent: '#DC2626', // Red-600 (más intenso)
+          background: '#FEF2F2'
+        };
+      case 'purple':
+        return {
+          accent: '#7C3AED', // Violet-600 (más intenso)
+          background: '#F5F3FF'
+        };
+      case 'teal':
+        return {
+          accent: '#0D9488', // Teal-600 (más intenso)
+          background: '#F0FDFA'
+        };
+      case 'indigo':
+        return {
+          accent: '#4F46E5', // Indigo-600 (más intenso)
+          background: '#EEF2FF'
+        };
+      case 'orange':
+        return {
+          accent: '#EA580C', // Orange-600 (más intenso)
+          background: '#FFF7ED'
         };
       default:
         return {
-          accent: 'var(--color-primary)',
-          background: 'var(--color-primary-light)'
+          accent: '#0284C7', // Sky-600 (más intenso y profesional)
+          background: '#F0F9FF'
         };
     }
   };

@@ -14,7 +14,7 @@ interface Metric {
   };
   icon?: LucideIcon;
   description?: string;
-  color?: 'primary' | 'success' | 'warning' | 'danger';
+  color?: 'primary' | 'success' | 'warning' | 'danger' | 'purple' | 'teal' | 'indigo' | 'orange';
 }
 
 interface MetricsGridProps {

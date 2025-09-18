@@ -15,11 +15,20 @@ import {
   Edit,
   MoreVertical,
   Building2,
+  Award,
+  Activity,
+  Clock,
+  TrendingUp,
+  Target,
+  Users,
+  ArrowRight,
+  CheckCircle
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import CreateProjectModal from "../../components/forms/CreateProjectModal";
 import EditProjectModal from "../../components/forms/EditProjectModal";
 import Layout from "../../components/layout/Layout";
+import { MetricsGrid, Metric } from '@/components/ui/MetricsGrid';
 
 export default function PortfolioPage() {
   const [viewMode, setViewMode] = useState("grid");
@@ -203,21 +212,95 @@ export default function PortfolioPage() {
     timeline: Calendar,
   };
 
+  // Portfolio overview metrics
+  const portfolioMetrics: Metric[] = [
+    {
+      id: 'total-startups',
+      title: 'Total Startups',
+      value: stats.total,
+      change: { value: 25, type: 'positive' },
+      icon: Building2,
+      description: 'En el portafolio',
+      color: 'teal'
+    },
+    {
+      id: 'active-startups',
+      title: 'Startups Activas',
+      value: stats.byStatus.active,
+      change: { value: 15, type: 'positive' },
+      icon: CheckCircle,
+      description: 'En desarrollo activo',
+      color: 'success'
+    },
+    {
+      id: 'avg-progress',
+      title: 'Progreso Promedio',
+      value: '76%',
+      change: { value: 8, type: 'positive' },
+      icon: TrendingUp,
+      description: 'KPIs vs objetivos',
+      color: 'primary'
+    },
+    {
+      id: 'team-members',
+      title: 'Miembros Activos',
+      value: filteredStartups.reduce((sum, s) => sum + s.squad.members.length + 1, 0),
+      change: { value: 12, type: 'positive' },
+      icon: Users,
+      description: 'En todos los equipos',
+      color: 'purple'
+    }
+  ];
+
+  // Individual startup metrics
+  const startupMetrics: Metric[] = filteredStartups.map((startup, index) => {
+    const colors = ['teal', 'indigo', 'orange', 'success', 'warning', 'danger'] as const;
+    const mainKpi = startup.kpis[0];
+    const progress = mainKpi ? Math.round((mainKpi.current / mainKpi.target) * 100) : 0;
+
+    return {
+      id: `startup-${startup._id}`,
+      title: startup.name,
+      value: mainKpi ? `${mainKpi.current.toLocaleString()} ${mainKpi.unit}` : 'Sin KPIs',
+      change: {
+        value: progress > 75 ? 15 : progress > 50 ? 8 : -5,
+        type: progress > 75 ? 'positive' : progress > 50 ? 'neutral' : 'negative'
+      },
+      icon: startup.stage === 'pmf' ? Award : startup.stage === 'validation' ? Activity : Clock,
+      description: `${startup.stage.toUpperCase()} • ${startup.squad.members.length + 1} miembros • ${mainKpi?.name || 'KPI principal'}`,
+      color: colors[index % colors.length]
+    };
+  });
+
   return (
     <Layout
       title="🚀 Portafolio de Startups"
       subtitle="Gestión de iniciativas, etapas, equipos y KPIs"
     >
       <div className="p-3 sm:p-6 min-h-screen" style={{ background: 'var(--background)' }}>
+        {/* Portfolio Overview Metrics */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+                Resumen del Portafolio
+              </h2>
+              <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                Métricas clave de todas las startups
+              </p>
+            </div>
+          </div>
+
+          <MetricsGrid
+            metrics={portfolioMetrics}
+            columns={4}
+            gap={3}
+          />
+        </div>
+
         {/* Header */}
         <div className="mb-6">
           <div className="flex flex-col gap-4 mb-4">
-            {/* Stats Summary */}
-            <div className="text-center sm:text-left">
-              <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
-                {stats.total} total startups • {stats.byStatus.active} activas • {stats.byStatus.paused} pausadas
-              </p>
-            </div>
 
             {/* Action Buttons - Mobile Optimized */}
             <div className="flex flex-wrap gap-2 justify-center sm:justify-end">
@@ -280,7 +363,11 @@ export default function PortfolioPage() {
                     placeholder="Buscar startups y equipos..."
                     value={filters.search}
                     onChange={(e) => handleFilterChange('search', e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 text-sm font-medium border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-md hover:shadow-lg transition-all duration-200"
+                    className="w-full pl-12 pr-4 py-3 text-sm font-bold tracking-tight border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white shadow-md hover:shadow-lg transition-all duration-200"
+                    style={{
+                      fontFamily: 'inherit',
+                      color: 'var(--text-primary)'
+                    }}
                   />
                 </div>
               </div>
@@ -310,7 +397,11 @@ export default function PortfolioPage() {
                 <select
                   value={filters.stage}
                   onChange={(e) => handleFilterChange('stage', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent text-sm font-bold tracking-tight"
+                  style={{
+                    fontFamily: 'inherit',
+                    color: 'var(--text-primary)'
+                  }}
                 >
                   <option value="">Todas las etapas</option>
                   <option value="idea">Idea</option>
@@ -329,7 +420,11 @@ export default function PortfolioPage() {
                 <select
                   value={filters.status}
                   onChange={(e) => handleFilterChange('status', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent text-sm font-bold tracking-tight"
+                  style={{
+                    fontFamily: 'inherit',
+                    color: 'var(--text-primary)'
+                  }}
                 >
                   <option value="">Todos los estados</option>
                   <option value="active">Activa</option>
@@ -621,117 +716,82 @@ export default function PortfolioPage() {
 
         {/* Grid View */}
         {viewMode === "grid" && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-            {filteredStartups.map((startup) => (
-              <div
-                key={startup._id}
-                className="bg-white p-5 rounded-2xl group relative border border-gray-200/60 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 backdrop-blur-sm"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3 flex-1">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
-                      <span className="text-sm font-bold text-white tracking-tight">
-                        {startup.name.charAt(0)}
-                      </span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-bold text-gray-900 mb-2 break-words tracking-tight leading-tight">
-                        {startup.name}
-                      </h3>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span
-                          className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${
-                            stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
-                          }`}
-                        >
-                          {stageLabels[startup.stage as keyof typeof stageLabels]}
-                        </span>
-                        <span
-                          className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${
-                            startup.status === "active"
-                              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                              : "bg-gray-50 text-gray-700 border-gray-200"
-                          }`}
-                        >
-                          {startup.status === "active" ? "Activa" : "Pausada"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => openEditModal(startup)}
-                    className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-2 hover:bg-blue-50 rounded-xl"
-                    title="Editar startup"
-                  >
-                    <Edit className="w-4 h-4 text-blue-600" />
-                  </button>
-                </div>
-
-                {startup.description && (
-                  <p className="text-sm text-gray-600 mb-4 line-clamp-2 text-balance leading-relaxed">
-                    {startup.description}
-                  </p>
-                )}
-
-                <div className="mb-5 p-4 bg-gray-50/50 rounded-2xl border border-gray-100">
-                  <div className="text-sm text-gray-700 mb-1 font-semibold">
-                    {startup.squad.lead.name}
-                  </div>
-                  <div className="text-sm text-gray-600 font-medium">
-                    Team Lead • {startup.squad.members.length + 1} miembros
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {startup.resources.deck && (
-                    <span className="text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full border border-blue-200 font-semibold">
-                      📋 Deck
-                    </span>
-                  )}
-                  {startup.resources.demo && (
-                    <span className="text-xs bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200 font-semibold">
-                      🎯 Demo
-                    </span>
-                  )}
-                  {startup.resources.repository && (
-                    <span className="text-xs bg-purple-50 text-purple-700 px-3 py-1.5 rounded-full border border-purple-200 font-semibold">
-                      💻 Repo
-                    </span>
-                  )}
-                </div>
-
-                <div className="space-y-4">
-                  {startup.kpis.slice(0, 2).map((kpi, idx) => (
-                    <div key={idx} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-700 font-semibold">
-                          {kpi.name}
-                        </span>
-                        <span className="text-sm font-bold text-gray-900">
-                          {kpi.current.toLocaleString()}
-                          <span className="text-xs text-gray-500 font-normal">
-                            /{kpi.target.toLocaleString()}
-                          </span>
-                        </span>
-                      </div>
-                      <div className="relative">
-                        <div className="w-full bg-gray-100 rounded-full h-2">
-                          <div
-                            className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500 ease-out"
-                            style={{
-                              width: `${Math.min((kpi.current / kpi.target) * 100, 100)}%`,
-                            }}
-                          />
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1 text-right font-medium">
-                          {Math.round((kpi.current / kpi.target) * 100)}% completo
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+                  Startups Individuales
+                </h2>
+                <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                  Performance y KPIs de cada startup
+                </p>
               </div>
-            ))}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600 font-medium">
+                  {filteredStartups.length} startups
+                </span>
+              </div>
+            </div>
+
+            <MetricsGrid
+              metrics={startupMetrics}
+              columns={3}
+              gap={3}
+            />
+
+            {/* Additional Details Section */}
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredStartups.map((startup) => (
+                <div
+                  key={startup._id}
+                  className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-lg transition-all duration-200"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-bold text-gray-900">{startup.name}</h4>
+                    <button
+                      onClick={() => openEditModal(startup)}
+                      className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-blue-600"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="mb-3">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                    }`}>
+                      {stageLabels[startup.stage as keyof typeof stageLabels]}
+                    </span>
+                  </div>
+
+                  <div className="text-sm text-gray-600 mb-3">
+                    <strong>{startup.squad.lead.name}</strong> • {startup.squad.members.length + 1} miembros
+                  </div>
+
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {startup.resources.deck && (
+                      <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">
+                        📋 Deck
+                      </span>
+                    )}
+                    {startup.resources.demo && (
+                      <span className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded font-medium">
+                        🎯 Demo
+                      </span>
+                    )}
+                    {startup.resources.repository && (
+                      <span className="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded font-medium">
+                        💻 Repo
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="text-xs text-gray-500">
+                    {startup.kpis.length} KPIs configurados
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 

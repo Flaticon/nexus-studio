@@ -107,92 +107,96 @@ export default function DashboardPage() {
 
   // Consolidated data from all modules
   const executiveData = {
-    // Portfolio Overview (Module 2 data)
-    portfolio: {
-      totalStartups: 3,
-      activeStartups: 3,
-      byStage: {
-        idea: 1,
-        validation: 1,
-        pmf: 1,
-        growth: 0,
-        scale: 0
+    // Company Overview (Module 2 data)
+    company: {
+      totalEmployees: 47,
+      activeEmployees: 45,
+      onboardingEmployees: 3,
+      departments: {
+        engineering: 15,
+        sales: 8,
+        marketing: 6,
+        operations: 12,
+        hr: 6
       }
     },
     
     // Financial Overview (Module 3 data)
     financials: {
-      totalRevenue: Math.round(142000 * dateMultiplier),
-      totalExpenses: Math.round(112000 * dateMultiplier),
-      netIncome: Math.round(30000 * dateMultiplier),
-      burnRate: Math.round(-35000 * dateMultiplier),
-      runway: Math.round(18 * (dateMultiplier > 1 ? 1.2 : dateMultiplier))
+      monthlyBudget: Math.round(285000 * dateMultiplier),
+      actualSpending: Math.round(265000 * dateMultiplier),
+      savings: Math.round(20000 * dateMultiplier),
+      payrollCosts: Math.round(180000 * dateMultiplier),
+      operationalCosts: Math.round(85000 * dateMultiplier)
     },
     
-    // OKRs Overview (Module 4 data)  
-    okrs: {
-      totalObjectives: 3,
-      onTrack: Math.max(0, Math.round(1 * dateMultiplier)),
+    // Company Objectives (Strategic Goals)
+    objectives: {
+      totalObjectives: 5,
+      onTrack: Math.max(0, Math.round(3 * dateMultiplier)),
       atRisk: Math.max(0, Math.round(1 * dateMultiplier)),
-      behind: Math.max(0, Math.round(1 * dateMultiplier)),
-      avgProgress: Math.min(100, Math.round(67 * (dateMultiplier > 1 ? 1.1 : dateMultiplier + 0.2)))
+      completed: Math.max(0, Math.round(1 * dateMultiplier)),
+      avgProgress: Math.min(100, Math.round(78 * (dateMultiplier > 1 ? 1.1 : dateMultiplier + 0.2)))
     },
     
-    // Talent Overview (Module 5 data)
-    talent: {
-      totalMembers: Math.round(8 * (dateMultiplier > 1 ? 1.1 : 1)),
+    // HR & People Management
+    hr: {
+      totalEmployees: Math.round(47 * (dateMultiplier > 1 ? 1.05 : 1)),
+      activeEmployees: Math.round(45 * (dateMultiplier > 1 ? 1.05 : 1)),
+      newHires: Math.max(0, Math.round(3 * dateMultiplier)),
       avgPerformance: Math.min(100, Math.round(89 * (dateMultiplier > 1 ? 1.02 : dateMultiplier + 0.1))),
-      avgAvailability: Math.min(100, Math.round(80 * (dateMultiplier > 1 ? 1.05 : dateMultiplier + 0.15))),
-      highWorkload: Math.max(0, Math.round(2 * dateMultiplier))
+      avgSatisfaction: Math.min(100, Math.round(85 * (dateMultiplier > 1 ? 1.03 : dateMultiplier + 0.1))),
+      pendingOnboarding: Math.max(0, Math.round(2 * dateMultiplier))
     },
     
-    // Trends data
+    // Company Performance Trends
     monthlyTrends: [
-      { month: 'Mar', revenue: Math.round(98000 * dateMultiplier), expenses: Math.round(112000 * dateMultiplier), netIncome: Math.round(-14000 * dateMultiplier), okrProgress: Math.min(100, Math.round(45 * (dateMultiplier + 0.2))) },
-      { month: 'Abr', revenue: Math.round(105000 * dateMultiplier), expenses: Math.round(108000 * dateMultiplier), netIncome: Math.round(-3000 * dateMultiplier), okrProgress: Math.min(100, Math.round(52 * (dateMultiplier + 0.2))) },
-      { month: 'May', revenue: Math.round(118000 * dateMultiplier), expenses: Math.round(115000 * dateMultiplier), netIncome: Math.round(3000 * dateMultiplier), okrProgress: Math.min(100, Math.round(58 * (dateMultiplier + 0.2))) },
-      { month: 'Jun', revenue: Math.round(125000 * dateMultiplier), expenses: Math.round(118000 * dateMultiplier), netIncome: Math.round(7000 * dateMultiplier), okrProgress: Math.min(100, Math.round(61 * (dateMultiplier + 0.2))) },
-      { month: 'Jul', revenue: Math.round(132000 * dateMultiplier), expenses: Math.round(120000 * dateMultiplier), netIncome: Math.round(12000 * dateMultiplier), okrProgress: Math.min(100, Math.round(65 * (dateMultiplier + 0.2))) },
-      { month: 'Ago', revenue: Math.round(142000 * dateMultiplier), expenses: Math.round(112000 * dateMultiplier), netIncome: Math.round(30000 * dateMultiplier), okrProgress: Math.min(100, Math.round(67 * (dateMultiplier + 0.2))) }
+      { month: 'Mar', budget: Math.round(285000 * dateMultiplier), spending: Math.round(298000 * dateMultiplier), savings: Math.round(-13000 * dateMultiplier), objectiveProgress: Math.min(100, Math.round(65 * (dateMultiplier + 0.2))) },
+      { month: 'Abr', budget: Math.round(285000 * dateMultiplier), spending: Math.round(275000 * dateMultiplier), savings: Math.round(10000 * dateMultiplier), objectiveProgress: Math.min(100, Math.round(68 * (dateMultiplier + 0.2))) },
+      { month: 'May', budget: Math.round(285000 * dateMultiplier), spending: Math.round(265000 * dateMultiplier), savings: Math.round(20000 * dateMultiplier), objectiveProgress: Math.min(100, Math.round(72 * (dateMultiplier + 0.2))) },
+      { month: 'Jun', budget: Math.round(285000 * dateMultiplier), spending: Math.round(270000 * dateMultiplier), savings: Math.round(15000 * dateMultiplier), objectiveProgress: Math.min(100, Math.round(75 * (dateMultiplier + 0.2))) },
+      { month: 'Jul', budget: Math.round(285000 * dateMultiplier), spending: Math.round(268000 * dateMultiplier), savings: Math.round(17000 * dateMultiplier), objectiveProgress: Math.min(100, Math.round(77 * (dateMultiplier + 0.2))) },
+      { month: 'Ago', budget: Math.round(285000 * dateMultiplier), spending: Math.round(265000 * dateMultiplier), savings: Math.round(20000 * dateMultiplier), objectiveProgress: Math.min(100, Math.round(78 * (dateMultiplier + 0.2))) }
     ].slice(-getMonthsToShow(dateRange)),
     
-    startupBreakdown: [
-      { name: 'EcoTech Solutions', value: Math.round(45000 * dateMultiplier), color: '#10B981', stage: 'validation' },
-      { name: 'FinanceAI', value: Math.round(85000 * dateMultiplier), color: '#3B82F6', stage: 'pmf' },
-      { name: 'HealthTracker', value: Math.round(12000 * dateMultiplier), color: '#8B5CF6', stage: 'idea' }
+    departmentBreakdown: [
+      { name: 'Engineering', value: Math.round(15 * dateMultiplier), color: '#10B981', budget: 95000 },
+      { name: 'Sales & Marketing', value: Math.round(14 * dateMultiplier), color: '#3B82F6', budget: 75000 },
+      { name: 'Operations', value: Math.round(12 * dateMultiplier), color: '#8B5CF6', budget: 60000 },
+      { name: 'HR & Admin', value: Math.round(6 * dateMultiplier), color: '#F59E0B', budget: 55000 }
     ],
     
     alerts: [
       {
         id: 1,
         type: 'critical',
-        title: 'Runway Crítico',
-        message: 'HealthTracker tiene solo 8 meses de runway restante',
+        title: 'Presupuesto Excedido',
+        message: 'Departamento de Engineering superó el presupuesto mensual en 12%',
         module: 'finance',
         timestamp: '2 hrs ago'
       },
       {
         id: 2,
-        type: 'warning', 
-        title: 'OKR En Riesgo',
-        message: 'FinanceAI tiene objetivos trimestrales en riesgo',
-        module: 'okrs',
+        type: 'warning',
+        title: 'Objetivo En Riesgo',
+        message: 'Objetivo de satisfacción empleados por debajo del 85%',
+        module: 'objectives',
         timestamp: '4 hrs ago'
       },
       {
         id: 3,
         type: 'success',
-        title: 'Nueva Contratación',
-        message: 'Miguel Torres se unió al equipo de HealthTracker',
-        module: 'talent',
+        title: 'Onboarding Completado',
+        message: 'Ana García completó el proceso de onboarding',
+        module: 'hr',
         timestamp: '1 day ago'
       },
       {
         id: 4,
         type: 'info',
-        title: 'Milestone Alcanzado',
-        message: 'EcoTech Solutions alcanzó 32 clientes empresariales',
-        module: 'portfolio',
+        title: 'Nuevo Empleado',
+        message: 'Carlos Mendoza se incorpora al equipo de Operations',
+        module: 'hr',
         timestamp: '2 days ago'
       }
     ],
@@ -304,70 +308,70 @@ export default function DashboardPage() {
   // Primary metrics data for new design system
   const dashboardMetrics: Metric[] = [
     {
-      id: 'active-startups',
-      title: 'Startups Activas',
-      value: executiveData.portfolio.activeStartups,
-      change: { value: 15, type: 'positive' },
-      icon: Briefcase,
-      description: `de ${executiveData.portfolio.totalStartups} totales`,
+      id: 'total-employees',
+      title: 'Empleados Totales',
+      value: executiveData.company.totalEmployees,
+      change: { value: 8, type: 'positive' },
+      icon: Users,
+      description: `${executiveData.company.activeEmployees} activos`,
       color: 'primary'
     },
     {
-      id: 'arr',
-      title: 'ARR',
-      value: `$${(executiveData.financials.totalRevenue * 12).toLocaleString()}`,
-      change: { value: 12, type: 'positive' },
-      icon: TrendingUp,
-      description: 'Annual Recurring Revenue',
+      id: 'monthly-budget',
+      title: 'Presupuesto Mensual',
+      value: `$${executiveData.financials.monthlyBudget.toLocaleString()}`,
+      change: { value: 5, type: 'positive' },
+      icon: DollarSign,
+      description: 'Budget allocation total',
       color: 'success'
     },
     {
-      id: 'mrr',
-      title: 'MRR',
-      value: `$${executiveData.financials.totalRevenue.toLocaleString()}`,
-      change: { value: 8, type: 'positive' },
-      icon: DollarSign,
-      description: 'Monthly Recurring Revenue',
-      color: 'warning'
+      id: 'monthly-savings',
+      title: 'Ahorros Mensuales',
+      value: `$${executiveData.financials.savings.toLocaleString()}`,
+      change: { value: 12, type: 'positive' },
+      icon: TrendingUp,
+      description: 'Budget vs Actual spending',
+      color: 'teal'
     },
     {
-      id: 'team-performance',
-      title: 'Team Performance',
-      value: `${executiveData.talent.avgPerformance}%`,
+      id: 'hr-performance',
+      title: 'Performance Promedio',
+      value: `${executiveData.hr.avgPerformance}%`,
       change: { value: 3, type: 'positive' },
-      icon: Users,
-      description: `${executiveData.talent.totalMembers} miembros activos`,
-      color: 'danger'
+      icon: Award,
+      description: `${executiveData.hr.totalEmployees} empleados evaluados`,
+      color: 'indigo'
     }
   ];
 
   // Secondary metrics data
   const secondaryMetrics: Metric[] = [
     {
-      id: 'mau',
-      title: 'MAU (Monthly Active Users)',
-      value: '2,847',
-      change: { value: 22, type: 'positive' },
-      icon: Activity,
-      description: 'Usuarios activos totales',
-      color: 'primary'
+      id: 'satisfaction',
+      title: 'Satisfacción Empleados',
+      value: `${executiveData.hr.avgSatisfaction}%`,
+      change: { value: 7, type: 'positive' },
+      icon: CheckCircle,
+      description: 'Encuesta mensual promedio',
+      color: 'purple'
     },
     {
-      id: 'customer-count',
-      title: 'Customer Count',
-      value: '127',
-      change: { value: 18, type: 'positive' },
+      id: 'new-hires',
+      title: 'Nuevas Contrataciones',
+      value: executiveData.hr.newHires,
+      change: { value: 25, type: 'positive' },
       icon: Users,
-      description: 'Clientes pagando activamente',
-      color: 'success'
+      description: 'Incorporaciones este mes',
+      color: 'orange'
     },
     {
-      id: 'runway',
-      title: 'Runway Promedio',
-      value: '18',
-      change: { value: -5, type: 'negative' },
-      icon: Calendar,
-      description: 'Meses de runway restante',
+      id: 'objectives-progress',
+      title: 'Progreso Objetivos',
+      value: `${executiveData.objectives.avgProgress}%`,
+      change: { value: 8, type: 'positive' },
+      icon: Target,
+      description: 'Objetivos estratégicos Q3',
       color: 'warning'
     }
   ];
@@ -414,9 +418,15 @@ export default function DashboardPage() {
   };
 
   // Filter alerts by selected modules
-  const filteredAlerts = executiveData.alerts.filter(alert => 
-    selectedModules.includes(alert.module)
-  );
+  const filteredAlerts = executiveData.alerts.filter(alert => {
+    const moduleMapping = {
+      'finance': 'finance',
+      'objectives': 'okrs',
+      'hr': 'talent',
+      'operations': 'portfolio'
+    };
+    return selectedModules.includes(moduleMapping[alert.module] || alert.module);
+  });
 
   // Filter data based on view mode
   const getViewModeClass = () => {
@@ -516,19 +526,19 @@ export default function DashboardPage() {
   };
 
   return (
-    <Layout title="Nexus Studio Dashboard" subtitle="Vista general de todas las operaciones del venture studio">
+    <Layout title="Control Center Empresarial" subtitle="Vista general de todas las operaciones de la empresa">
       <style jsx>{`
         @keyframes slideIn0 {
           from { width: 0%; }
-          to { width: ${((executiveData.startupBreakdown[0]?.value || 0) / executiveData.startupBreakdown.reduce((sum, item) => sum + item.value, 0) * 100).toFixed(1)}%; }
+          to { width: ${((executiveData.departmentBreakdown[0]?.budget || 0) / executiveData.departmentBreakdown.reduce((sum, item) => sum + item.budget, 0) * 100).toFixed(1)}%; }
         }
         @keyframes slideIn1 {
           from { width: 0%; }
-          to { width: ${((executiveData.startupBreakdown[1]?.value || 0) / executiveData.startupBreakdown.reduce((sum, item) => sum + item.value, 0) * 100).toFixed(1)}%; }
+          to { width: ${((executiveData.departmentBreakdown[1]?.budget || 0) / executiveData.departmentBreakdown.reduce((sum, item) => sum + item.budget, 0) * 100).toFixed(1)}%; }
         }
         @keyframes slideIn2 {
           from { width: 0%; }
-          to { width: ${((executiveData.startupBreakdown[2]?.value || 0) / executiveData.startupBreakdown.reduce((sum, item) => sum + item.value, 0) * 100).toFixed(1)}%; }
+          to { width: ${((executiveData.departmentBreakdown[2]?.budget || 0) / executiveData.departmentBreakdown.reduce((sum, item) => sum + item.budget, 0) * 100).toFixed(1)}%; }
         }
         .bounce-in {
           animation: bounceIn 0.8s ease-out;
@@ -790,63 +800,63 @@ export default function DashboardPage() {
         <div className="mb-8">
           {/* Top Row: Financial Analysis */}
           <div className={`mb-6 ${
-            widgetLayout.charts.size === 'small' ? 'scale-90' : 
+            widgetLayout.charts.size === 'small' ? 'scale-90' :
             widgetLayout.charts.size === 'large' ? 'scale-110' : ''
           }`}>
+            {/* Financial Metrics Grid */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+                    Análisis Presupuestario Avanzado
+                  </h2>
+                  <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                    Tendencias de presupuesto, gastos y progreso de objetivos
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-slate-600 font-medium">Actualizado hace 5min</span>
+                </div>
+              </div>
+
+              <MetricsGrid
+                metrics={[
+                  {
+                    id: 'budget-actual',
+                    title: 'Presupuesto Actual',
+                    value: `$${executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.budget.toLocaleString()}`,
+                    change: { value: 5, type: 'positive' },
+                    icon: TrendingUp,
+                    description: 'vs mes anterior',
+                    color: 'success'
+                  },
+                  {
+                    id: 'monthly-savings',
+                    title: 'Ahorros Mensuales',
+                    value: `$${executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.savings.toLocaleString()}`,
+                    change: { value: Math.round((executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.savings / executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.budget) * 100), type: 'positive' },
+                    icon: DollarSign,
+                    description: `Eficiencia: ${Math.round((executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.savings / executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.budget) * 100)}%`,
+                    color: 'teal'
+                  },
+                  {
+                    id: 'objective-progress',
+                    title: 'Progreso Objetivos',
+                    value: `${executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.objectiveProgress}%`,
+                    change: { value: 5, type: 'positive' },
+                    icon: Target,
+                    description: 'Objetivos Estratégicos Q3',
+                    color: 'indigo'
+                  }
+                ]}
+                columns={3}
+                gap={3}
+              />
+            </div>
+
             {/* Advanced Financial Trend Analysis */}
             <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-150">
-          <div className="p-6 pb-4 bg-gray-50 border-b border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                  Análisis Financiero Avanzado
-                </h3>
-                <p className="text-xs text-slate-600 mt-1 font-medium">Tendencias de revenue, gastos y progreso de objetivos</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                <span className="text-xs text-slate-600 font-medium">Actualizado hace 5min</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Financial Summary Cards */}
-          <div className="p-4 bg-white/50">
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              <div className="bg-emerald-50 rounded-xl p-3 border border-emerald-200/50">
-                <div className="text-xs font-medium text-emerald-700 mb-1">Revenue Actual</div>
-                <div className="text-lg font-bold text-emerald-900">
-                  ${executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.revenue.toLocaleString()}
-                </div>
-                <div className="text-xs text-emerald-600 flex items-center gap-1">
-                  <TrendingUp className="w-3 h-3" />
-                  <span>vs mes anterior</span>
-                </div>
-              </div>
-              
-              <div className="bg-blue-50 rounded-xl p-3 border border-blue-200/50">
-                <div className="text-xs font-medium text-blue-700 mb-1">Net Income</div>
-                <div className="text-lg font-bold text-blue-900">
-                  ${executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.netIncome.toLocaleString()}
-                </div>
-                <div className="text-xs text-blue-600 flex items-center gap-1">
-                  <TrendingUp className="w-3 h-3" />
-                  <span>Margen: {Math.round((executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.netIncome / executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.revenue) * 100)}%</span>
-                </div>
-              </div>
-              
-              <div className="bg-purple-50 rounded-xl p-3 border border-purple-200/50">
-                <div className="text-xs font-medium text-purple-700 mb-1">OKR Progress</div>
-                <div className="text-lg font-bold text-purple-900">
-                  {executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.okrProgress}%
-                </div>
-                <div className="text-xs text-purple-600 flex items-center gap-1">
-                  <Target className="w-3 h-3" />
-                  <span>Objetivos Q3</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Enhanced Chart */}
           <div className="p-6 pt-2">
@@ -918,45 +928,45 @@ export default function DashboardPage() {
                     backdropFilter: 'blur(8px)'
                   }}
                   formatter={(value, name) => [
-                    name === 'netIncome' || name === 'revenue' || name === 'expenses' 
-                      ? `$${value.toLocaleString()}` 
+                    name === 'savings' || name === 'budget' || name === 'spending'
+                      ? `$${value.toLocaleString()}`
                       : `${value}%`,
-                    name === 'netIncome' ? 'Ingreso Neto' :
-                    name === 'revenue' ? 'Ingresos' :
-                    name === 'expenses' ? 'Gastos' : 'Progreso OKRs'
+                    name === 'savings' ? 'Ahorros' :
+                    name === 'budget' ? 'Presupuesto' :
+                    name === 'spending' ? 'Gastos' : 'Progreso Objetivos'
                   ]}
                   labelStyle={{ color: '#1E293B', fontWeight: 700, marginBottom: '8px' }}
                   cursor={{ stroke: 'rgba(59, 130, 246, 0.15)', strokeWidth: 40, fill: 'rgba(59, 130, 246, 0.05)' }}
                 />
                 
                 {/* Enhanced Line charts with better visual impact */}
-                <Line 
-                  type="monotone" 
-                  dataKey="revenue" 
-                  stroke="#10B981" 
+                <Line
+                  type="monotone"
+                  dataKey="budget"
+                  stroke="#10B981"
                   strokeWidth={4}
-                  name="revenue"
+                  name="budget"
                   dot={{ fill: '#10B981', r: 5, strokeWidth: 3, stroke: '#FFFFFF' }}
                   activeDot={{ r: 8, strokeWidth: 4, stroke: '#FFFFFF', fill: '#10B981', dropShadow: '0 4px 8px rgba(16, 185, 129, 0.3)' }}
                 />
-                
-                <Line 
-                  type="monotone" 
-                  dataKey="netIncome" 
-                  stroke="#3B82F6" 
-                  strokeWidth={3} 
-                  name="netIncome"
+
+                <Line
+                  type="monotone"
+                  dataKey="savings"
+                  stroke="#3B82F6"
+                  strokeWidth={3}
+                  name="savings"
                   strokeDasharray="5 5"
                   dot={{ fill: '#3B82F6', r: 4, strokeWidth: 2, stroke: '#FFFFFF' }}
                   activeDot={{ r: 6, strokeWidth: 3, stroke: '#FFFFFF', fill: '#3B82F6' }}
                 />
-                
-                <Line 
-                  type="monotone" 
-                  dataKey="okrProgress" 
-                  stroke="#8B5CF6" 
-                  strokeWidth={2.5} 
-                  name="okrProgress"
+
+                <Line
+                  type="monotone"
+                  dataKey="objectiveProgress"
+                  stroke="#8B5CF6"
+                  strokeWidth={2.5}
+                  name="objectiveProgress"
                   dot={{ fill: '#8B5CF6', r: 3.5, strokeWidth: 2, stroke: '#FFFFFF' }}
                   activeDot={{ r: 5, strokeWidth: 2, stroke: '#FFFFFF', fill: '#8B5CF6' }}
                 />
@@ -972,15 +982,15 @@ export default function DashboardPage() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
                     <div className="w-4 h-3 bg-emerald-500 rounded-full"></div>
-                    <span className="text-xs font-medium text-slate-700">Revenue Total</span>
+                    <span className="text-xs font-medium text-slate-700">Presupuesto Total</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-4 h-0.5 bg-blue-500 rounded-full" style={{borderStyle: 'dashed', borderWidth: '1px'}}></div>
-                    <span className="text-xs font-medium text-slate-700">Ingreso Neto</span>
+                    <span className="text-xs font-medium text-slate-700">Ahorros Mensuales</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-4 h-0.5 bg-purple-500 rounded-full"></div>
-                    <span className="text-xs font-medium text-slate-700">Progreso OKRs</span>
+                    <span className="text-xs font-medium text-slate-700">Progreso Objetivos</span>
                   </div>
                 </div>
               </div>
@@ -988,9 +998,9 @@ export default function DashboardPage() {
               <div>
                 <h4 className="text-sm font-bold text-slate-700 mb-3">Insights Clave</h4>
                 <div className="space-y-1">
-                  <div className="text-xs text-slate-600">• Revenue creciendo 18% mensual promedio</div>
-                  <div className="text-xs text-slate-600">• Margen neto mejorado a {Math.round((executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.netIncome / executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.revenue) * 100)}%</div>
-                  <div className="text-xs text-slate-600">• OKRs en track para Q3</div>
+                  <div className="text-xs text-slate-600">• Presupuesto optimizado 5% mensual promedio</div>
+                  <div className="text-xs text-slate-600">• Eficiencia mejorada a {Math.round((executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.savings / executiveData.monthlyTrends[executiveData.monthlyTrends.length - 1]?.budget) * 100)}%</div>
+                  <div className="text-xs text-slate-600">• Objetivos estratégicos en track para Q3</div>
                 </div>
               </div>
             </div>
@@ -1002,154 +1012,86 @@ export default function DashboardPage() {
             widgetLayout.charts.size === 'small' ? 'scale-90' : 
             widgetLayout.charts.size === 'large' ? 'scale-110' : ''
           }`}>
-            {/* Modern Portfolio Performance Panel */}
-            <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-150">
-          <div className="p-6 pb-4 border-b border-slate-200/60">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                Performance del Portafolio
-              </h3>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-xs text-slate-600 font-medium">En vivo</span>
-              </div>
-            </div>
-          </div>
-          <div className="p-6">
-            <div className="space-y-6">
-              {/* Total Portfolio Value */}
-              <div className="text-center pb-4 border-b border-slate-200/50">
-                <div className="text-3xl font-bold text-slate-900 mb-1">
-                  ${executiveData.startupBreakdown.reduce((sum, item) => sum + item.value, 0).toLocaleString()}
+            {/* Portfolio Performance Grid */}
+            <div className="lg:col-span-2">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+                    Performance Departamental
+                  </h2>
+                  <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                    Métricas clave de rendimiento por departamento
+                  </p>
                 </div>
-                <div className="text-sm text-slate-600 font-medium">Revenue Total del Portafolio</div>
-                <div className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold mt-2">
-                  <TrendingUp className="w-3 h-3" />
-                  +24% vs trimestre anterior
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-slate-600 font-medium">En vivo</span>
                 </div>
               </div>
 
-              {/* Modern Startup Cards */}
-              <div className="space-y-3">
-                {executiveData.startupBreakdown.map((startup, index) => {
-                  const totalRevenue = executiveData.startupBreakdown.reduce((sum, item) => sum + item.value, 0);
-                  const percentage = ((startup.value / totalRevenue) * 100).toFixed(1);
-                  const colorClasses = [
-                    'bg-teal-500',
-                    'bg-blue-500',
-                    'bg-indigo-500'
-                  ];
-                  
-                  return (
-                    <div 
-                      key={startup.name} 
-                      className="group relative overflow-hidden rounded-xl bg-white border border-slate-200/60 hover:border-slate-300 hover:shadow-lg transition-all duration-300"
-                    >
-                      {/* Background overlay */}
-                      <div className="absolute inset-0 bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      
-                      <div className="relative p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-3">
-                            <div className={`w-12 h-12 ${colorClasses[index]} rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300`}>
-                              <span className="text-white font-bold text-lg">
-                                {startup.name.charAt(0)}
-                              </span>
-                            </div>
-                            <div>
-                              <h4 className="font-bold text-slate-900 group-hover:text-slate-700 transition-colors">{startup.name}</h4>
-                              <div className="flex items-center gap-2">
-                                <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${
-                                  startup.stage === 'pmf' ? 'bg-teal-100 text-teal-700' :
-                                  startup.stage === 'validation' ? 'bg-blue-100 text-blue-700' :
-                                  'bg-indigo-100 text-indigo-700'
-                                }`}>
-                                  {startup.stage.toUpperCase()}
-                                </span>
-                                <span className="text-xs text-slate-500 font-medium">Etapa</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="text-right">
-                            <div className="text-xl font-bold text-slate-900">${startup.value.toLocaleString()}</div>
-                            <div className="text-xs text-slate-600 font-medium">{percentage}% del total</div>
-                          </div>
-                        </div>
+              {/* Total Company Budget Metric */}
+              <div className="mb-6">
+                <MetricsGrid
+                  metrics={[{
+                    id: 'total-company-budget',
+                    title: 'Presupuesto Total Empresa',
+                    value: `$${executiveData.departmentBreakdown.reduce((sum, item) => sum + item.budget, 0).toLocaleString()}`,
+                    change: { value: 8, type: 'positive' },
+                    icon: Briefcase,
+                    description: 'Budget allocation por departamentos',
+                    color: 'primary'
+                  }]}
+                  columns={1}
+                  gap={3}
+                />
+              </div>
 
-                        {/* Progress Bar */}
-                        <div className="space-y-2">
-                          <div className="flex justify-between items-center">
-                            <span className="text-xs font-medium text-slate-600">Contribución al portafolio</span>
-                            <span className="text-xs font-bold text-slate-800">{percentage}%</span>
-                          </div>
-                          <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-                            <div
-                              className={`h-full ${colorClasses[index]} transition-all duration-700 ease-out`}
-                              style={{ 
-                                width: `${percentage}%`,
-                                animation: `slideIn${index} 1s ease-out ${index * 0.2}s both`
-                              }}
-                            ></div>
-                          </div>
-                        </div>
+              {/* Individual Department Metrics */}
+              <MetricsGrid
+                metrics={executiveData.departmentBreakdown.map((department, index) => {
+                  const totalBudget = executiveData.departmentBreakdown.reduce((sum, item) => sum + item.budget, 0);
+                  const percentage = ((department.budget / totalBudget) * 100).toFixed(1);
+                  const colors = ['success', 'teal', 'orange', 'warning'] as const;
 
-                        {/* Performance Indicators */}
-                        <div className="flex justify-between items-center mt-3 pt-3 border-t border-slate-200/50">
-                          <div className="flex items-center gap-2">
-                            {startup.stage === 'pmf' && (
-                              <div className="flex items-center gap-1">
-                                <CheckCircle className="w-3 h-3 text-teal-600" />
-                                <span className="text-xs text-teal-700 font-semibold">Product-Market Fit</span>
-                              </div>
-                            )}
-                            {startup.stage === 'validation' && (
-                              <div className="flex items-center gap-1">
-                                <Activity className="w-3 h-3 text-blue-600" />
-                                <span className="text-xs text-blue-700 font-semibold">Validando Mercado</span>
-                              </div>
-                            )}
-                            {startup.stage === 'idea' && (
-                              <div className="flex items-center gap-1">
-                                <Clock className="w-3 h-3 text-indigo-600" />
-                                <span className="text-xs text-indigo-700 font-semibold">En Desarrollo</span>
-                              </div>
-                            )}
-                          </div>
-                          
-                          <div className="text-xs text-slate-500 font-medium">
-                            Última actualización: hace 2h
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
+                  return {
+                    id: `department-${department.name.toLowerCase().replace(/\s+/g, '-')}`,
+                    title: department.name,
+                    value: `$${department.budget.toLocaleString()}`,
+                    change: {
+                      value: index === 0 ? 15 : index === 1 ? 12 : index === 2 ? 8 : 5,
+                      type: 'positive' as const
+                    },
+                    icon: department.name === 'Engineering' ? Activity : department.name.includes('Sales') ? Target : department.name === 'Operations' ? Settings : Users,
+                    description: `${percentage}% del presupuesto • ${department.value} empleados`,
+                    color: colors[index] || 'primary'
+                  };
                 })}
-              </div>
+                columns={2}
+                gap={3}
+              />
 
-              {/* Portfolio Insights */}
-              <div className="bg-blue-50 rounded-xl p-4 border border-blue-200">
+              {/* Company Insights */}
+              <div className="mt-6 bg-blue-50 rounded-xl p-4 border border-blue-200">
                 <h4 className="font-bold text-blue-900 mb-2 flex items-center gap-2">
-                  Insights del Portafolio
+                  Insights de la Empresa
                 </h4>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm text-blue-800">
                     <Award className="w-4 h-4" />
-                    <span>FinanceAI lidera con 60% del revenue total</span>
+                    <span>Engineering representa 33% del presupuesto total</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-blue-800">
                     <TrendingUp className="w-4 h-4" />
-                    <span>EcoTech muestra crecimiento acelerado (+45% MoM)</span>
+                    <span>Departamentos optimizando gastos (+8% eficiencia)</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-blue-800">
                     <Target className="w-4 h-4" />
-                    <span>HealthTracker en fase crítica de desarrollo</span>
+                    <span>HR & Admin con mejor relación costo-beneficio</span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+
         
         {/* Performance Insights Sidebar */}
         <div className="space-y-4">
@@ -1207,156 +1149,114 @@ export default function DashboardPage() {
       {/* Status Overview */}
       {widgetLayout.status.visible && (
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 ${
-          widgetLayout.status.size === 'small' ? 'scale-90' : 
+          widgetLayout.status.size === 'small' ? 'scale-90' :
           widgetLayout.status.size === 'large' ? 'scale-110' : ''
         }`}>
-        {/* Enhanced Portfolio Status */}
-        <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-150">
-          <div className="p-6 pb-4 bg-gray-50 border-b border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                  Pipeline de Startups
-                </h3>
-                <p className="text-xs text-slate-600 mt-1 font-medium">Distribución por etapa de desarrollo</p>
-              </div>
-              <div className="bg-white/80 px-3 py-1.5 rounded-full">
-                <span className="text-xs font-bold text-slate-700">{executiveData.portfolio.totalStartups} Total</span>
-              </div>
+        {/* Distribución de Empleados */}
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+                Distribución de Empleados
+              </h2>
+              <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                Organización por departamentos
+              </p>
+            </div>
+            <div className="bg-white/80 px-3 py-1.5 rounded-full">
+              <span className="text-xs font-bold text-slate-700">{executiveData.company.totalEmployees} Total</span>
             </div>
           </div>
-          
-          <div className="p-6">
-            <div className="space-y-4">
-              {Object.entries(executiveData.portfolio.byStage).map(([stage, count]) => {
-                const stageConfig = {
-                  idea: { label: 'Idea', color: 'bg-indigo-500', bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' },
-                  validation: { label: 'Validation', color: 'bg-blue-500', bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
-                  pmf: { label: 'PMF', color: 'bg-teal-500', bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' },
-                  growth: { label: 'Growth', color: 'bg-slate-500', bg: 'bg-slate-50', text: 'text-slate-700', border: 'border-slate-200' },
-                  scale: { label: 'Scale', color: 'bg-gray-500', bg: 'bg-gray-50', text: 'text-gray-700', border: 'border-gray-200' }
-                };
-                const config = stageConfig[stage] || stageConfig.idea;
-                const percentage = executiveData.portfolio.totalStartups > 0 ? ((count / executiveData.portfolio.totalStartups) * 100).toFixed(0) : 0;
-                
-                return (
-                  <div key={stage} className={`${config.bg} rounded-xl p-4 border ${config.border} hover:shadow-md transition-all duration-300 group`}>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 ${config.color} rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform duration-300`}>
-                          <span className="text-white text-sm font-bold">{config.label.charAt(0)}</span>
-                        </div>
-                        <div>
-                          <div className="font-bold text-slate-900">{config.label}</div>
-                          <div className="text-xs text-slate-600 font-medium">Etapa {stage}</div>
-                        </div>
-                      </div>
-                      
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-slate-900">{count}</div>
-                        <div className="text-xs text-slate-600">{percentage}% del total</div>
-                      </div>
-                    </div>
-                    
-                    {/* Progress Bar */}
-                    <div className="mt-3 pt-3 border-t border-white/50">
-                      <div className="w-full bg-white/70 rounded-full h-2">
-                        <div
-                          className={`h-full ${config.color} rounded-full transition-all duration-700 ease-out`}
-                          style={{ width: `${percentage}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            
-            <div className="mt-6 pt-4 border-t border-indigo-200/50">
-              <Link href="/portfolio" className="group flex items-center justify-between p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all duration-200 hover:scale-105">
-                <span className="text-sm font-bold">Ver Dashboard Completo</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
+
+          <MetricsGrid
+            metrics={Object.entries(executiveData.company.departments).map(([dept, count]) => {
+              const deptConfig: { [key: string]: { label: string; icon: any; color: 'primary' | 'success' | 'warning' | 'danger' | 'purple' | 'teal' | 'indigo' | 'orange' } } = {
+                engineering: { label: 'Engineering', icon: Activity, color: 'primary' },
+                sales: { label: 'Sales & Marketing', icon: Target, color: 'success' },
+                marketing: { label: 'Marketing', icon: TrendingUp, color: 'teal' },
+                operations: { label: 'Operations', icon: Settings, color: 'indigo' },
+                hr: { label: 'HR & Admin', icon: Users, color: 'warning' }
+              };
+              const config = deptConfig[dept] || deptConfig.engineering;
+              const percentage = executiveData.company.totalEmployees > 0 ? ((count / executiveData.company.totalEmployees) * 100).toFixed(0) : 0;
+
+              return {
+                id: `dept-${dept}`,
+                title: config.label,
+                value: count,
+                change: { value: parseInt(percentage), type: 'neutral' as const },
+                icon: config.icon,
+                description: `${percentage}% del equipo total`,
+                color: config.color
+              };
+            })}
+            columns={2}
+            gap={3}
+          />
+
+          <div className="mt-6 pt-4 border-t border-indigo-200/50">
+            <Link href="/hr" className="group flex items-center justify-between p-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all duration-200 hover:scale-105">
+              <span className="text-sm font-bold">Gestionar RRHH</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
 
-        {/* Enhanced Team Overview */}
-        <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-150">
-          <div className="p-6 pb-4 bg-gray-50 border-b border-gray-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-2">
-                  Performance del Equipo
-                </h3>
-                <p className="text-xs text-slate-600 mt-1 font-medium">Métricas clave de productividad</p>
-              </div>
-              <div className="bg-white/80 px-3 py-1.5 rounded-full">
-                <span className="text-xs font-bold text-slate-700">{executiveData.talent.totalMembers} Miembros</span>
-              </div>
+        {/* Performance de RRHH */}
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+                Performance de RRHH
+              </h2>
+              <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                Métricas clave de gestión de personas
+              </p>
+            </div>
+            <div className="bg-white/80 px-3 py-1.5 rounded-full">
+              <span className="text-xs font-bold text-slate-700">{executiveData.hr.totalEmployees} Empleados</span>
             </div>
           </div>
-          
-          <div className="p-6">
-            <div className="space-y-4">
-              {/* Availability */}
-              <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-200/50">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-emerald-600" />
-                    <span className="font-semibold text-emerald-900">Disponibilidad</span>
-                  </div>
-                  <span className="text-2xl font-bold text-emerald-900">{executiveData.talent.avgAvailability}%</span>
-                </div>
-                <div className="w-full bg-white/70 rounded-full h-2">
-                  <div
-                    className="h-full bg-emerald-500 rounded-full transition-all duration-700 ease-out"
-                    style={{ width: `${executiveData.talent.avgAvailability}%` }}
-                  ></div>
-                </div>
-                <div className="text-xs text-emerald-700 mt-2">Promedio semanal del equipo</div>
-              </div>
 
-              {/* Performance */}
-              <div className="bg-blue-50 rounded-xl p-4 border border-blue-200/50">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <Award className="w-5 h-5 text-blue-600" />
-                    <span className="font-semibold text-blue-900">Performance</span>
-                  </div>
-                  <span className="text-2xl font-bold text-blue-900">{executiveData.talent.avgPerformance}%</span>
-                </div>
-                <div className="w-full bg-white/70 rounded-full h-2">
-                  <div
-                    className="h-full bg-blue-500 rounded-full transition-all duration-700 ease-out"
-                    style={{ width: `${executiveData.talent.avgPerformance}%` }}
-                  ></div>
-                </div>
-                <div className="text-xs text-blue-700 mt-2">Evaluación mensual promedio</div>
-              </div>
+          <MetricsGrid
+            metrics={[
+              {
+                id: 'employee-satisfaction',
+                title: 'Satisfacción',
+                value: `${executiveData.hr.avgSatisfaction}%`,
+                change: { value: 7, type: 'positive' },
+                icon: CheckCircle,
+                description: 'Encuesta mensual promedio',
+                color: 'success'
+              },
+              {
+                id: 'employee-performance',
+                title: 'Performance',
+                value: `${executiveData.hr.avgPerformance}%`,
+                change: { value: 3, type: 'positive' },
+                icon: Award,
+                description: 'Evaluación trimestral promedio',
+                color: 'indigo'
+              },
+              {
+                id: 'pending-onboarding',
+                title: 'Onboarding Pendiente',
+                value: executiveData.hr.pendingOnboarding,
+                change: { value: -15, type: 'negative' },
+                icon: AlertTriangle,
+                description: 'Nuevos empleados en proceso',
+                color: 'warning'
+              }
+            ]}
+            columns={3}
+            gap={3}
+          />
 
-              {/* High Workload Alert */}
-              <div className="bg-amber-50 rounded-xl p-4 border border-amber-200/50">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <AlertTriangle className="w-5 h-5 text-amber-600" />
-                    <span className="font-semibold text-amber-900">Carga Alta</span>
-                  </div>
-                  <span className="text-2xl font-bold text-amber-900">{executiveData.talent.highWorkload}</span>
-                </div>
-                <div className="text-xs text-amber-700">Miembros con sobrecarga de trabajo</div>
-                <div className="mt-2">
-                  <span className="text-xs bg-amber-200 text-amber-800 px-2 py-1 rounded-full font-semibold">Atención requerida</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-6 pt-4 border-t border-emerald-200/50">
-              <Link href="/talent" className="group flex items-center justify-between p-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all duration-200 hover:scale-105">
-                <span className="text-sm font-bold">Gestionar Equipo</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
+          <div className="mt-6 pt-4 border-t border-emerald-200/50">
+            <Link href="/hr" className="group flex items-center justify-between p-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-all duration-200 hover:scale-105">
+              <span className="text-sm font-bold">Gestionar RRHH</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
         </div>
@@ -1364,97 +1264,144 @@ export default function DashboardPage() {
 
       {/* Alerts and Activities */}
       {widgetLayout.alerts.visible && (
-        <div className={`bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 ${
-          widgetLayout.alerts.size === 'small' ? 'scale-90' : 
+        <div className={`mb-8 ${
+          widgetLayout.alerts.size === 'small' ? 'scale-90' :
           widgetLayout.alerts.size === 'large' ? 'scale-110' : ''
         }`}>
-        <div className="p-6 pb-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
-              🔔 Alertas y Actividad Reciente
-            </h3>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+                Alertas y Actividad Reciente
+              </h2>
+              <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+                Notificaciones importantes del venture studio
+              </p>
+            </div>
             <span className="text-sm font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
               {filteredAlerts.length} alertas activas
             </span>
           </div>
-        </div>
-        <div className="p-6">
-          <div className="space-y-4">
-            {filteredAlerts.length === 0 ? (
-              <div className="text-center py-8">
-                <Bell className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">No hay alertas para los módulos seleccionados</p>
-                <p className="text-sm text-gray-400 mt-2">
-                  Ajusta los filtros para ver más alertas
-                </p>
-              </div>
-            ) : (
-              filteredAlerts.map((alert) => (
-              <div key={alert.id} className={`p-4 rounded-2xl border ${getAlertColor(alert.type)} hover:shadow-md transition-all duration-200`}>
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white bg-opacity-50 flex items-center justify-center">
-                    {getAlertIcon(alert.type)}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-bold tracking-tight">{alert.title}</h4>
-                      <span className="text-xs opacity-75 font-medium bg-white bg-opacity-30 px-2 py-1 rounded-full">{alert.timestamp}</span>
-                    </div>
-                    <p className="text-sm mt-1 opacity-90 font-medium">{alert.message}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <span className="text-xs bg-white bg-opacity-70 px-3 py-1 rounded-full font-bold capitalize border border-white border-opacity-30">
-                        {alert.module === 'finance' ? 'Finanzas' : alert.module === 'okrs' ? 'OKRs' : alert.module === 'talent' ? 'Talento' : alert.module === 'portfolio' ? 'Portafolio' : alert.module}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              ))
-            )}
-          </div>
-        </div>
+
+          {filteredAlerts.length === 0 ? (
+            <div className="text-center py-8">
+              <Bell className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-500">No hay alertas para los módulos seleccionados</p>
+              <p className="text-sm text-gray-400 mt-2">
+                Ajusta los filtros para ver más alertas
+              </p>
+            </div>
+          ) : (
+            <MetricsGrid
+              metrics={filteredAlerts.map((alert) => ({
+                id: `alert-${alert.id}`,
+                title: alert.title,
+                value: alert.module === 'finance' ? 'Finanzas' : alert.module === 'objectives' ? 'Objetivos' : alert.module === 'hr' ? 'RRHH' : alert.module === 'operations' ? 'Operaciones' : alert.module,
+                icon: alert.type === 'critical' ? XCircle : alert.type === 'warning' ? AlertTriangle : alert.type === 'success' ? CheckCircle : Bell,
+                description: `${alert.message} • ${alert.timestamp}`,
+                color: alert.type === 'critical' ? 'danger' : alert.type === 'warning' ? 'warning' : alert.type === 'success' ? 'success' : 'primary'
+              }))}
+              columns={2}
+              gap={3}
+            />
+          )}
         </div>
       )}
 
-      {/* Portfolio Kanban Board */}
-      <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 mb-8">
-        <div className="p-6 pb-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
-              📊 Vista Rápida del Portafolio
-            </h3>
-            <Link href="/portfolio" className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1">
-              <span>Ver portafolio completo</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+      {/* Vista Rápida de Proyectos */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+              Vista Rápida de Proyectos
+            </h2>
+            <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+              Resumen ejecutivo de proyectos empresariales activos
+            </p>
           </div>
+          <Link href="/projects" className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 font-medium">
+            <span>Ver proyectos completos</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
-        <div className="p-6">
-          <KanbanBoard 
-            startups={executiveData.startups}
-            onStageChange={handleStageChange}
-          />
+
+        {/* Projects Summary Metrics */}
+        <MetricsGrid
+          metrics={[
+            {
+              id: 'project-digital-transformation',
+              title: 'Transformación Digital',
+              value: '$125,000',
+              change: { value: 15, type: 'positive' },
+              icon: Activity,
+              description: 'EN PROGRESO • 8 miembros',
+              color: 'success'
+            },
+            {
+              id: 'project-crm-implementation',
+              title: 'Implementación CRM',
+              value: '$85,000',
+              change: { value: 22, type: 'positive' },
+              icon: Target,
+              description: 'PLANIFICACIÓN • 5 miembros',
+              color: 'primary'
+            },
+            {
+              id: 'project-automation',
+              title: 'Automatización de Procesos',
+              value: '$65,000',
+              change: { value: 8, type: 'positive' },
+              icon: Settings,
+              description: 'INICIANDO • 4 miembros',
+              color: 'teal'
+            }
+          ]}
+          columns={3}
+          gap={3}
+        />
+
+        {/* Project Status Distribution Mini Cards */}
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="bg-green-100 text-green-800 rounded-lg p-3 text-center">
+            <div className="text-lg mb-1">✅</div>
+            <div className="text-lg font-bold">2</div>
+            <div className="text-xs font-medium">Completados</div>
+          </div>
+          <div className="bg-blue-100 text-blue-800 rounded-lg p-3 text-center">
+            <div className="text-lg mb-1">🚧</div>
+            <div className="text-lg font-bold">3</div>
+            <div className="text-xs font-medium">En Progreso</div>
+          </div>
+          <div className="bg-yellow-100 text-yellow-800 rounded-lg p-3 text-center">
+            <div className="text-lg mb-1">📅</div>
+            <div className="text-lg font-bold">2</div>
+            <div className="text-xs font-medium">Planificados</div>
+          </div>
+          <div className="bg-purple-100 text-purple-800 rounded-lg p-3 text-center">
+            <div className="text-lg mb-1">💡</div>
+            <div className="text-lg font-bold">4</div>
+            <div className="text-xs font-medium">Ideas</div>
+          </div>
         </div>
       </div>
 
       {/* Quick Actions */}
       <div className="mt-8 text-center">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
-          <Link href="/portfolio" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
+          <Link href="/projects" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
             <Briefcase className="h-4 w-4" />
-            Gestionar Portafolio
+            Gestionar Proyectos
           </Link>
           <Link href="/finance" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
             <DollarSign className="h-4 w-4" />
             Ver Finanzas
           </Link>
-          <Link href="/okrs" className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
+          <Link href="/objectives" className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
             <Target className="h-4 w-4" />
-            Revisar OKRs
+            Revisar Objetivos
           </Link>
-          <Link href="/talent" className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
+          <Link href="/hr" className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-lg transition-all duration-150 font-medium text-sm">
             <Users className="h-4 w-4" />
-            Gestionar Equipo
+            Gestionar RRHH
           </Link>
         </div>
       </div>
