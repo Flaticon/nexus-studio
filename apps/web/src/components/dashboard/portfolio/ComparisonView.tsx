@@ -61,9 +61,9 @@ export const ComparisonView: FC<ComparisonViewProps> = ({
         {/* Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
           {startups.map((startup, index) => (
-            <div 
+            <div
               key={startup._id}
-              className="border rounded-lg p-3 sm:p-4">
+              className="border rounded-lg p-3 sm:p-4"
               style={{ borderColor: colors[index] }}
             >
               <div className="flex items-center gap-3 mb-2">

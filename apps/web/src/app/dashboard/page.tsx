@@ -1,7 +1,8 @@
 // apps/web/src/app/dashboard/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { dashboardService, type ExecutiveSummary } from '../../services/dashboard.service';
 import { 
   Briefcase, 
   DollarSign, 
@@ -52,6 +53,69 @@ export default function DashboardPage() {
     status: { visible: true, size: 'normal' },
     alerts: { visible: true, size: 'normal' }
   });
+
+  // API data state
+  const [executiveSummary, setExecutiveSummary] = useState<ExecutiveSummary | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Load dashboard data
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const filters = {
+          timeRange: dateRange,
+          modules: selectedModules
+        };
+
+        const summary = await dashboardService.getExecutiveSummary(filters);
+        setExecutiveSummary(summary);
+      } catch (err) {
+        console.error('Error loading dashboard data:', err);
+        setError('Failed to load dashboard data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboardData();
+  }, [dateRange, selectedModules]);
+
+  // Handle refresh
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await dashboardService.calculateMetrics();
+      // Reload data after calculation
+      const summary = await dashboardService.getExecutiveSummary({
+        timeRange: dateRange,
+        modules: selectedModules
+      });
+      setExecutiveSummary(summary);
+    } catch (err) {
+      console.error('Error refreshing data:', err);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  // Handle alert dismissal
+  const handleDismissAlert = async (alertId: string) => {
+    try {
+      await dashboardService.dismissAlert(alertId);
+      // Reload data to update alerts
+      const summary = await dashboardService.getExecutiveSummary({
+        timeRange: dateRange,
+        modules: selectedModules
+      });
+      setExecutiveSummary(summary);
+    } catch (err) {
+      console.error('Error dismissing alert:', err);
+    }
+  };
 
   // Filter data based on dateRange
   const getFilteredData = (data, range) => {
