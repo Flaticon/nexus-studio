@@ -34,10 +34,10 @@ export default function PortfolioPage() {
   const [viewMode, setViewMode] = useState("grid");
   const [showFilters, setShowFilters] = useState(false);
   const [compareMode, setCompareMode] = useState(false);
-  const [selectedStartups, setSelectedStartups] = useState([]);
+  const [selectedProyectos, setSelectedProyectos] = useState([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingStartup, setEditingStartup] = useState(null);
+  const [editingEmpresa, setEditingEmpresa] = useState(null);
   
   // Filter states
   const [filters, setFilters] = useState({
@@ -47,7 +47,7 @@ export default function PortfolioPage() {
   });
 
   // Mock data for demonstration
-  const initialStartups = [
+  const initialProyectos = [
     {
       _id: "1",
       name: "EcoTech Solutions",
@@ -110,15 +110,15 @@ export default function PortfolioPage() {
     },
   ];
 
-  const [startups, setStartups] = useState(initialStartups);
+  const [proyectos, setProyectos] = useState(initialProyectos);
   
   // Filter function
-  const filteredStartups = startups.filter((startup) => {
-    const matchesStage = !filters.stage || startup.stage === filters.stage;
-    const matchesStatus = !filters.status || startup.status === filters.status;
+  const filteredProyectos = proyectos.filter((proyecto) => {
+    const matchesStage = !filters.stage || proyecto.stage === filters.stage;
+    const matchesStatus = !filters.status || proyecto.status === filters.status;
     const matchesSearch = !filters.search || 
-      startup.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-      startup.squad.lead.name.toLowerCase().includes(filters.search.toLowerCase());
+      proyecto.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+      proyecto.squad.lead.name.toLowerCase().includes(filters.search.toLowerCase());
     
     return matchesStage && matchesStatus && matchesSearch;
   });
@@ -131,8 +131,8 @@ export default function PortfolioPage() {
     setFilters({ stage: '', status: '', search: '' });
   };
 
-  const handleCreateStartup = (projectData) => {
-    const newStartup = {
+  const handleCreateEmpresa = (projectData) => {
+    const newEmpresa = {
       _id: projectData.id,
       name: projectData.name,
       stage: projectData.stage,
@@ -149,35 +149,35 @@ export default function PortfolioPage() {
       kpis: projectData.kpis,
     };
 
-    setStartups((prev) => [...prev, newStartup]);
+    setProyectos((prev) => [...prev, newEmpresa]);
     setIsCreateModalOpen(false);
   };
 
-  const handleEditStartup = (startupData) => {
-    setStartups((prev) =>
-      prev.map((startup) =>
-        startup._id === startupData._id ? startupData : startup,
+  const handleEditEmpresa = (proyectoData) => {
+    setProyectos((prev) =>
+      prev.map((proyecto) =>
+        proyecto._id === proyectoData._id ? proyectoData : proyecto,
       ),
     );
     setIsEditModalOpen(false);
-    setEditingStartup(null);
+    setEditingEmpresa(null);
   };
 
-  const openEditModal = (startup) => {
-    setEditingStartup(startup);
+  const openEditModal = (proyecto) => {
+    setEditingEmpresa(proyecto);
     setIsEditModalOpen(true);
   };
 
   const stats = {
-    total: filteredStartups.length,
+    total: filteredProyectos.length,
     byStatus: {
-      active: filteredStartups.filter((s) => s.status === "active").length,
-      paused: filteredStartups.filter((s) => s.status === "paused").length,
+      active: filteredProyectos.filter((s) => s.status === "active").length,
+      paused: filteredProyectos.filter((s) => s.status === "paused").length,
     },
   };
 
-  const getStartupsByStage = (stage) => {
-    return filteredStartups.filter((s) => s.stage === stage);
+  const getProyectosByStage = (stage) => {
+    return filteredProyectos.filter((s) => s.stage === stage);
   };
 
   const stages = ["idea", "validation", "pmf", "growth", "scale"];
@@ -215,8 +215,8 @@ export default function PortfolioPage() {
   // Portfolio overview metrics
   const portfolioMetrics: Metric[] = [
     {
-      id: 'total-startups',
-      title: 'Total Startups',
+      id: 'total-proyectos',
+      title: 'Total Proyectos',
       value: stats.total,
       change: { value: 25, type: 'positive' },
       icon: Building2,
@@ -224,8 +224,8 @@ export default function PortfolioPage() {
       color: 'teal'
     },
     {
-      id: 'active-startups',
-      title: 'Startups Activas',
+      id: 'active-proyectos',
+      title: 'Proyectos Activas',
       value: stats.byStatus.active,
       change: { value: 15, type: 'positive' },
       icon: CheckCircle,
@@ -244,7 +244,7 @@ export default function PortfolioPage() {
     {
       id: 'team-members',
       title: 'Miembros Activos',
-      value: filteredStartups.reduce((sum, s) => sum + s.squad.members.length + 1, 0),
+      value: filteredProyectos.reduce((sum, s) => sum + s.squad.members.length + 1, 0),
       change: { value: 12, type: 'positive' },
       icon: Users,
       description: 'En todos los equipos',
@@ -252,29 +252,29 @@ export default function PortfolioPage() {
     }
   ];
 
-  // Individual startup metrics
-  const startupMetrics: Metric[] = filteredStartups.map((startup, index) => {
+  // Individual proyecto metrics
+  const proyectoMetrics: Metric[] = filteredProyectos.map((proyecto, index) => {
     const colors = ['teal', 'indigo', 'orange', 'success', 'warning', 'danger'] as const;
-    const mainKpi = startup.kpis[0];
+    const mainKpi = proyecto.kpis[0];
     const progress = mainKpi ? Math.round((mainKpi.current / mainKpi.target) * 100) : 0;
 
     return {
-      id: `startup-${startup._id}`,
-      title: startup.name,
+      id: `proyecto-${proyecto._id}`,
+      title: proyecto.name,
       value: mainKpi ? `${mainKpi.current.toLocaleString()} ${mainKpi.unit}` : 'Sin KPIs',
       change: {
         value: progress > 75 ? 15 : progress > 50 ? 8 : -5,
         type: progress > 75 ? 'positive' : progress > 50 ? 'neutral' : 'negative'
       },
-      icon: startup.stage === 'pmf' ? Award : startup.stage === 'validation' ? Activity : Clock,
-      description: `${startup.stage.toUpperCase()} • ${startup.squad.members.length + 1} miembros • ${mainKpi?.name || 'KPI principal'}`,
+      icon: proyecto.stage === 'pmf' ? Award : proyecto.stage === 'validation' ? Activity : Clock,
+      description: `${proyecto.stage.toUpperCase()} • ${proyecto.squad.members.length + 1} miembros • ${mainKpi?.name || 'KPI principal'}`,
       color: colors[index % colors.length]
     };
   });
 
   return (
     <Layout
-      title="🚀 Portafolio de Startups"
+      title="🚀 Gestión de Proyectos"
       subtitle="Gestión de iniciativas, etapas, equipos y KPIs"
     >
       <div className="p-3 sm:p-6 min-h-screen" style={{ background: 'var(--background)' }}>
@@ -286,7 +286,7 @@ export default function PortfolioPage() {
                 Resumen del Portafolio
               </h2>
               <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
-                Métricas clave de todas las startups
+                Métricas clave de todas las proyectos
               </p>
             </div>
           </div>
@@ -325,7 +325,7 @@ export default function PortfolioPage() {
               >
                 <Plus className="w-4 h-4" />
                 <span className="hidden xs:inline">Nueva</span>
-                <span className="hidden sm:inline">Startup</span>
+                <span className="hidden sm:inline">Empresa</span>
               </button>
             </div>
           </div>
@@ -360,7 +360,7 @@ export default function PortfolioPage() {
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input
                     type="text"
-                    placeholder="Buscar startups y equipos..."
+                    placeholder="Buscar proyectos y equipos..."
                     value={filters.search}
                     onChange={(e) => handleFilterChange('search', e.target.value)}
                     className="w-full pl-12 pr-4 py-3 text-sm font-bold tracking-tight border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white shadow-md hover:shadow-lg transition-all duration-200"
@@ -476,7 +476,7 @@ export default function PortfolioPage() {
             
             <div className="mt-4 pt-4 border-t border-gray-200">
               <p className="text-sm text-gray-600">
-                Mostrando {filteredStartups.length} de {startups.length} startups
+                Mostrando {filteredProyectos.length} de {proyectos.length} proyectos
               </p>
             </div>
           </div>
@@ -489,7 +489,7 @@ export default function PortfolioPage() {
             <div className="hidden lg:block overflow-x-auto pb-4">
               <div className="flex gap-6" style={{ minWidth: '100%' }}>
                 {stages.map((stage) => {
-                  const stageStartups = getStartupsByStage(stage);
+                  const stageProyectos = getProyectosByStage(stage);
                   return (
                     <div
                       key={stage}
@@ -500,13 +500,13 @@ export default function PortfolioPage() {
                           {stageLabels[stage as keyof typeof stageLabels]}
                         </h3>
                         <span className="bg-white px-3 py-1.5 rounded-full text-sm font-bold shadow-sm">
-                          {stageStartups.length}
+                          {stageProyectos.length}
                         </span>
                       </div>
                       <div className="space-y-3">
-                        {stageStartups.map((startup) => (
+                        {stageProyectos.map((proyecto) => (
                           <div
-                            key={startup._id}
+                            key={proyecto._id}
                             className="bg-white p-5 rounded-2xl border border-gray-200/60 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 group backdrop-blur-sm"
                           >
                             {/* Header Section */}
@@ -514,22 +514,22 @@ export default function PortfolioPage() {
                               <div className="flex items-center gap-3 flex-1">
                                 <div className="w-11 h-11 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
                                   <span className="text-base font-bold text-white tracking-tight">
-                                    {startup.name.charAt(0)}
+                                    {proyecto.name.charAt(0)}
                                   </span>
                                 </div>
                                 <div className="flex-1 min-w-0">
                                   <h4 className="text-lg font-bold text-gray-900 tracking-tight leading-tight">
-                                    {startup.name}
+                                    {proyecto.name}
                                   </h4>
                                   <p className="text-sm text-gray-600 mt-1 font-medium">
-                                    {startup.squad.lead.name} • {startup.squad.members.length + 1} miembros
+                                    {proyecto.squad.lead.name} • {proyecto.squad.members.length + 1} miembros
                                   </p>
                                 </div>
                               </div>
                               <button
-                                onClick={() => openEditModal(startup)}
+                                onClick={() => openEditModal(proyecto)}
                                 className="opacity-0 group-hover:opacity-100 transition-all duration-200 p-2 hover:bg-blue-50 rounded-xl"
-                                title="Editar startup"
+                                title="Editar proyecto"
                               >
                                 <Edit className="w-4 h-4 text-blue-600" />
                               </button>
@@ -538,25 +538,25 @@ export default function PortfolioPage() {
                             {/* Stage Badge */}
                             <div className="mb-5">
                               <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${
-                                stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                                stageBadgeColors[proyecto.stage as keyof typeof stageBadgeColors]
                               }`}>
-                                {stageLabels[startup.stage as keyof typeof stageLabels]}
+                                {stageLabels[proyecto.stage as keyof typeof stageLabels]}
                               </span>
                             </div>
                             
                             {/* Resources */}
                             <div className="flex flex-wrap gap-2 mb-5">
-                              {startup.resources.deck && (
+                              {proyecto.resources.deck && (
                                 <span className="text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full border border-blue-200 font-semibold">
                                   📋 Deck
                                 </span>
                               )}
-                              {startup.resources.demo && (
+                              {proyecto.resources.demo && (
                                 <span className="text-xs bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200 font-semibold">
                                   🎯 Demo
                                 </span>
                               )}
-                              {startup.resources.repository && (
+                              {proyecto.resources.repository && (
                                 <span className="text-xs bg-purple-50 text-purple-700 px-3 py-1.5 rounded-full border border-purple-200 font-semibold">
                                   💻 Repo
                                 </span>
@@ -564,7 +564,7 @@ export default function PortfolioPage() {
                             </div>
                             {/* KPIs - Modern */}
                             <div className="space-y-4 pt-4 border-t border-gray-100">
-                              {startup.kpis.slice(0, 2).map((kpi, idx) => (
+                              {proyecto.kpis.slice(0, 2).map((kpi, idx) => (
                                 <div key={idx} className="space-y-2">
                                   <div className="flex items-center justify-between">
                                     <span className="text-sm font-semibold text-gray-700">
@@ -605,7 +605,7 @@ export default function PortfolioPage() {
             {/* Mobile: Stacked columns */}
             <div className="lg:hidden space-y-6">
               {stages.map((stage) => {
-                const stageStartups = getStartupsByStage(stage);
+                const stageProyectos = getProyectosByStage(stage);
                 return (
                   <div
                     key={stage}
@@ -616,15 +616,15 @@ export default function PortfolioPage() {
                         {stageLabels[stage as keyof typeof stageLabels]}
                       </h3>
                       <span className="bg-white px-3 py-1.5 rounded-full text-sm font-bold shadow-sm">
-                        {stageStartups.length}
+                        {stageProyectos.length}
                       </span>
                     </div>
 
                     {/* Mobile Cards */}
                     <div className="space-y-3">
-                      {stageStartups.map((startup) => (
+                      {stageProyectos.map((proyecto) => (
                         <div
-                          key={startup._id}
+                          key={proyecto._id}
                           className="bg-white p-4 rounded-2xl border border-gray-200/60 hover:border-blue-200 shadow-sm hover:shadow-lg transition-all duration-300 group backdrop-blur-sm"
                         >
                           {/* Mobile Card Header */}
@@ -632,22 +632,22 @@ export default function PortfolioPage() {
                             <div className="flex items-center gap-2 flex-1">
                               <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-md">
                                 <span className="text-sm font-bold text-white tracking-tight">
-                                  {startup.name.charAt(0)}
+                                  {proyecto.name.charAt(0)}
                                 </span>
                               </div>
                               <div className="flex-1">
                                 <h4 className="text-base font-bold text-gray-900 truncate tracking-tight">
-                                  {startup.name}
+                                  {proyecto.name}
                                 </h4>
                                 <div className="text-sm text-gray-600 mt-0.5 font-medium">
-                                  {startup.squad.lead.name} • {startup.squad.members.length + 1} miembros
+                                  {proyecto.squad.lead.name} • {proyecto.squad.members.length + 1} miembros
                                 </div>
                               </div>
                             </div>
                             <button
-                              onClick={() => openEditModal(startup)}
+                              onClick={() => openEditModal(proyecto)}
                               className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-blue-50 rounded-xl transition-all duration-200"
-                              title="Editar startup"
+                              title="Editar proyecto"
                             >
                               <Edit className="w-4 h-4 text-blue-600" />
                             </button>
@@ -656,25 +656,25 @@ export default function PortfolioPage() {
                           {/* Mobile Stage Badge */}
                           <div className="mb-4">
                             <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${
-                              stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                              stageBadgeColors[proyecto.stage as keyof typeof stageBadgeColors]
                             }`}>
-                              {stageLabels[startup.stage as keyof typeof stageLabels]}
+                              {stageLabels[proyecto.stage as keyof typeof stageLabels]}
                             </span>
                           </div>
 
                           {/* Mobile Resources */}
                           <div className="flex flex-wrap gap-2 mb-4">
-                            {startup.resources.deck && (
+                            {proyecto.resources.deck && (
                               <span className="text-xs bg-blue-50 text-blue-700 px-2.5 py-1.5 rounded-full border border-blue-200 font-semibold">
                                 📋 Deck
                               </span>
                             )}
-                            {startup.resources.demo && (
+                            {proyecto.resources.demo && (
                               <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1.5 rounded-full border border-emerald-200 font-semibold">
                                 🎯 Demo
                               </span>
                             )}
-                            {startup.resources.repository && (
+                            {proyecto.resources.repository && (
                               <span className="text-xs bg-purple-50 text-purple-700 px-2.5 py-1.5 rounded-full border border-purple-200 font-semibold">
                                 💻 Repo
                               </span>
@@ -683,7 +683,7 @@ export default function PortfolioPage() {
 
                           {/* Mobile KPIs - Modern */}
                           <div className="pt-3 border-t border-gray-100">
-                            {startup.kpis.slice(0, 1).map((kpi, idx) => (
+                            {proyecto.kpis.slice(0, 1).map((kpi, idx) => (
                               <div key={idx} className="space-y-2">
                                 <div className="flex items-center justify-between">
                                   <span className="text-sm font-semibold text-gray-700">
@@ -720,36 +720,36 @@ export default function PortfolioPage() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
-                  Startups Individuales
+                  Proyectos Individuales
                 </h2>
                 <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
-                  Performance y KPIs de cada startup
+                  Performance y KPIs de cada proyecto
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-600 font-medium">
-                  {filteredStartups.length} startups
+                  {filteredProyectos.length} proyectos
                 </span>
               </div>
             </div>
 
             <MetricsGrid
-              metrics={startupMetrics}
+              metrics={proyectoMetrics}
               columns={3}
               gap={3}
             />
 
             {/* Additional Details Section */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredStartups.map((startup) => (
+              {filteredProyectos.map((proyecto) => (
                 <div
-                  key={startup._id}
+                  key={proyecto._id}
                   className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-lg transition-all duration-200"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-bold text-gray-900">{startup.name}</h4>
+                    <h4 className="font-bold text-gray-900">{proyecto.name}</h4>
                     <button
-                      onClick={() => openEditModal(startup)}
+                      onClick={() => openEditModal(proyecto)}
                       className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-blue-600"
                     >
                       <Edit className="w-4 h-4" />
@@ -758,28 +758,28 @@ export default function PortfolioPage() {
 
                   <div className="mb-3">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                      stageBadgeColors[proyecto.stage as keyof typeof stageBadgeColors]
                     }`}>
-                      {stageLabels[startup.stage as keyof typeof stageLabels]}
+                      {stageLabels[proyecto.stage as keyof typeof stageLabels]}
                     </span>
                   </div>
 
                   <div className="text-sm text-gray-600 mb-3">
-                    <strong>{startup.squad.lead.name}</strong> • {startup.squad.members.length + 1} miembros
+                    <strong>{proyecto.squad.lead.name}</strong> • {proyecto.squad.members.length + 1} miembros
                   </div>
 
                   <div className="flex flex-wrap gap-1 mb-3">
-                    {startup.resources.deck && (
+                    {proyecto.resources.deck && (
                       <span className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">
                         📋 Deck
                       </span>
                     )}
-                    {startup.resources.demo && (
+                    {proyecto.resources.demo && (
                       <span className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded font-medium">
                         🎯 Demo
                       </span>
                     )}
-                    {startup.resources.repository && (
+                    {proyecto.resources.repository && (
                       <span className="text-xs bg-purple-50 text-purple-700 px-2 py-1 rounded font-medium">
                         💻 Repo
                       </span>
@@ -787,7 +787,7 @@ export default function PortfolioPage() {
                   </div>
 
                   <div className="text-xs text-gray-500">
-                    {startup.kpis.length} KPIs configurados
+                    {proyecto.kpis.length} KPIs configurados
                   </div>
                 </div>
               ))}
@@ -803,7 +803,7 @@ export default function PortfolioPage() {
                 <thead className="bg-gray-50/50">
                   <tr>
                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
-                      Startup
+                      Empresa
                     </th>
                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                       Etapa
@@ -826,22 +826,22 @@ export default function PortfolioPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-100">
-                  {filteredStartups.map((startup) => (
-                    <tr key={startup._id} className="hover:bg-blue-50/30 transition-colors duration-200">
+                  {filteredProyectos.map((proyecto) => (
+                    <tr key={proyecto._id} className="hover:bg-blue-50/30 transition-colors duration-200">
                       <td className="px-6 py-5 whitespace-nowrap">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center shadow-sm">
                             <span className="text-xs font-bold text-white tracking-tight">
-                              {startup.name.charAt(0)}
+                              {proyecto.name.charAt(0)}
                             </span>
                           </div>
                           <div>
                             <div className="text-sm font-bold text-gray-900 tracking-tight">
-                              {startup.name}
+                              {proyecto.name}
                             </div>
-                            {startup.description && (
+                            {proyecto.description && (
                               <div className="text-sm text-gray-600 max-w-xs truncate font-medium">
-                                {startup.description}
+                                {proyecto.description}
                               </div>
                             )}
                           </div>
@@ -850,34 +850,34 @@ export default function PortfolioPage() {
                       <td className="px-6 py-5 whitespace-nowrap">
                         <span
                           className={`inline-flex px-3 py-1.5 text-xs font-bold rounded-full border ${
-                            stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                            stageBadgeColors[proyecto.stage as keyof typeof stageBadgeColors]
                           }`}
                         >
-                          {stageLabels[startup.stage as keyof typeof stageLabels]}
+                          {stageLabels[proyecto.stage as keyof typeof stageLabels]}
                         </span>
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap">
                         <span
                           className={`inline-flex px-3 py-1.5 text-xs font-bold rounded-full border ${
-                            startup.status === "active"
+                            proyecto.status === "active"
                               ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                               : "bg-gray-50 text-gray-700 border-gray-200"
                           }`}
                         >
-                          {startup.status === "active" ? "Activa" : "Pausada"}
+                          {proyecto.status === "active" ? "Activa" : "Pausada"}
                         </span>
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap">
                         <div className="text-sm font-bold text-gray-900">
-                          {startup.squad.lead.name}
+                          {proyecto.squad.lead.name}
                         </div>
                         <div className="text-sm text-gray-600 font-medium">
-                          {startup.squad.members.length + 1} miembros
+                          {proyecto.squad.members.length + 1} miembros
                         </div>
                       </td>
                       <td className="px-6 py-5">
                         <div className="space-y-2">
-                          {startup.kpis.slice(0, 2).map((kpi, idx) => (
+                          {proyecto.kpis.slice(0, 2).map((kpi, idx) => (
                             <div key={idx} className="text-sm">
                               <div className="font-semibold text-gray-700">
                                 {kpi.name}
@@ -899,17 +899,17 @@ export default function PortfolioPage() {
                       </td>
                       <td className="px-6 py-5">
                         <div className="flex flex-wrap gap-1.5">
-                          {startup.resources.deck && (
+                          {proyecto.resources.deck && (
                             <span className="text-xs bg-blue-50 text-blue-700 px-2.5 py-1.5 rounded-full border border-blue-200 font-semibold">
                               📋 Deck
                             </span>
                           )}
-                          {startup.resources.demo && (
+                          {proyecto.resources.demo && (
                             <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1.5 rounded-full border border-emerald-200 font-semibold">
                               🎯 Demo
                             </span>
                           )}
-                          {startup.resources.repository && (
+                          {proyecto.resources.repository && (
                             <span className="text-xs bg-purple-50 text-purple-700 px-2.5 py-1.5 rounded-full border border-purple-200 font-semibold">
                               💻 Repo
                             </span>
@@ -918,9 +918,9 @@ export default function PortfolioPage() {
                       </td>
                       <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
                         <button
-                          onClick={() => openEditModal(startup)}
+                          onClick={() => openEditModal(proyecto)}
                           className="text-blue-600 hover:text-blue-800 p-2 hover:bg-blue-50 rounded-xl transition-all duration-200"
-                          title="Editar startup"
+                          title="Editar proyecto"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
@@ -937,12 +937,12 @@ export default function PortfolioPage() {
         {viewMode === "timeline" && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200/60 backdrop-blur-sm p-8">
             <div className="space-y-8">
-              {filteredStartups.map((startup, index) => (
-                <div key={startup._id} className="relative">
+              {filteredProyectos.map((proyecto, index) => (
+                <div key={proyecto._id} className="relative">
                   <div className="flex items-start space-x-5">
                     <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-md">
                       <span className="text-base font-bold text-white tracking-tight">
-                        {startup.name.charAt(0)}
+                        {proyecto.name.charAt(0)}
                       </span>
                     </div>
 
@@ -950,43 +950,43 @@ export default function PortfolioPage() {
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                           <h3 className="text-xl font-bold text-gray-900 mb-2 tracking-tight leading-tight">
-                            {startup.name}
+                            {proyecto.name}
                           </h3>
 
                           <div className="flex items-center gap-3 mb-4">
                             <span
                               className={`inline-flex px-3 py-1.5 text-xs font-bold rounded-full border ${
-                                stageBadgeColors[startup.stage as keyof typeof stageBadgeColors]
+                                stageBadgeColors[proyecto.stage as keyof typeof stageBadgeColors]
                               }`}
                             >
-                              {stageLabels[startup.stage as keyof typeof stageLabels]}
+                              {stageLabels[proyecto.stage as keyof typeof stageLabels]}
                             </span>
                             <span className="text-sm text-gray-600 font-medium">
-                              Lead: {startup.squad.lead.name}
+                              Lead: {proyecto.squad.lead.name}
                             </span>
                             <span className="text-sm text-gray-600 font-medium">
-                              {startup.squad.members.length + 1} miembros
+                              {proyecto.squad.members.length + 1} miembros
                             </span>
                           </div>
 
-                          {startup.description && (
+                          {proyecto.description && (
                             <p className="text-sm text-gray-600 mb-5 leading-relaxed font-medium">
-                              {startup.description}
+                              {proyecto.description}
                             </p>
                           )}
 
                           <div className="flex flex-wrap gap-2 mb-5">
-                            {startup.resources.deck && (
+                            {proyecto.resources.deck && (
                               <span className="text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full border border-blue-200 font-semibold">
                                 📋 Deck
                               </span>
                             )}
-                            {startup.resources.demo && (
+                            {proyecto.resources.demo && (
                               <span className="text-xs bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200 font-semibold">
                                 🎯 Demo
                               </span>
                             )}
-                            {startup.resources.repository && (
+                            {proyecto.resources.repository && (
                               <span className="text-xs bg-purple-50 text-purple-700 px-3 py-1.5 rounded-full border border-purple-200 font-semibold">
                                 💻 Repo
                               </span>
@@ -994,7 +994,7 @@ export default function PortfolioPage() {
                           </div>
 
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            {startup.kpis.map((kpi, idx) => (
+                            {proyecto.kpis.map((kpi, idx) => (
                               <div key={idx} className="bg-white p-4 rounded-2xl border border-gray-200/60 shadow-sm">
                                 <div className="flex justify-between items-center mb-3">
                                   <span className="text-sm font-semibold text-gray-700">
@@ -1024,9 +1024,9 @@ export default function PortfolioPage() {
                         </div>
 
                         <button
-                          onClick={() => openEditModal(startup)}
+                          onClick={() => openEditModal(proyecto)}
                           className="p-2 hover:bg-blue-50 rounded-2xl transition-all duration-200"
-                          title="Editar startup"
+                          title="Editar proyecto"
                         >
                           <Edit className="w-5 h-5 text-blue-600" />
                         </button>
@@ -1035,7 +1035,7 @@ export default function PortfolioPage() {
                   </div>
 
                   {/* Timeline line */}
-                  {index !== filteredStartups.length - 1 && (
+                  {index !== filteredProyectos.length - 1 && (
                     <div className="absolute left-6 top-14 w-px h-8 bg-gradient-to-b from-blue-300 to-purple-300"></div>
                   )}
                 </div>
@@ -1048,7 +1048,7 @@ export default function PortfolioPage() {
         <CreateProjectModal
           isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
-          onSubmit={handleCreateStartup}
+          onSubmit={handleCreateEmpresa}
         />
 
         {/* Edit Project Modal */}
@@ -1056,10 +1056,10 @@ export default function PortfolioPage() {
           isOpen={isEditModalOpen}
           onClose={() => {
             setIsEditModalOpen(false);
-            setEditingStartup(null);
+            setEditingEmpresa(null);
           }}
-          onSubmit={handleEditStartup}
-          startup={editingStartup}
+          onSubmit={handleEditEmpresa}
+          proyecto={editingEmpresa}
         />
       </div>
     </Layout>

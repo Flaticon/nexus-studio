@@ -1,15 +1,15 @@
 // apps/web/src/components/portfolio/KanbanColumn.tsx
 import { FC, ReactNode } from 'react';
 import { useDroppable } from '@dnd-kit/core';
-import { StartupStage } from '@/types/portfolio';
+import { ProyectoStage } from '@/types/portfolio';
 
 interface KanbanColumnProps {
-  stage: StartupStage;
+  stage: ProyectoStage;
   count: number;
   children: ReactNode;
 }
 
-const stageConfig: Record<StartupStage, { 
+const stageConfig: Record<ProyectoStage, { 
   bg: string; 
   border: string; 
   text: string; 
@@ -17,7 +17,7 @@ const stageConfig: Record<StartupStage, {
   emoji: string;
   accent: string;
 }> = {
-  [StartupStage.IDEA]: { 
+  [ProyectoStage.IDEA]: { 
     bg: 'bg-gradient-to-br from-indigo-50 to-purple-50', 
     border: 'border-indigo-200', 
     text: 'text-indigo-900',
@@ -25,7 +25,7 @@ const stageConfig: Record<StartupStage, {
     emoji: '💡',
     accent: 'bg-indigo-100 text-indigo-700'
   },
-  [StartupStage.VALIDATION]: { 
+  [ProyectoStage.VALIDATION]: { 
     bg: 'bg-gradient-to-br from-amber-50 to-orange-50', 
     border: 'border-amber-200', 
     text: 'text-amber-900',
@@ -33,7 +33,7 @@ const stageConfig: Record<StartupStage, {
     emoji: '🔬',
     accent: 'bg-amber-100 text-amber-700'
   },
-  [StartupStage.PMF]: { 
+  [ProyectoStage.PMF]: { 
     bg: 'bg-gradient-to-br from-emerald-50 to-green-50', 
     border: 'border-emerald-200', 
     text: 'text-emerald-900',
@@ -41,7 +41,7 @@ const stageConfig: Record<StartupStage, {
     emoji: '🎯',
     accent: 'bg-emerald-100 text-emerald-700'
   },
-  [StartupStage.GROWTH]: { 
+  [ProyectoStage.GROWTH]: { 
     bg: 'bg-gradient-to-br from-blue-50 to-cyan-50', 
     border: 'border-blue-200', 
     text: 'text-blue-900',
@@ -49,7 +49,7 @@ const stageConfig: Record<StartupStage, {
     emoji: '📈',
     accent: 'bg-blue-100 text-blue-700'
   },
-  [StartupStage.SCALE]: { 
+  [ProyectoStage.SCALE]: { 
     bg: 'bg-gradient-to-br from-purple-50 to-pink-50', 
     border: 'border-purple-200', 
     text: 'text-purple-900',
@@ -92,7 +92,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
                 {config.label}
               </h3>
               <p className="text-xs text-gray-500 font-medium">
-                {count} {count === 1 ? 'startup' : 'startups'}
+                {count} {count === 1 ? 'proyecto' : 'proyectos'}
               </p>
             </div>
           </div>

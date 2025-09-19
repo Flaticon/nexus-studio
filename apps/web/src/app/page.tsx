@@ -41,8 +41,8 @@ export default function Home() {
     {
       href: '/portfolio',
       icon: Briefcase,
-      title: 'Portfolio Startups',
-      description: 'Gestión completa de startups: pipeline, due diligence, seguimiento e inversiones',
+      title: 'Gestión de Proyectos',
+      description: 'Gestión completa de proyectos: planificación, seguimiento, equipos y objetivos',
       color: 'from-blue-500 to-blue-700',
       bgColor: 'bg-blue-50',
       textColor: 'text-blue-700',
@@ -209,7 +209,7 @@ export default function Home() {
             
             {/* Startup Pitch Style */}
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 text-sm font-semibold mb-6 animate-pulse">
-              🚀 El futuro de los Venture Studios está aquí
+              🚀 El futuro de la gestión empresarial está aquí
             </div>
             
             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-gray-900 mb-6 tracking-tight leading-tight">
@@ -223,24 +223,24 @@ export default function Home() {
             </p>
             
             <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-8 max-w-4xl mx-auto">
-              <span className="text-blue-600">Escalar</span> tu venture studio como nunca antes
+              <span className="text-blue-600">Gestionar</span> tu empresa como nunca antes
             </p>
             
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12 px-4">
               ¿Cansado de usar 20 herramientas diferentes? Nosotros también. Por eso creamos la solución 
-              <span className="font-semibold text-gray-800"> todo-en-uno</span> que los venture studios exitosos estaban esperando.
+              <span className="font-semibold text-gray-800"> todo-en-uno</span> que las empresas exitosas estaban esperando.
             </p>
             
             {/* Social Proof */}
             <div className="flex items-center justify-center gap-6 mb-12">
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">500+</div>
-                <div className="text-sm text-gray-600">Startups</div>
+                <div className="text-sm text-gray-600">Proyectos</div>
               </div>
               <div className="w-px h-8 bg-gray-300"></div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-600">50+</div>
-                <div className="text-sm text-gray-600">Studios</div>
+                <div className="text-sm text-gray-600">Empresas</div>
               </div>
               <div className="w-px h-8 bg-gray-300"></div>
               <div className="text-center">
@@ -254,7 +254,7 @@ export default function Home() {
                 onClick={() => setIsRegisterModalOpen(true)}
                 className="px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105"
               >
-                🚀 Lanza tu Studio
+                🚀 Gestiona tu Empresa
               </button>
               <button
                 onClick={() => router.push('/dashboard')}

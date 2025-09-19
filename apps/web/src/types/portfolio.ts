@@ -1,5 +1,5 @@
 // apps/web/src/types/portfolio.ts
-export interface Startup {
+export interface Proyecto {
   _id: string;
   name: string;
   slug: string;
@@ -7,8 +7,8 @@ export interface Startup {
   logo?: string;
   website?: string;
   industry?: string;
-  stage: StartupStage;
-  status: StartupStatus;
+  stage: ProyectoStage;
+  status: ProyectoStatus;
   squad: {
     lead: TeamMember;
     members: TeamMember[];
@@ -36,7 +36,7 @@ export interface Startup {
   updatedAt: Date;
 }
 
-export enum StartupStage {
+export enum ProyectoStage {
   IDEA = 'idea',
   VALIDATION = 'validation',
   PMF = 'pmf',
@@ -44,7 +44,7 @@ export enum StartupStage {
   SCALE = 'scale'
 }
 
-export enum StartupStatus {
+export enum ProyectoStatus {
   ACTIVE = 'active',
   PAUSED = 'paused',
   ARCHIVED = 'archived'
@@ -105,9 +105,9 @@ export interface Milestone {
 }
 
 export interface PipelineStage {
-  stage: StartupStage;
+  stage: ProyectoStage;
   count: number;
-  startups: Array<{
+  proyectos: Array<{
     id: string;
     name: string;
     slug: string;

@@ -4,24 +4,24 @@
 import { FC } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Startup } from '@/types/portfolio';
+import { Proyecto } from '@/types/portfolio';
 import { DollarSign, Users, TrendingUp, Calendar, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { CircularProgress } from '../../ui/CircularProgress';
 
 interface KanbanCardProps {
-  startup: Startup;
+  proyecto: Proyecto;
   isDragging: boolean;
 }
 
-export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
+export const KanbanCard: FC<KanbanCardProps> = ({ proyecto, isDragging }) => {
   const {
     attributes,
     listeners,
     setNodeRef,
     transform,
     transition
-  } = useSortable({ id: startup._id });
+  } = useSortable({ id: proyecto._id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -29,8 +29,8 @@ export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
     opacity: isDragging ? 0.5 : 1
   };
 
-  const revenue = startup.metrics.find(m => m.name === 'Revenue')?.value || 0;
-  const primaryKPI = startup.kpis[0];
+  const revenue = proyecto.metrics.find(m => m.name === 'Revenue')?.value || 0;
+  const primaryKPI = proyecto.kpis[0];
   const progressPercentage = primaryKPI ? (primaryKPI.current / primaryKPI.target) * 100 : 0;
 
   const getKPIColor = (percentage: number) => {
@@ -52,39 +52,39 @@ export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
       <div className="p-4 pb-3">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3 flex-1">
-            {startup.logo ? (
+            {proyecto.logo ? (
               <img 
-                src={startup.logo} 
-                alt={startup.name}
+                src={proyecto.logo} 
+                alt={proyecto.name}
                 className="w-10 h-10 rounded-lg object-cover"
               />
             ) : (
               <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
                 <span className="text-sm font-medium text-gray-600">
-                  {startup.name.charAt(0)}
+                  {proyecto.name.charAt(0)}
                 </span>
               </div>
             )}
             
             <div className="flex-1 min-w-0">
               <Link 
-                href={`/portfolio/${startup._id}`}
+                href={`/portfolio/${proyecto._id}`}
                 className="group/link flex items-center gap-1 font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-150"
                 onClick={(e) => e.stopPropagation()}
               >
-                <span className="truncate text-base leading-tight">{startup.name}</span>
+                <span className="truncate text-base leading-tight">{proyecto.name}</span>
                 <ExternalLink className="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity duration-150" />
               </Link>
               <p className="text-sm text-gray-500 mt-0.5">
-                {startup.squad.lead.name} • {startup.squad.members.length + 1} miembros
+                {proyecto.squad.lead.name} • {proyecto.squad.members.length + 1} miembros
               </p>
             </div>
           </div>
         </div>
 
-        {startup.description && (
+        {proyecto.description && (
           <p className="text-sm text-gray-600 leading-relaxed mb-4 line-clamp-2">
-            {startup.description}
+            {proyecto.description}
           </p>
         )}
       </div>
@@ -110,7 +110,7 @@ export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
               <span className="text-sm font-medium">Team</span>
             </div>
             <span className="text-sm font-semibold text-gray-900">
-              {startup.squad.members.length + 1}
+              {proyecto.squad.members.length + 1}
             </span>
           </div>
 
@@ -137,10 +137,10 @@ export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
         </div>
 
         {/* Tags */}
-        {startup.tags.length > 0 && (
+        {proyecto.tags.length > 0 && (
           <div className="pt-3 border-t border-gray-100">
             <div className="flex flex-wrap gap-1.5">
-              {startup.tags.slice(0, 3).map(tag => (
+              {proyecto.tags.slice(0, 3).map(tag => (
                 <span
                   key={tag}
                   className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded"
@@ -148,9 +148,9 @@ export const KanbanCard: FC<KanbanCardProps> = ({ startup, isDragging }) => {
                   {tag}
                 </span>
               ))}
-              {startup.tags.length > 3 && (
+              {proyecto.tags.length > 3 && (
                 <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-500 rounded">
-                  +{startup.tags.length - 3}
+                  +{proyecto.tags.length - 3}
                 </span>
               )}
             </div>

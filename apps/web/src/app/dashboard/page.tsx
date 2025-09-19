@@ -37,7 +37,7 @@ import Link from 'next/link';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import Layout from '../../components/layout/Layout';
 import { KanbanBoard } from '../../components/dashboard/portfolio/KanbanBoard';
-import { StartupStage, StartupStatus } from '@/types/portfolio';
+import { ProyectoStage, ProyectoStatus } from '@/types/portfolio';
 import { MetricsGrid, Metric } from '@/components/ui/MetricsGrid';
 
 export default function DashboardPage() {
@@ -265,15 +265,15 @@ export default function DashboardPage() {
       }
     ],
     
-    // Mock startups data for KanbanBoard
-    startups: [
+    // Mock proyectos data for KanbanBoard
+    proyectos: [
       {
         _id: '1',
         name: 'EcoTech Solutions',
         slug: 'ecotech-solutions',
         description: 'Plataforma de gestión ambiental para empresas',
-        stage: StartupStage.VALIDATION,
-        status: StartupStatus.ACTIVE,
+        stage: ProyectoStage.VALIDATION,
+        status: ProyectoStatus.ACTIVE,
         squad: {
           lead: { name: 'Ana García', role: 'Product Lead' },
           members: [
@@ -306,8 +306,8 @@ export default function DashboardPage() {
         name: 'FinanceAI',
         slug: 'finance-ai',
         description: 'Inteligencia artificial para gestión financiera',
-        stage: StartupStage.PMF,
-        status: StartupStatus.ACTIVE,
+        stage: ProyectoStage.PMF,
+        status: ProyectoStatus.ACTIVE,
         squad: {
           lead: { name: 'Roberto Silva', role: 'Tech Lead' },
           members: [
@@ -340,8 +340,8 @@ export default function DashboardPage() {
         name: 'HealthTracker',
         slug: 'health-tracker',
         description: 'App móvil para seguimiento de salud personal',
-        stage: StartupStage.IDEA,
-        status: StartupStatus.ACTIVE,
+        stage: ProyectoStage.IDEA,
+        status: ProyectoStatus.ACTIVE,
         squad: {
           lead: { name: 'Sofia Ramírez', role: 'Product Manager' },
           members: [
@@ -447,11 +447,6 @@ export default function DashboardPage() {
     viewMode !== 'standard';
 
   // Filter and view functions
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    // Simulate API call
-    setTimeout(() => setRefreshing(false), 2000);
-  };
 
   const toggleModule = (module) => {
     setSelectedModules(prev => 
@@ -476,9 +471,9 @@ export default function DashboardPage() {
   };
 
 
-  const handleStageChange = (startupId: string, newStage: StartupStage) => {
+  const handleStageChange = (proyectoId: string, newStage: ProyectoStage) => {
     // This would typically update the backend
-    console.log(`Moving startup ${startupId} to ${newStage}`);
+    console.log(`Moving project ${proyectoId} to ${newStage}`);
   };
 
   // Filter alerts by selected modules
