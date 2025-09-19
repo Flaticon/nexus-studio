@@ -65,6 +65,7 @@ import CreateTeamMemberModal from "../../components/forms/CreateTeamMemberModal"
 import MemberProfileModal from "../../components/forms/MemberProfileModal";
 import AssignMemberModal from "../../components/forms/AssignMemberModal";
 import Layout from "../../components/layout/Layout";
+import { ModernMetricCard } from "../../components/ui/ModernMetricCard";
 
 export default function TalentPage() {
   const [selectedTeam, setSelectedTeam] = useState("all");
@@ -87,7 +88,7 @@ export default function TalentPage() {
       avatar: "/api/placeholder/64/64",
       email: "ana@nexusstudio.com",
       location: "Madrid, España",
-      currentStartups: ["EcoTech Solutions"],
+      currentStartups: ["EcoTech Carbon Platform"],
       skills: [
         { name: "Product Management", level: 95, category: "product" },
         { name: "UX/UI Design", level: 88, category: "design" },
@@ -116,7 +117,7 @@ export default function TalentPage() {
       avatar: "/api/placeholder/64/64",
       email: "carlos@nexusstudio.com",
       location: "Barcelona, España",
-      currentStartups: ["EcoTech Solutions", "FinanceAI"],
+      currentStartups: ["EcoTech Carbon Platform", "FinanceAI Analytics"],
       skills: [
         { name: "React/Next.js", level: 92, category: "tech" },
         { name: "Node.js", level: 88, category: "tech" },
@@ -146,7 +147,7 @@ export default function TalentPage() {
       avatar: "/api/placeholder/64/64",
       email: "maria@nexusstudio.com",
       location: "Valencia, España",
-      currentStartups: ["EcoTech Solutions"],
+      currentStartups: ["EcoTech Carbon Platform"],
       skills: [
         { name: "UI Design", level: 94, category: "design" },
         { name: "UX Research", level: 87, category: "design" },
@@ -176,7 +177,7 @@ export default function TalentPage() {
       avatar: "/api/placeholder/64/64",
       email: "roberto@nexusstudio.com",
       location: "Lisboa, Portugal",
-      currentStartups: ["FinanceAI"],
+      currentStartups: ["FinanceAI Analytics"],
       skills: [
         { name: "System Architecture", level: 96, category: "tech" },
         { name: "AI/ML", level: 91, category: "tech" },
@@ -206,7 +207,7 @@ export default function TalentPage() {
       avatar: "/api/placeholder/64/64",
       email: "sofia@nexusstudio.com",
       location: "México DF, México",
-      currentStartups: ["HealthTracker"],
+      currentStartups: ["HealthTracker IoT"],
       skills: [
         { name: "Product Strategy", level: 90, category: "product" },
         { name: "Data Analysis", level: 85, category: "analytics" },
@@ -236,7 +237,7 @@ export default function TalentPage() {
       avatar: "/api/placeholder/64/64",
       email: "david@nexusstudio.com",
       location: "Remote",
-      currentStartups: ["FinanceAI"],
+      currentStartups: ["FinanceAI Analytics"],
       skills: [
         { name: "Go", level: 89, category: "tech" },
         { name: "Microservices", level: 91, category: "tech" },
@@ -266,7 +267,7 @@ export default function TalentPage() {
       avatar: "/api/placeholder/64/64",
       email: "laura@nexusstudio.com",
       location: "Berlin, Germany",
-      currentStartups: ["FinanceAI"],
+      currentStartups: ["FinanceAI Analytics"],
       skills: [
         { name: "Machine Learning", level: 93, category: "tech" },
         { name: "Python", level: 91, category: "tech" },
@@ -296,7 +297,7 @@ export default function TalentPage() {
       avatar: "/api/placeholder/64/64",
       email: "miguel@nexusstudio.com",
       location: "Buenos Aires, Argentina",
-      currentStartups: ["HealthTracker"],
+      currentStartups: ["HealthTracker IoT"],
       skills: [
         { name: "React Native", level: 88, category: "tech" },
         { name: "Swift", level: 82, category: "tech" },
@@ -325,7 +326,7 @@ export default function TalentPage() {
   const initiatives = [
     {
       id: "ecotech",
-      name: "EcoTech Solutions",
+      name: "EcoTech Carbon Platform",
       stage: "validation",
       requiredSkills: [
         { name: "Product Management", priority: "high", currentCoverage: 95 },
@@ -343,7 +344,7 @@ export default function TalentPage() {
     },
     {
       id: "financeai",
-      name: "FinanceAI",
+      name: "FinanceAI Analytics",
       stage: "pmf",
       requiredSkills: [
         { name: "AI/ML", priority: "high", currentCoverage: 91 },
@@ -357,7 +358,7 @@ export default function TalentPage() {
     },
     {
       id: "healthtracker",
-      name: "HealthTracker",
+      name: "HealthTracker IoT",
       stage: "idea",
       requiredSkills: [
         { name: "Product Strategy", priority: "high", currentCoverage: 90 },
@@ -619,92 +620,47 @@ export default function TalentPage() {
 
         {/* Key Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                👥 Colaboradores Activos
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <Users className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-              {teamMembers.length}
-            </p>
-            <div className="flex items-center">
-              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100">
-                <span className="text-sm font-medium text-blue-700">En el venture studio</span>
-              </div>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Colaboradores Activos"
+            value={teamMembers.length}
+            icon={<Users className="w-6 h-6" />}
+            color="blue"
+            trend="up"
+            change={8.3}
+            changeType="positive"
+            subtitle="En el venture studio"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                🟢 Disponibilidad Promedio
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <Activity className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-              {Math.round(
-                teamMembers.reduce((sum, m) => sum + m.availability, 0) /
-                  teamMembers.length,
-              )}%
-            </p>
-            <div className="flex items-center">
-              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mr-2">
-                <TrendingUp className="w-3 h-3 text-green-600" />
-              </div>
-              <span className="text-sm font-medium text-green-600">
-                Capacidad disponible
-              </span>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Disponibilidad Promedio"
+            value={`${Math.round(teamMembers.reduce((sum, m) => sum + m.availability, 0) / teamMembers.length)}%`}
+            icon={<Activity className="w-6 h-6" />}
+            color="green"
+            trend="up"
+            change={5.2}
+            changeType="positive"
+            subtitle="Capacidad disponible"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                ⭐ Performance Promedio
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <Star className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-              {Math.round(
-                teamMembers.reduce((sum, m) => sum + m.performance, 0) /
-                  teamMembers.length,
-              )}%
-            </p>
-            <div className="flex items-center">
-              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100">
-                <span className="text-sm font-medium text-orange-700">Excelencia del equipo</span>
-              </div>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Performance Promedio"
+            value={`${Math.round(teamMembers.reduce((sum, m) => sum + m.performance, 0) / teamMembers.length)}%`}
+            icon={<Star className="w-6 h-6" />}
+            color="orange"
+            trend="up"
+            change={2.8}
+            changeType="positive"
+            subtitle="Excelencia del equipo"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                🔄 Listos para Rotación
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <Shuffle className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-              {teamMembers.filter((m) => m.rotationReadiness === "high").length}
-            </p>
-            <div className="flex items-center">
-              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-purple-100 to-indigo-100">
-                <span className="text-sm font-medium text-purple-700">
-                  Movilidad interna
-                </span>
-              </div>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Listos para Rotación"
+            value={teamMembers.filter((m) => m.rotationReadiness === "high").length}
+            icon={<Shuffle className="w-6 h-6" />}
+            color="purple"
+            trend="stable"
+            subtitle="Movilidad interna"
+          />
         </div>
 
         {/* Skill Matching Section */}

@@ -46,6 +46,7 @@ import {
 } from 'lucide-react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 import Layout from '../../components/layout/Layout';
+import { ModernMetricCard } from '../../components/ui/ModernMetricCard';
 
 export default function LearningsPage() {
   const [selectedFilter, setSelectedFilter] = useState('all');
@@ -84,9 +85,9 @@ export default function LearningsPage() {
   const learningsData = [
     {
       id: 1,
-      title: 'Q3 2024 Product Retrospective - EcoTech Solutions',
+      title: 'Q3 2024 Product Retrospective - EcoTech Carbon Platform',
       type: 'producto',
-      startup: 'EcoTech Solutions',
+      startup: 'EcoTech Carbon Platform',
       date: '2024-09-15',
       author: 'Ana García',
       participants: ['Ana García', 'Carlos López', 'María Rodríguez'],
@@ -143,9 +144,9 @@ export default function LearningsPage() {
     },
     {
       id: 2,
-      title: 'Team Dynamics & Remote Work Learnings - FinanceAI',
+      title: 'Team Dynamics & Remote Work Learnings - FinanceAI Analytics',
       type: 'equipo',
-      startup: 'FinanceAI',
+      startup: 'FinanceAI Analytics',
       date: '2024-09-01',
       author: 'Roberto Silva',
       participants: ['Roberto Silva', 'David Chen', 'Laura Martín', 'Sofia Ramírez'],
@@ -199,9 +200,9 @@ export default function LearningsPage() {
     },
     {
       id: 3,
-      title: 'Go-to-Market Strategy Pivot - HealthTracker',
+      title: 'Go-to-Market Strategy Pivot - HealthTracker IoT',
       type: 'negocio',
-      startup: 'HealthTracker',
+      startup: 'HealthTracker IoT',
       date: '2024-08-20',
       author: 'Sofia Ramírez',
       participants: ['Sofia Ramírez', 'Miguel Torres', 'Ana García'],
@@ -759,76 +760,49 @@ export default function LearningsPage() {
 
         {/* Key Metrics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 sm:gap-6 mb-8">
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                📚 Total Aprendizajes
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <BookOpen className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">{analyticsData.totalLearnings}</p>
-            <div className="flex items-center">
-              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100">
-                <span className="text-sm font-medium text-blue-700">Últimos 3 meses</span>
-              </div>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Total Aprendizajes"
+            value={analyticsData.totalLearnings}
+            icon={<BookOpen className="w-6 h-6" />}
+            color="blue"
+            trend="up"
+            change={25.0}
+            changeType="positive"
+            subtitle="Últimos 3 meses"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                ✅ Tasa Implementación
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <CheckCircle className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">{analyticsData.implementationRate}%</p>
-            <div className="flex items-center">
-              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mr-2">
-                <TrendingUp className="w-3 h-3 text-green-600" />
-              </div>
-              <span className="text-sm font-medium text-green-600">
-                Acciones completadas
-              </span>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Tasa Implementación"
+            value={`${analyticsData.implementationRate}%`}
+            icon={<CheckCircle className="w-6 h-6" />}
+            color="green"
+            trend="up"
+            change={12.5}
+            changeType="positive"
+            subtitle="Acciones completadas"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                ⭐ Satisfacción Promedio
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <Star className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">{analyticsData.avgSatisfaction}/5.0</p>
-            <div className="flex items-center">
-              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-purple-100 to-violet-100">
-                <span className="text-sm font-medium text-purple-700">Rating de sesiones</span>
-              </div>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Satisfacción Promedio"
+            value={`${analyticsData.avgSatisfaction}/5.0`}
+            icon={<Star className="w-6 h-6" />}
+            color="purple"
+            trend="up"
+            change={8.3}
+            changeType="positive"
+            subtitle="Rating de sesiones"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                ⚡ Score de Impacto
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">{analyticsData.impactScore}/100</p>
-            <div className="flex items-center">
-              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-orange-100 to-amber-100">
-                <span className="text-sm font-medium text-orange-700">Impacto medido</span>
-              </div>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Score de Impacto"
+            value={`${analyticsData.impactScore}/100`}
+            icon={<Zap className="w-6 h-6" />}
+            color="orange"
+            trend="up"
+            change={15.7}
+            changeType="positive"
+            subtitle="Impacto medido"
+          />
 
           <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
             <div className="flex items-center justify-between mb-3">
@@ -951,237 +925,272 @@ export default function LearningsPage() {
 
         {/* Content based on view mode */}
         {viewMode === 'timeline' && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {filteredLearnings.map((learning, index) => (
-              <div key={learning.id} className="relative flex items-start gap-6">
-                {/* Timeline line */}
-                {index < filteredLearnings.length - 1 && (
-                  <div className="absolute left-6 top-12 w-0.5 h-full bg-gray-200" />
-                )}
-                
-                {/* Timeline dot */}
-                <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${getTypeColor(learning.type)}`}>
-                  {learning.type === 'producto' && <Target className="w-5 h-5" />}
-                  {learning.type === 'equipo' && <Users className="w-5 h-5" />}
-                  {learning.type === 'negocio' && <TrendingUp className="w-5 h-5" />}
-                  {learning.type === 'general' && <Lightbulb className="w-5 h-5" />}
-                </div>
+              <div key={learning.id} className="relative">
+                {/* Mobile-first responsive layout */}
+                <div className="sm:flex sm:items-start sm:gap-6">
+                  {/* Timeline elements - hidden on mobile, visible on sm+ */}
+                  <div className="hidden sm:block relative">
+                    {/* Timeline line */}
+                    {index < filteredLearnings.length - 1 && (
+                      <div className="absolute left-6 top-12 w-0.5 h-full bg-gray-200 z-0" />
+                    )}
 
-                {/* Content */}
-                <div className="flex-1 bg-white rounded-lg shadow-sm border border-gray-100 hover:border-gray-200 transition-colors duration-200 p-6">
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      {editingInTimeline === learning.id ? (
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-3 mb-2">
-                            <input
-                              type="text"
-                              value={inlineFormData.title}
-                              onChange={(e) => handleInlineFormChange('title', e.target.value)}
-                              className="flex-1 text-lg font-semibold bg-white border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20"
-                              placeholder="Título"
-                            />
-                            <span className={`px-2 py-1 text-xs rounded-full border ${getTypeColor(learning.type)}`}>
-                              {learning.type}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-4 text-sm">
-                            <div className="flex items-center gap-2">
-                              <Users className="w-4 h-4 text-gray-500" />
-                              <input
-                                type="text"
-                                value={inlineFormData.author}
-                                onChange={(e) => handleInlineFormChange('author', e.target.value)}
-                                className="bg-white border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-400"
-                                placeholder="Autor"
-                              />
-                            </div>
-                            <span className="flex items-center gap-1 text-gray-600">
-                              <Calendar className="w-4 h-4" />
-                              {new Date(learning.date).toLocaleDateString()}
-                            </span>
-                            {learning.startup && (
-                              <span className="flex items-center gap-1 text-gray-600">
-                                <Building className="w-4 h-4" />
-                                {learning.startup}
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <label className="text-sm text-gray-600">Tags:</label>
-                            <input
-                              type="text"
-                              value={inlineFormData.tags}
-                              onChange={(e) => handleInlineFormChange('tags', e.target.value)}
-                              className="flex-1 bg-white border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-400"
-                              placeholder="Separar con comas"
-                            />
-                          </div>
-                        </div>
-                      ) : (
-                        <div>
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-lg font-semibold text-gray-900">{learning.title}</h3>
-                            <span className={`px-2 py-1 text-xs rounded-full border ${getTypeColor(learning.type)}`}>
-                              {learning.type}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-4 text-sm text-gray-600">
-                            <span className="flex items-center gap-1">
-                              <Users className="w-4 h-4" />
-                              {learning.author}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Calendar className="w-4 h-4" />
-                              {new Date(learning.date).toLocaleDateString()}
-                            </span>
-                            {learning.startup && (
-                              <span className="flex items-center gap-1">
-                                <Building className="w-4 h-4" />
-                                {learning.startup}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      {editingInTimeline === learning.id ? (
-                        <div className="flex items-center gap-2">
-                          <select
-                            value={inlineFormData.priority}
-                            onChange={(e) => handleInlineFormChange('priority', e.target.value)}
-                            className="px-2 py-1 text-xs bg-white border border-gray-200 rounded focus:outline-none focus:border-blue-400"
-                          >
-                            <option value="high">Alta</option>
-                            <option value="medium">Media</option>
-                            <option value="low">Baja</option>
-                          </select>
-                          <button 
-                            onClick={() => handleInlineSave(learning.id)}
-                            className="px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700 flex items-center gap-1 transition-all duration-200"
-                          >
-                            <CheckCircle className="w-3 h-3" />
-                            Guardar
-                          </button>
-                          <button 
-                            onClick={handleInlineCancel}
-                            className="px-3 py-1 bg-gray-500 text-white text-xs rounded-lg hover:bg-gray-600 flex items-center gap-1 transition-all duration-200"
-                          >
-                            <X className="w-3 h-3" />
-                            Cancelar
-                          </button>
-                        </div>
-                      ) : (
-                        <>
-                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityColor(learning.priority)}`}>
-                            {learning.priority}
-                          </span>
-                          <button
-                            onClick={() => handleViewDetails(learning.id)}
-                            className="p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200"
-                            title="Ver memo en vivo"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
-                          <button 
-                            onClick={() => handleInlineEdit(learning.id)}
-                            className="p-2 hover:bg-yellow-50 hover:text-yellow-600 rounded-lg transition-all duration-200"
-                            title="Edición rápida"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button 
-                            onClick={() => handleEditLearning(learning.id)}
-                            className="p-2 hover:bg-green-50 hover:text-green-600 rounded-lg transition-all duration-200"
-                            title="Editar completo"
-                          >
-                            <Settings className="w-4 h-4" />
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteLearning(learning.id)}
-                            className="p-2 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all duration-200"
-                            title="Eliminar"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </>
-                      )}
+                    {/* Timeline dot */}
+                    <div className={`relative z-10 flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${getTypeColor(learning.type)}`}>
+                      {learning.type === 'producto' && <Target className="w-5 h-5" />}
+                      {learning.type === 'equipo' && <Users className="w-5 h-5" />}
+                      {learning.type === 'negocio' && <TrendingUp className="w-5 h-5" />}
+                      {learning.type === 'general' && <Lightbulb className="w-5 h-5" />}
                     </div>
                   </div>
 
-                  {/* Tags */}
-                  {editingInTimeline !== learning.id && (
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {learning.tags.map((tag, idx) => (
-                        <span key={idx} className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full">
-                          {tag}
-                        </span>
-                      ))}
+                  {/* Content - full width on mobile, flex-1 on sm+ */}
+                  <div className="w-full sm:flex-1 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-gray-200 transition-colors duration-200 p-4 sm:p-6">
+                    {/* Mobile timeline indicator */}
+                    <div className="flex items-center gap-3 mb-3 sm:hidden">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${getTypeColor(learning.type)}`}>
+                        {learning.type === 'producto' && <Target className="w-4 h-4" />}
+                        {learning.type === 'equipo' && <Users className="w-4 h-4" />}
+                        {learning.type === 'negocio' && <TrendingUp className="w-4 h-4" />}
+                        {learning.type === 'general' && <Lightbulb className="w-4 h-4" />}
+                      </div>
+                      <span className={`px-2 py-1 text-xs rounded-full border ${getTypeColor(learning.type)}`}>
+                        {learning.type}
+                      </span>
                     </div>
-                  )}
 
-                  {/* Key Learnings */}
-                  {editingInTimeline !== learning.id && (
-                    <div className="mb-4">
-                      <h4 className="text-sm font-medium text-gray-900 mb-3">Key Learnings:</h4>
-                      <div className="space-y-3">
-                        {learning.keyLearnings.map((kl, idx) => (
-                          <div key={idx} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                            <div className={`w-2 h-2 rounded-full mt-2 ${getImpactColor(kl.impact).replace('text-', 'bg-')}`} />
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className={`px-2 py-1 text-xs rounded-full ${getTypeColor(kl.category)}`}>
-                                  {kl.category}
-                                </span>
-                                <span className={`px-2 py-1 text-xs rounded-full ${getImpactColor(kl.impact)}`}>
-                                  {kl.impact} impact
-                                </span>
+                    {/* Header - responsive layout */}
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4 mb-4">
+                      <div className="flex-1 min-w-0">
+                        {editingInTimeline === learning.id ? (
+                          <div className="space-y-3">
+                            {/* Title input - full width on mobile */}
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                              <input
+                                type="text"
+                                value={inlineFormData.title}
+                                onChange={(e) => handleInlineFormChange('title', e.target.value)}
+                                className="w-full text-base sm:text-lg font-semibold bg-white border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20"
+                                placeholder="Título"
+                              />
+                              <span className={`hidden sm:inline-block px-2 py-1 text-xs rounded-full border ${getTypeColor(learning.type)}`}>
+                                {learning.type}
+                              </span>
+                            </div>
+
+                            {/* Author and meta info - stacked on mobile */}
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
+                              <div className="flex items-center gap-2">
+                                <Users className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                                <input
+                                  type="text"
+                                  value={inlineFormData.author}
+                                  onChange={(e) => handleInlineFormChange('author', e.target.value)}
+                                  className="flex-1 sm:flex-none bg-white border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-400"
+                                  placeholder="Autor"
+                                />
                               </div>
-                              <p className="text-sm text-gray-900 font-medium mb-1">{kl.insight}</p>
-                              <p className="text-sm text-gray-600 mb-1"><strong>Acción:</strong> {kl.actionTaken}</p>
-                              {kl.evidence && (
-                                <p className="text-sm text-green-600"><strong>Evidencia:</strong> {kl.evidence}</p>
+                              <span className="flex items-center gap-1 text-gray-600">
+                                <Calendar className="w-4 h-4 flex-shrink-0" />
+                                <span className="truncate">{new Date(learning.date).toLocaleDateString()}</span>
+                              </span>
+                              {learning.startup && (
+                                <span className="flex items-center gap-1 text-gray-600">
+                                  <Building className="w-4 h-4 flex-shrink-0" />
+                                  <span className="truncate">{learning.startup}</span>
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Tags input */}
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                              <label className="text-sm text-gray-600 flex-shrink-0">Tags:</label>
+                              <input
+                                type="text"
+                                value={inlineFormData.tags}
+                                onChange={(e) => handleInlineFormChange('tags', e.target.value)}
+                                className="flex-1 bg-white border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-400"
+                                placeholder="Separar con comas"
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <div>
+                            {/* Title and type - responsive layout */}
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 leading-tight">{learning.title}</h3>
+                              <span className={`hidden sm:inline-block px-2 py-1 text-xs rounded-full border ${getTypeColor(learning.type)}`}>
+                                {learning.type}
+                              </span>
+                            </div>
+
+                            {/* Meta information - responsive layout */}
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-gray-600">
+                              <span className="flex items-center gap-1">
+                                <Users className="w-4 h-4 flex-shrink-0" />
+                                <span className="truncate">{learning.author}</span>
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Calendar className="w-4 h-4 flex-shrink-0" />
+                                <span className="truncate">{new Date(learning.date).toLocaleDateString()}</span>
+                              </span>
+                              {learning.startup && (
+                                <span className="flex items-center gap-1">
+                                  <Building className="w-4 h-4 flex-shrink-0" />
+                                  <span className="truncate">{learning.startup}</span>
+                                </span>
                               )}
                             </div>
                           </div>
+                        )}
+                      </div>
+
+                      {/* Action buttons - responsive layout */}
+                      <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                        {editingInTimeline === learning.id ? (
+                          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                            <select
+                              value={inlineFormData.priority}
+                              onChange={(e) => handleInlineFormChange('priority', e.target.value)}
+                              className="px-2 py-1 text-xs bg-white border border-gray-200 rounded focus:outline-none focus:border-blue-400"
+                            >
+                              <option value="high">Alta</option>
+                              <option value="medium">Media</option>
+                              <option value="low">Baja</option>
+                            </select>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => handleInlineSave(learning.id)}
+                                className="flex-1 sm:flex-none px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700 flex items-center justify-center gap-1 transition-all duration-200"
+                              >
+                                <CheckCircle className="w-3 h-3" />
+                                <span className="sm:inline">Guardar</span>
+                              </button>
+                              <button
+                                onClick={handleInlineCancel}
+                                className="flex-1 sm:flex-none px-3 py-1 bg-gray-500 text-white text-xs rounded-lg hover:bg-gray-600 flex items-center justify-center gap-1 transition-all duration-200"
+                              >
+                                <X className="w-3 h-3" />
+                                <span className="sm:inline">Cancelar</span>
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityColor(learning.priority)}`}>
+                              {learning.priority}
+                            </span>
+                            {/* Action buttons - condensed on mobile */}
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => handleViewDetails(learning.id)}
+                                className="p-1.5 sm:p-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200"
+                                title="Ver memo en vivo"
+                              >
+                                <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleInlineEdit(learning.id)}
+                                className="p-1.5 sm:p-2 hover:bg-yellow-50 hover:text-yellow-600 rounded-lg transition-all duration-200"
+                                title="Edición rápida"
+                              >
+                                <Edit className="w-3 h-3 sm:w-4 sm:h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleEditLearning(learning.id)}
+                                className="p-1.5 sm:p-2 hover:bg-green-50 hover:text-green-600 rounded-lg transition-all duration-200"
+                                title="Editar completo"
+                              >
+                                <Settings className="w-3 h-3 sm:w-4 sm:h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleDeleteLearning(learning.id)}
+                                className="p-1.5 sm:p-2 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all duration-200"
+                                title="Eliminar"
+                              >
+                                <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Tags - responsive layout */}
+                    {editingInTimeline !== learning.id && (
+                      <div className="flex flex-wrap gap-1 sm:gap-2 mb-4">
+                        {learning.tags.map((tag, idx) => (
+                          <span key={idx} className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full">
+                            {tag}
+                          </span>
                         ))}
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Inline editing mode summary */}
-                  {editingInTimeline === learning.id && (
-                    <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Edit className="w-4 h-4 text-yellow-600" />
-                        <span className="text-sm font-medium text-yellow-800">Modo de edición rápida activo</span>
+                    {/* Key Learnings - responsive layout */}
+                    {editingInTimeline !== learning.id && (
+                      <div className="mb-4">
+                        <h4 className="text-sm font-medium text-gray-900 mb-3">Key Learnings:</h4>
+                        <div className="space-y-3">
+                          {learning.keyLearnings.map((kl, idx) => (
+                            <div key={idx} className="flex items-start gap-2 sm:gap-3 p-3 bg-gray-50 rounded-lg">
+                              <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${getImpactColor(kl.impact).replace('text-', 'bg-')}`} />
+                              <div className="flex-1 min-w-0">
+                                <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-1">
+                                  <span className={`px-2 py-1 text-xs rounded-full ${getTypeColor(kl.category)}`}>
+                                    {kl.category}
+                                  </span>
+                                  <span className={`px-2 py-1 text-xs rounded-full ${getImpactColor(kl.impact)}`}>
+                                    {kl.impact} impact
+                                  </span>
+                                </div>
+                                <p className="text-sm text-gray-900 font-medium mb-1 break-words">{kl.insight}</p>
+                                <p className="text-sm text-gray-600 mb-1 break-words"><strong>Acción:</strong> {kl.actionTaken}</p>
+                                {kl.evidence && (
+                                  <p className="text-sm text-green-600 break-words"><strong>Evidencia:</strong> {kl.evidence}</p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                      <p className="text-xs text-yellow-700">
-                        Estás editando los campos básicos. Para editar key learnings y más detalles, usa "Editar completo".
-                      </p>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Metrics */}
-                  <div className="flex items-center gap-6 mt-4 pt-4 border-t">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 text-yellow-500" />
-                      <span className="text-sm font-medium">{learning.metrics.satisfaction}</span>
+                    {/* Inline editing mode summary */}
+                    {editingInTimeline === learning.id && (
+                      <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Edit className="w-4 h-4 text-yellow-600 flex-shrink-0" />
+                          <span className="text-sm font-medium text-yellow-800">Modo de edición rápida activo</span>
+                        </div>
+                        <p className="text-xs text-yellow-700">
+                          Estás editando los campos básicos. Para editar key learnings y más detalles, usa "Editar completo".
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Metrics - responsive layout */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 mt-4 pt-4 border-t">
+                      <div className="flex items-center gap-4 sm:gap-6">
+                        <div className="flex items-center gap-1">
+                          <Star className="w-4 h-4 text-yellow-500 flex-shrink-0" />
+                          <span className="text-sm font-medium">{learning.metrics.satisfaction}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                          <span className="text-sm">{learning.metrics.implemented}/{learning.metrics.actionItems} completadas</span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleViewDetails(learning.id)}
+                        className="text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 px-3 py-1.5 rounded-lg flex items-center justify-center sm:justify-start gap-1 transition-all duration-200 self-start sm:self-auto"
+                      >
+                        <ArrowRight className="w-4 h-4 flex-shrink-0" />
+                        <span>Ver memo en vivo</span>
+                      </button>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <CheckCircle className="w-4 h-4 text-green-500" />
-                      <span className="text-sm">{learning.metrics.implemented}/{learning.metrics.actionItems} completadas</span>
-                    </div>
-                    <button
-                      onClick={() => handleViewDetails(learning.id)}
-                      className="text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-all duration-200"
-                    >
-                      <ArrowRight className="w-4 h-4" />
-                      Ver memo en vivo
-                    </button>
                   </div>
                 </div>
               </div>

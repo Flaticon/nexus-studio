@@ -26,6 +26,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import CreateOKRModal from '../../components/forms/CreateOKRModal';
 import Layout from '../../components/layout/Layout';
+import { ModernMetricCard } from '../../components/ui/ModernMetricCard';
 
 // OKRs (Objectives and Key Results) management page
 export default function OKRsPage() {
@@ -41,7 +42,7 @@ export default function OKRsPage() {
   const [okrsData, setOkrsData] = useState([
     {
       id: '1',
-      team: 'EcoTech Solutions',
+      team: 'EcoTech Carbon Platform',
       objective: 'Acelerar adopción del producto en el mercado B2B',
       keyResults: [
         {
@@ -76,7 +77,7 @@ export default function OKRsPage() {
     },
     {
       id: '2',
-      team: 'FinanceAI',
+      team: 'FinanceAI Analytics',
       objective: 'Consolidar Product-Market Fit y expandir funcionalidades',
       keyResults: [
         {
@@ -111,7 +112,7 @@ export default function OKRsPage() {
     },
     {
       id: '3',
-      team: 'HealthTracker',
+      team: 'HealthTracker IoT',
       objective: 'Completar MVP y validar hipótesis iniciales',
       keyResults: [
         {
@@ -372,10 +373,10 @@ export default function OKRsPage() {
                   e.target.style.boxShadow = 'none';
                 }}
               >
-                <option value="all">Todos los equipos</option>
-                <option value="EcoTech Solutions">EcoTech Solutions</option>
-                <option value="FinanceAI">FinanceAI</option>
-                <option value="HealthTracker">HealthTracker</option>
+                <option value="all">Todos los proyectos</option>
+                <option value="EcoTech Carbon Platform">EcoTech Carbon Platform</option>
+                <option value="FinanceAI Analytics">FinanceAI Analytics</option>
+                <option value="HealthTracker IoT">HealthTracker IoT</option>
               </select>
               
               <button 
@@ -420,7 +421,7 @@ export default function OKRsPage() {
               }}
             >
               <Users className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
-              <span className="hidden xs:inline">Por </span>Equipos
+              <span className="hidden xs:inline">Por </span>Proyectos
             </button>
             <button
               onClick={() => setViewMode('objectives')}
@@ -492,7 +493,7 @@ export default function OKRsPage() {
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               {viewMode === 'teams' && (
                 <>
-                  <span className="font-medium">Vista por Equipos:</span> Organización tradicional por equipos de trabajo
+                  <span className="font-medium">Vista por Proyectos:</span> Organización por proyectos y equipos de trabajo
                 </>
               )}
               {viewMode === 'objectives' && (
@@ -502,7 +503,7 @@ export default function OKRsPage() {
               )}
               {viewMode === 'progress' && (
                 <>
-                  <span className="font-medium">Vista por Progreso:</span> Ranking de equipos ordenado por porcentaje de progreso
+                  <span className="font-medium">Vista por Progreso:</span> Ranking de proyectos ordenado por porcentaje de progreso
                 </>
               )}
               {viewMode === 'collaborators' && (
@@ -516,108 +517,56 @@ export default function OKRsPage() {
 
         {/* Key Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-8">
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                🎯 Total Objetivos
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <Target className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-              {overallStats.totalObjectives}
-            </p>
-            <div className="flex items-center">
-              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-purple-100 to-indigo-100">
-                <span className="text-sm font-medium text-purple-700">Activos este trimestre</span>
-              </div>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Total Objetivos"
+            value={overallStats.totalObjectives}
+            icon={<Target className="w-6 h-6" />}
+            color="purple"
+            subtitle="Activos este trimestre"
+            trend="stable"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                ✅ En Progreso
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <CheckCircle className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-              {overallStats.onTrack}
-            </p>
-            <div className="flex items-center">
-              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mr-2">
-                <TrendingUp className="w-3 h-3 text-green-600" />
-              </div>
-              <span className="text-sm font-medium text-green-600">
-                Cumpliendo objetivos
-              </span>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="En Progreso"
+            value={overallStats.onTrack}
+            icon={<CheckCircle className="w-6 h-6" />}
+            color="green"
+            trend="up"
+            change={15.2}
+            changeType="positive"
+            subtitle="Cumpliendo objetivos"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                ⚠️ En Riesgo
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <AlertTriangle className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-              {overallStats.atRisk}
-            </p>
-            <div className="flex items-center">
-              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100">
-                <span className="text-sm font-medium text-orange-700">Requiere atención</span>
-              </div>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="En Riesgo"
+            value={overallStats.atRisk}
+            icon={<AlertTriangle className="w-6 h-6" />}
+            color="orange"
+            trend="stable"
+            subtitle="Requiere atención"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                🔴 Atrasados
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <XCircle className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-              {overallStats.behind}
-            </p>
-            <div className="flex items-center">
-              <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mr-2">
-                <Clock className="w-3 h-3 text-red-600" />
-              </div>
-              <span className="text-sm font-medium text-red-600">
-                Necesita intervención
-              </span>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Atrasados"
+            value={overallStats.behind}
+            icon={<XCircle className="w-6 h-6" />}
+            color="pink"
+            trend="down"
+            change={-8.5}
+            changeType="positive"
+            subtitle="Necesita intervención"
+          />
 
-          <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300 group">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold tracking-tight text-gray-600">
-                📊 Progreso Promedio
-              </h3>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
-                <BarChart3 className="w-5 h-5 text-white" />
-              </div>
-            </div>
-            <p className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-              {overallStats.avgProgress}%
-            </p>
-            <div className="flex items-center">
-              <div className="px-2 py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100">
-                <span className="text-sm font-medium text-blue-700">
-                  Del trimestre actual
-                </span>
-              </div>
-            </div>
-          </div>
+          <ModernMetricCard
+            title="Progreso Promedio"
+            value={`${overallStats.avgProgress}%`}
+            icon={<BarChart3 className="w-6 h-6" />}
+            color="blue"
+            trend="up"
+            change={7.3}
+            changeType="positive"
+            subtitle="Del trimestre actual"
+          />
         </div>
 
         {/* Content Based on View Mode */}

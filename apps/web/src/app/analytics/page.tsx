@@ -53,6 +53,7 @@ import {
   Radar
 } from 'recharts';
 import Layout from '../../components/layout/Layout';
+import { ModernMetricCard } from '../../components/ui/ModernMetricCard';
 
 export default function AnalyticsPage() {
   const [dateRange, setDateRange] = useState('3m');
