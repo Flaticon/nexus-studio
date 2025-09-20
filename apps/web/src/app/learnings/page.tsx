@@ -587,8 +587,8 @@ export default function LearningsPage() {
         <div className="mb-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
-                🧠 Aprendizajes y Retrospectivas
+              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                Learning Intelligence Hub
               </h1>
               <p className="mt-2 text-gray-600 font-medium">
                 Knowledge management inteligente y retrospectivas estratégicas del venture studio

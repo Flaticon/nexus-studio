@@ -23,6 +23,7 @@ const talent_module_1 = require("./modules/talent/talent.module");
 const insights_module_1 = require("./modules/insights/insights.module");
 const dashboard_module_1 = require("./modules/dashboard/dashboard.module");
 const employees_module_1 = require("./modules/employees/employees.module");
+const analytics_module_1 = require("./modules/analytics/analytics.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -64,6 +65,7 @@ exports.AppModule = AppModule = __decorate([
             insights_module_1.InsightsModule,
             dashboard_module_1.DashboardModule,
             employees_module_1.EmployeesModule,
+            analytics_module_1.AnalyticsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [],

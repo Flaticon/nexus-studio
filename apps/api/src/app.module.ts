@@ -17,6 +17,7 @@ import { TalentModule } from './modules/talent/talent.module';
 import { InsightsModule } from './modules/insights/insights.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { EmployeesModule } from './modules/employees/employees.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
 
 @Module({
   imports: [
@@ -64,6 +65,7 @@ import { EmployeesModule } from './modules/employees/employees.module';
     InsightsModule,
     DashboardModule,
     EmployeesModule,
+    AnalyticsModule,
   ],
  controllers: [AppController], // Añadir esto
   providers: [],
