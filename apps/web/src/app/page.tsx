@@ -16,7 +16,14 @@ import {
   LogIn,
   UserPlus,
   Menu,
-  X
+  X,
+  Brain,
+  BookOpen,
+  Star,
+  Shield,
+  Zap,
+  Globe,
+  Rocket
 } from 'lucide-react';
 import { useState } from 'react';
 import LoginModal from '../components/auth/LoginModal';
@@ -89,14 +96,34 @@ export default function Home() {
       delay: '0.6s'
     },
     {
+      href: '/learnings',
+      icon: BookOpen,
+      title: 'Aprendizajes',
+      description: 'Base de conocimiento, retrospectivas y mejores prácticas del ecosistema',
+      color: 'from-amber-500 to-amber-700',
+      bgColor: 'bg-amber-50',
+      textColor: 'text-amber-700',
+      delay: '0.7s'
+    },
+    {
       href: '/integrations',
       icon: Plug,
-      title: 'Integraciones',
+      title: 'Integraciones Hub',
       description: 'Conectores con herramientas externas, APIs y automatización de workflows',
       color: 'from-cyan-500 to-cyan-700',
       bgColor: 'bg-cyan-50',
       textColor: 'text-cyan-700',
-      delay: '0.7s'
+      delay: '0.8s'
+    },
+    {
+      href: '/ai',
+      icon: Brain,
+      title: 'AI Assistant',
+      description: 'Inteligencia artificial avanzada para insights, análisis y decisiones inteligentes',
+      color: 'from-violet-500 to-violet-700',
+      bgColor: 'bg-violet-50',
+      textColor: 'text-violet-700',
+      delay: '0.9s'
     }
   ];
 
@@ -234,18 +261,23 @@ export default function Home() {
             {/* Social Proof */}
             <div className="flex items-center justify-center gap-6 mb-12">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">500+</div>
+                <div className="text-2xl font-bold text-blue-600">1000+</div>
                 <div className="text-sm text-gray-600">Proyectos</div>
               </div>
               <div className="w-px h-8 bg-gray-300"></div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">50+</div>
+                <div className="text-2xl font-bold text-purple-600">100+</div>
                 <div className="text-sm text-gray-600">Empresas</div>
               </div>
               <div className="w-px h-8 bg-gray-300"></div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">$2B+</div>
+                <div className="text-2xl font-bold text-green-600">$5B+</div>
                 <div className="text-sm text-gray-600">Gestionados</div>
+              </div>
+              <div className="w-px h-8 bg-gray-300"></div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-violet-600">AI</div>
+                <div className="text-sm text-gray-600">Powered</div>
               </div>
             </div>
             
@@ -317,26 +349,91 @@ export default function Home() {
           </div>
 
           {/* Quick Stats */}
-          <div className="mt-16 sm:mt-20 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
-            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100">
-              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">7+</div>
+          <div className="mt-16 sm:mt-20 grid grid-cols-2 sm:grid-cols-5 gap-6 sm:gap-8">
+            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">9+</div>
               <div className="text-sm font-medium text-gray-600">Módulos Integrados</div>
             </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100">
-              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">500+</div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">1000+</div>
               <div className="text-sm font-medium text-gray-600">Startups Gestionadas</div>
             </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100">
+            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
+              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">AI</div>
+              <div className="text-sm font-medium text-gray-600">Powered</div>
+            </div>
+            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
               <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-purple-600 to-rose-600 bg-clip-text text-transparent">99.9%</div>
               <div className="text-sm font-medium text-gray-600">Uptime</div>
             </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100">
+            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
               <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-rose-600 to-orange-600 bg-clip-text text-transparent">24/7</div>
               <div className="text-sm font-medium text-gray-600">Soporte</div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Features Highlight Section */}
+      <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-violet-100 to-purple-100 text-violet-800 text-sm font-semibold mb-6">
+              🤖 Powered by AI • Built for the Future
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+              ¿Por qué <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">Nexus Studio</span>?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              No somos solo otra herramienta. Somos la evolución natural de cómo deberían gestionarse las empresas modernas.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-violet-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Brain className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Inteligencia Artificial</h3>
+              <p className="text-gray-600 leading-relaxed">
+                IA generativa que analiza patrones, predice resultados y sugiere acciones inteligentes para tu portfolio.
+              </p>
+            </div>
+
+            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Shield className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Seguridad Enterprise</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Certificación SOC 2, encriptación end-to-end y cumplimiento GDPR para proteger tus datos más críticos.
+              </p>
+            </div>
+
+            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+              <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Zap className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Automatización Total</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Workflows inteligentes que eliminan tareas repetitivas y te permiten enfocarte en lo estratégico.
+              </p>
+            </div>
+          </div>
+
+          {/* Integration Partners */}
+          <div className="text-center">
+            <p className="text-gray-500 font-medium mb-8">Trusted by industry leaders & integrated with your favorite tools</p>
+            <div className="flex justify-center items-center space-x-8 opacity-50 grayscale">
+              <div className="text-2xl font-bold">Slack</div>
+              <div className="text-2xl font-bold">Notion</div>
+              <div className="text-2xl font-bold">GitHub</div>
+              <div className="text-2xl font-bold">Figma</div>
+              <div className="text-2xl font-bold">HubSpot</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Problem/Solution Section */}
       <section className="py-20 bg-white">
@@ -406,6 +503,123 @@ export default function Home() {
                 💡 Resultado: 70% menos tiempo en tareas operativas, 3x más oportunidades identificadas
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100 text-orange-800 text-sm font-semibold mb-6">
+              ⭐ Trusted by Industry Leaders
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+              Lo que dicen nuestros <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">usuarios</span>
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div className="flex items-center mb-6">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-current" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-gray-700 mb-6 italic">
+                "Nexus Studio transformó completamente cómo gestionamos nuestro portfolio. La IA nos ayuda a identificar oportunidades que antes pasábamos por alto."
+              </p>
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">AS</span>
+                </div>
+                <div className="ml-4">
+                  <div className="font-bold text-gray-900">Ana Silva</div>
+                  <div className="text-gray-600 text-sm">CEO, TechVentures</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div className="flex items-center mb-6">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-current" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-gray-700 mb-6 italic">
+                "Por fin una plataforma que entiende las necesidades de un venture studio moderno. Los insights de IA son increíblemente precisos."
+              </p>
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">CM</span>
+                </div>
+                <div className="ml-4">
+                  <div className="font-bold text-gray-900">Carlos Mendez</div>
+                  <div className="text-gray-600 text-sm">Managing Partner, InnovaLab</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+              <div className="flex items-center mb-6">
+                <div className="flex text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-current" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-gray-700 mb-6 italic">
+                "Implementamos Nexus Studio en 3 días y vimos resultados inmediatos. La automatización nos ahorró 20 horas semanales."
+              </p>
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">LR</span>
+                </div>
+                <div className="ml-4">
+                  <div className="font-bold text-gray-900">Laura Rodriguez</div>
+                  <div className="text-gray-600 text-sm">COO, StartupHub</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">
+              ¿Listo para el <span className="text-yellow-300">futuro</span>?
+            </h2>
+            <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+              Únete a los venture studios más innovadores que ya están usando IA para acelerar su crecimiento
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+              <button
+                onClick={() => setIsRegisterModalOpen(true)}
+                className="px-10 py-5 bg-white text-purple-600 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 flex items-center space-x-2"
+              >
+                <Rocket className="w-6 h-6" />
+                <span>Empezar Gratis Ahora</span>
+              </button>
+              <button
+                onClick={() => router.push('/dashboard')}
+                className="px-10 py-5 border-2 border-white text-white rounded-2xl font-bold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 hover:scale-105 flex items-center space-x-2"
+              >
+                <Globe className="w-6 h-6" />
+                <span>Explorar Demo</span>
+              </button>
+            </div>
+
+            <p className="text-purple-200 text-sm">
+              🎯 Setup en 5 min • 🔒 Datos seguros • 🤖 IA incluida • 📞 Soporte 24/7
+            </p>
           </div>
         </div>
       </section>

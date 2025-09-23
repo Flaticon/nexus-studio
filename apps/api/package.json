@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.63.0",
     "@nestjs/bull": "^11.0.3",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
@@ -40,6 +41,7 @@
     "cron": "^4.3.3",
     "helmet": "^8.1.0",
     "mongoose": "^8.18.0",
+    "openai": "^5.22.0",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",

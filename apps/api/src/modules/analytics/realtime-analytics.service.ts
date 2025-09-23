@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { UserActivity, UserActivityDocument } from './schemas/user-activity.schema';
 import { AnalyticsMetric, AnalyticsMetricDocument } from './schemas/analytics-metric.schema';
 
-interface RealTimeMetric {
+export interface RealTimeMetric {
   name: string;
   value: number;
   change: number;
@@ -105,7 +105,7 @@ export class RealtimeAnalyticsService {
           lastActivity: { $gte: new Date(Date.now() - 10 * 60 * 1000) } // Active in last 10 minutes
         }
       },
-      { $sort: { lastActivity: -1 } },
+      { $sort: { lastActivity: -1 as const } },
       { $limit: 100 }
     ];
 
@@ -161,7 +161,7 @@ export class RealtimeAnalyticsService {
           sessions: { $size: '$sessions' }
         }
       },
-      { $sort: { views: -1 } },
+      { $sort: { views: -1 as const } },
       { $limit: 10 }
     ];
 
@@ -256,7 +256,7 @@ export class RealtimeAnalyticsService {
           affectedUsers: { $size: '$affectedUsers' }
         }
       },
-      { $sort: { count: -1 } },
+      { $sort: { count: -1 as const } },
       { $limit: 10 }
     ];
 
@@ -330,7 +330,7 @@ export class RealtimeAnalyticsService {
           maxResponseTime: { $max: '$performance.responseTime' }
         }
       },
-      { $sort: { avgResponseTime: -1 } },
+      { $sort: { avgResponseTime: -1 as const } },
       { $limit: 10 }
     ];
 
@@ -575,7 +575,7 @@ export class RealtimeAnalyticsService {
     const intervals = 10; // 10 minute intervals
     const intervalSize = 60 * 1000; // 1 minute
 
-    const trend = [];
+    const trend: Array<{ time: string; count: number }> = [];
     for (let i = 0; i < intervals; i++) {
       const intervalStart = new Date(windowStart.getTime() + i * intervalSize);
       const intervalEnd = new Date(intervalStart.getTime() + intervalSize);

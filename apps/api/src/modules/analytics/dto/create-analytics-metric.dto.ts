@@ -33,7 +33,7 @@ export class CreateAnalyticsMetricDto {
     category?: string;
     region?: string;
     segment?: string;
-    [key: string]: string;
+    [key: string]: string | undefined;
   };
 
   @IsOptional()

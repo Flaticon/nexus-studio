@@ -6,7 +6,7 @@ import { AnalyticsMetric, AnalyticsMetricDocument } from './schemas/analytics-me
 import { TrainModelDto } from './dto/train-model.dto';
 import { AnalyticsQueryDto } from './dto/analytics-query.dto';
 
-interface PredictionResult {
+export interface PredictionResult {
   metric: string;
   current: number;
   predicted: number;
@@ -84,8 +84,8 @@ export class MLPredictionService {
       modelConfig: {
         ...modelConfig,
         trainingData: {
-          startDate: new Date(trainingStartDate),
-          endDate: new Date(trainingEndDate),
+          startDate: trainingStartDate ? new Date(trainingStartDate) : new Date(),
+          endDate: trainingEndDate ? new Date(trainingEndDate) : new Date(),
           recordCount: trainingData.length
         }
       },
@@ -209,7 +209,7 @@ export class MLPredictionService {
           }
         }
       },
-      { $sort: { _id: 1 } }
+      { $sort: { _id: 1 as const } }
     ];
 
     const aggregatedData = await this.analyticsMetricModel.aggregate(pipeline);
@@ -359,7 +359,7 @@ export class MLPredictionService {
           }
         }
       },
-      { $sort: { _id: 1 } }
+      { $sort: { _id: 1 as const } }
     ];
 
     const aggregatedData = await this.analyticsMetricModel.aggregate(pipeline);
@@ -452,7 +452,7 @@ export class MLPredictionService {
   private calculateAverageGrowthRate(values: number[]): number {
     if (values.length < 2) return 0;
 
-    const growthRates = [];
+    const growthRates: number[] = [];
     for (let i = 1; i < values.length; i++) {
       if (values[i - 1] !== 0) {
         growthRates.push((values[i] - values[i - 1]) / values[i - 1]);

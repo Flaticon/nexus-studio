@@ -14,7 +14,10 @@ export class AnalyticsAlert {
   @Prop({ required: true })
   metricName: string;
 
-  @Prop({ required: true })
+  @Prop({
+    type: Object,
+    required: true
+  })
   condition: {
     operator: 'greater_than' | 'less_than' | 'equals' | 'not_equals' | 'percentage_change';
     threshold: number;

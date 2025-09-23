@@ -17,7 +17,8 @@ import {
   Settings,
   LogOut,
   BookOpen,
-  Zap
+  Zap,
+  Brain
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -105,6 +106,13 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       icon: Zap,
       description: 'Conexiones y automatizaciones',
       color: 'var(--module-integrations)'
+    },
+    {
+      name: 'AI Assistant',
+      href: '/ai',
+      icon: Brain,
+      description: 'Inteligencia artificial y análisis',
+      color: 'var(--module-ai)'
     }
   ];
 

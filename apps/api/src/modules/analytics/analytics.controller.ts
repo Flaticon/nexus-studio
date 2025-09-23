@@ -10,8 +10,8 @@ import {
   HttpStatus,
   Res,
 } from '@nestjs/common';
-import { Response } from 'express';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import type { Response } from 'express';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { AnalyticsService } from './analytics.service';
 import { MLPredictionService } from './ml-prediction.service';
 import { RealtimeAnalyticsService } from './realtime-analytics.service';

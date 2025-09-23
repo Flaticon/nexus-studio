@@ -83,7 +83,7 @@ export class AnalyticsService {
           }
         }
       },
-      { $sort: { _id: 1 } }
+      { $sort: { _id: 1 as const } }
     ];
 
     const trends = await this.analyticsMetricModel.aggregate(pipeline);
@@ -217,7 +217,7 @@ export class AnalyticsService {
           ...(entityIds ? { userId: { $in: entityIds } } : {})
         }
       },
-      { $sort: { userId: 1, timestamp: 1 } },
+      { $sort: { userId: 1 as const, timestamp: 1 as const } },
       {
         $group: {
           _id: '$userId',
@@ -273,7 +273,7 @@ export class AnalyticsService {
     const { timeRange, startDate, endDate, metrics } = query;
     const dateFilter = this.buildDateFilter(timeRange, startDate, endDate);
 
-    const anomalies = [];
+    const anomalies: Array<{ metric: string; anomalies: any[] }> = [];
 
     for (const metricName of metrics || ['revenue', 'users', 'conversion_rate']) {
       const metricData = await this.analyticsMetricModel.find({
@@ -301,7 +301,7 @@ export class AnalyticsService {
   }
 
   async generateInsights(query: AnalyticsQueryDto) {
-    const insights = [];
+    const insights: Array<{ type: string; title: string; description: string; confidence: number; impact: string; recommendations: string[] }> = [];
 
     // Revenue insights
     const revenueInsights = await this.generateRevenueInsights(query);
@@ -573,7 +573,7 @@ export class AnalyticsService {
   }
 
   private identifyDropoffPoints(funnelData: any[]) {
-    const dropoffs = [];
+    const dropoffs: Array<{ fromStep: any; toStep: any; dropoffRate: number; usersLost: number }> = [];
     for (let i = 1; i < funnelData.length; i++) {
       const dropoffRate = ((funnelData[i-1].uniqueUsers - funnelData[i].uniqueUsers) / funnelData[i-1].uniqueUsers) * 100;
       if (dropoffRate > 20) { // Threshold for significant dropoff
@@ -657,7 +657,7 @@ export class AnalyticsService {
     const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
     const stdDev = Math.sqrt(values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length);
 
-    const anomalies = [];
+    const anomalies: Array<{ timestamp: any; value: any; expectedValue: number; severity: string; zScore: number }> = [];
     metricData.forEach((data, index) => {
       const zScore = Math.abs((data.value - mean) / stdDev);
       if (zScore > 2) { // Threshold for anomaly
