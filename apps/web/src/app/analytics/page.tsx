@@ -166,39 +166,39 @@ export default function AnalyticsPage() {
       <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
 
         {/* Enhanced Header with AI Insights */}
-        <div className="mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-6">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 flex items-center justify-center shadow-xl">
-                <Brain className="w-8 h-8 text-white" />
+        <div className="mb-6 md:mb-8">
+          <div className="flex flex-col gap-4 md:gap-6 mb-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 flex items-center justify-center shadow-xl">
+                <Brain className="w-6 h-6 md:w-8 md:h-8 text-white" />
               </div>
-              <div>
-                <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              <div className="flex-1 min-w-0">
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
                   Analytics Intelligence Hub
                 </h1>
-                <div className="flex items-center gap-4 mt-2">
+                <div className="flex flex-wrap items-center gap-2 md:gap-4 mt-2">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm font-medium text-emerald-600">Real-time Data</span>
+                    <span className="text-xs md:text-sm font-medium text-emerald-600">Real-time Data</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                    <span className="text-sm font-medium text-blue-600">AI Insights</span>
+                    <span className="text-xs md:text-sm font-medium text-blue-600">AI Insights</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-                    <span className="text-sm font-medium text-purple-600">Predictive Analytics</span>
+                    <span className="text-xs md:text-sm font-medium text-purple-600">Predictive Analytics</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Quick Actions */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
-                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 sm:flex-none px-3 md:px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="7d">Last 7 days</option>
                 <option value="30d">Last 30 days</option>
@@ -207,18 +207,20 @@ export default function AnalyticsPage() {
               </select>
               <button
                 onClick={() => setShowInsights(!showInsights)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`flex-1 sm:flex-none px-3 md:px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                   showInsights
                     ? 'bg-blue-100 text-blue-700 border border-blue-200'
                     : 'bg-gray-100 text-gray-600 border border-gray-200'
                 }`}
               >
                 <Brain className="w-4 h-4 inline-block mr-2" />
-                AI Insights
+                <span className="hidden sm:inline">AI Insights</span>
+                <span className="sm:hidden">Insights</span>
               </button>
-              <button className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl text-sm font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg">
+              <button className="flex-1 sm:flex-none px-3 md:px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl text-sm font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg">
                 <Download className="w-4 h-4 inline-block mr-2" />
-                Export Report
+                <span className="hidden sm:inline">Export Report</span>
+                <span className="sm:hidden">Export</span>
               </button>
             </div>
           </div>
@@ -226,62 +228,62 @@ export default function AnalyticsPage() {
 
         {/* Enhanced KPI Cards */}
         {data && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+            <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-4 md:p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="flex items-center justify-between mb-4">
-                <DollarSign className="w-8 h-8 opacity-80" />
+                <DollarSign className="w-6 h-6 md:w-8 md:h-8 opacity-80" />
                 <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
                   <ArrowUp className="w-3 h-3" />
                   <span className="text-xs font-medium">+15.2%</span>
                 </div>
               </div>
-              <div className="text-3xl font-bold mb-1">${data.kpis.totalRevenue.toLocaleString()}</div>
-              <div className="text-green-100 text-sm font-medium">Total Revenue</div>
+              <div className="text-2xl md:text-3xl font-bold mb-1">${data.kpis.totalRevenue.toLocaleString()}</div>
+              <div className="text-green-100 text-xs md:text-sm font-medium">Total Revenue</div>
               <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
                 <div className="h-full bg-white bg-opacity-60 rounded-full w-3/4"></div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-400 to-indigo-600 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="bg-gradient-to-br from-blue-400 to-indigo-600 p-4 md:p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="flex items-center justify-between mb-4">
-                <Users className="w-8 h-8 opacity-80" />
+                <Users className="w-6 h-6 md:w-8 md:h-8 opacity-80" />
                 <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
                   <ArrowUp className="w-3 h-3" />
                   <span className="text-xs font-medium">+8.7%</span>
                 </div>
               </div>
-              <div className="text-3xl font-bold mb-1">{data.kpis.totalUsers.toLocaleString()}</div>
-              <div className="text-blue-100 text-sm font-medium">Active Users</div>
+              <div className="text-2xl md:text-3xl font-bold mb-1">{data.kpis.totalUsers.toLocaleString()}</div>
+              <div className="text-blue-100 text-xs md:text-sm font-medium">Active Users</div>
               <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
                 <div className="h-full bg-white bg-opacity-60 rounded-full w-4/5"></div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-400 to-violet-600 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="bg-gradient-to-br from-purple-400 to-violet-600 p-4 md:p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="flex items-center justify-between mb-4">
-                <Target className="w-8 h-8 opacity-80" />
+                <Target className="w-6 h-6 md:w-8 md:h-8 opacity-80" />
                 <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
                   <ArrowUp className="w-3 h-3" />
                   <span className="text-xs font-medium">+0.5%</span>
                 </div>
               </div>
-              <div className="text-3xl font-bold mb-1">{data.kpis.conversionRate}%</div>
-              <div className="text-purple-100 text-sm font-medium">Conversion Rate</div>
+              <div className="text-2xl md:text-3xl font-bold mb-1">{data.kpis.conversionRate}%</div>
+              <div className="text-purple-100 text-xs md:text-sm font-medium">Conversion Rate</div>
               <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
                 <div className="h-full bg-white bg-opacity-60 rounded-full w-2/3"></div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="bg-gradient-to-br from-orange-400 to-red-500 p-4 md:p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="flex items-center justify-between mb-4">
-                <Activity className="w-8 h-8 opacity-80" />
+                <Activity className="w-6 h-6 md:w-8 md:h-8 opacity-80" />
                 <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
                   <ArrowUp className="w-3 h-3" />
                   <span className="text-xs font-medium">+3.1%</span>
                 </div>
               </div>
-              <div className="text-3xl font-bold mb-1">{data.kpis.avgRetention}%</div>
-              <div className="text-orange-100 text-sm font-medium">Avg Retention</div>
+              <div className="text-2xl md:text-3xl font-bold mb-1">{data.kpis.avgRetention}%</div>
+              <div className="text-orange-100 text-xs md:text-sm font-medium">Avg Retention</div>
               <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
                 <div className="h-full bg-white bg-opacity-60 rounded-full w-5/6"></div>
               </div>
@@ -291,8 +293,8 @@ export default function AnalyticsPage() {
 
         {/* AI Insights Panel */}
         {showInsights && data && (
-          <div className="mb-8 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl p-6 border border-indigo-100">
-            <div className="flex items-center gap-3 mb-6">
+          <div className="mb-6 md:mb-8 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl p-4 md:p-6 border border-indigo-100">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4 md:mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
                 <Brain className="w-5 h-5 text-white" />
               </div>
@@ -302,7 +304,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.insights.map((insight) => (
                 <div key={insight.id} className={`p-4 rounded-xl border ${getInsightColor(insight.type)}`}>
                   <div className="flex items-start gap-3">
@@ -331,22 +333,22 @@ export default function AnalyticsPage() {
         )}
 
         {/* Navigation Tabs */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 bg-white rounded-2xl p-2 shadow-md border border-gray-100">
+        <div className="mb-6 md:mb-8">
+          <div className="flex items-center gap-1 md:gap-2 bg-white rounded-2xl p-2 shadow-md border border-gray-100 overflow-x-auto">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  className={`flex items-center gap-1 md:gap-2 px-2 md:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                     activeTab === tab.id
                       ? 'bg-blue-600 text-white shadow-md'
                       : 'text-gray-600 hover:bg-gray-50'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{tab.label}</span>
+                  <Icon className="w-3 h-3 md:w-4 md:h-4" />
+                  <span className="hidden sm:inline">{tab.label}</span>
                 </button>
               );
             })}
@@ -354,9 +356,9 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           {activeTab === 'overview' && data && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
               {/* Main Chart Area */}
               <div className="lg:col-span-2">
                 <AdvancedCharts
@@ -369,10 +371,10 @@ export default function AnalyticsPage() {
               </div>
 
               {/* Side Panel with Performance Metrics */}
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 {/* Performance Scorecard */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance Scorecard</h3>
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 md:p-6">
+                  <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4">Performance Scorecard</h3>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">System Health</span>
@@ -407,8 +409,8 @@ export default function AnalyticsPage() {
                 </div>
 
                 {/* Top Performers */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Performers</h3>
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 md:p-6">
+                  <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4">Top Performers</h3>
                   <div className="space-y-3">
                     {data.startupMetrics.slice(0, 3).map((startup, index) => (
                       <div key={startup.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -433,8 +435,8 @@ export default function AnalyticsPage() {
                 </div>
 
                 {/* Quick Stats */}
-                <div className="bg-gradient-to-br from-gray-900 to-indigo-900 rounded-2xl p-6 text-white">
-                  <h3 className="text-lg font-semibold mb-4">Quick Stats</h3>
+                <div className="bg-gradient-to-br from-gray-900 to-indigo-900 rounded-2xl p-4 md:p-6 text-white">
+                  <h3 className="text-base md:text-lg font-semibold mb-4">Quick Stats</h3>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -484,24 +486,27 @@ export default function AnalyticsPage() {
 
         {/* Footer Actions */}
         <div className="flex items-center justify-center">
-          <div className="flex items-center gap-4 bg-white px-6 py-4 rounded-2xl shadow-lg border border-gray-100">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 bg-white px-4 md:px-6 py-4 rounded-2xl shadow-lg border border-gray-100">
             <button
               onClick={() => {
                 setIsLoading(true);
                 setTimeout(() => setIsLoading(false), 1000);
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
             >
               <RefreshCw className="w-4 h-4" />
-              Refresh Data
+              <span className="hidden sm:inline">Refresh Data</span>
+              <span className="sm:hidden">Refresh</span>
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+            <button className="flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
               <Settings className="w-4 h-4" />
-              Configure
+              <span className="hidden sm:inline">Configure</span>
+              <span className="sm:hidden">Config</span>
             </button>
-            <button className="flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+            <button className="flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm">
               <Calendar className="w-4 h-4" />
-              Schedule Report
+              <span className="hidden sm:inline">Schedule Report</span>
+              <span className="sm:hidden">Schedule</span>
             </button>
           </div>
         </div>

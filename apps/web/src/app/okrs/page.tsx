@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { 
-  Target, 
-  Users, 
-  TrendingUp, 
+import React, { useState, useMemo } from 'react';
+import {
+  Target,
+  Users,
+  TrendingUp,
   Clock,
   CheckCircle,
   AlertTriangle,
@@ -20,7 +20,18 @@ import {
   UserPlus,
   MapPin,
   Mail,
-  Settings
+  Search,
+  Brain,
+  Lightbulb,
+  Zap,
+  ChevronDown,
+  ChevronUp,
+  Activity,
+  Star,
+  ArrowUp,
+  ArrowDown,
+  Settings,
+  RefreshCw
 } from 'lucide-react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -28,17 +39,22 @@ import CreateOKRModal from '../../components/forms/CreateOKRModal';
 import Layout from '../../components/layout/Layout';
 import { ModernMetricCard } from '../../components/ui/ModernMetricCard';
 
-// OKRs (Objectives and Key Results) management page
+// Enhanced OKRs management page with modern design and advanced functionality
 export default function OKRsPage() {
   const [selectedQuarter, setSelectedQuarter] = useState('Q3-2025');
   const [selectedTeam, setSelectedTeam] = useState('all');
-  const [viewMode, setViewMode] = useState('teams'); // 'teams', 'objectives', 'progress', 'collaborators'
+  const [viewMode, setViewMode] = useState('dashboard'); // 'dashboard', 'teams', 'objectives', 'progress', 'collaborators', 'analytics'
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedOKR, setSelectedOKR] = useState(null);
   const [selectedCollaborator, setSelectedCollaborator] = useState(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [sortBy, setSortBy] = useState('progress');
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [expandedOKR, setExpandedOKR] = useState(null);
 
-  // Mock OKRs data
+  // Enhanced OKRs data with timeline and AI insights
   const [okrsData, setOkrsData] = useState([
     {
       id: '1',
@@ -51,15 +67,21 @@ export default function OKRsPage() {
           target: 50,
           current: 32,
           progress: 64,
-          unit: 'clientes'
+          unit: 'clientes',
+          trend: 'up',
+          changeWeek: 5,
+          risk: 'low'
         },
         {
-          id: '1.2', 
+          id: '1.2',
           description: 'Aumentar MRR a $15,000',
           target: 15000,
           current: 12500,
           progress: 83,
-          unit: 'USD'
+          unit: 'USD',
+          trend: 'up',
+          changeWeek: 8.5,
+          risk: 'low'
         },
         {
           id: '1.3',
@@ -67,13 +89,30 @@ export default function OKRsPage() {
           target: 70,
           current: 68,
           progress: 97,
-          unit: 'puntos'
+          unit: 'puntos',
+          trend: 'stable',
+          changeWeek: 0.5,
+          risk: 'medium'
         }
       ],
       overallProgress: 81,
       status: 'on-track',
       owner: 'Ana García',
-      quarter: 'Q3-2025'
+      quarter: 'Q3-2025',
+      priority: 'high',
+      tags: ['B2B', 'Growth', 'Revenue'],
+      timeline: [
+        { week: 'Sem 1', progress: 45 },
+        { week: 'Sem 2', progress: 52 },
+        { week: 'Sem 3', progress: 67 },
+        { week: 'Sem 4', progress: 75 },
+        { week: 'Sem 5', progress: 81 }
+      ],
+      aiInsights: [
+        'Rendimiento superior al promedio del sector',
+        'NPS cerca del objetivo - considerar mejoras en UX',
+        'Crecimiento MRR sostenible y predecible'
+      ]
     },
     {
       id: '2',
@@ -86,7 +125,10 @@ export default function OKRsPage() {
           target: 120000,
           current: 85000,
           progress: 71,
-          unit: 'USD'
+          unit: 'USD',
+          trend: 'up',
+          changeWeek: 6.2,
+          risk: 'medium'
         },
         {
           id: '2.2',
@@ -94,7 +136,10 @@ export default function OKRsPage() {
           target: 3,
           current: 2,
           progress: 67,
-          unit: 'integraciones'
+          unit: 'integraciones',
+          trend: 'stable',
+          changeWeek: 0,
+          risk: 'high'
         },
         {
           id: '2.3',
@@ -102,13 +147,30 @@ export default function OKRsPage() {
           target: 5,
           current: 7,
           progress: 60,
-          unit: '%'
+          unit: '%',
+          trend: 'down',
+          changeWeek: -2.1,
+          risk: 'high'
         }
       ],
       overallProgress: 66,
       status: 'at-risk',
       owner: 'Roberto Silva',
-      quarter: 'Q3-2025'
+      quarter: 'Q3-2025',
+      priority: 'high',
+      tags: ['AI', 'Analytics', 'PMF'],
+      timeline: [
+        { week: 'Sem 1', progress: 35 },
+        { week: 'Sem 2', progress: 48 },
+        { week: 'Sem 3', progress: 56 },
+        { week: 'Sem 4', progress: 62 },
+        { week: 'Sem 5', progress: 66 }
+      ],
+      aiInsights: [
+        'Necesita atención en retención de clientes',
+        'Priorizar desarrollo de integraciones',
+        'ARR en buen camino pero requiere acelerar churn'
+      ]
     },
     {
       id: '3',
@@ -121,7 +183,10 @@ export default function OKRsPage() {
           target: 100,
           current: 75,
           progress: 75,
-          unit: '%'
+          unit: '%',
+          trend: 'up',
+          changeWeek: 12,
+          risk: 'low'
         },
         {
           id: '3.2',
@@ -129,7 +194,10 @@ export default function OKRsPage() {
           target: 500,
           current: 180,
           progress: 36,
-          unit: 'usuarios'
+          unit: 'usuarios',
+          trend: 'up',
+          changeWeek: 15,
+          risk: 'high'
         },
         {
           id: '3.3',
@@ -137,17 +205,34 @@ export default function OKRsPage() {
           target: 80,
           current: 45,
           progress: 56,
-          unit: '%'
+          unit: '%',
+          trend: 'stable',
+          changeWeek: 3,
+          risk: 'medium'
         }
       ],
       overallProgress: 56,
       status: 'behind',
       owner: 'Sofia Ramírez',
-      quarter: 'Q3-2025'
+      quarter: 'Q3-2025',
+      priority: 'medium',
+      tags: ['IoT', 'Health', 'MVP'],
+      timeline: [
+        { week: 'Sem 1', progress: 25 },
+        { week: 'Sem 2', progress: 32 },
+        { week: 'Sem 3', progress: 41 },
+        { week: 'Sem 4', progress: 49 },
+        { week: 'Sem 5', progress: 56 }
+      ],
+      aiInsights: [
+        'Necesita acelerar captación de early adopters',
+        'Prototipo avanzando bien',
+        'Considerar pivotear algunas hipótesis'
+      ]
     }
   ]);
 
-  // Colaboradores disponibles para asignar a OKRs
+  // Enhanced collaborators data
   const [collaborators, setCollaborators] = useState([
     {
       id: '1',
@@ -159,7 +244,10 @@ export default function OKRsPage() {
       availability: 85,
       performance: 94,
       skills: ['Product Management', 'UX/UI Design', 'Agile/Scrum'],
-      experience: 'Senior'
+      experience: 'Senior',
+      productivity: 96,
+      satisfaction: 8.5,
+      avatar: 'AG'
     },
     {
       id: '2',
@@ -171,7 +259,10 @@ export default function OKRsPage() {
       availability: 65,
       performance: 91,
       skills: ['React/Next.js', 'Node.js', 'Python'],
-      experience: 'Senior'
+      experience: 'Senior',
+      productivity: 88,
+      satisfaction: 7.8,
+      avatar: 'CL'
     },
     {
       id: '3',
@@ -183,7 +274,10 @@ export default function OKRsPage() {
       availability: 90,
       performance: 96,
       skills: ['UI Design', 'UX Research', 'Prototyping'],
-      experience: 'Senior'
+      experience: 'Senior',
+      productivity: 93,
+      satisfaction: 9.1,
+      avatar: 'MR'
     },
     {
       id: '4',
@@ -195,7 +289,10 @@ export default function OKRsPage() {
       availability: 75,
       performance: 98,
       skills: ['System Architecture', 'AI/ML', 'Team Leadership'],
-      experience: 'Senior'
+      experience: 'Senior',
+      productivity: 95,
+      satisfaction: 8.9,
+      avatar: 'RS'
     },
     {
       id: '5',
@@ -207,17 +304,20 @@ export default function OKRsPage() {
       availability: 95,
       performance: 87,
       skills: ['Product Strategy', 'Data Analysis', 'Growth Hacking'],
-      experience: 'Mid'
+      experience: 'Mid',
+      productivity: 84,
+      satisfaction: 8.2,
+      avatar: 'SR'
     }
   ]);
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'on-track': return 'bg-green-50 text-green-600';
-      case 'at-risk': return 'bg-yellow-50 text-yellow-600';
-      case 'behind': return 'bg-red-50 text-red-600';
-      case 'completed': return 'bg-blue-50 text-blue-600';
-      default: return 'text-gray-600';
+      case 'on-track': return 'from-green-400 to-emerald-500';
+      case 'at-risk': return 'from-yellow-400 to-orange-500';
+      case 'behind': return 'from-red-400 to-pink-500';
+      case 'completed': return 'from-blue-400 to-indigo-500';
+      default: return 'from-gray-400 to-gray-500';
     }
   };
 
@@ -247,24 +347,97 @@ export default function OKRsPage() {
     return '#EF4444';
   };
 
+  const getTrendIcon = (trend) => {
+    switch (trend) {
+      case 'up': return <ArrowUp className="w-3 h-3 text-green-500" />;
+      case 'down': return <ArrowDown className="w-3 h-3 text-red-500" />;
+      default: return <Activity className="w-3 h-3 text-gray-500" />;
+    }
+  };
+
+  const getRiskColor = (risk) => {
+    switch (risk) {
+      case 'low': return 'text-green-600 bg-green-100';
+      case 'medium': return 'text-yellow-600 bg-yellow-100';
+      case 'high': return 'text-red-600 bg-red-100';
+      default: return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  // Enhanced filtering and sorting
+  const filteredAndSortedOKRs = useMemo(() => {
+    let filtered = okrsData.filter(okr => {
+      const matchesTeam = selectedTeam === 'all' || okr.team === selectedTeam;
+      const matchesSearch = searchTerm === '' ||
+        okr.team.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        okr.objective.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        okr.owner.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesTeam && matchesSearch;
+    });
+
+    return filtered.sort((a, b) => {
+      let aVal, bVal;
+      switch (sortBy) {
+        case 'progress':
+          aVal = a.overallProgress;
+          bVal = b.overallProgress;
+          break;
+        case 'status':
+          const statusOrder = { 'behind': 0, 'at-risk': 1, 'on-track': 2, 'completed': 3 };
+          aVal = statusOrder[a.status];
+          bVal = statusOrder[b.status];
+          break;
+        case 'team':
+          aVal = a.team;
+          bVal = b.team;
+          break;
+        case 'priority':
+          const priorityOrder = { 'low': 0, 'medium': 1, 'high': 2 };
+          aVal = priorityOrder[a.priority];
+          bVal = priorityOrder[b.priority];
+          break;
+        default:
+          aVal = a.overallProgress;
+          bVal = b.overallProgress;
+      }
+
+      if (sortOrder === 'asc') {
+        return aVal > bVal ? 1 : -1;
+      } else {
+        return aVal < bVal ? 1 : -1;
+      }
+    });
+  }, [okrsData, selectedTeam, searchTerm, sortBy, sortOrder]);
+
+  const overallStats = useMemo(() => ({
+    totalObjectives: okrsData.length,
+    onTrack: okrsData.filter(okr => okr.status === 'on-track').length,
+    atRisk: okrsData.filter(okr => okr.status === 'at-risk').length,
+    behind: okrsData.filter(okr => okr.status === 'behind').length,
+    avgProgress: Math.round(okrsData.reduce((sum, okr) => sum + okr.overallProgress, 0) / okrsData.length),
+    highPriority: okrsData.filter(okr => okr.priority === 'high').length,
+    totalKeyResults: okrsData.reduce((sum, okr) => sum + okr.keyResults.length, 0),
+    avgTeamSatisfaction: Math.round(collaborators.reduce((sum, collab) => sum + collab.satisfaction, 0) / collaborators.length * 10) / 10
+  }), [okrsData, collaborators]);
+
   const handleCreateOKR = (okrData) => {
     setOkrsData(prev => [...prev, okrData]);
     setIsCreateModalOpen(false);
   };
 
   const handleAssignCollaborator = (collaboratorId, okrId) => {
-    setCollaborators(prev => prev.map(collab => 
+    setCollaborators(prev => prev.map(collab =>
       collab.id === collaboratorId
         ? { ...collab, currentOKRs: [...(collab.currentOKRs || []), okrId] }
         : collab
     ));
-    
+
     setOkrsData(prev => prev.map(okr =>
       okr.id === okrId
         ? { ...okr, assignedCollaborators: [...(okr.assignedCollaborators || []), collaboratorId] }
         : okr
     ));
-    
+
     setShowAssignModal(false);
     setSelectedOKR(null);
   };
@@ -274,556 +447,503 @@ export default function OKRsPage() {
     return okr ? `${okr.team}: ${okr.objective.substring(0, 30)}...` : 'OKR no encontrado';
   };
 
-  const filteredOKRs = selectedTeam === 'all' ? okrsData : okrsData.filter(okr => okr.team === selectedTeam);
+  const renderDashboardView = () => (
+    <div className="space-y-6">
+      {/* AI Insights Panel */}
+      <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl p-1 shadow-2xl">
+        <div className="bg-white rounded-3xl p-8">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+              <Brain className="w-8 h-8 text-purple-600" />
+              Insights Inteligentes
+            </h3>
+            <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-xl font-medium hover:shadow-lg transition-all">
+              <RefreshCw className="w-4 h-4" />
+              Actualizar
+            </button>
+          </div>
 
-  // Generate data for different views
-  const getTeamsView = () => filteredOKRs;
-  
-  const getObjectivesView = () => {
-    return filteredOKRs.map(okr => ({
-      ...okr,
-      id: okr.id + '_obj',
-      displayTitle: okr.objective,
-      type: 'objective'
-    }));
-  };
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100">
+              <div className="flex items-center gap-3 mb-4">
+                <Lightbulb className="w-6 h-6 text-green-600" />
+                <h4 className="font-bold text-green-800">Recomendación</h4>
+              </div>
+              <p className="text-green-700 text-sm mb-3">
+                EcoTech Carbon Platform está superando expectativas. Considerar acelerar roadmap de producto.
+              </p>
+              <button className="text-green-600 font-medium text-xs hover:text-green-800">Ver detalles →</button>
+            </div>
 
-  const getProgressView = () => {
-    return filteredOKRs
-      .sort((a, b) => b.overallProgress - a.overallProgress)
-      .map((okr, index) => ({
-        ...okr,
-        id: okr.id + '_prog',
-        displayTitle: `${okr.team} - ${okr.overallProgress}%`,
-        type: 'progress',
-        rank: index + 1,
-        progressCategory: okr.overallProgress >= 80 ? 'excellent' : 
-                         okr.overallProgress >= 60 ? 'good' :
-                         okr.overallProgress >= 40 ? 'fair' : 'needs-attention'
-      }));
-  };
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 border border-yellow-100">
+              <div className="flex items-center gap-3 mb-4">
+                <AlertTriangle className="w-6 h-6 text-yellow-600" />
+                <h4 className="font-bold text-yellow-800">Alerta</h4>
+              </div>
+              <p className="text-yellow-700 text-sm mb-3">
+                FinanceAI Analytics necesita atención en retención. Churn rate por encima del objetivo.
+              </p>
+              <button className="text-yellow-600 font-medium text-xs hover:text-yellow-800">Ver plan de acción →</button>
+            </div>
 
-  // Get current view data
-  const getCurrentViewData = () => {
-    switch (viewMode) {
-      case 'teams': return getTeamsView();
-      case 'objectives': return getObjectivesView();
-      case 'progress': return getProgressView();
-      case 'collaborators': return collaborators;
-      default: return getTeamsView();
-    }
-  };
-
-  const currentViewData = getCurrentViewData();
-
-  const overallStats = {
-    totalObjectives: okrsData.length,
-    onTrack: okrsData.filter(okr => okr.status === 'on-track').length,
-    atRisk: okrsData.filter(okr => okr.status === 'at-risk').length,
-    behind: okrsData.filter(okr => okr.status === 'behind').length,
-    avgProgress: Math.round(okrsData.reduce((sum, okr) => sum + okr.overallProgress, 0) / okrsData.length)
-  };
-
-  return (
-    <Layout title="🎯 OKRs Operativos" subtitle="Objetivos y resultados clave por equipo">
-      <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
-        {/* Content */}
-        <div className="mb-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-4">
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <select
-                value={selectedQuarter}
-                onChange={(e) => setSelectedQuarter(e.target.value)}
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg focus:outline-none transition-all duration-200"
-                style={{
-                  background: 'var(--surface-secondary)',
-                  color: 'var(--text-primary)',
-                  border: 'none'
-                }}
-                onFocus={(e) => {
-                  e.target.style.background = 'var(--surface)';
-                  e.target.style.boxShadow = 'var(--shadow-sm)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.background = 'var(--surface-secondary)';
-                  e.target.style.boxShadow = 'none';
-                }}
-              >
-                <option value="Q1-2025">Q1 2025</option>
-                <option value="Q2-2025">Q2 2025</option>
-                <option value="Q3-2025">Q3 2025</option>
-                <option value="Q4-2025">Q4 2025</option>
-              </select>
-
-              <select
-                value={selectedTeam}
-                onChange={(e) => setSelectedTeam(e.target.value)}
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg focus:outline-none transition-all duration-200"
-                style={{
-                  background: 'var(--surface-secondary)',
-                  color: 'var(--text-primary)',
-                  border: 'none'
-                }}
-                onFocus={(e) => {
-                  e.target.style.background = 'var(--surface)';
-                  e.target.style.boxShadow = 'var(--shadow-sm)';
-                }}
-                onBlur={(e) => {
-                  e.target.style.background = 'var(--surface-secondary)';
-                  e.target.style.boxShadow = 'none';
-                }}
-              >
-                <option value="all">Todos los proyectos</option>
-                <option value="EcoTech Carbon Platform">EcoTech Carbon Platform</option>
-                <option value="FinanceAI Analytics">FinanceAI Analytics</option>
-                <option value="HealthTracker IoT">HealthTracker IoT</option>
-              </select>
-              
-              <button 
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium bg-white shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200"
-                onMouseEnter={(e) => e.target.style.background = '#f8fafc'}
-                onMouseLeave={(e) => e.target.style.background = 'white'}
-              >
-                <Filter className="w-4 h-4 shrink-0" />
-                <span className="hidden sm:inline">Filtros</span>
-              </button>
-              
-              <button 
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 text-white transition-all duration-200 font-medium bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700"
-                style={{ background: 'var(--module-okrs)' }}
-                onMouseEnter={(e) => e.target.style.opacity = '0.9'}
-                onMouseLeave={(e) => e.target.style.opacity = '1'}
-              >
-                <Download className="w-4 h-4 shrink-0" />
-                <span className="hidden sm:inline">Exportar</span>
-              </button>
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+              <div className="flex items-center gap-3 mb-4">
+                <Zap className="w-6 h-6 text-blue-600" />
+                <h4 className="font-bold text-blue-800">Oportunidad</h4>
+              </div>
+              <p className="text-blue-700 text-sm mb-3">
+                El equipo de desarrollo tiene 20% más capacidad. Momento ideal para acelerar roadmap.
+              </p>
+              <button className="text-blue-600 font-medium text-xs hover:text-blue-800">Explorar opciones →</button>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* View Mode Tabs */}
-          <div className="flex flex-col sm:flex-row overflow-x-auto" style={{ borderBottom: '1px solid var(--separator)' }}>
-            <button
-              onClick={() => setViewMode('teams')}
-              className="flex-1 sm:flex-none px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap"
-              style={{
-                borderBottom: viewMode === 'teams' ? '2px solid var(--module-okrs)' : '2px solid transparent',
-                color: viewMode === 'teams' ? 'var(--module-okrs)' : 'var(--text-secondary)'
-              }}
-              onMouseEnter={(e) => {
-                if (viewMode !== 'teams') {
-                  e.target.style.color = 'var(--text-primary)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (viewMode !== 'teams') {
-                  e.target.style.color = 'var(--text-secondary)';
-                }
-              }}
-            >
-              <Users className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
-              <span className="hidden xs:inline">Por </span>Proyectos
-            </button>
-            <button
-              onClick={() => setViewMode('objectives')}
-              className="flex-1 sm:flex-none px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap"
-              style={{
-                borderBottom: viewMode === 'objectives' ? '2px solid var(--module-okrs)' : '2px solid transparent',
-                color: viewMode === 'objectives' ? 'var(--module-okrs)' : 'var(--text-secondary)'
-              }}
-              onMouseEnter={(e) => {
-                if (viewMode !== 'objectives') {
-                  e.target.style.color = 'var(--text-primary)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (viewMode !== 'objectives') {
-                  e.target.style.color = 'var(--text-secondary)';
-                }
-              }}
-            >
-              <Target className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
-              <span className="hidden xs:inline">Por </span>Objetivos
-            </button>
-            <button
-              onClick={() => setViewMode('progress')}
-              className="flex-1 sm:flex-none px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap"
-              style={{
-                borderBottom: viewMode === 'progress' ? '2px solid var(--module-okrs)' : '2px solid transparent',
-                color: viewMode === 'progress' ? 'var(--module-okrs)' : 'var(--text-secondary)'
-              }}
-              onMouseEnter={(e) => {
-                if (viewMode !== 'progress') {
-                  e.target.style.color = 'var(--text-primary)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (viewMode !== 'progress') {
-                  e.target.style.color = 'var(--text-secondary)';
-                }
-              }}
-            >
-              <BarChart3 className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
-              <span className="hidden xs:inline">Por </span>Progreso
-            </button>
-            <button
-              onClick={() => setViewMode('collaborators')}
-              className="flex-1 sm:flex-none px-3 sm:px-6 py-2 sm:py-3 text-sm sm:text-base font-medium transition-all duration-200 whitespace-nowrap"
-              style={{
-                borderBottom: viewMode === 'collaborators' ? '2px solid var(--module-okrs)' : '2px solid transparent',
-                color: viewMode === 'collaborators' ? 'var(--module-okrs)' : 'var(--text-secondary)'
-              }}
-              onMouseEnter={(e) => {
-                if (viewMode !== 'collaborators') {
-                  e.target.style.color = 'var(--text-primary)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (viewMode !== 'collaborators') {
-                  e.target.style.color = 'var(--text-secondary)';
-                }
-              }}
-            >
-              <UserPlus className="w-3 sm:w-4 h-3 sm:h-4 inline mr-1 sm:mr-2" />
-              <span className="hidden xs:inline">Directorio </span>Colaboradores
-            </button>
+      {/* Advanced Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-3xl p-6 text-white shadow-2xl">
+          <div className="flex items-center justify-between mb-4">
+            <Target className="w-8 h-8 opacity-80" />
+            <span className="text-purple-200 text-sm font-medium">↗ +12%</span>
           </div>
-          
-          {/* View Description */}
-          <div className="mt-4 p-3 rounded-lg" style={{ background: 'var(--surface-secondary)' }}>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              {viewMode === 'teams' && (
-                <>
-                  <span className="font-medium">Vista por Proyectos:</span> Organización por proyectos y equipos de trabajo
-                </>
-              )}
-              {viewMode === 'objectives' && (
-                <>
-                  <span className="font-medium">Vista por Objetivos:</span> Enfoque en objetivos individuales y su progreso
-                </>
-              )}
-              {viewMode === 'progress' && (
-                <>
-                  <span className="font-medium">Vista por Progreso:</span> Ranking de proyectos ordenado por porcentaje de progreso
-                </>
-              )}
-              {viewMode === 'collaborators' && (
-                <>
-                  <span className="font-medium">Directorio de Colaboradores:</span> Gestión y asignación de colaboradores a OKRs
-                </>
-              )}
-            </p>
+          <div className="space-y-2">
+            <p className="text-purple-200 text-sm font-medium">Objetivos Totales</p>
+            <p className="text-4xl font-bold">{overallStats.totalObjectives}</p>
+            <p className="text-purple-200 text-xs">Este trimestre</p>
           </div>
         </div>
 
-        {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-8">
-          <ModernMetricCard
-            title="Total Objetivos"
-            value={overallStats.totalObjectives}
-            icon={<Target className="w-6 h-6" />}
-            color="purple"
-            subtitle="Activos este trimestre"
-            trend="stable"
-          />
-
-          <ModernMetricCard
-            title="En Progreso"
-            value={overallStats.onTrack}
-            icon={<CheckCircle className="w-6 h-6" />}
-            color="green"
-            trend="up"
-            change={15.2}
-            changeType="positive"
-            subtitle="Cumpliendo objetivos"
-          />
-
-          <ModernMetricCard
-            title="En Riesgo"
-            value={overallStats.atRisk}
-            icon={<AlertTriangle className="w-6 h-6" />}
-            color="orange"
-            trend="stable"
-            subtitle="Requiere atención"
-          />
-
-          <ModernMetricCard
-            title="Atrasados"
-            value={overallStats.behind}
-            icon={<XCircle className="w-6 h-6" />}
-            color="pink"
-            trend="down"
-            change={-8.5}
-            changeType="positive"
-            subtitle="Necesita intervención"
-          />
-
-          <ModernMetricCard
-            title="Progreso Promedio"
-            value={`${overallStats.avgProgress}%`}
-            icon={<BarChart3 className="w-6 h-6" />}
-            color="blue"
-            trend="up"
-            change={7.3}
-            changeType="positive"
-            subtitle="Del trimestre actual"
-          />
+        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl p-6 text-white shadow-2xl">
+          <div className="flex items-center justify-between mb-4">
+            <CheckCircle className="w-8 h-8 opacity-80" />
+            <span className="text-green-200 text-sm font-medium">↗ +8%</span>
+          </div>
+          <div className="space-y-2">
+            <p className="text-green-200 text-sm font-medium">En Progreso</p>
+            <p className="text-4xl font-bold">{overallStats.onTrack}</p>
+            <p className="text-green-200 text-xs">Cumpliendo objetivos</p>
+          </div>
         </div>
 
-        {/* Content Based on View Mode */}
-        {viewMode === 'collaborators' ? (
-          /* Collaborators Directory */
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
-              <div className="p-6 border-b border-gray-100">
-                <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
-                  👥 Directorio de Colaboradores
-                </h3>
-              </div>
-              
-              <div className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {collaborators.map((collaborator) => (
-                    <div
-                      key={collaborator.id}
-                      className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 hover:shadow-lg hover:from-gray-100 hover:to-gray-200 transition-all duration-300 border border-gray-200"
-                    >
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
-                            <User className="w-6 h-6 text-white" />
-                          </div>
-                          <div>
-                            <h4 className="font-bold tracking-tight text-gray-900">
-                              {collaborator.name}
-                            </h4>
-                            <p className="text-sm font-medium text-gray-600">{collaborator.role}</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3 mb-4">
-                        <div className="flex items-center gap-2 text-sm text-gray-600 bg-white px-3 py-2 rounded-full">
-                          <Mail className="w-4 h-4" />
-                          <span className="truncate">{collaborator.email}</span>
-                        </div>
-                        
-                        <div className="flex items-center gap-2 text-sm text-gray-600 bg-white px-3 py-2 rounded-full">
-                          <MapPin className="w-4 h-4" />
-                          <span>{collaborator.location}</span>
-                        </div>
-                        
-                        <div>
-                          <span className="text-sm font-bold text-gray-700">💡 Skills:</span>
-                          <div className="flex flex-wrap gap-2 mt-2">
-                            {collaborator.skills.slice(0, 2).map((skill, idx) => (
-                              <span
-                                key={idx}
-                                className="px-3 py-1 text-xs font-bold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 rounded-full"
-                              >
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div>
-                          <span className="text-sm font-bold text-gray-700">🎯 OKRs Actuales:</span>
-                          <div className="mt-2">
-                            {collaborator.currentOKRs && collaborator.currentOKRs.length > 0 ? (
-                              collaborator.currentOKRs.map((okrId, idx) => (
-                                <div key={idx} className="text-xs font-medium text-gray-700 bg-gradient-to-r from-green-100 to-emerald-100 px-3 py-2 rounded-full mb-2">
-                                  {getOKRTitle(okrId)}
-                                </div>
-                              ))
-                            ) : (
-                              <span className="text-xs font-medium text-gray-500 bg-gray-200 px-3 py-1 rounded-full">Sin asignaciones</span>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-200">
-                          <div className="text-center bg-white p-3 rounded-xl">
-                            <div className="text-lg font-bold text-gray-900">{collaborator.availability}%</div>
-                            <div className="text-xs font-medium text-gray-600">🟢 Disponibilidad</div>
-                          </div>
-                          <div className="text-center bg-white p-3 rounded-xl">
-                            <div className="text-lg font-bold text-gray-900">{collaborator.performance}%</div>
-                            <div className="text-xs font-medium text-gray-600">⭐ Performance</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={() => {
-                          setSelectedCollaborator(collaborator.id);
-                          setSelectedOKR(null);
-                          setShowAssignModal(true);
-                        }}
-                        className="w-full px-4 py-3 text-sm font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-xl hover:from-purple-600 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg"
-                      >
-                        🎯 Asignar a OKR
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+        <div className="bg-gradient-to-br from-yellow-500 to-orange-600 rounded-3xl p-6 text-white shadow-2xl">
+          <div className="flex items-center justify-between mb-4">
+            <AlertTriangle className="w-8 h-8 opacity-80" />
+            <span className="text-yellow-200 text-sm font-medium">↗ +2%</span>
           </div>
-        ) : (
-          /* OKRs List - Dynamic View */
-          <div className="space-y-6">
-            {currentViewData.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="text-gray-500 mb-4">
-                  <Target className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p className="text-lg font-medium">No hay OKRs para mostrar</p>
-                  <p className="text-sm">Ajusta tus filtros o crea un nuevo OKR</p>
+          <div className="space-y-2">
+            <p className="text-yellow-200 text-sm font-medium">En Riesgo</p>
+            <p className="text-4xl font-bold">{overallStats.atRisk}</p>
+            <p className="text-yellow-200 text-xs">Requieren atención</p>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-3xl p-6 text-white shadow-2xl">
+          <div className="flex items-center justify-between mb-4">
+            <BarChart3 className="w-8 h-8 opacity-80" />
+            <span className="text-blue-200 text-sm font-medium">↗ +5%</span>
+          </div>
+          <div className="space-y-2">
+            <p className="text-blue-200 text-sm font-medium">Progreso Promedio</p>
+            <p className="text-4xl font-bold">{overallStats.avgProgress}%</p>
+            <p className="text-blue-200 text-xs">Del trimestre</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Team Performance Heatmap */}
+      <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+        <div className="p-8 border-b border-gray-100">
+          <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            <Activity className="w-8 h-8 text-indigo-600" />
+            Performance por Equipo
+          </h3>
+        </div>
+        <div className="p-8">
+          <div className="space-y-4">
+            {okrsData.map((okr) => (
+              <div key={okr.id} className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl hover:shadow-lg transition-all">
+                <div className="flex items-center gap-4">
+                  <div className={`w-4 h-4 rounded-full bg-gradient-to-r ${getStatusColor(okr.status)}`}></div>
+                  <div>
+                    <h4 className="font-bold text-gray-900">{okr.team}</h4>
+                    <p className="text-sm text-gray-600">{okr.objective.substring(0, 50)}...</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-6">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-gray-900">{okr.overallProgress}%</p>
+                    <p className="text-xs text-gray-600">Progreso</p>
+                  </div>
+                  <div className="w-16 h-16">
+                    <CircularProgressbar
+                      value={okr.overallProgress}
+                      styles={buildStyles({
+                        textSize: '14px',
+                        pathColor: getProgressColor(okr.overallProgress),
+                        trailColor: '#F3F4F6',
+                        pathTransitionDuration: 0.5,
+                      })}
+                    />
+                  </div>
                 </div>
               </div>
-            ) : (
-              currentViewData.map((okr) => (
-            <div key={okr.id} className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
-              {/* OKR Header */}
-              <div className="p-4 sm:p-6 border-b border-gray-100">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      {viewMode === 'progress' && (
-                        <div className={`flex items-center justify-center w-10 h-10 rounded-full text-sm font-bold ${
-                          okr.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
-                          okr.rank === 2 ? 'bg-gradient-to-br from-gray-400 to-gray-500 text-white' :
-                          okr.rank === 3 ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white' :
-                          'bg-gradient-to-br from-blue-400 to-indigo-500 text-white'
-                        }`}>
-                          {okr.rank}
-                        </div>
-                      )}
-                      <div className="flex-1">
-                        <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 mb-1">
-                          {viewMode === 'teams' && okr.team}
-                          {viewMode === 'objectives' && okr.objective}
-                          {viewMode === 'progress' && okr.team}
-                        </h3>
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold ${getStatusColor(okr.status).replace('bg-', 'bg-gradient-to-r from-').replace('text-', 'text-')}`}>
-                            {getStatusIcon(okr.status)}
-                            {getStatusLabel(okr.status)}
-                          </span>
-                          {viewMode === 'progress' && (
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800">
-                              📊 {okr.overallProgress}%
-                            </span>
-                          )}
-                        </div>
-                      </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderOKRsList = () => (
+    <div className="space-y-6">
+      {filteredAndSortedOKRs.length === 0 ? (
+        <div className="text-center py-16">
+          <Target className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+          <p className="text-xl font-medium text-gray-600 mb-2">No hay OKRs para mostrar</p>
+          <p className="text-gray-500">Ajusta tus filtros o crea un nuevo OKR</p>
+        </div>
+      ) : (
+        filteredAndSortedOKRs.map((okr) => (
+          <div key={okr.id} className="bg-white rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-500 overflow-hidden">
+            {/* Enhanced OKR Header */}
+            <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
+              <div className="flex items-start justify-between mb-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-white font-bold bg-gradient-to-r ${getStatusColor(okr.status)} shadow-lg`}>
+                      {getStatusIcon(okr.status)}
+                      {getStatusLabel(okr.status)}
                     </div>
-                    <p className="text-gray-700 font-medium mb-3 text-sm sm:text-base">
-                      {viewMode === 'teams' && okr.objective}
-                      {viewMode === 'objectives' && `🏢 Equipo: ${okr.team}`}
-                      {viewMode === 'progress' && okr.objective}
-                    </p>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <span className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
-                        <Users className="w-4 h-4" />
-                        {okr.owner}
-                      </span>
-                      <span className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
-                        <Calendar className="w-4 h-4" />
-                        {okr.quarter}
-                      </span>
+                    <div className="flex gap-2">
+                      {okr.tags?.map((tag, idx) => (
+                        <span key={idx} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-4">
-                    <div className="text-center">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20">
-                        <CircularProgressbar 
-                          value={okr.overallProgress} 
-                          text={`${okr.overallProgress}%`}
-                          styles={buildStyles({
-                            textSize: '18px',
-                            pathColor: getProgressColor(okr.overallProgress),
-                            textColor: getProgressColor(okr.overallProgress),
-                            trailColor: '#F3F4F6',
-                            pathTransitionDuration: 0.5,
-                          })}
-                        />
-                      </div>
-                      <p className="text-xs font-medium text-gray-600 mt-2">📈 Progreso general</p>
-                    </div>
+
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{okr.team}</h3>
+                  <p className="text-lg text-gray-700 mb-4 leading-relaxed">{okr.objective}</p>
+
+                  <div className="flex items-center gap-6 text-sm text-gray-600">
+                    <span className="flex items-center gap-2 bg-white px-3 py-2 rounded-xl shadow-sm">
+                      <User className="w-4 h-4" />
+                      {okr.owner}
+                    </span>
+                    <span className="flex items-center gap-2 bg-white px-3 py-2 rounded-xl shadow-sm">
+                      <Calendar className="w-4 h-4" />
+                      {okr.quarter}
+                    </span>
+                    <span className={`flex items-center gap-2 px-3 py-2 rounded-xl shadow-sm ${okr.priority === 'high' ? 'bg-red-50 text-red-700' : okr.priority === 'medium' ? 'bg-yellow-50 text-yellow-700' : 'bg-green-50 text-green-700'}`}>
+                      <Star className="w-4 h-4" />
+                      Prioridad {okr.priority}
+                    </span>
                   </div>
+                </div>
+
+                <div className="flex items-center gap-6">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mb-4">
+                      <CircularProgressbar
+                        value={okr.overallProgress}
+                        text={`${okr.overallProgress}%`}
+                        styles={buildStyles({
+                          textSize: '16px',
+                          pathColor: getProgressColor(okr.overallProgress),
+                          textColor: getProgressColor(okr.overallProgress),
+                          trailColor: '#F3F4F6',
+                          pathTransitionDuration: 0.5,
+                        })}
+                      />
+                    </div>
+                    <p className="text-sm font-medium text-gray-600">Progreso General</p>
+                  </div>
+
+                  <button
+                    onClick={() => setExpandedOKR(expandedOKR === okr.id ? null : okr.id)}
+                    className="p-3 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    {expandedOKR === okr.id ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                  </button>
                 </div>
               </div>
 
-              {/* Key Results */}
-              <div className="p-4 sm:p-6">
-                <h4 className="text-sm sm:text-base font-bold tracking-tight text-gray-900 mb-4 flex items-center gap-2">
-                  🎯 Resultados Clave
+              {/* AI Insights for this OKR */}
+              {okr.aiInsights && (
+                <div className="mt-6 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl border border-indigo-100">
+                  <h4 className="font-bold text-indigo-900 mb-3 flex items-center gap-2">
+                    <Brain className="w-5 h-5" />
+                    Insights IA
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {okr.aiInsights.map((insight, idx) => (
+                      <div key={idx} className="flex items-start gap-2 text-sm">
+                        <Lightbulb className="w-4 h-4 text-indigo-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-indigo-800">{insight}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Enhanced Key Results */}
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-6">
+                <h4 className="text-xl font-bold text-gray-900 flex items-center gap-3">
+                  <Target className="w-6 h-6 text-indigo-600" />
+                  Resultados Clave
                 </h4>
-                <div className="space-y-4">
-                  {okr.keyResults.map((kr) => (
-                    <div key={kr.id} className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 transition-all duration-200 border border-gray-200">
+                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                  {okr.keyResults.length} KRs
+                </span>
+              </div>
+
+              <div className="space-y-6">
+                {okr.keyResults.map((kr) => (
+                  <div key={kr.id} className="p-6 rounded-2xl bg-gradient-to-r from-gray-50 to-white border border-gray-100 hover:shadow-lg transition-all">
+                    <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
-                        <p className="font-bold text-gray-900 mb-2">{kr.description}</p>
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                          <span className="bg-white px-2 py-1 rounded-full font-medium">
-                            {kr.current.toLocaleString()} / {kr.target.toLocaleString()} {kr.unit}
+                        <p className="font-bold text-gray-900 mb-3 text-lg">{kr.description}</p>
+                        <div className="flex items-center gap-4 text-sm">
+                          <span className="bg-white px-3 py-2 rounded-xl shadow-sm font-medium border border-gray-200">
+                            📊 {kr.current.toLocaleString()} / {kr.target.toLocaleString()} {kr.unit}
                           </span>
-                          <span className="text-gray-400">•</span>
-                          <span className={`font-bold px-2 py-1 rounded-full ${
-                            kr.progress >= 80 ? 'bg-green-100 text-green-700' : 
-                            kr.progress >= 60 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
-                          }`}>
-                            {kr.progress}%
+                          <span className={`px-3 py-2 rounded-xl font-bold ${kr.progress >= 80 ? 'bg-green-100 text-green-700 border border-green-200' : kr.progress >= 60 ? 'bg-yellow-100 text-yellow-700 border border-yellow-200' : 'bg-red-100 text-red-700 border border-red-200'}`}>
+                            {kr.progress}% completado
+                          </span>
+                          <span className={`px-3 py-2 rounded-xl font-medium ${getRiskColor(kr.risk)}`}>
+                            🎯 Riesgo {kr.risk}
+                          </span>
+                          <span className="flex items-center gap-1 px-3 py-2 rounded-xl bg-blue-50 text-blue-700 border border-blue-200">
+                            {getTrendIcon(kr.trend)}
+                            {kr.changeWeek > 0 ? '+' : ''}{kr.changeWeek}% sem.
                           </span>
                         </div>
                       </div>
-                      
-                      <div className="w-24">
-                        <div className="w-full bg-gray-300 rounded-full h-3">
-                          <div 
-                            className="h-3 rounded-full transition-all duration-500"
-                            style={{ 
+
+                      <div className="flex items-center gap-4">
+                        <div className="w-20 h-3 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full transition-all duration-700 rounded-full"
+                            style={{
                               width: `${Math.min(kr.progress, 100)}%`,
-                              background: `linear-gradient(to right, ${getProgressColor(kr.progress)}, ${getProgressColor(kr.progress)}99)`
+                              background: `linear-gradient(to right, ${getProgressColor(kr.progress)}, ${getProgressColor(kr.progress)}dd)`
                             }}
                           />
                         </div>
-                      </div>
-
-                      <div className="w-14 h-14">
-                        <CircularProgressbar 
-                          value={kr.progress} 
-                          text={`${kr.progress}%`}
-                          styles={buildStyles({
-                            textSize: '14px',
-                            pathColor: getProgressColor(kr.progress),
-                            textColor: getProgressColor(kr.progress),
-                            trailColor: '#F3F4F6',
-                            pathTransitionDuration: 0.5,
-                          })}
-                        />
+                        <div className="w-16 h-16">
+                          <CircularProgressbar
+                            value={kr.progress}
+                            text={`${kr.progress}%`}
+                            styles={buildStyles({
+                              textSize: '14px',
+                              pathColor: getProgressColor(kr.progress),
+                              textColor: getProgressColor(kr.progress),
+                              trailColor: '#F3F4F6',
+                              pathTransitionDuration: 0.5,
+                            })}
+                          />
+                        </div>
                       </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
-              ))
+
+            {/* Expanded Details */}
+            {expandedOKR === okr.id && (
+              <div className="p-8 bg-gradient-to-r from-gray-50 to-white border-t border-gray-100">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Timeline */}
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                      📈 Timeline de Progreso
+                    </h4>
+                    <div className="space-y-3">
+                      {okr.timeline?.map((point, idx) => (
+                        <div key={idx} className="flex items-center gap-4">
+                          <span className="w-16 text-sm font-medium text-gray-600">{point.week}</span>
+                          <div className="flex-1 bg-gray-200 rounded-full h-3">
+                            <div
+                              className="h-3 rounded-full transition-all duration-500"
+                              style={{
+                                width: `${point.progress}%`,
+                                background: `linear-gradient(to right, ${getProgressColor(point.progress)}, ${getProgressColor(point.progress)}99)`
+                              }}
+                            />
+                          </div>
+                          <span className="w-12 text-sm font-bold text-gray-700">{point.progress}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Action Items */}
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                      ⚡ Próximas Acciones
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="p-4 bg-white rounded-xl border border-gray-200">
+                        <p className="text-sm font-medium text-gray-900">Revisar métricas de retención</p>
+                        <p className="text-xs text-gray-600 mt-1">Fecha límite: Esta semana</p>
+                      </div>
+                      <div className="p-4 bg-white rounded-xl border border-gray-200">
+                        <p className="text-sm font-medium text-gray-900">Implementar nueva funcionalidad</p>
+                        <p className="text-xs text-gray-600 mt-1">Fecha límite: Próxima semana</p>
+                      </div>
+                      <div className="p-4 bg-white rounded-xl border border-gray-200">
+                        <p className="text-sm font-medium text-gray-900">Optimizar flujo de onboarding</p>
+                        <p className="text-xs text-gray-600 mt-1">Fecha límite: En 2 semanas</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
-        )}
+        ))
+      )}
+    </div>
+  );
 
-        {/* Add New OKR Button */}
-        <div className="mt-8 text-center">
-          <button 
-            onClick={() => setIsCreateModalOpen(true)}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-2xl hover:from-purple-600 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-          >
-            <Plus className="w-5 sm:w-6 h-5 sm:h-6 shrink-0" />
-            🚀 Crear Nuevo OKR
-          </button>
+  return (
+    <Layout title="🎯 OKRs Operativos" subtitle="Objetivos y resultados clave por equipo - Dashboard empresarial avanzado">
+      <div className="p-6 min-h-screen" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+
+        {/* Enhanced Header Controls */}
+        <div className="mb-8">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+            <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+              {/* Main Controls */}
+              <div className="flex flex-wrap gap-4">
+                <select
+                  value={selectedQuarter}
+                  onChange={(e) => setSelectedQuarter(e.target.value)}
+                  className="px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium min-w-[140px]"
+                >
+                  <option value="Q1-2025">Q1 2025</option>
+                  <option value="Q2-2025">Q2 2025</option>
+                  <option value="Q3-2025">Q3 2025</option>
+                  <option value="Q4-2025">Q4 2025</option>
+                </select>
+
+                <select
+                  value={selectedTeam}
+                  onChange={(e) => setSelectedTeam(e.target.value)}
+                  className="px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium min-w-[200px]"
+                >
+                  <option value="all">Todos los equipos</option>
+                  <option value="EcoTech Carbon Platform">EcoTech Carbon Platform</option>
+                  <option value="FinanceAI Analytics">FinanceAI Analytics</option>
+                  <option value="HealthTracker IoT">HealthTracker IoT</option>
+                </select>
+
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Buscar OKRs..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium min-w-[200px]"
+                  />
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium transition-all ${showFilters ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                >
+                  <Filter className="w-4 h-4" />
+                  Filtros
+                </button>
+                <button className="flex items-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all">
+                  <Download className="w-4 h-4" />
+                  Exportar
+                </button>
+              </div>
+            </div>
+
+            {/* Advanced Filters */}
+            {showFilters && (
+              <div className="mt-6 p-6 bg-gray-50 rounded-2xl border-t border-gray-200">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Ordenar por</label>
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="progress">Progreso</option>
+                      <option value="status">Estado</option>
+                      <option value="team">Equipo</option>
+                      <option value="priority">Prioridad</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Orden</label>
+                    <select
+                      value={sortOrder}
+                      onChange={(e) => setSortOrder(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      <option value="desc">Descendente</option>
+                      <option value="asc">Ascendente</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Enhanced View Mode Tabs */}
+        <div className="mb-8">
+          <div className="bg-white rounded-3xl shadow-2xl p-2 border border-gray-100">
+            <div className="flex flex-wrap gap-2">
+              {[
+                { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
+                { id: 'teams', label: 'Por Equipos', icon: Users },
+                { id: 'objectives', label: 'Objetivos', icon: Target },
+                { id: 'progress', label: 'Progreso', icon: TrendingUp },
+                { id: 'collaborators', label: 'Colaboradores', icon: UserPlus },
+                { id: 'analytics', label: 'Analytics', icon: Activity }
+              ].map(({ id, label, icon: Icon }) => (
+                <button
+                  key={id}
+                  onClick={() => setViewMode(id)}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-medium transition-all ${
+                    viewMode === id
+                      ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg'
+                      : 'text-gray-600 hover:bg-gray-100'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Content Based on View Mode */}
+        {viewMode === 'dashboard' ? renderDashboardView() : renderOKRsList()}
+
+        {/* Floating Create Button */}
+        <button
+          onClick={() => setIsCreateModalOpen(true)}
+          className="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-3xl flex items-center justify-center transition-all duration-300 hover:scale-110 z-40"
+        >
+          <Plus className="w-8 h-8" />
+        </button>
 
         {/* Create OKR Modal */}
         <CreateOKRModal
@@ -835,29 +955,30 @@ export default function OKRsPage() {
         {/* Assign to OKR Modal */}
         {showAssignModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl p-6 max-w-lg w-full mx-4 shadow-2xl border border-gray-200">
-              <h3 className="text-xl font-bold tracking-tight text-gray-900 mb-6 flex items-center gap-2">
-                🎯 Asignar Colaborador a OKR
+            <div className="bg-white rounded-3xl p-8 max-w-lg w-full mx-4 shadow-2xl border border-gray-200">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <Target className="w-8 h-8 text-indigo-600" />
+                Asignar Colaborador
               </h3>
-              
+
               {selectedCollaborator && (
-                <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+                <div className="mb-6 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200">
                   <h4 className="font-bold text-gray-900 mb-2">👤 Colaborador seleccionado:</h4>
-                  <p className="text-sm font-medium text-gray-700">
-                    {collaborators.find(c => c.id === selectedCollaborator)?.name} - 
+                  <p className="text-gray-700 font-medium">
+                    {collaborators.find(c => c.id === selectedCollaborator)?.name} -
                     {collaborators.find(c => c.id === selectedCollaborator)?.role}
                   </p>
                 </div>
               )}
-              
+
               <div className="mb-6">
                 <label className="block text-sm font-bold text-gray-700 mb-3">
-                  🎯 Seleccionar OKR:
+                  Seleccionar OKR:
                 </label>
                 <select
                   value={selectedOKR || ''}
                   onChange={(e) => setSelectedOKR(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent font-medium"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent font-medium"
                 >
                   <option value="">Seleccionar OKR</option>
                   {okrsData.map((okr) => (
@@ -868,33 +989,16 @@ export default function OKRsPage() {
                 </select>
               </div>
 
-              {selectedOKR && (
-                <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
-                  <h4 className="font-bold text-gray-900 mb-2">✅ OKR seleccionado:</h4>
-                  <p className="text-sm font-medium text-gray-700 mb-2">
-                    {okrsData.find(o => o.id === selectedOKR)?.objective}
-                  </p>
-                  <div className="flex items-center gap-2 text-xs font-medium text-gray-600">
-                    <span className="bg-white px-2 py-1 rounded-full">
-                      🏢 {okrsData.find(o => o.id === selectedOKR)?.team}
-                    </span>
-                    <span className="bg-white px-2 py-1 rounded-full">
-                      📊 {okrsData.find(o => o.id === selectedOKR)?.overallProgress}%
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex justify-end gap-3">
+              <div className="flex justify-end gap-4">
                 <button
                   onClick={() => {
                     setShowAssignModal(false);
                     setSelectedOKR(null);
                     setSelectedCollaborator(null);
                   }}
-                  className="px-6 py-3 text-sm font-bold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition-all duration-200"
+                  className="px-6 py-3 text-gray-600 bg-gray-100 rounded-2xl font-medium hover:bg-gray-200 transition-all"
                 >
-                  ❌ Cancelar
+                  Cancelar
                 </button>
                 <button
                   onClick={() => {
@@ -903,9 +1007,9 @@ export default function OKRsPage() {
                     }
                   }}
                   disabled={!selectedOKR || !selectedCollaborator}
-                  className="px-6 py-3 text-sm font-bold bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-xl hover:from-purple-600 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+                  className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl font-medium hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
-                  ✅ Confirmar Asignación
+                  Confirmar
                 </button>
               </div>
             </div>
