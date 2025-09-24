@@ -24,9 +24,10 @@ import {
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  onAIAssistantToggle?: () => void;
 }
 
-const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
+const Sidebar = ({ isOpen, onClose, onAIAssistantToggle }: SidebarProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -109,10 +110,11 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
     },
     {
       name: 'AI Assistant',
-      href: '/ai',
+      href: '#ai-assistant',
       icon: Brain,
       description: 'Inteligencia artificial y análisis',
-      color: 'var(--module-ai)'
+      color: 'var(--module-ai)',
+      isEmbedded: true
     }
   ];
 
@@ -198,17 +200,32 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             const Icon = item.icon;
             const active = isActive(item.href);
             
+            const handleClick = (e: React.MouseEvent) => {
+              if (item.isEmbedded && item.name === 'AI Assistant') {
+                e.preventDefault();
+                onAIAssistantToggle?.();
+                if (window.innerWidth < 1024) {
+                  onClose();
+                }
+                return;
+              }
+
+              // Close mobile menu when clicking a link
+              if (window.innerWidth < 1024) {
+                onClose();
+              }
+            };
+
+            const LinkComponent = item.isEmbedded ? 'button' : Link;
+            const linkProps = item.isEmbedded
+              ? { onClick: handleClick, type: 'button' as const }
+              : { href: item.href, onClick: handleClick };
+
             return (
-              <Link
+              <LinkComponent
                 key={item.href}
-                href={item.href}
-                onClick={() => {
-                  // Close mobile menu when clicking a link
-                  if (window.innerWidth < 1024) {
-                    onClose();
-                  }
-                }}
-                className={`flex items-center gap-4 p-4 rounded-xl transition-all duration-150 group relative ${
+                {...linkProps}
+                className={`flex items-center gap-4 p-4 rounded-xl transition-all duration-150 group relative w-full text-left ${
                   active
                     ? 'bg-gray-100 text-gray-900'
                     : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
@@ -230,8 +247,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                     </div>
                   </div>
                 )}
-                
-              </Link>
+
+              </LinkComponent>
             );
           })}
         </nav>

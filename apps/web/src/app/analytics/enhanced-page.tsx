@@ -32,16 +32,14 @@ import {
 import Layout from '../../components/layout/Layout';
 import RealTimeMetrics from '../../components/analytics/RealTimeMetrics';
 import AdvancedCharts from '../../components/analytics/AdvancedCharts';
-import PredictiveMetrics from '../../components/analytics/PredictiveMetrics';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
-export default function AnalyticsPage() {
+export default function EnhancedAnalyticsPage() {
   const [selectedMetrics, setSelectedMetrics] = useState(['revenue', 'users', 'retention']);
   const [timeRange, setTimeRange] = useState('30d');
   const [viewMode, setViewMode] = useState('overview');
   const [isLoading, setIsLoading] = useState(true);
   const [showInsights, setShowInsights] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
@@ -133,13 +131,6 @@ export default function AnalyticsPage() {
     }
   };
 
-  const tabs = [
-    { id: 'overview', label: 'Overview', icon: BarChart3 },
-    { id: 'realtime', label: 'Real-time', icon: Activity },
-    { id: 'predictive', label: 'Predictive', icon: Brain },
-    { id: 'advanced', label: 'Advanced Charts', icon: TrendingUp }
-  ];
-
   if (isLoading) {
     return (
       <Layout title="Advanced Analytics" subtitle="Loading intelligent insights...">
@@ -225,72 +216,70 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Enhanced KPI Cards */}
-        {data && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="flex items-center justify-between mb-4">
-                <DollarSign className="w-8 h-8 opacity-80" />
-                <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
-                  <ArrowUp className="w-3 h-3" />
-                  <span className="text-xs font-medium">+15.2%</span>
-                </div>
-              </div>
-              <div className="text-3xl font-bold mb-1">${data.kpis.totalRevenue.toLocaleString()}</div>
-              <div className="text-green-100 text-sm font-medium">Total Revenue</div>
-              <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
-                <div className="h-full bg-white bg-opacity-60 rounded-full w-3/4"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-gradient-to-br from-green-400 to-emerald-600 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="flex items-center justify-between mb-4">
+              <DollarSign className="w-8 h-8 opacity-80" />
+              <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
+                <ArrowUp className="w-3 h-3" />
+                <span className="text-xs font-medium">+15.2%</span>
               </div>
             </div>
-
-            <div className="bg-gradient-to-br from-blue-400 to-indigo-600 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="flex items-center justify-between mb-4">
-                <Users className="w-8 h-8 opacity-80" />
-                <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
-                  <ArrowUp className="w-3 h-3" />
-                  <span className="text-xs font-medium">+8.7%</span>
-                </div>
-              </div>
-              <div className="text-3xl font-bold mb-1">{data.kpis.totalUsers.toLocaleString()}</div>
-              <div className="text-blue-100 text-sm font-medium">Active Users</div>
-              <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
-                <div className="h-full bg-white bg-opacity-60 rounded-full w-4/5"></div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-purple-400 to-violet-600 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="flex items-center justify-between mb-4">
-                <Target className="w-8 h-8 opacity-80" />
-                <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
-                  <ArrowUp className="w-3 h-3" />
-                  <span className="text-xs font-medium">+0.5%</span>
-                </div>
-              </div>
-              <div className="text-3xl font-bold mb-1">{data.kpis.conversionRate}%</div>
-              <div className="text-purple-100 text-sm font-medium">Conversion Rate</div>
-              <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
-                <div className="h-full bg-white bg-opacity-60 rounded-full w-2/3"></div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              <div className="flex items-center justify-between mb-4">
-                <Activity className="w-8 h-8 opacity-80" />
-                <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
-                  <ArrowUp className="w-3 h-3" />
-                  <span className="text-xs font-medium">+3.1%</span>
-                </div>
-              </div>
-              <div className="text-3xl font-bold mb-1">{data.kpis.avgRetention}%</div>
-              <div className="text-orange-100 text-sm font-medium">Avg Retention</div>
-              <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
-                <div className="h-full bg-white bg-opacity-60 rounded-full w-5/6"></div>
-              </div>
+            <div className="text-3xl font-bold mb-1">${data.kpis.totalRevenue.toLocaleString()}</div>
+            <div className="text-green-100 text-sm font-medium">Total Revenue</div>
+            <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
+              <div className="h-full bg-white bg-opacity-60 rounded-full w-3/4"></div>
             </div>
           </div>
-        )}
+
+          <div className="bg-gradient-to-br from-blue-400 to-indigo-600 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="flex items-center justify-between mb-4">
+              <Users className="w-8 h-8 opacity-80" />
+              <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
+                <ArrowUp className="w-3 h-3" />
+                <span className="text-xs font-medium">+8.7%</span>
+              </div>
+            </div>
+            <div className="text-3xl font-bold mb-1">{data.kpis.totalUsers.toLocaleString()}</div>
+            <div className="text-blue-100 text-sm font-medium">Active Users</div>
+            <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
+              <div className="h-full bg-white bg-opacity-60 rounded-full w-4/5"></div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-purple-400 to-violet-600 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="flex items-center justify-between mb-4">
+              <Target className="w-8 h-8 opacity-80" />
+              <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
+                <ArrowUp className="w-3 h-3" />
+                <span className="text-xs font-medium">+0.5%</span>
+              </div>
+            </div>
+            <div className="text-3xl font-bold mb-1">{data.kpis.conversionRate}%</div>
+            <div className="text-purple-100 text-sm font-medium">Conversion Rate</div>
+            <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
+              <div className="h-full bg-white bg-opacity-60 rounded-full w-2/3"></div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-orange-400 to-red-500 p-6 rounded-2xl text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="flex items-center justify-between mb-4">
+              <Activity className="w-8 h-8 opacity-80" />
+              <div className="flex items-center gap-1 bg-white bg-opacity-20 px-2 py-1 rounded-full">
+                <ArrowUp className="w-3 h-3" />
+                <span className="text-xs font-medium">+3.1%</span>
+              </div>
+            </div>
+            <div className="text-3xl font-bold mb-1">{data.kpis.avgRetention}%</div>
+            <div className="text-orange-100 text-sm font-medium">Avg Retention</div>
+            <div className="mt-3 h-1 bg-white bg-opacity-20 rounded-full overflow-hidden">
+              <div className="h-full bg-white bg-opacity-60 rounded-full w-5/6"></div>
+            </div>
+          </div>
+        </div>
 
         {/* AI Insights Panel */}
-        {showInsights && data && (
+        {showInsights && (
           <div className="mb-8 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl p-6 border border-indigo-100">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
@@ -330,148 +319,9 @@ export default function AnalyticsPage() {
           </div>
         )}
 
-        {/* Navigation Tabs */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 bg-white rounded-2xl p-2 shadow-md border border-gray-100">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                    activeTab === tab.id
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Tab Content */}
-        <div className="mb-8">
-          {activeTab === 'overview' && data && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main Chart Area */}
-              <div className="lg:col-span-2">
-                <AdvancedCharts
-                  data={data}
-                  selectedMetrics={selectedMetrics}
-                  timeRange={timeRange}
-                  onMetricChange={setSelectedMetrics}
-                  onTimeRangeChange={setTimeRange}
-                />
-              </div>
-
-              {/* Side Panel with Performance Metrics */}
-              <div className="space-y-6">
-                {/* Performance Scorecard */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance Scorecard</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">System Health</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div className="h-full bg-green-500 rounded-full" style={{ width: `${data.kpis.systemUptime}%` }}></div>
-                        </div>
-                        <span className="text-sm font-semibold text-green-600">{data.kpis.systemUptime}%</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Customer Satisfaction</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div className="h-full bg-blue-500 rounded-full" style={{ width: `${(data.kpis.customerSatisfaction / 5) * 100}%` }}></div>
-                        </div>
-                        <span className="text-sm font-semibold text-blue-600">{data.kpis.customerSatisfaction}/5</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Churn Rate</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div className="h-full bg-orange-500 rounded-full" style={{ width: `${data.kpis.churnRate}%` }}></div>
-                        </div>
-                        <span className="text-sm font-semibold text-orange-600">{data.kpis.churnRate}%</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Top Performers */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Performers</h3>
-                  <div className="space-y-3">
-                    {data.startupMetrics.slice(0, 3).map((startup, index) => (
-                      <div key={startup.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
-                            index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-500'
-                          }`}>
-                            {index + 1}
-                          </div>
-                          <div>
-                            <div className="font-medium text-gray-900">{startup.name}</div>
-                            <div className="text-xs text-gray-500">{startup.growth}% growth</div>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-semibold text-gray-900">${startup.revenue.toLocaleString()}</div>
-                          <div className="text-xs text-gray-500">{startup.users} users</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Quick Stats */}
-                <div className="bg-gradient-to-br from-gray-900 to-indigo-900 rounded-2xl p-6 text-white">
-                  <h3 className="text-lg font-semibold mb-4">Quick Stats</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Server className="w-4 h-4 opacity-70" />
-                        <span className="text-sm">Avg Response Time</span>
-                      </div>
-                      <span className="font-semibold">1.2s</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Eye className="w-4 h-4 opacity-70" />
-                        <span className="text-sm">Page Views</span>
-                      </div>
-                      <span className="font-semibold">45.2K</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 opacity-70" />
-                        <span className="text-sm">Avg Session</span>
-                      </div>
-                      <span className="font-semibold">4m 32s</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'realtime' && (
-            <RealTimeMetrics />
-          )}
-
-          {activeTab === 'predictive' && (
-            <PredictiveMetrics />
-          )}
-
-          {activeTab === 'advanced' && data && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          {/* Main Chart Area */}
+          <div className="lg:col-span-2">
             <AdvancedCharts
               data={data}
               selectedMetrics={selectedMetrics}
@@ -479,19 +329,111 @@ export default function AnalyticsPage() {
               onMetricChange={setSelectedMetrics}
               onTimeRangeChange={setTimeRange}
             />
-          )}
+          </div>
+
+          {/* Side Panel with Performance Metrics */}
+          <div className="space-y-6">
+            {/* Performance Scorecard */}
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance Scorecard</h3>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">System Health</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-green-500 rounded-full" style={{ width: `${data.kpis.systemUptime}%` }}></div>
+                    </div>
+                    <span className="text-sm font-semibold text-green-600">{data.kpis.systemUptime}%</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Customer Satisfaction</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-blue-500 rounded-full" style={{ width: `${(data.kpis.customerSatisfaction / 5) * 100}%` }}></div>
+                    </div>
+                    <span className="text-sm font-semibold text-blue-600">{data.kpis.customerSatisfaction}/5</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Churn Rate</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-orange-500 rounded-full" style={{ width: `${data.kpis.churnRate}%` }}></div>
+                    </div>
+                    <span className="text-sm font-semibold text-orange-600">{data.kpis.churnRate}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Top Performers */}
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Performers</h3>
+              <div className="space-y-3">
+                {data.startupMetrics.slice(0, 3).map((startup, index) => (
+                  <div key={startup.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+                        index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-500'
+                      }`}>
+                        {index + 1}
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-900">{startup.name}</div>
+                        <div className="text-xs text-gray-500">{startup.growth}% growth</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-semibold text-gray-900">${startup.revenue.toLocaleString()}</div>
+                      <div className="text-xs text-gray-500">{startup.users} users</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="bg-gradient-to-br from-gray-900 to-indigo-900 rounded-2xl p-6 text-white">
+              <h3 className="text-lg font-semibold mb-4">Quick Stats</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Server className="w-4 h-4 opacity-70" />
+                    <span className="text-sm">Avg Response Time</span>
+                  </div>
+                  <span className="font-semibold">1.2s</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Eye className="w-4 h-4 opacity-70" />
+                    <span className="text-sm">Page Views</span>
+                  </div>
+                  <span className="font-semibold">45.2K</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 opacity-70" />
+                    <span className="text-sm">Avg Session</span>
+                  </div>
+                  <span className="font-semibold">4m 32s</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Real-Time Analytics */}
+        <div className="mb-8">
+          <RealTimeMetrics />
         </div>
 
         {/* Footer Actions */}
         <div className="flex items-center justify-center">
           <div className="flex items-center gap-4 bg-white px-6 py-4 rounded-2xl shadow-lg border border-gray-100">
-            <button
-              onClick={() => {
-                setIsLoading(true);
-                setTimeout(() => setIsLoading(false), 1000);
-              }}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
+            <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
               <RefreshCw className="w-4 h-4" />
               Refresh Data
             </button>

@@ -9,7 +9,7 @@ import {
   TrendingUp,
   AlertTriangle,
   Target,
-  Crystal,
+  Zap,
   Sparkles,
   Eye,
   MoreHorizontal
@@ -45,7 +45,7 @@ const AIInsightsPanel: React.FC<AIInsightsPanelProps> = ({ userId, startupId }) 
       case 'opportunity': return <Target className="h-4 w-4" />;
       case 'risk': return <AlertTriangle className="h-4 w-4" />;
       case 'trend': return <TrendingUp className="h-4 w-4" />;
-      case 'prediction': return <Crystal className="h-4 w-4" />;
+      case 'prediction': return <Zap className="h-4 w-4" />;
       default: return <Brain className="h-4 w-4" />;
     }
   };

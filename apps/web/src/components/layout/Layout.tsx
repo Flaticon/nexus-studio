@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import AIAssistantPanel from '../ai/AIAssistantPanel';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ interface LayoutProps {
 const Layout = ({ children, title, subtitle }: LayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [aiAssistantOpen, setAiAssistantOpen] = useState(false);
 
   // Close sidebar on route change (mobile)
   useEffect(() => {
@@ -34,12 +36,21 @@ const Layout = ({ children, title, subtitle }: LayoutProps) => {
     setSidebarOpen(false);
   };
 
+  const handleAIAssistantToggle = () => {
+    setAiAssistantOpen(!aiAssistantOpen);
+  };
+
+  const handleAIAssistantClose = () => {
+    setAiAssistantOpen(false);
+  };
+
   return (
     <div className="min-h-screen" style={{ background: 'var(--background)' }}>
       {/* Sidebar */}
-      <Sidebar 
-        isOpen={sidebarOpen} 
+      <Sidebar
+        isOpen={sidebarOpen}
         onClose={handleSidebarClose}
+        onAIAssistantToggle={handleAIAssistantToggle}
       />
 
       {/* Main content area */}
@@ -56,6 +67,12 @@ const Layout = ({ children, title, subtitle }: LayoutProps) => {
           {children}
         </main>
       </div>
+
+      {/* AI Assistant Panel */}
+      <AIAssistantPanel
+        isOpen={aiAssistantOpen}
+        onClose={handleAIAssistantClose}
+      />
     </div>
   );
 };
