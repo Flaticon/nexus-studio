@@ -37,6 +37,7 @@ import {
 } from "recharts";
 import Layout from "../../components/layout/Layout";
 import { ModernMetricCard } from "../../components/ui/ModernMetricCard";
+import { MetricsGrid, Metric } from '@/components/ui/MetricsGrid';
 
 // Project category definitions
 const PROJECT_CATEGORIES = {
@@ -358,7 +359,7 @@ export default function FinancePage() {
       title="Project Financial Dashboard"
       subtitle="Comprehensive financial tracking and analytics for all projects"
     >
-      <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
+      <div className="p-6 min-h-screen bg-neutral-50">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
@@ -371,53 +372,55 @@ export default function FinancePage() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <select
-                value={timeRange}
-                onChange={(e) => setTimeRange(e.target.value)}
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg focus:outline-none transition-all duration-200"
-                style={{
-                  background: 'var(--surface-secondary)',
-                  color: 'var(--text-primary)',
-                  border: 'none'
-                }}
-              >
-                <option value="3months">Last 3 months</option>
-                <option value="6months">Last 6 months</option>
-                <option value="12months">Last 12 months</option>
-              </select>
+            <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-end">
+              <div className="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-end">
+                <select
+                  value={timeRange}
+                  onChange={(e) => setTimeRange(e.target.value)}
+                  className="px-3 sm:px-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-sm"
+                  style={{
+                    background: 'var(--surface)',
+                    color: 'var(--text-primary)',
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
+                >
+                  <option value="3months">Last 3 months</option>
+                  <option value="6months">Last 6 months</option>
+                  <option value="12months">Last 12 months</option>
+                </select>
 
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className={`w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 transition-all duration-200 font-medium ${
-                  showFilters ? 'ring-2 ring-blue-500' : ''
-                }`}
-                style={{
-                  background: showFilters ? 'var(--info-bg)' : 'var(--surface)',
-                  color: showFilters ? 'var(--info)' : 'var(--text-primary)',
-                  boxShadow: showFilters ? 'none' : 'var(--shadow-sm)'
-                }}
-              >
-                <Filter className="w-4 h-4 shrink-0" />
-                <span className="hidden sm:inline">Filters</span>
-                {hasActiveFilters && (
-                  <span className="w-2 h-2 bg-blue-500 rounded-full ml-1 animate-pulse"></span>
-                )}
-              </button>
+                <button
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium ${
+                    showFilters ? 'ring-2 ring-blue-500' : ''
+                  }`}
+                  style={{
+                    background: showFilters ? 'var(--brand-primary-light)' : 'var(--surface)',
+                    color: showFilters ? 'var(--brand-primary)' : 'var(--text-primary)',
+                    boxShadow: showFilters ? 'none' : 'var(--shadow-sm)'
+                  }}
+                >
+                  <Filter className="w-4 h-4" />
+                  <span className="hidden sm:inline">Filters</span>
+                  {hasActiveFilters && (
+                    <span className="w-2 h-2 bg-blue-500 rounded-full ml-1 animate-pulse"></span>
+                  )}
+                </button>
 
-              <button
-                className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base rounded-full flex items-center justify-center sm:justify-start gap-2 text-white transition-all duration-200 font-medium bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700"
-              >
-                <Download className="w-4 h-4 shrink-0" />
-                Export
-              </button>
+                <button
+                  className="px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-150 text-sm font-medium bg-green-600 hover:bg-green-700 text-white"
+                >
+                  <Download className="w-4 h-4" />
+                  <span className="hidden sm:inline">Export</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Filter Panel */}
         {showFilters && (
-          <div className="mb-6 bg-white rounded-2xl shadow-md border border-gray-100 p-4 sm:p-6">
+          <div className="mb-6 rounded-2xl p-6 bg-white shadow-md border border-gray-100 backdrop-blur-sm">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
               <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
                 <Filter className="w-5 h-5" />
@@ -612,57 +615,62 @@ export default function FinancePage() {
         )}
 
         {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-          <ModernMetricCard
-            title="Total Revenue"
-            value={totals.revenue}
-            format="currency"
-            icon={<DollarSign className="w-6 h-6" />}
-            color="green"
-            trend="up"
-            change={12.5}
-            changeType="positive"
-            subtitle="Across all projects"
-          />
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">Métricas Principales</h2>
+              <p className="text-sm text-gray-600">Resumen financiero de todos los proyectos</p>
+            </div>
+          </div>
 
-          <ModernMetricCard
-            title="Total Expenses"
-            value={totals.expenses}
-            format="currency"
-            icon={<TrendingDown className="w-6 h-6" />}
-            color="orange"
-            trend="down"
-            change={-3.2}
-            changeType="positive"
-            subtitle="Monthly operational costs"
-          />
-
-          <ModernMetricCard
-            title="Monthly Burn Rate"
-            value={Math.abs(totals.burnRate)}
-            format="currency"
-            icon={<AlertCircle className="w-6 h-6" />}
-            color="pink"
-            trend="stable"
-            subtitle="Combined burn rate"
-          />
-
-          <ModernMetricCard
-            title="Average ROI"
-            value={`${totals.avgROI}%`}
-            icon={<Target className="w-6 h-6" />}
-            color="purple"
-            trend={totals.avgROI > 0 ? "up" : "down"}
-            change={totals.avgROI}
-            changeType={totals.avgROI > 0 ? "positive" : "negative"}
-            subtitle="Return on investment"
+          <MetricsGrid
+            metrics={[
+              {
+                id: 'total-revenue',
+                title: 'Revenue Total',
+                value: `$${totals.revenue.toLocaleString()}`,
+                change: { value: 12.5, type: 'positive' },
+                icon: DollarSign,
+                description: 'A través de todos los proyectos',
+                color: 'success'
+              },
+              {
+                id: 'total-expenses',
+                title: 'Gastos Totales',
+                value: `$${totals.expenses.toLocaleString()}`,
+                change: { value: -3.2, type: 'positive' },
+                icon: TrendingDown,
+                description: 'Costos operativos mensuales',
+                color: 'warning'
+              },
+              {
+                id: 'burn-rate',
+                title: 'Tasa de Quema Mensual',
+                value: `$${Math.abs(totals.burnRate).toLocaleString()}`,
+                change: { value: 0, type: 'neutral' },
+                icon: AlertCircle,
+                description: 'Tasa de quema combinada',
+                color: 'danger'
+              },
+              {
+                id: 'average-roi',
+                title: 'ROI Promedio',
+                value: `${totals.avgROI}%`,
+                change: { value: totals.avgROI, type: totals.avgROI > 0 ? 'positive' : 'negative' },
+                icon: Target,
+                description: 'Retorno de inversión',
+                color: 'indigo'
+              }
+            ]}
+            columns={4}
+            gap={3}
           />
         </div>
 
         {/* Charts Section */}
         <div className="space-y-6 mb-8">
           {/* Net Income Trend Chart */}
-          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 transition-all duration-300">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
             <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 mb-4 flex items-center gap-2">
               <TrendingUp className="w-5 h-5" />
               Net Income Trend
@@ -720,7 +728,7 @@ export default function FinancePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Revenue vs Expenses */}
-            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 transition-all duration-300">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
               <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 mb-4 flex items-center gap-2">
                 <BarChart3 className="w-5 h-5" />
                 Revenue vs Expenses Trend
@@ -765,7 +773,7 @@ export default function FinancePage() {
             </div>
 
             {/* Budget Distribution */}
-            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 transition-all duration-300">
+            <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
               <h3 className="text-base sm:text-lg font-bold tracking-tight text-gray-900 mb-4 flex items-center gap-2">
                 <PieChart className="w-5 h-5" />
                 Budget Distribution by Category
@@ -825,7 +833,7 @@ export default function FinancePage() {
         </div>
 
         {/* Projects Financial Table */}
-        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 transition-all duration-300">
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-lg border border-gray-100 hover:border-gray-200 transition-all duration-300">
           <div className="p-6 border-b border-gray-100">
             <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
               <Briefcase className="w-5 h-5" />

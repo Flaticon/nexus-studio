@@ -3,27 +3,24 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  Briefcase,
-  DollarSign,
-  Users,
-  Target,
-  Activity,
-  ArrowRight,
-  BarChart3,
-  Plug,
   Building2,
-  Sparkles,
   LogIn,
   UserPlus,
   Menu,
   X,
   Brain,
-  BookOpen,
   Star,
   Shield,
   Zap,
   Globe,
-  Rocket
+  Rocket,
+  Activity,
+  Briefcase,
+  DollarSign,
+  BarChart3,
+  Plug,
+  Moon,
+  Sun
 } from 'lucide-react';
 import { useState } from 'react';
 import LoginModal from '../components/auth/LoginModal';
@@ -34,145 +31,81 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-  const modules = [
+  const [darkMode, setDarkMode] = useState(false);
+  const features = [
     {
-      href: '/dashboard',
-      icon: Activity,
-      title: 'Dashboard Ejecutivo',
-      description: 'Centro de control con métricas clave, KPIs y resúmenes ejecutivos en tiempo real',
-      color: 'from-slate-500 to-slate-700',
-      bgColor: 'bg-slate-50',
-      textColor: 'text-slate-700',
-      delay: '0.1s'
+      icon: '🖤',
+      title: 'Medición de la experiencia del colaborador',
+      description: 'Métricas del engagement y la experiencia en tiempo real'
     },
     {
-      href: '/portfolio',
-      icon: Briefcase,
-      title: 'Gestión de Proyectos',
-      description: 'Gestión completa de proyectos: planificación, seguimiento, equipos y objetivos',
-      color: 'from-blue-500 to-blue-700',
-      bgColor: 'bg-blue-50',
-      textColor: 'text-blue-700',
-      delay: '0.2s'
+      icon: '🔔',
+      title: 'Soporte y preguntas frecuentes al colaborador',
+      description: 'Respuestas automáticas y soporte inteligente 24/7'
     },
     {
-      href: '/finance',
-      icon: DollarSign,
-      title: 'Gestión Financiera',
-      description: 'Control integral: presupuestos, flujos de caja, valuaciones y reportes financieros',
-      color: 'from-emerald-500 to-emerald-700',
-      bgColor: 'bg-emerald-50',
-      textColor: 'text-emerald-700',
-      delay: '0.3s'
+      icon: '🎺',
+      title: 'Comunicaciones personalizadas y segmentadas',
+      description: 'Mensajes adaptativos basados en el perfil del colaborador'
     },
     {
-      href: '/okrs',
-      icon: Target,
-      title: 'OKRs & Objetivos',
-      description: 'Definición y seguimiento de objetivos y resultados clave para todo el ecosistema',
-      color: 'from-purple-500 to-purple-700',
-      bgColor: 'bg-purple-50',
-      textColor: 'text-purple-700',
-      delay: '0.4s'
-    },
-    {
-      href: '/talent',
-      icon: Users,
-      title: 'Gestión de Talento',
-      description: 'Recursos humanos avanzados: onboarding, evaluaciones, desarrollo y retención',
-      color: 'from-rose-500 to-rose-700',
-      bgColor: 'bg-rose-50',
-      textColor: 'text-rose-700',
-      delay: '0.5s'
-    },
-    {
-      href: '/analytics',
-      icon: BarChart3,
-      title: 'Analytics Avanzado',
-      description: 'Business intelligence, análisis predictivo y insights estratégicos profundos',
-      color: 'from-indigo-500 to-indigo-700',
-      bgColor: 'bg-indigo-50',
-      textColor: 'text-indigo-700',
-      delay: '0.6s'
-    },
-    {
-      href: '/learnings',
-      icon: BookOpen,
-      title: 'Aprendizajes',
-      description: 'Base de conocimiento, retrospectivas y mejores prácticas del ecosistema',
-      color: 'from-amber-500 to-amber-700',
-      bgColor: 'bg-amber-50',
-      textColor: 'text-amber-700',
-      delay: '0.7s'
-    },
-    {
-      href: '/integrations',
-      icon: Plug,
-      title: 'Integraciones Hub',
-      description: 'Conectores con herramientas externas, APIs y automatización de workflows',
-      color: 'from-cyan-500 to-cyan-700',
-      bgColor: 'bg-cyan-50',
-      textColor: 'text-cyan-700',
-      delay: '0.8s'
-    },
-    {
-      href: '/ai',
-      icon: Brain,
-      title: 'AI Assistant',
-      description: 'Inteligencia artificial avanzada para insights, análisis y decisiones inteligentes',
-      color: 'from-violet-500 to-violet-700',
-      bgColor: 'bg-violet-50',
-      textColor: 'text-violet-700',
-      delay: '0.9s'
+      icon: '✓',
+      title: 'Onboarding al colaborador automatizado',
+      description: 'Proceso de integración guiado y automatizado'
     }
   ];
 
+  const integrations = ['Microsoft Office Teams', 'WhatsApp', 'Slack', 'Google Chat'];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-        <div className="absolute top-20 right-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-20 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
-      </div>
+    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark bg-black' : 'bg-white'}`}>
+      {/* Clean background - Apple style */}
 
       {/* Navigation Header */}
-      <nav className="relative bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className={`sticky top-0 z-50 transition-colors duration-300 ${darkMode ? 'bg-black/80 border-gray-800' : 'bg-white/80 border-gray-100'} backdrop-blur-xl border-b`}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 rounded-xl flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-white" />
+            <div className="flex items-center space-x-3">
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${darkMode ? 'bg-white' : 'bg-black'}`}>
+                <Building2 className={`w-5 h-5 ${darkMode ? 'text-black' : 'text-white'}`} />
               </div>
-              <span className="text-xl font-bold text-gray-900">Nexus Studio</span>
+              <span className={`text-xl font-semibold transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Nexus Studio</span>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <Link href="#features" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-                Características
+              <Link href="#plataforma" className={`font-normal text-sm transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}>
+                Plataforma
               </Link>
-              <Link href="#about" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-                Acerca de
+              <Link href="#maya" className={`font-normal text-sm transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}>
+                Maya AI
               </Link>
-              <Link href="#contact" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
+              <Link href="#casos-exito" className={`font-normal text-sm transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}>
+                Casos de éxito
+              </Link>
+              <Link href="#contact" className={`font-normal text-sm transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}>
                 Contacto
               </Link>
-              <div className="flex items-center space-x-4 ml-8">
-                <button 
-                  onClick={() => setIsLoginModalOpen(true)}
-                  className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:text-gray-900 font-medium transition-colors"
+              <div className="flex items-center space-x-3 ml-8">
+                {/* Dark Mode Toggle */}
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className={`p-2 rounded-full transition-colors ${darkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
                 >
-                  <LogIn className="w-4 h-4" />
-                  <span>Iniciar Sesión</span>
+                  {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </button>
-                <button 
-                  onClick={() => setIsRegisterModalOpen(true)}
-                  className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 font-medium transition-all duration-200 shadow-md hover:shadow-lg"
+                <button
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className={`font-normal text-sm transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}
                 >
-                  <UserPlus className="w-4 h-4" />
-                  <span>Registrarse</span>
+                  Iniciar sesión
+                </button>
+                <button
+                  onClick={() => setIsRegisterModalOpen(true)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${darkMode ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800'}`}
+                >
+                  Probar Maya
                 </button>
               </div>
             </div>
@@ -222,447 +155,344 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] opacity-25"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-12">
-          {/* Header */}
-          <div className="text-center mb-16 sm:mb-20">
-            <div className="flex items-center justify-center mb-6">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 rounded-2xl flex items-center justify-center shadow-xl">
-                <Building2 className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
-              </div>
-            </div>
-            
-            {/* Startup Pitch Style */}
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 text-sm font-semibold mb-6 animate-pulse">
-              🚀 El futuro de la gestión empresarial está aquí
-            </div>
-            
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-gray-900 mb-6 tracking-tight leading-tight">
-              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
-                Nexus Studio
-              </span>
+      <section className="pt-16 pb-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-4xl mx-auto">
+
+            {/* Hero Title - Apple style */}
+            <h1 className={`text-5xl sm:text-6xl lg:text-7xl font-semibold mb-8 tracking-tight leading-none transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              La plataforma empresarial completa
             </h1>
-            
-            <p className="text-xl sm:text-2xl lg:text-3xl font-light text-gray-700 mb-4 max-w-4xl mx-auto">
-              La única plataforma que necesitas para
+
+            <h2 className={`text-3xl sm:text-4xl font-semibold mb-12 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              Ahora con <span className="text-blue-500">Maya AI</span> para People Analytics
+            </h2>
+
+            <p className={`text-xl max-w-3xl mx-auto mb-12 leading-relaxed font-normal transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Gestiona tu startup o venture studio con herramientas profesionales.
+              Maya, nuestro agente de IA, revoluciona cómo entiendes y mejoras la experiencia de tu equipo.
             </p>
             
-            <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-8 max-w-4xl mx-auto">
-              <span className="text-blue-600">Gestionar</span> tu empresa como nunca antes
-            </p>
-            
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-12 px-4">
-              ¿Cansado de usar 20 herramientas diferentes? Nosotros también. Por eso creamos la solución 
-              <span className="font-semibold text-gray-800"> todo-en-uno</span> que las empresas exitosas estaban esperando.
-            </p>
-            
-            {/* Social Proof */}
-            <div className="flex items-center justify-center gap-6 mb-12">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">1000+</div>
-                <div className="text-sm text-gray-600">Proyectos</div>
-              </div>
-              <div className="w-px h-8 bg-gray-300"></div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">100+</div>
-                <div className="text-sm text-gray-600">Empresas</div>
-              </div>
-              <div className="w-px h-8 bg-gray-300"></div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">$5B+</div>
-                <div className="text-sm text-gray-600">Gestionados</div>
-              </div>
-              <div className="w-px h-8 bg-gray-300"></div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-violet-600">AI</div>
-                <div className="text-sm text-gray-600">Powered</div>
-              </div>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-              <button 
+            {/* CTA Buttons - Apple style */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+              <button
                 onClick={() => setIsRegisterModalOpen(true)}
-                className="px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105"
+                className="px-8 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-all duration-200 text-base"
               >
-                🚀 Gestiona tu Empresa
+                Probar Maya gratis
               </button>
               <button
                 onClick={() => router.push('/dashboard')}
-                className="px-10 py-5 border-2 border-gray-300 text-gray-700 rounded-2xl font-bold text-lg hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 hover:scale-105"
+                className={`px-8 py-3 rounded-full font-semibold transition-all duration-200 text-base ${darkMode ? 'text-blue-400 hover:bg-gray-800' : 'text-blue-600 hover:bg-blue-50'}`}
               >
-                🎬 Ver Demo en Vivo
+                Ver toda la plataforma
               </button>
             </div>
             
-            <p className="text-sm text-gray-500">
-              ✨ Prueba gratuita de 14 días • Sin tarjeta de crédito • Configuración en 5 min
+          </div>
+        </div>
+      </section>
+
+      {/* Maya AI Featured Section */}
+      <section id="maya" className={`py-20 transition-colors ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className={`text-4xl sm:text-5xl font-semibold mb-6 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              Conoce a Maya
+            </h2>
+            <p className={`text-xl max-w-3xl mx-auto transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              El agente de IA que revoluciona People Analytics
             </p>
           </div>
 
-          {/* Modules Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-            {modules.map((module, index) => {
-              const IconComponent = module.icon;
-              
-              return (
-                <Link 
-                  key={module.href}
-                  href={module.href} 
-                  className="group block"
-                  style={{ animationDelay: module.delay }}
-                >
-                  <div className="startup-card relative overflow-hidden bg-white rounded-3xl shadow-lg border border-gray-200 p-8 h-full group">
-                    {/* Background gradient */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${module.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                    
-                    {/* Content */}
-                    <div className="relative">
-                      {/* Icon */}
-                      <div className="mb-8">
-                        <div className={`w-16 h-16 rounded-3xl flex items-center justify-center shadow-xl group-hover:scale-125 transition-all duration-500 bg-gradient-to-r ${module.color} group-hover:rotate-12`}>
-                          <IconComponent className="w-8 h-8 text-white" />
-                        </div>
-                      </div>
-                      
-                      {/* Text */}
-                      <h3 className="text-2xl font-black mb-4 text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                        {module.title}
-                      </h3>
-                      <p className="text-base leading-relaxed text-gray-600 mb-8">
-                        {module.description}
-                      </p>
-                      
-                      {/* CTA */}
-                      <div className="flex items-center justify-between">
-                        <div className={`px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r ${module.color} text-white opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300`}>
-                          Iniciar
-                        </div>
-                        <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-2 transition-all duration-300" />
-                      </div>
+          {/* Maya Features - Apple card style */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            {features.map((feature, index) => (
+              <div key={index} className={`p-8 rounded-2xl border transition-all duration-300 hover:shadow-lg ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
+                <div className="flex items-start space-x-4">
+                  <div className="text-2xl">{feature.icon}</div>
+                  <div>
+                    <h3 className={`font-semibold mb-3 text-lg transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>{feature.title}</h3>
+                    <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{feature.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Demo Preview - Apple style */}
+          <div className={`rounded-3xl p-8 border transition-colors ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Left: Chat Preview */}
+              <div>
+                <div className="bg-gray-900 rounded-2xl p-6 text-white">
+                  <div className="flex items-center space-x-2 mb-4">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="bg-blue-600 text-white p-3 rounded-2xl rounded-bl-none max-w-xs">
+                      👋 ¡Hola! Soy Maya, tu asistente de People Analytics
+                    </div>
+                    <div className="bg-blue-600 text-white p-3 rounded-2xl rounded-bl-none max-w-xs">
+                      📊 ¿Cómo te sientes en tu trabajo esta semana?
                     </div>
                   </div>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Quick Stats */}
-          <div className="mt-16 sm:mt-20 grid grid-cols-2 sm:grid-cols-5 gap-6 sm:gap-8">
-            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">9+</div>
-              <div className="text-sm font-medium text-gray-600">Módulos Integrados</div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">1000+</div>
-              <div className="text-sm font-medium text-gray-600">Startups Gestionadas</div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">AI</div>
-              <div className="text-sm font-medium text-gray-600">Powered</div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-purple-600 to-rose-600 bg-clip-text text-transparent">99.9%</div>
-              <div className="text-sm font-medium text-gray-600">Uptime</div>
-            </div>
-            <div className="text-center p-6 bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
-              <div className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-rose-600 to-orange-600 bg-clip-text text-transparent">24/7</div>
-              <div className="text-sm font-medium text-gray-600">Soporte</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Highlight Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-violet-100 to-purple-100 text-violet-800 text-sm font-semibold mb-6">
-              🤖 Powered by AI • Built for the Future
-            </div>
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-              ¿Por qué <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">Nexus Studio</span>?
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              No somos solo otra herramienta. Somos la evolución natural de cómo deberían gestionarse las empresas modernas.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-              <div className="w-16 h-16 bg-gradient-to-r from-violet-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Brain className="w-8 h-8 text-white" />
+                </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Inteligencia Artificial</h3>
-              <p className="text-gray-600 leading-relaxed">
-                IA generativa que analiza patrones, predice resultados y sugiere acciones inteligentes para tu portfolio.
-              </p>
-            </div>
 
-            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Shield className="w-8 h-8 text-white" />
+              {/* Right: Benefits */}
+              <div className="space-y-6">
+                <h3 className={`text-2xl font-semibold transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Maya transforma tu gestión de personas
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-1">
+                      <span className="text-green-600 text-sm">✓</span>
+                    </div>
+                    <span className={`transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Conversaciones automatizadas con cada colaborador</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-1">
+                      <span className="text-green-600 text-sm">✓</span>
+                    </div>
+                    <span className={`transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Analytics en tiempo real del engagement</span>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-1">
+                      <span className="text-green-600 text-sm">✓</span>
+                    </div>
+                    <span className={`transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Predicción y reducción de rotación</span>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Seguridad Enterprise</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Certificación SOC 2, encriptación end-to-end y cumplimiento GDPR para proteger tus datos más críticos.
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-              <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Zap className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Automatización Total</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Workflows inteligentes que eliminan tareas repetitivas y te permiten enfocarte en lo estratégico.
-              </p>
             </div>
           </div>
 
-          {/* Integration Partners */}
-          <div className="text-center">
-            <p className="text-gray-500 font-medium mb-8">Trusted by industry leaders & integrated with your favorite tools</p>
-            <div className="flex justify-center items-center space-x-8 opacity-50 grayscale">
-              <div className="text-2xl font-bold">Slack</div>
-              <div className="text-2xl font-bold">Notion</div>
-              <div className="text-2xl font-bold">GitHub</div>
-              <div className="text-2xl font-bold">Figma</div>
-              <div className="text-2xl font-bold">HubSpot</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Problem/Solution Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              El problema que todos conocemos
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Los venture studios exitosos están perdiendo tiempo y dinero usando herramientas fragmentadas
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Problem */}
-            <div className="bg-red-50 p-8 rounded-3xl border border-red-100">
-              <div className="text-red-600 text-6xl mb-6">😤</div>
-              <h3 className="text-2xl font-bold text-red-900 mb-6">Antes: El Caos Total</h3>
-              <ul className="space-y-4 text-red-800">
-                <li className="flex items-start space-x-3">
-                  <span className="text-red-500 font-bold">×</span>
-                  <span>20+ herramientas desconectadas</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <span className="text-red-500 font-bold">×</span>
-                  <span>Datos esparcidos en silos</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <span className="text-red-500 font-bold">×</span>
-                  <span>Reportes manuales que toman días</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <span className="text-red-500 font-bold">×</span>
-                  <span>Oportunidades perdidas por falta de visibilidad</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Solution */}
-            <div className="bg-green-50 p-8 rounded-3xl border border-green-100">
-              <div className="text-green-600 text-6xl mb-6">🚀</div>
-              <h3 className="text-2xl font-bold text-green-900 mb-6">Ahora: Una Sola Plataforma</h3>
-              <ul className="space-y-4 text-green-800">
-                <li className="flex items-start space-x-3">
-                  <span className="text-green-500 font-bold">✓</span>
-                  <span>Todo integrado en un solo dashboard</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <span className="text-green-500 font-bold">✓</span>
-                  <span>Datos unificados en tiempo real</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <span className="text-green-500 font-bold">✓</span>
-                  <span>Reportes automáticos en segundos</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <span className="text-green-500 font-bold">✓</span>
-                  <span>Insights predictivos que impulsan el crecimiento</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
+          {/* Integrations */}
           <div className="text-center mt-16">
-            <div className="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl">
-              <p className="text-white font-bold text-lg">
-                💡 Resultado: 70% menos tiempo en tareas operativas, 3x más oportunidades identificadas
-              </p>
+            <p className={`mb-6 transition-colors ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Se integra con tus herramientas favoritas</p>
+            <div className="flex flex-wrap justify-center gap-6">
+              {integrations.map((integration, index) => (
+                <div key={index} className={`px-4 py-2 rounded-full border font-medium transition-colors ${darkMode ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-white border-gray-200 text-gray-600'}`}>
+                  {integration}
+                </div>
+              ))}
             </div>
+          </div>
+
+          {/* Maya AI People CTA */}
+          <div className="text-center mt-16">
+            <Link
+              href="/maya-ai-people"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white rounded-2xl font-semibold hover:from-purple-700 hover:via-pink-700 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            >
+              <Brain className="w-6 h-6" />
+              <span>Explorar Maya AI People Analytics</span>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Complete Platform Section */}
+      <section id="plataforma" className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-yellow-100 to-orange-100 text-orange-800 text-sm font-semibold mb-6">
-              ⭐ Trusted by Industry Leaders
-            </div>
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-              Lo que dicen nuestros <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">usuarios</span>
+            <h2 className={`text-4xl sm:text-5xl font-semibold mb-6 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              La plataforma completa
             </h2>
+            <p className={`text-xl max-w-3xl mx-auto transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Todos los módulos que necesitas para gestionar tu startup o venture studio
+            </p>
+          </div>
+
+          {/* Modules Grid - Apple style */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Link href="/dashboard" className="group">
+              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
+                  <Activity className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+                </div>
+                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Dashboard Ejecutivo</h3>
+                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Centro de control con métricas clave y KPIs en tiempo real</p>
+              </div>
+            </Link>
+
+            <Link href="/portfolio" className="group">
+              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
+                  <Briefcase className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+                </div>
+                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Gestión de Proyectos</h3>
+                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Planificación, seguimiento y gestión de equipos</p>
+              </div>
+            </Link>
+
+            <Link href="/maya-ai-people" className="group">
+              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ring-2 ring-purple-500 ring-opacity-20 ${darkMode ? 'bg-gray-800 border-purple-800' : 'bg-white border-gray-200'}`}>
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl flex items-center justify-center mb-6">
+                  <Brain className="w-6 h-6 text-purple-600" />
+                </div>
+                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Maya AI People</h3>
+                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>IA conversacional para gestión de personas y analytics</p>
+                <div className="mt-4 text-purple-500 text-sm font-medium">✨ Con IA</div>
+              </div>
+            </Link>
+
+            <Link href="/finance" className="group">
+              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
+                  <DollarSign className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+                </div>
+                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Gestión Financiera</h3>
+                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Presupuestos, flujos de caja y reportes financieros</p>
+              </div>
+            </Link>
+
+            <Link href="/analytics" className="group">
+              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
+                  <BarChart3 className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+                </div>
+                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Analytics</h3>
+                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Business intelligence y análisis predictivo</p>
+              </div>
+            </Link>
+
+            <Link href="/integrations" className="group">
+              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
+                  <Plug className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+                </div>
+                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Integraciones</h3>
+                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Conectores con herramientas externas y APIs</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Nexus Section */}
+      <section className={`py-20 transition-colors ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className={`text-4xl sm:text-5xl font-semibold mb-6 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              ¿Por qué Nexus Studio?
+            </h2>
+            <p className={`text-xl max-w-3xl mx-auto transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              La evolución natural de cómo deberían gestionarse las empresas modernas
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-              <div className="flex items-center mb-6">
-                <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-current" />
-                  ))}
-                </div>
+            <div className={`p-8 rounded-3xl border transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-blue-900' : 'bg-blue-50'}`}>
+                <Brain className={`w-8 h-8 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} />
               </div>
-              <p className="text-gray-700 mb-6 italic">
-                "Nexus Studio transformó completamente cómo gestionamos nuestro portfolio. La IA nos ayuda a identificar oportunidades que antes pasábamos por alto."
+              <h3 className={`text-2xl font-semibold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Inteligencia Artificial</h3>
+              <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                IA que analiza patrones, predice resultados y sugiere acciones inteligentes para tu negocio.
               </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold">AS</span>
-                </div>
-                <div className="ml-4">
-                  <div className="font-bold text-gray-900">Ana Silva</div>
-                  <div className="text-gray-600 text-sm">CEO, TechVentures</div>
-                </div>
-              </div>
             </div>
 
-            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-              <div className="flex items-center mb-6">
-                <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-current" />
-                  ))}
-                </div>
+            <div className={`p-8 rounded-3xl border transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-green-900' : 'bg-green-50'}`}>
+                <Shield className={`w-8 h-8 ${darkMode ? 'text-green-400' : 'text-green-600'}`} />
               </div>
-              <p className="text-gray-700 mb-6 italic">
-                "Por fin una plataforma que entiende las necesidades de un venture studio moderno. Los insights de IA son increíblemente precisos."
+              <h3 className={`text-2xl font-semibold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Seguridad Enterprise</h3>
+              <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Encriptación end-to-end y cumplimiento GDPR para proteger tus datos más críticos.
               </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold">CM</span>
-                </div>
-                <div className="ml-4">
-                  <div className="font-bold text-gray-900">Carlos Mendez</div>
-                  <div className="text-gray-600 text-sm">Managing Partner, InnovaLab</div>
-                </div>
-              </div>
             </div>
 
-            <div className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
-              <div className="flex items-center mb-6">
-                <div className="flex text-yellow-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-current" />
-                  ))}
-                </div>
+            <div className={`p-8 rounded-3xl border transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-purple-900' : 'bg-purple-50'}`}>
+                <Zap className={`w-8 h-8 ${darkMode ? 'text-purple-400' : 'text-purple-600'}`} />
               </div>
-              <p className="text-gray-700 mb-6 italic">
-                "Implementamos Nexus Studio en 3 días y vimos resultados inmediatos. La automatización nos ahorró 20 horas semanales."
+              <h3 className={`text-2xl font-semibold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Automatización Total</h3>
+              <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                Workflows inteligentes que eliminan tareas repetitivas y optimizan tu productividad.
               </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-500 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold">LR</span>
-                </div>
-                <div className="ml-4">
-                  <div className="font-bold text-gray-900">Laura Rodriguez</div>
-                  <div className="text-gray-600 text-sm">COO, StartupHub</div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
+
       {/* Final CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className={`py-20 transition-colors ${darkMode ? 'bg-blue-600' : 'bg-blue-600'}`}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl sm:text-6xl font-bold text-white mb-6">
-              ¿Listo para el <span className="text-yellow-300">futuro</span>?
+            <h2 className="text-4xl sm:text-5xl font-semibold text-white mb-6">
+              ¿Listo para transformar tu empresa?
             </h2>
-            <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
-              Únete a los venture studios más innovadores que ya están usando IA para acelerar su crecimiento
+            <p className="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
+              Únete a las empresas que ya están usando Nexus Studio y Maya AI
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <button
                 onClick={() => setIsRegisterModalOpen(true)}
-                className="px-10 py-5 bg-white text-purple-600 rounded-2xl font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-105 flex items-center space-x-2"
+                className="px-8 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-gray-100 transition-all duration-200 flex items-center space-x-2"
               >
-                <Rocket className="w-6 h-6" />
-                <span>Empezar Gratis Ahora</span>
+                <Rocket className="w-5 h-5" />
+                <span>Probar Maya gratis</span>
               </button>
               <button
                 onClick={() => router.push('/dashboard')}
-                className="px-10 py-5 border-2 border-white text-white rounded-2xl font-bold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 hover:scale-105 flex items-center space-x-2"
+                className="px-8 py-3 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-200 flex items-center space-x-2"
               >
-                <Globe className="w-6 h-6" />
-                <span>Explorar Demo</span>
+                <Globe className="w-5 h-5" />
+                <span>Explorar plataforma</span>
               </button>
             </div>
 
-            <p className="text-purple-200 text-sm">
-              🎯 Setup en 5 min • 🔒 Datos seguros • 🤖 IA incluida • 📞 Soporte 24/7
+            <p className="text-blue-200 text-sm">
+              ✨ Prueba gratuita • 🔒 Datos seguros • 🤖 IA incluida • 📞 Soporte 24/7
             </p>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <footer className={`transition-colors ${darkMode ? 'bg-black border-t border-gray-800' : 'bg-gray-50 border-t border-gray-200'}`}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Company Info */}
             <div className="md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 rounded-xl flex items-center justify-center">
-                  <Building2 className="w-6 h-6 text-white" />
+              <div className="flex items-center space-x-3 mb-4">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${darkMode ? 'bg-white' : 'bg-black'}`}>
+                  <Building2 className={`w-5 h-5 ${darkMode ? 'text-black' : 'text-white'}`} />
                 </div>
-                <span className="text-xl font-bold">Nexus Studio</span>
+                <span className={`text-xl font-semibold transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Nexus Studio</span>
               </div>
-              <p className="text-gray-400 mb-4 max-w-md">
-                Plataforma integral para gestionar tu venture studio con herramientas profesionales 
-                para portafolio, finanzas, OKRs y equipos.
+              <p className={`mb-4 max-w-md transition-colors ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                Plataforma empresarial completa con Maya AI para People Analytics
               </p>
-              <div className="text-sm text-gray-500">
+              <div className={`text-sm transition-colors ${darkMode ? 'text-gray-500' : 'text-gray-500'}`}>
                 © 2024 Nexus Studio. Todos los derechos reservados.
               </div>
             </div>
 
             {/* Quick Links */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
+              <h3 className={`text-lg font-semibold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Enlaces</h3>
               <ul className="space-y-2">
-                <li><Link href="#features" className="text-gray-400 hover:text-white transition-colors">Características</Link></li>
-                <li><Link href="#about" className="text-gray-400 hover:text-white transition-colors">Acerca de</Link></li>
-                <li><Link href="#contact" className="text-gray-400 hover:text-white transition-colors">Contacto</Link></li>
-                <li><Link href="#support" className="text-gray-400 hover:text-white transition-colors">Soporte</Link></li>
+                <li><Link href="#plataforma" className={`transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>Plataforma</Link></li>
+                <li><Link href="#maya" className={`transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>Maya AI</Link></li>
+                <li><Link href="#casos-exito" className={`transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>Casos de éxito</Link></li>
+                <li><Link href="#contact" className={`transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>Contacto</Link></li>
               </ul>
             </div>
 
             {/* Contact */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Contacto</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>info@nexusstudio.com</li>
-                <li>+1 (555) 123-4567</li>
-                <li>San Francisco, CA</li>
+              <h3 className={`text-lg font-semibold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Contacto</h3>
+              <ul className={`space-y-2 transition-colors ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <li>hello@nexusstudio.com</li>
+                <li>Síguenos en redes</li>
               </ul>
             </div>
           </div>

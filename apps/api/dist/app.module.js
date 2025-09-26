@@ -25,6 +25,8 @@ const dashboard_module_1 = require("./modules/dashboard/dashboard.module");
 const employees_module_1 = require("./modules/employees/employees.module");
 const analytics_module_1 = require("./modules/analytics/analytics.module");
 const ai_module_1 = require("./modules/ai/ai.module");
+const tenant_module_1 = require("./tenant/tenant.module");
+const onboarding_module_1 = require("./onboarding/onboarding.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -68,6 +70,8 @@ exports.AppModule = AppModule = __decorate([
             employees_module_1.EmployeesModule,
             analytics_module_1.AnalyticsModule,
             ai_module_1.AIModule,
+            tenant_module_1.TenantModule,
+            onboarding_module_1.OnboardingModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [],

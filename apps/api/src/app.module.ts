@@ -19,6 +19,8 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { EmployeesModule } from './modules/employees/employees.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { AIModule } from './modules/ai/ai.module';
+import { TenantModule } from './tenant/tenant.module';
+import { OnboardingModule } from './onboarding/onboarding.module';
 
 @Module({
   imports: [
@@ -68,6 +70,8 @@ import { AIModule } from './modules/ai/ai.module';
     EmployeesModule,
     AnalyticsModule,
     AIModule,
+    TenantModule,
+    OnboardingModule,
   ],
  controllers: [AppController], // Añadir esto
   providers: [],

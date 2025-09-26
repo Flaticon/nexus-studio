@@ -31,13 +31,15 @@ import {
   ArrowUp,
   ArrowDown,
   Settings,
-  RefreshCw
+  RefreshCw,
+  X
 } from 'lucide-react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import CreateOKRModal from '../../components/forms/CreateOKRModal';
 import Layout from '../../components/layout/Layout';
 import { ModernMetricCard } from '../../components/ui/ModernMetricCard';
+import { MetricsGrid, Metric } from '@/components/ui/MetricsGrid';
 
 // Enhanced OKRs management page with modern design and advanced functionality
 export default function OKRsPage() {
@@ -501,95 +503,86 @@ export default function OKRsPage() {
       </div>
 
       {/* Advanced Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-3xl p-6 text-white shadow-2xl">
-          <div className="flex items-center justify-between mb-4">
-            <Target className="w-8 h-8 opacity-80" />
-            <span className="text-purple-200 text-sm font-medium">↗ +12%</span>
-          </div>
-          <div className="space-y-2">
-            <p className="text-purple-200 text-sm font-medium">Objetivos Totales</p>
-            <p className="text-4xl font-bold">{overallStats.totalObjectives}</p>
-            <p className="text-purple-200 text-xs">Este trimestre</p>
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">Métricas Principales</h2>
+            <p className="text-sm text-gray-600">Resumen ejecutivo de OKRs del trimestre</p>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl p-6 text-white shadow-2xl">
-          <div className="flex items-center justify-between mb-4">
-            <CheckCircle className="w-8 h-8 opacity-80" />
-            <span className="text-green-200 text-sm font-medium">↗ +8%</span>
-          </div>
-          <div className="space-y-2">
-            <p className="text-green-200 text-sm font-medium">En Progreso</p>
-            <p className="text-4xl font-bold">{overallStats.onTrack}</p>
-            <p className="text-green-200 text-xs">Cumpliendo objetivos</p>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-br from-yellow-500 to-orange-600 rounded-3xl p-6 text-white shadow-2xl">
-          <div className="flex items-center justify-between mb-4">
-            <AlertTriangle className="w-8 h-8 opacity-80" />
-            <span className="text-yellow-200 text-sm font-medium">↗ +2%</span>
-          </div>
-          <div className="space-y-2">
-            <p className="text-yellow-200 text-sm font-medium">En Riesgo</p>
-            <p className="text-4xl font-bold">{overallStats.atRisk}</p>
-            <p className="text-yellow-200 text-xs">Requieren atención</p>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-3xl p-6 text-white shadow-2xl">
-          <div className="flex items-center justify-between mb-4">
-            <BarChart3 className="w-8 h-8 opacity-80" />
-            <span className="text-blue-200 text-sm font-medium">↗ +5%</span>
-          </div>
-          <div className="space-y-2">
-            <p className="text-blue-200 text-sm font-medium">Progreso Promedio</p>
-            <p className="text-4xl font-bold">{overallStats.avgProgress}%</p>
-            <p className="text-blue-200 text-xs">Del trimestre</p>
-          </div>
-        </div>
+        <MetricsGrid
+          metrics={[
+            {
+              id: 'total-objectives',
+              title: 'Objetivos Totales',
+              value: overallStats.totalObjectives,
+              change: { value: 12, type: 'positive' },
+              icon: Target,
+              description: 'Este trimestre',
+              color: 'primary'
+            },
+            {
+              id: 'on-track',
+              title: 'En Progreso',
+              value: overallStats.onTrack,
+              change: { value: 8, type: 'positive' },
+              icon: CheckCircle,
+              description: 'Cumpliendo objetivos',
+              color: 'success'
+            },
+            {
+              id: 'at-risk',
+              title: 'En Riesgo',
+              value: overallStats.atRisk,
+              change: { value: 2, type: 'positive' },
+              icon: AlertTriangle,
+              description: 'Requieren atención',
+              color: 'warning'
+            },
+            {
+              id: 'average-progress',
+              title: 'Progreso Promedio',
+              value: `${overallStats.avgProgress}%`,
+              change: { value: 5, type: 'positive' },
+              icon: BarChart3,
+              description: 'Del trimestre',
+              color: 'teal'
+            }
+          ]}
+          columns={4}
+          gap={3}
+        />
       </div>
 
       {/* Team Performance Heatmap */}
-      <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
-        <div className="p-8 border-b border-gray-100">
-          <h3 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <Activity className="w-8 h-8 text-indigo-600" />
-            Performance por Equipo
-          </h3>
-        </div>
-        <div className="p-8">
-          <div className="space-y-4">
-            {okrsData.map((okr) => (
-              <div key={okr.id} className="flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl hover:shadow-lg transition-all">
-                <div className="flex items-center gap-4">
-                  <div className={`w-4 h-4 rounded-full bg-gradient-to-r ${getStatusColor(okr.status)}`}></div>
-                  <div>
-                    <h4 className="font-bold text-gray-900">{okr.team}</h4>
-                    <p className="text-sm text-gray-600">{okr.objective.substring(0, 50)}...</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6">
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-gray-900">{okr.overallProgress}%</p>
-                    <p className="text-xs text-gray-600">Progreso</p>
-                  </div>
-                  <div className="w-16 h-16">
-                    <CircularProgressbar
-                      value={okr.overallProgress}
-                      styles={buildStyles({
-                        textSize: '14px',
-                        pathColor: getProgressColor(okr.overallProgress),
-                        trailColor: '#F3F4F6',
-                        pathTransitionDuration: 0.5,
-                      })}
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
+      <div className="bg-white rounded-2xl shadow-md border border-gray-100">
+        <div className="p-6 border-b border-gray-100">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 flex items-center gap-3">
+              <Activity className="w-6 h-6 text-indigo-600" />
+              Performance por Equipo
+            </h3>
+            <p className="text-sm text-gray-600 mt-1">Progreso general de cada equipo en sus OKRs</p>
           </div>
+        </div>
+        <div className="p-6">
+          <MetricsGrid
+            metrics={okrsData.map((okr) => ({
+              id: `okr-${okr.id}`,
+              title: okr.team,
+              value: `${okr.overallProgress}%`,
+              change: {
+                value: Math.floor(Math.random() * 20) + 5,
+                type: okr.status === 'on-track' ? 'positive' : okr.status === 'at-risk' ? 'neutral' : 'negative'
+              },
+              icon: okr.status === 'on-track' ? CheckCircle : okr.status === 'at-risk' ? AlertTriangle : XCircle,
+              description: okr.objective.substring(0, 40) + '...',
+              color: okr.status === 'on-track' ? 'success' : okr.status === 'at-risk' ? 'warning' : 'danger'
+            }))}
+            columns={1}
+            gap={3}
+          />
         </div>
       </div>
     </div>
@@ -605,7 +598,7 @@ export default function OKRsPage() {
         </div>
       ) : (
         filteredAndSortedOKRs.map((okr) => (
-          <div key={okr.id} className="bg-white rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-500 overflow-hidden">
+          <div key={okr.id} className="bg-white rounded-2xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 overflow-hidden">
             {/* Enhanced OKR Header */}
             <div className="p-8 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
               <div className="flex items-start justify-between mb-6">
@@ -813,18 +806,23 @@ export default function OKRsPage() {
 
   return (
     <Layout title="🎯 OKRs Operativos" subtitle="Objetivos y resultados clave por equipo - Dashboard empresarial avanzado">
-      <div className="p-6 min-h-screen" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+      <div className="p-6 min-h-screen bg-neutral-50">
 
         {/* Enhanced Header Controls */}
-        <div className="mb-8">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
-            <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
-              {/* Main Controls */}
-              <div className="flex flex-wrap gap-4">
+        <div className="mb-6">
+          <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-end">
+            <div className="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-end">
+              {/* Primary actions group */}
+              <div className="flex gap-2 sm:gap-3">
                 <select
                   value={selectedQuarter}
                   onChange={(e) => setSelectedQuarter(e.target.value)}
-                  className="px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium min-w-[140px]"
+                  className="px-3 sm:px-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-sm min-w-[120px]"
+                  style={{
+                    background: 'var(--surface)',
+                    color: 'var(--text-primary)',
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
                 >
                   <option value="Q1-2025">Q1 2025</option>
                   <option value="Q2-2025">Q2 2025</option>
@@ -835,7 +833,12 @@ export default function OKRsPage() {
                 <select
                   value={selectedTeam}
                   onChange={(e) => setSelectedTeam(e.target.value)}
-                  className="px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium min-w-[200px]"
+                  className="px-3 sm:px-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-sm min-w-[160px]"
+                  style={{
+                    background: 'var(--surface)',
+                    color: 'var(--text-primary)',
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
                 >
                   <option value="all">Todos los equipos</option>
                   <option value="EcoTech Carbon Platform">EcoTech Carbon Platform</option>
@@ -844,70 +847,96 @@ export default function OKRsPage() {
                 </select>
 
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
                     placeholder="Buscar OKRs..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium min-w-[200px]"
+                    className="pl-9 pr-3 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium text-sm min-w-[160px]"
+                    style={{
+                      background: 'var(--surface)',
+                      color: 'var(--text-primary)',
+                      boxShadow: 'var(--shadow-sm)'
+                    }}
                   />
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-3">
+              {/* Secondary actions group */}
+              <div className="flex gap-2 sm:gap-3">
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium transition-all ${showFilters ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                  className={`px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium ${
+                    showFilters ? 'ring-2 ring-blue-500' : ''
+                  }`}
+                  style={{
+                    background: showFilters ? 'var(--brand-primary-light)' : 'var(--surface)',
+                    color: showFilters ? 'var(--brand-primary)' : 'var(--text-primary)',
+                    boxShadow: showFilters ? 'none' : 'var(--shadow-sm)'
+                  }}
                 >
                   <Filter className="w-4 h-4" />
-                  Filtros
+                  <span className="hidden sm:inline">Filtros</span>
                 </button>
-                <button className="flex items-center gap-2 px-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-all">
+
+                <button className="px-3 sm:px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-150 text-sm font-medium bg-green-600 hover:bg-green-700 text-white">
                   <Download className="w-4 h-4" />
-                  Exportar
+                  <span className="hidden sm:inline">Exportar</span>
                 </button>
               </div>
             </div>
 
-            {/* Advanced Filters */}
-            {showFilters && (
-              <div className="mt-6 p-6 bg-gray-50 rounded-2xl border-t border-gray-200">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Ordenar por</label>
-                    <select
-                      value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    >
-                      <option value="progress">Progreso</option>
-                      <option value="status">Estado</option>
-                      <option value="team">Equipo</option>
-                      <option value="priority">Prioridad</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Orden</label>
-                    <select
-                      value={sortOrder}
-                      onChange={(e) => setSortOrder(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    >
-                      <option value="desc">Descendente</option>
-                      <option value="asc">Ascendente</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
+        {/* Filters Panel */}
+        {showFilters && (
+          <div className="mb-6 rounded-2xl p-6 bg-white shadow-md border border-gray-100 backdrop-blur-sm">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                Filtros
+              </h3>
+              <button
+                onClick={() => setShowFilters(false)}
+                className="transition-colors duration-200 text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Ordenar por</label>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="progress">Progreso</option>
+                  <option value="status">Estado</option>
+                  <option value="team">Equipo</option>
+                  <option value="priority">Prioridad</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Orden</label>
+                <select
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="desc">Descendente</option>
+                  <option value="asc">Ascendente</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Enhanced View Mode Tabs */}
         <div className="mb-8">
-          <div className="bg-white rounded-3xl shadow-2xl p-2 border border-gray-100">
+          <div className="bg-white rounded-2xl shadow-md p-2 border border-gray-100">
             <div className="flex flex-wrap gap-2">
               {[
                 { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
@@ -940,9 +969,9 @@ export default function OKRsPage() {
         {/* Floating Create Button */}
         <button
           onClick={() => setIsCreateModalOpen(true)}
-          className="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-3xl flex items-center justify-center transition-all duration-300 hover:scale-110 z-40"
+          className="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-200 hover:scale-105 z-40"
         >
-          <Plus className="w-8 h-8" />
+          <Plus className="w-6 h-6" />
         </button>
 
         {/* Create OKR Modal */}

@@ -41,18 +41,11 @@ import { ProyectoStage, ProyectoStatus } from '@/types/portfolio';
 import { MetricsGrid, Metric } from '@/components/ui/MetricsGrid';
 
 export default function DashboardPage() {
-  // State management for filters and views
+  // Simplified state management
   const [showFilters, setShowFilters] = useState(false);
   const [dateRange, setDateRange] = useState('6m');
-  const [selectedModules, setSelectedModules] = useState(['portfolio', 'finance', 'okrs', 'talent', 'learnings']);
   const [viewMode, setViewMode] = useState('standard');
   const [refreshing, setRefreshing] = useState(false);
-  const [widgetLayout, setWidgetLayout] = useState({
-    metrics: { visible: true, size: 'normal' },
-    charts: { visible: true, size: 'normal' },
-    status: { visible: true, size: 'normal' },
-    alerts: { visible: true, size: 'normal' }
-  });
 
   // API data state
   const [executiveSummary, setExecutiveSummary] = useState<ExecutiveSummary | null>(null);
@@ -68,7 +61,7 @@ export default function DashboardPage() {
 
         const filters = {
           timeRange: dateRange,
-          modules: selectedModules
+          modules: ['portfolio', 'finance', 'okrs', 'talent', 'learnings']
         };
 
         const summary = await dashboardService.getExecutiveSummary(filters);
@@ -82,7 +75,7 @@ export default function DashboardPage() {
     };
 
     loadDashboardData();
-  }, [dateRange, selectedModules]);
+  }, [dateRange]);
 
   // Handle refresh
   const handleRefresh = async () => {
@@ -92,7 +85,7 @@ export default function DashboardPage() {
       // Reload data after calculation
       const summary = await dashboardService.getExecutiveSummary({
         timeRange: dateRange,
-        modules: selectedModules
+        modules: ['portfolio', 'finance', 'okrs', 'talent', 'learnings']
       });
       setExecutiveSummary(summary);
     } catch (err) {
@@ -109,7 +102,7 @@ export default function DashboardPage() {
       // Reload data to update alerts
       const summary = await dashboardService.getExecutiveSummary({
         timeRange: dateRange,
-        modules: selectedModules
+        modules: ['portfolio', 'finance', 'okrs', 'talent', 'learnings']
       });
       setExecutiveSummary(summary);
     } catch (err) {
@@ -440,35 +433,7 @@ export default function DashboardPage() {
     }
   ];
 
-  // Check if filters are active
-  const hasActiveFilters = 
-    dateRange !== '6m' ||
-    selectedModules.length !== 5 ||
-    viewMode !== 'standard';
 
-  // Filter and view functions
-
-  const toggleModule = (module) => {
-    setSelectedModules(prev => 
-      prev.includes(module) 
-        ? prev.filter(m => m !== module)
-        : [...prev, module]
-    );
-  };
-
-  const toggleWidgetVisibility = (widget) => {
-    setWidgetLayout(prev => ({
-      ...prev,
-      [widget]: { ...prev[widget], visible: !prev[widget].visible }
-    }));
-  };
-
-  const changeWidgetSize = (widget, size) => {
-    setWidgetLayout(prev => ({
-      ...prev,
-      [widget]: { ...prev[widget], size }
-    }));
-  };
 
 
   const handleStageChange = (proyectoId: string, newStage: ProyectoStage) => {
@@ -476,16 +441,8 @@ export default function DashboardPage() {
     console.log(`Moving project ${proyectoId} to ${newStage}`);
   };
 
-  // Filter alerts by selected modules
-  const filteredAlerts = executiveData.alerts.filter(alert => {
-    const moduleMapping = {
-      'finance': 'finance',
-      'objectives': 'okrs',
-      'hr': 'talent',
-      'operations': 'portfolio'
-    };
-    return selectedModules.includes(moduleMapping[alert.module] || alert.module);
-  });
+  // Show all alerts (simplified)
+  const filteredAlerts = executiveData.alerts;
 
   // Filter data based on view mode
   const getViewModeClass = () => {
@@ -683,9 +640,6 @@ export default function DashboardPage() {
               >
                 <Filter className="w-4 h-4" />
                 <span className="hidden sm:inline">Filtros</span>
-                {hasActiveFilters && (
-                  <span className="w-2 h-2 bg-blue-500 rounded-full ml-1 animate-pulse"></span>
-                )}
               </button>
               
             </div>
@@ -711,139 +665,92 @@ export default function DashboardPage() {
             </button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Date Range Filter */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Date Range Filter - Simplificado */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Periodo de Tiempo
               </label>
-              <select 
+              <select
                 value={dateRange}
                 onChange={(e) => setDateRange(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="1m">Último mes</option>
                 <option value="3m">Últimos 3 meses</option>
                 <option value="6m">Últimos 6 meses</option>
                 <option value="1y">Último año</option>
-                <option value="all">Todo el tiempo</option>
               </select>
             </div>
 
-            {/* Module Filter */}
+            {/* Quick Actions */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Módulos
+                Acciones Rápidas
               </label>
-              <div className="space-y-2">
-                {[
-                  { id: 'portfolio', name: 'Portafolio', color: 'green' },
-                  { id: 'finance', name: 'Finanzas', color: 'blue' },
-                  { id: 'okrs', name: 'OKRs', color: 'purple' },
-                  { id: 'talent', name: 'Talento', color: 'orange' },
-                  { id: 'learnings', name: 'Aprendizajes', color: 'brown' }
-                ].map(module => (
-                  <label key={module.id} className="flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={selectedModules.includes(module.id)}
-                      onChange={() => toggleModule(module.id)}
-                      className="mr-2 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className="text-sm text-gray-700">{module.name}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* View Mode */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Modo de Vista
-              </label>
-              <select 
-                value={viewMode}
-                onChange={(e) => setViewMode(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="standard">Vista Estándar</option>
-                <option value="compact">Vista Compacta</option>
-                <option value="detailed">Vista Detallada</option>
-                <option value="minimal">Vista Mínima</option>
-              </select>
-            </div>
-          </div>
-          
-          {/* Active Filters Summary */}
-          {hasActiveFilters && (
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-600">
-                  Filtros activos: 
-                  {dateRange !== '6m' && (
-                    <span className="ml-1 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">
-                      {dateRange === '1m' ? '1 mes' : 
-                       dateRange === '3m' ? '3 meses' : 
-                       dateRange === '1y' ? '1 año' : 
-                       dateRange === 'all' ? 'Todo' : dateRange}
-                    </span>
-                  )}
-                  {selectedModules.length !== 4 && (
-                    <span className="ml-1 px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
-                      {selectedModules.length} módulos
-                    </span>
-                  )}
-                  {viewMode !== 'standard' && (
-                    <span className="ml-1 px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">
-                      {viewMode === 'compact' ? 'Compacta' :
-                       viewMode === 'detailed' ? 'Detallada' :
-                       viewMode === 'minimal' ? 'Mínima' : viewMode}
-                    </span>
-                  )}
-                </p>
+              <div className="flex gap-2">
                 <button
-                  onClick={() => {
-                    setDateRange('6m');
-                    setSelectedModules(['portfolio', 'finance', 'okrs', 'talent', 'learnings']);
-                    setViewMode('standard');
-                  }}
-                  className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  onClick={() => setRefreshing(true)}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    refreshing
+                      ? 'bg-blue-100 text-blue-600'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                  disabled={refreshing}
                 >
-                  Limpiar Filtros
+                  <RefreshCw className={`w-4 h-4 inline mr-1 ${refreshing ? 'animate-spin' : ''}`} />
+                  {refreshing ? 'Actualizando...' : 'Actualizar'}
+                </button>
+                <button
+                  onClick={() => setViewMode(viewMode === 'standard' ? 'compact' : 'standard')}
+                  className="px-3 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                >
+                  {viewMode === 'standard' ? 'Vista Compacta' : 'Vista Estándar'}
                 </button>
               </div>
             </div>
-          )}
+          </div>
+          
+          {/* Active Filters Summary - Simplificado */}
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-gray-600">
+                Mostrando datos de:
+                <span className="ml-1 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                  {dateRange === '3m' ? 'Últimos 3 meses' :
+                   dateRange === '6m' ? 'Últimos 6 meses' :
+                   dateRange === '1y' ? 'Último año' : dateRange}
+                </span>
+              </p>
+              <span className="text-xs text-gray-500">
+                Actualizado: {new Date().toLocaleTimeString()}
+              </span>
+            </div>
+          </div>
         </div>
       )}
 
 
-      {/* Modern Key Metrics Grid */}
-      {widgetLayout.metrics.visible && (
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
-                Métricas Principales
-              </h2>
-              <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
-                Vista general de KPIs críticos del venture studio
-              </p>
-            </div>
+      {/* Simplified Key Metrics Grid */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>
+              Métricas Principales
+            </h2>
+            <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
+              Vista general de KPIs críticos del venture studio
+            </p>
           </div>
+        </div>
 
-          <div className={`${
-            widgetLayout.metrics.size === 'small' ? 'scale-90' :
-            widgetLayout.metrics.size === 'large' ? 'scale-110' : ''
-          }`}>
-            <MetricsGrid
-              metrics={dashboardMetrics}
-              columns={4}
-              gap={3}
-            />
-          </div>
+        <MetricsGrid
+          metrics={dashboardMetrics}
+          columns={viewMode === 'compact' ? 2 : 4}
+          gap={3}
+        />
 
-          {/* Secondary Metrics Row */}
+        {/* Secondary Metrics Row */}
+        {viewMode !== 'compact' && (
           <div className="mt-6">
             <MetricsGrid
               metrics={secondaryMetrics}
@@ -851,17 +758,14 @@ export default function DashboardPage() {
               gap={3}
             />
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Charts Section - Reorganized Layout */}
-      {widgetLayout.charts.visible && (
+      {/* Charts Section - Simplified */}
+      {viewMode !== 'compact' && (
         <div className="mb-8">
-          {/* Top Row: Financial Analysis */}
-          <div className={`mb-6 ${
-            widgetLayout.charts.size === 'small' ? 'scale-90' :
-            widgetLayout.charts.size === 'large' ? 'scale-110' : ''
-          }`}>
+          {/* Financial Analysis */}
+          <div className="mb-6">
             {/* Financial Metrics Grid */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-6">
@@ -1067,10 +971,7 @@ export default function DashboardPage() {
           </div>
           
           {/* Bottom Row: Portfolio Performance */}
-          <div className={`grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 ${
-            widgetLayout.charts.size === 'small' ? 'scale-90' : 
-            widgetLayout.charts.size === 'large' ? 'scale-110' : ''
-          }`}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* Portfolio Performance Grid */}
             <div className="lg:col-span-2">
               <div className="flex items-center justify-between mb-6">
@@ -1206,11 +1107,8 @@ export default function DashboardPage() {
       )}
 
       {/* Status Overview */}
-      {widgetLayout.status.visible && (
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 ${
-          widgetLayout.status.size === 'small' ? 'scale-90' :
-          widgetLayout.status.size === 'large' ? 'scale-110' : ''
-        }`}>
+      {viewMode !== 'compact' && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8">
         {/* Distribución de Empleados */}
         <div>
           <div className="flex items-center justify-between mb-6">
@@ -1322,11 +1220,8 @@ export default function DashboardPage() {
       )}
 
       {/* Alerts and Activities */}
-      {widgetLayout.alerts.visible && (
-        <div className={`mb-8 ${
-          widgetLayout.alerts.size === 'small' ? 'scale-90' :
-          widgetLayout.alerts.size === 'large' ? 'scale-110' : ''
-        }`}>
+      {viewMode !== 'compact' && (
+        <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-title" style={{ color: 'var(--text-primary)' }}>

@@ -88,6 +88,13 @@ const Sidebar = ({ isOpen, onClose, onAIAssistantToggle }: SidebarProps) => {
       color: 'var(--module-talent)'
     },
     {
+      name: 'Maya AI People',
+      href: '/maya-ai-people',
+      icon: Brain,
+      description: 'People Analytics con IA',
+      color: 'var(--module-ai)'
+    },
+    {
       name: 'Aprendizajes',
       href: '/learnings',
       icon: BookOpen,
