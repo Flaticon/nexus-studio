@@ -155,9 +155,9 @@ const Sidebar = ({ isOpen, onClose, onAIAssistantToggle }: SidebarProps) => {
         <div className="flex items-center justify-between p-6 border-b" style={{ borderColor: 'var(--border)' }}>
           <div className="flex items-center gap-3">
             <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg"
+              className="w-10 h-10 rounded-2xl flex items-center justify-center transition-colors"
               style={{
-                background: 'var(--color-primary)'
+                background: 'var(--text-primary)'
               }}
               title={isCollapsed ? "Nexus Studio" : ""}
             >
@@ -165,8 +165,7 @@ const Sidebar = ({ isOpen, onClose, onAIAssistantToggle }: SidebarProps) => {
             </div>
             {!isCollapsed && (
               <div>
-                <h1 className="text-title" style={{ color: 'var(--text-primary)' }}>Nexus Studio</h1>
-                <p className="text-caption" style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-family)' }}>Venture Studio</p>
+                <h1 className="text-xl font-semibold transition-colors" style={{ color: 'var(--text-primary)' }}>Nexus Studio</h1>
               </div>
             )}
           </div>

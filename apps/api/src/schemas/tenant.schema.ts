@@ -21,7 +21,7 @@ export class Tenant extends Document {
   @Prop({ default: Date.now })
   trialEndsAt: Date;
 
-  @Prop({ default: {} })
+  @Prop({ type: Object, default: {} })
   settings: {
     logo?: string;
     primaryColor?: string;
@@ -30,7 +30,7 @@ export class Tenant extends Document {
     industry?: string;
   };
 
-  @Prop({ default: {} })
+  @Prop({ type: Object, default: {} })
   billing: {
     stripeCustomerId?: string;
     stripeSubscriptionId?: string;
@@ -39,7 +39,7 @@ export class Tenant extends Document {
     cancelAtPeriodEnd?: boolean;
   };
 
-  @Prop({ default: {} })
+  @Prop({ type: Object, default: {} })
   usage: {
     venturesCount: number;
     usersCount: number;

@@ -231,20 +231,20 @@ export default function MayaAIPeoplePage() {
 
   return (
     <Layout title="Maya AI People Analytics" subtitle="Inteligencia Artificial para People Analytics">
-      <div className="p-6 min-h-screen bg-gray-50">
+      <div className="p-6 min-h-screen" style={{ background: 'var(--background)' }}>
 
         {/* Header with Maya AI Branding */}
         <div className="mb-8">
           <div className="flex flex-col gap-6 mb-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 flex items-center justify-center shadow-xl">
-                <Brain className="w-8 h-8 text-white" />
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center transition-colors" style={{ background: 'var(--text-primary)' }}>
+                <Brain className="w-7 h-7 text-white" />
               </div>
               <div className="flex-1 min-w-0">
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-2">
+                <h1 className="text-3xl font-semibold tracking-tight mb-3 transition-colors" style={{ color: 'var(--text-primary)' }}>
                   Maya AI People Analytics
                 </h1>
-                <div className="flex flex-wrap items-center gap-4 mb-2">
+                <div className="flex flex-wrap items-center gap-4 mb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     <span className="text-sm font-medium text-green-600">Análisis en Tiempo Real</span>
@@ -258,7 +258,7 @@ export default function MayaAIPeoplePage() {
                     <span className="text-sm font-medium text-pink-600">Recomendaciones Inteligentes</span>
                   </div>
                 </div>
-                <p className="text-gray-600">
+                <p className="text-lg transition-colors" style={{ color: 'var(--text-secondary)' }}>
                   Plataforma de inteligencia artificial para optimizar la experiencia y rendimiento de tu equipo
                 </p>
               </div>
@@ -269,7 +269,12 @@ export default function MayaAIPeoplePage() {
               <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
-                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{
+                  background: 'var(--surface)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-primary)'
+                }}
               >
                 <option value="7d">Últimos 7 días</option>
                 <option value="30d">Últimos 30 días</option>
@@ -279,7 +284,12 @@ export default function MayaAIPeoplePage() {
               <select
                 value={selectedDepartment}
                 onChange={(e) => setSelectedDepartment(e.target.value)}
-                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{
+                  background: 'var(--surface)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-primary)'
+                }}
               >
                 <option value="all">Todos los departamentos</option>
                 <option value="tech">Tecnología</option>
@@ -288,7 +298,12 @@ export default function MayaAIPeoplePage() {
                 <option value="sales">Ventas</option>
                 <option value="hr">RRHH</option>
               </select>
-              <button className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl text-sm font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-md hover:shadow-lg">
+              <button className="px-6 py-3 rounded-full text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                style={{
+                  background: 'var(--text-primary)',
+                  color: 'var(--surface)'
+                }}
+              >
                 <Download className="w-4 h-4 inline-block mr-2" />
                 Exportar Reporte
               </button>
@@ -299,7 +314,13 @@ export default function MayaAIPeoplePage() {
         {/* Key Metrics Cards */}
         {data && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white p-6 rounded-2xl shadow-sm border hover:shadow-md transition-all duration-300">
+            <div className="p-6 rounded-3xl border transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
+              style={{
+                background: 'var(--surface)',
+                borderColor: 'var(--border)',
+                boxShadow: 'var(--shadow-sm)'
+              }}
+            >
               <div className="flex items-center justify-between mb-4">
                 <Heart className="w-8 h-8 text-pink-500" />
                 <div className="flex items-center gap-1 bg-green-100 text-green-700 px-2 py-1 rounded-full">
@@ -307,14 +328,20 @@ export default function MayaAIPeoplePage() {
                   <span className="text-xs font-medium">+5.2%</span>
                 </div>
               </div>
-              <div className="text-3xl font-bold mb-1 text-gray-900">87%</div>
-              <div className="text-gray-600 text-sm font-medium">Engagement Promedio</div>
+              <div className="text-3xl font-bold mb-1 transition-colors" style={{ color: 'var(--text-primary)' }}>87%</div>
+              <div className="text-sm font-medium transition-colors" style={{ color: 'var(--text-secondary)' }}>Engagement Promedio</div>
               <div className="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-pink-400 to-pink-600 rounded-full" style={{ width: '87%' }}></div>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm border hover:shadow-md transition-all duration-300">
+            <div className="p-6 rounded-3xl border transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
+              style={{
+                background: 'var(--surface)',
+                borderColor: 'var(--border)',
+                boxShadow: 'var(--shadow-sm)'
+              }}
+            >
               <div className="flex items-center justify-between mb-4">
                 <Star className="w-8 h-8 text-yellow-500" />
                 <div className="flex items-center gap-1 bg-green-100 text-green-700 px-2 py-1 rounded-full">
@@ -322,14 +349,20 @@ export default function MayaAIPeoplePage() {
                   <span className="text-xs font-medium">+3.1%</span>
                 </div>
               </div>
-              <div className="text-3xl font-bold mb-1 text-gray-900">8.7</div>
-              <div className="text-gray-600 text-sm font-medium">Índice de Satisfacción</div>
+              <div className="text-3xl font-bold mb-1 transition-colors" style={{ color: 'var(--text-primary)' }}>8.7</div>
+              <div className="text-sm font-medium transition-colors" style={{ color: 'var(--text-secondary)' }}>Índice de Satisfacción</div>
               <div className="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full" style={{ width: '87%' }}></div>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm border hover:shadow-md transition-all duration-300">
+            <div className="p-6 rounded-3xl border transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
+              style={{
+                background: 'var(--surface)',
+                borderColor: 'var(--border)',
+                boxShadow: 'var(--shadow-sm)'
+              }}
+            >
               <div className="flex items-center justify-between mb-4">
                 <UserCheck className="w-8 h-8 text-blue-500" />
                 <div className="flex items-center gap-1 bg-green-100 text-green-700 px-2 py-1 rounded-full">
@@ -337,14 +370,20 @@ export default function MayaAIPeoplePage() {
                   <span className="text-xs font-medium">+2.3%</span>
                 </div>
               </div>
-              <div className="text-3xl font-bold mb-1 text-gray-900">96%</div>
-              <div className="text-gray-600 text-sm font-medium">Tasa de Retención</div>
+              <div className="text-3xl font-bold mb-1 transition-colors" style={{ color: 'var(--text-primary)' }}>96%</div>
+              <div className="text-sm font-medium transition-colors" style={{ color: 'var(--text-secondary)' }}>Tasa de Retención</div>
               <div className="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full" style={{ width: '96%' }}></div>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow-sm border hover:shadow-md transition-all duration-300">
+            <div className="p-6 rounded-3xl border transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
+              style={{
+                background: 'var(--surface)',
+                borderColor: 'var(--border)',
+                boxShadow: 'var(--shadow-sm)'
+              }}
+            >
               <div className="flex items-center justify-between mb-4">
                 <Coffee className="w-8 h-8 text-green-500" />
                 <div className="flex items-center gap-1 bg-red-100 text-red-700 px-2 py-1 rounded-full">
@@ -352,8 +391,8 @@ export default function MayaAIPeoplePage() {
                   <span className="text-xs font-medium">-8.5%</span>
                 </div>
               </div>
-              <div className="text-3xl font-bold mb-1 text-gray-900">23%</div>
-              <div className="text-gray-600 text-sm font-medium">Nivel de Estrés</div>
+              <div className="text-3xl font-bold mb-1 transition-colors" style={{ color: 'var(--text-primary)' }}>23%</div>
+              <div className="text-sm font-medium transition-colors" style={{ color: 'var(--text-secondary)' }}>Nivel de Estrés</div>
               <div className="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-red-400 to-red-600 rounded-full" style={{ width: '23%' }}></div>
               </div>
@@ -363,20 +402,28 @@ export default function MayaAIPeoplePage() {
 
         {/* AI Insights Panel */}
         {data && (
-          <div className="mb-8 bg-gradient-to-r from-purple-50 via-pink-50 to-red-50 rounded-2xl p-6 border border-purple-100">
+          <div className="mb-8 rounded-3xl p-6 border transition-all duration-300"
+            style={{
+              background: 'var(--surface)',
+              borderColor: 'var(--border)',
+              boxShadow: 'var(--shadow-md)'
+            }}
+          >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 rounded-2xl flex items-center justify-center transition-colors"
+                style={{ background: 'var(--text-primary)' }}
+              >
                 <Brain className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Insights Inteligentes de Maya</h3>
-                <p className="text-sm text-gray-600">Análisis predictivo y recomendaciones personalizadas</p>
+                <h3 className="text-lg font-semibold transition-colors" style={{ color: 'var(--text-primary)' }}>Insights Inteligentes de Maya</h3>
+                <p className="text-sm transition-colors" style={{ color: 'var(--text-secondary)' }}>Análisis predictivo y recomendaciones personalizadas</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.insights.map((insight: InsightType) => (
-                <div key={insight.id} className={`p-4 rounded-xl border ${getInsightColor(insight.type)} hover:shadow-md transition-all duration-200`}>
+                <div key={insight.id} className={`p-4 rounded-2xl border ${getInsightColor(insight.type)} hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1`}>
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0">
                       {getInsightIcon(insight.type)}
@@ -408,18 +455,28 @@ export default function MayaAIPeoplePage() {
 
         {/* Navigation Tabs */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 bg-white rounded-2xl p-2 shadow-sm border overflow-x-auto">
+          <div className="flex items-center gap-2 rounded-3xl p-2 border overflow-x-auto transition-all duration-300"
+            style={{
+              background: 'var(--surface)',
+              borderColor: 'var(--border)',
+              boxShadow: 'var(--shadow-sm)'
+            }}
+          >
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                  className={`flex items-center gap-2 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 whitespace-nowrap transform hover:-translate-y-0.5 ${
                     activeTab === tab.id
-                      ? 'bg-purple-600 text-white shadow-md'
-                      : 'text-gray-600 hover:bg-gray-50'
+                      ? 'text-white shadow-lg'
+                      : 'hover:shadow-md'
                   }`}
+                  style={activeTab === tab.id
+                    ? { background: 'var(--text-primary)', color: 'var(--surface)' }
+                    : { color: 'var(--text-secondary)' }
+                  }
                 >
                   <Icon className="w-4 h-4" />
                   {tab.label}
@@ -434,8 +491,14 @@ export default function MayaAIPeoplePage() {
           {activeTab === 'overview' && data && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Chart */}
-              <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Tendencias de Engagement y Satisfacción</h3>
+              <div className="lg:col-span-2 rounded-3xl border p-6 transition-all duration-300"
+                style={{
+                  background: 'var(--surface)',
+                  borderColor: 'var(--border)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+              >
+                <h3 className="text-lg font-semibold mb-4 transition-colors" style={{ color: 'var(--text-primary)' }}>Tendencias de Engagement y Satisfacción</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={data.engagement}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -459,8 +522,14 @@ export default function MayaAIPeoplePage() {
               {/* Side Panel */}
               <div className="space-y-6">
                 {/* Top Performers */}
-                <div className="bg-white rounded-2xl shadow-sm border p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Performers</h3>
+                <div className="rounded-3xl border p-6 transition-all duration-300"
+                  style={{
+                    background: 'var(--surface)',
+                    borderColor: 'var(--border)',
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
+                >
+                  <h3 className="text-lg font-semibold mb-4 transition-colors" style={{ color: 'var(--text-primary)' }}>Top Performers</h3>
                   <div className="space-y-3">
                     {data.topPerformers.slice(0, 5).map((performer: TopPerformer, index: number) => (
                       <div key={performer.name} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
@@ -485,8 +554,14 @@ export default function MayaAIPeoplePage() {
                 </div>
 
                 {/* Department Overview */}
-                <div className="bg-white rounded-2xl shadow-sm border p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Vista por Departamentos</h3>
+                <div className="rounded-3xl border p-6 transition-all duration-300"
+                  style={{
+                    background: 'var(--surface)',
+                    borderColor: 'var(--border)',
+                    boxShadow: 'var(--shadow-sm)'
+                  }}
+                >
+                  <h3 className="text-lg font-semibold mb-4 transition-colors" style={{ color: 'var(--text-primary)' }}>Vista por Departamentos</h3>
                   <div className="space-y-3">
                     {data.departments.map((dept: Department) => (
                       <div key={dept.name} className="border rounded-lg p-3">
@@ -518,10 +593,16 @@ export default function MayaAIPeoplePage() {
 
           {activeTab === 'wellness' && data && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-white rounded-2xl shadow-sm border p-6">
+              <div className="rounded-3xl border p-6 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
+                style={{
+                  background: 'var(--surface)',
+                  borderColor: 'var(--border)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+              >
                 <div className="flex items-center gap-3 mb-4">
                   <Coffee className="w-6 h-6 text-green-500" />
-                  <h3 className="text-lg font-semibold text-gray-900">Balance Vida-Trabajo</h3>
+                  <h3 className="text-lg font-semibold transition-colors" style={{ color: 'var(--text-primary)' }}>Balance Vida-Trabajo</h3>
                 </div>
                 <div className="text-3xl font-bold text-green-600 mb-2">{data.wellnessMetrics.workLifeBalance}%</div>
                 <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -529,10 +610,16 @@ export default function MayaAIPeoplePage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-sm border p-6">
+              <div className="rounded-3xl border p-6 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
+                style={{
+                  background: 'var(--surface)',
+                  borderColor: 'var(--border)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+              >
                 <div className="flex items-center gap-3 mb-4">
                   <Activity className="w-6 h-6 text-red-500" />
-                  <h3 className="text-lg font-semibold text-gray-900">Nivel de Estrés</h3>
+                  <h3 className="text-lg font-semibold transition-colors" style={{ color: 'var(--text-primary)' }}>Nivel de Estrés</h3>
                 </div>
                 <div className="text-3xl font-bold text-red-600 mb-2">{data.wellnessMetrics.stressLevel}%</div>
                 <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -540,10 +627,16 @@ export default function MayaAIPeoplePage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-sm border p-6">
+              <div className="rounded-3xl border p-6 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1"
+                style={{
+                  background: 'var(--surface)',
+                  borderColor: 'var(--border)',
+                  boxShadow: 'var(--shadow-sm)'
+                }}
+              >
                 <div className="flex items-center gap-3 mb-4">
                   <Heart className="w-6 h-6 text-pink-500" />
-                  <h3 className="text-lg font-semibold text-gray-900">Índice de Felicidad</h3>
+                  <h3 className="text-lg font-semibold transition-colors" style={{ color: 'var(--text-primary)' }}>Índice de Felicidad</h3>
                 </div>
                 <div className="text-3xl font-bold text-pink-600 mb-2">{data.wellnessMetrics.happinessIndex}/10</div>
                 <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -557,21 +650,31 @@ export default function MayaAIPeoplePage() {
         {/* Maya AI Chatbot */}
         <div className="fixed bottom-6 right-6 z-50">
           {chatOpen && (
-            <div className="mb-4 w-96 h-96 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col">
+            <div className="mb-4 w-96 h-96 rounded-3xl shadow-2xl border flex flex-col transition-all duration-300"
+              style={{
+                background: 'var(--surface)',
+                borderColor: 'var(--border)'
+              }}
+            >
               {/* Chat Header */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-purple-600 to-pink-600 rounded-t-2xl">
+              <div className="flex items-center justify-between p-4 border-b rounded-t-3xl transition-all duration-300"
+                style={{
+                  borderColor: 'var(--border)',
+                  background: 'var(--text-primary)'
+                }}
+              >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                     <Brain className="w-4 h-4 text-white" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">Maya AI</h3>
-                    <p className="text-xs text-purple-100">People Analytics Assistant</p>
+                    <p className="text-xs text-white opacity-70">People Analytics Assistant</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setChatOpen(false)}
-                  className="text-white hover:bg-white hover:bg-opacity-20 p-1 rounded-full"
+                  className="text-white hover:bg-white hover:bg-opacity-20 p-1 rounded-full transition-all duration-200"
                 >
                   ×
                 </button>
@@ -635,7 +738,8 @@ export default function MayaAIPeoplePage() {
           {/* Chat Toggle Button */}
           <button
             onClick={() => setChatOpen(!chatOpen)}
-            className="w-14 h-14 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full shadow-lg hover:shadow-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center justify-center"
+            className="w-14 h-14 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center transform hover:-translate-y-1"
+            style={{ background: 'var(--text-primary)' }}
           >
             {chatOpen ? (
               <MessageSquare className="w-6 h-6" />

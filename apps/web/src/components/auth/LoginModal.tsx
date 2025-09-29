@@ -2,15 +2,17 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { X, LogIn, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { X, LogIn, Mail, Lock, Eye, EyeOff, Building2, Sun, Moon } from 'lucide-react';
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSwitchToRegister: () => void;
+  darkMode?: boolean;
+  setDarkMode?: (darkMode: boolean) => void;
 }
 
-export default function LoginModal({ isOpen, onClose, onSwitchToRegister }: LoginModalProps) {
+export default function LoginModal({ isOpen, onClose, onSwitchToRegister, darkMode = false, setDarkMode }: LoginModalProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -45,47 +47,63 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }: Logi
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        {/* Header */}
-        <div className="text-center mb-6">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <LogIn className="w-8 h-8 text-white" />
+    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div className={`rounded-3xl shadow-xl max-w-md w-full p-8 relative transition-colors duration-300 ${darkMode ? 'bg-black border border-gray-800' : 'bg-white'}`}>
+        {/* Header with Logo and Dark Mode Toggle */}
+        <div className="flex justify-between items-start mb-8">
+          <div className="flex items-center space-x-3">
+            <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-colors ${darkMode ? 'bg-white' : 'bg-black'}`}>
+              <Building2 className={`w-6 h-6 ${darkMode ? 'text-black' : 'text-white'}`} />
+            </div>
+            <span className={`text-xl font-semibold transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Nexus Studio</span>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Iniciar Sesión</h2>
-          <p className="text-gray-600">Accede a tu cuenta de Nexus Studio</p>
+
+          <div className="flex items-center space-x-2">
+            {setDarkMode && (
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className={`p-2 rounded-full transition-colors ${darkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
+              >
+                {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className={`p-2 rounded-full transition-colors ${darkMode ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Title */}
+        <div className="text-center mb-8">
+          <h2 className={`text-3xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Iniciar Sesión</h2>
+          <p className={`text-lg transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Accede a tu cuenta de Nexus Studio</p>
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
-            <p className="text-red-600 text-sm">{error}</p>
+          <div className={`border rounded-2xl p-4 mb-6 transition-colors ${darkMode ? 'bg-red-900/20 border-red-800 text-red-400' : 'bg-red-50 border-red-200 text-red-600'}`}>
+            <p className="text-sm">{error}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Field */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="email" className={`block text-sm font-medium mb-3 transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Correo Electrónico
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Mail className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors ${darkMode ? 'text-gray-400' : 'text-gray-400'}`} />
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`w-full pl-12 pr-4 py-4 rounded-2xl border transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${darkMode ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'}`}
                 placeholder="tu@email.com"
                 required
               />
@@ -94,24 +112,24 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }: Logi
 
           {/* Password Field */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="password" className={`block text-sm font-medium mb-3 transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Contraseña
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Lock className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors ${darkMode ? 'text-gray-400' : 'text-gray-400'}`} />
               <input
                 type={showPassword ? 'text' : 'password'}
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className={`w-full pl-12 pr-12 py-4 rounded-2xl border transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${darkMode ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'}`}
                 placeholder="Tu contraseña"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition-colors ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-400 hover:text-gray-600'}`}
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
@@ -122,7 +140,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }: Logi
           <div className="text-right">
             <button
               type="button"
-              className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+              className={`text-sm font-medium transition-colors ${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}
             >
               ¿Olvidaste tu contraseña?
             </button>
@@ -132,11 +150,11 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }: Logi
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`w-full py-4 rounded-full text-base font-semibold transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5 ${darkMode ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800'}`}
           >
             {isLoading ? (
               <div className="flex items-center justify-center space-x-2">
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <div className={`w-4 h-4 border-2 border-t-transparent rounded-full animate-spin ${darkMode ? 'border-black' : 'border-white'}`}></div>
                 <span>Iniciando sesión...</span>
               </div>
             ) : (
@@ -146,16 +164,16 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }: Logi
         </form>
 
         {/* Divider */}
-        <div className="mt-6 mb-6 flex items-center">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="px-4 text-gray-500 text-sm">o continúa con</span>
-          <div className="flex-grow border-t border-gray-300"></div>
+        <div className="mt-8 mb-8 flex items-center">
+          <div className={`flex-grow border-t transition-colors ${darkMode ? 'border-gray-700' : 'border-gray-300'}`}></div>
+          <span className={`px-4 text-sm transition-colors ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>o continúa con</span>
+          <div className={`flex-grow border-t transition-colors ${darkMode ? 'border-gray-700' : 'border-gray-300'}`}></div>
         </div>
 
         {/* Google Login */}
         <button
           onClick={() => signIn('google')}
-          className="w-full flex items-center justify-center space-x-3 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          className={`w-full flex items-center justify-center space-x-3 py-4 px-4 border rounded-2xl font-medium transition-all duration-200 hover:shadow-lg transform hover:-translate-y-0.5 ${darkMode ? 'border-gray-700 hover:bg-gray-800 text-gray-300' : 'border-gray-300 hover:bg-gray-50 text-gray-700'}`}
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -163,16 +181,16 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }: Logi
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
           </svg>
-          <span className="text-gray-700 font-medium">Continuar con Google</span>
+          <span>Continuar con Google</span>
         </button>
 
         {/* Switch to Register */}
-        <div className="mt-6 text-center">
-          <p className="text-gray-600">
+        <div className="mt-8 text-center">
+          <p className={`transition-colors ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             ¿No tienes cuenta?{' '}
             <button
               onClick={onSwitchToRegister}
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className={`font-medium transition-colors ${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}
             >
               Regístrate aquí
             </button>

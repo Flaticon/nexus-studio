@@ -119,7 +119,7 @@ export class OnboardingService {
   }
 
   private generateSubdomainSuggestions(subdomain: string): string[] {
-    const suggestions = [];
+    const suggestions: string[] = [];
     const year = new Date().getFullYear();
 
     suggestions.push(`${subdomain}${year}`);

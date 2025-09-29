@@ -62,7 +62,7 @@ export default function Home() {
       {/* Clean background - Apple style */}
 
       {/* Navigation Header */}
-      <nav className={`sticky top-0 z-50 transition-colors duration-300 ${darkMode ? 'bg-black/80 border-gray-800' : 'bg-white/80 border-gray-100'} backdrop-blur-xl border-b`}>
+      <nav className={`sticky top-0 z-50 transition-colors duration-300 ${darkMode ? 'bg-black/80 border-slate-800' : 'bg-white/80 border-slate-100'} backdrop-blur-xl border-b`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
@@ -70,7 +70,7 @@ export default function Home() {
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${darkMode ? 'bg-white' : 'bg-black'}`}>
                 <Building2 className={`w-5 h-5 ${darkMode ? 'text-black' : 'text-white'}`} />
               </div>
-              <span className={`text-xl font-semibold transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Nexus Studio</span>
+              <span className={`text-xl font-semibold transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>Nexus Studio</span>
             </div>
 
             {/* Desktop Navigation */}
@@ -155,52 +155,161 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-16 pb-20">
+      <section className="pt-16 pb-20 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
 
             {/* Hero Title - Apple style */}
+            <div className={`inline-block px-6 py-2 rounded-full border mb-8 transition-colors ${darkMode ? 'bg-gray-800 border-gray-700 text-gray-300' : 'bg-gray-50 border-gray-200 text-gray-600'}`}>
+              <span className="text-sm font-medium">La única plataforma que necesitas para</span>
+            </div>
+
             <h1 className={`text-5xl sm:text-6xl lg:text-7xl font-semibold mb-8 tracking-tight leading-none transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              La plataforma empresarial completa
+              Gestionar tu empresa
+              <br />
+              <span className="text-blue-600">
+                como nunca antes
+              </span>
             </h1>
 
-            <h2 className={`text-3xl sm:text-4xl font-semibold mb-12 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              Ahora con <span className="text-blue-500">Maya AI</span> para People Analytics
-            </h2>
-
-            <p className={`text-xl max-w-3xl mx-auto mb-12 leading-relaxed font-normal transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Gestiona tu startup o venture studio con herramientas profesionales.
-              Maya, nuestro agente de IA, revoluciona cómo entiendes y mejoras la experiencia de tu equipo.
+            <p className={`text-2xl max-w-4xl mx-auto mb-6 leading-relaxed font-normal transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              ¿Cansado de usar 20 herramientas diferentes? Nosotros también.
             </p>
+
+            <p className={`text-2xl max-w-4xl mx-auto mb-8 leading-relaxed font-medium transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+              Por eso creamos la solución <span className="text-blue-500">todo-en-uno</span> que las empresas exitosas estaban esperando.
+            </p>
+
+            {/* Future tagline */}
+            <div className="flex items-center justify-center gap-3 mb-12">
+              <div className={`h-px flex-1 max-w-32 ${darkMode ? 'bg-gray-600' : 'bg-gray-300'}`}></div>
+              <p className="text-lg font-semibold text-blue-600">
+                🚀 El futuro de la gestión empresarial está aquí
+              </p>
+              <div className={`h-px flex-1 max-w-32 ${darkMode ? 'bg-gray-600' : 'bg-gray-300'}`}></div>
+            </div>
             
             {/* CTA Buttons - Apple style */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               <button
                 onClick={() => setIsRegisterModalOpen(true)}
-                className="px-8 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-all duration-200 text-base"
+                className="px-10 py-4 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-all duration-200 text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
-                Probar Maya gratis
+                Probar gratis ahora
               </button>
               <button
                 onClick={() => router.push('/dashboard')}
-                className={`px-8 py-3 rounded-full font-semibold transition-all duration-200 text-base ${darkMode ? 'text-blue-400 hover:bg-gray-800' : 'text-blue-600 hover:bg-blue-50'}`}
+                className={`px-10 py-4 rounded-full font-semibold transition-all duration-200 text-lg border-2 ${darkMode ? 'text-white border-white hover:bg-white hover:text-black' : 'text-gray-900 border-gray-900 hover:bg-gray-900 hover:text-white'}`}
               >
-                Ver toda la plataforma
+                Ver demo en vivo
               </button>
             </div>
-            
+
+            {/* Trust indicators */}
+            <div className={`flex flex-wrap justify-center items-center gap-6 text-sm mb-16 transition-colors ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-500">✓</span>
+                <span>Gratis por 30 días</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-500">✓</span>
+                <span>Sin tarjeta de crédito</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-500">✓</span>
+                <span>Cancela cuando quieras</span>
+              </div>
+            </div>
+
+            {/* Hero Dashboard Preview */}
+            <div className="relative max-w-5xl mx-auto perspective-1000">
+              <div className={`relative rounded-3xl p-2 shadow-2xl transform rotate-x-12 transition-all duration-500 hover:rotate-x-6 ${darkMode ? 'bg-gradient-to-br from-slate-800 to-slate-900' : 'bg-gradient-to-br from-slate-100 to-white'}`}>
+                {/* Browser Chrome */}
+                <div className={`flex items-center gap-2 px-4 py-3 rounded-t-2xl border-b ${darkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                  </div>
+                  <div className={`flex-1 max-w-md mx-4 px-3 py-1 rounded-lg text-sm ${darkMode ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-600'}`}>
+                    nexusstudio.com/dashboard
+                  </div>
+                </div>
+
+                {/* Dashboard Content */}
+                <div className={`p-6 rounded-b-2xl ${darkMode ? 'bg-slate-900' : 'bg-white'}`}>
+                  {/* Top Stats */}
+                  <div className="grid grid-cols-4 gap-4 mb-6">
+                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-blue-50 to-indigo-100'}`}>
+                      <div className={`text-2xl font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>$2.4M</div>
+                      <div className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>Revenue</div>
+                    </div>
+                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-emerald-50 to-green-100'}`}>
+                      <div className={`text-2xl font-bold ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>94%</div>
+                      <div className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>Satisfaction</div>
+                    </div>
+                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-purple-50 to-violet-100'}`}>
+                      <div className={`text-2xl font-bold ${darkMode ? 'text-purple-400' : 'text-purple-600'}`}>12</div>
+                      <div className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>Projects</div>
+                    </div>
+                    <div className={`p-4 rounded-xl ${darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-rose-50 to-pink-100'}`}>
+                      <div className={`text-2xl font-bold ${darkMode ? 'text-rose-400' : 'text-rose-600'}`}>85</div>
+                      <div className={`text-sm ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>Team</div>
+                    </div>
+                  </div>
+
+                  {/* Chart Area */}
+                  <div className={`rounded-xl p-4 mb-4 ${darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-slate-50 to-slate-100'}`}>
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className={`font-semibold ${darkMode ? 'text-white' : 'text-slate-900'}`}>Maya AI Insights</h3>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <span className={`text-sm ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>Live</span>
+                      </div>
+                    </div>
+                    {/* Simulated Chart */}
+                    <div className="h-24 flex items-end gap-2">
+                      {[40, 65, 45, 80, 55, 70, 85, 60, 75, 90, 65, 80].map((height, i) => (
+                        <div key={i} className={`flex-1 rounded-t transition-all duration-1000 delay-${i * 100} ${darkMode ? 'bg-gradient-to-t from-blue-600 to-purple-500' : 'bg-gradient-to-t from-blue-500 to-purple-600'}`} style={{height: `${height}%`}}></div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Maya AI Chat Preview */}
+                  <div className={`rounded-xl p-4 ${darkMode ? 'bg-slate-800' : 'bg-gradient-to-br from-indigo-50 to-blue-100'}`}>
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <Brain className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <div className={`font-medium ${darkMode ? 'text-white' : 'text-slate-900'}`}>Maya AI</div>
+                        <div className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>Tu asistente de People Analytics</div>
+                      </div>
+                    </div>
+                    <div className={`text-sm p-3 rounded-lg ${darkMode ? 'bg-slate-700 text-slate-300' : 'bg-white text-slate-700'}`}>
+                      "Detecté que el engagement del equipo de desarrollo subió 23% esta semana. ¿Quieres ver el análisis completo?"
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Subtle Apple-style floating elements */}
+              <div className="absolute -top-4 -right-4 w-16 h-16 bg-blue-600/10 rounded-full blur-lg"></div>
+              <div className="absolute -bottom-8 -left-8 w-20 h-20 bg-blue-600/5 rounded-full blur-xl"></div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* Maya AI Featured Section */}
-      <section id="maya" className={`py-20 transition-colors ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+      <section id="maya" className={`py-20 transition-colors ${darkMode ? 'bg-slate-900' : 'bg-slate-50'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className={`text-4xl sm:text-5xl font-semibold mb-6 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h2 className={`text-4xl sm:text-5xl font-semibold mb-6 transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>
               Conoce a Maya
             </h2>
-            <p className={`text-xl max-w-3xl mx-auto transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className={`text-xl max-w-3xl mx-auto transition-colors ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
               El agente de IA que revoluciona People Analytics
             </p>
           </div>
@@ -208,12 +317,12 @@ export default function Home() {
           {/* Maya Features - Apple card style */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {features.map((feature, index) => (
-              <div key={index} className={`p-8 rounded-2xl border transition-all duration-300 hover:shadow-lg ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
+              <div key={index} className={`p-8 rounded-2xl border transition-all duration-300 hover:shadow-xl ${darkMode ? 'bg-slate-800 border-slate-700 hover:bg-slate-750' : 'bg-white border-slate-200 hover:border-slate-300'}`}>
                 <div className="flex items-start space-x-4">
                   <div className="text-2xl">{feature.icon}</div>
                   <div>
-                    <h3 className={`font-semibold mb-3 text-lg transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>{feature.title}</h3>
-                    <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>{feature.description}</p>
+                    <h3 className={`font-semibold mb-3 text-lg transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>{feature.title}</h3>
+                    <p className={`leading-relaxed transition-colors ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>{feature.description}</p>
                   </div>
                 </div>
               </div>
@@ -287,7 +396,7 @@ export default function Home() {
           <div className="text-center mt-16">
             <Link
               href="/maya-ai-people"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 text-white rounded-2xl font-semibold hover:from-purple-700 hover:via-pink-700 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white rounded-2xl font-semibold hover:from-purple-700 hover:via-pink-700 hover:to-rose-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               <Brain className="w-6 h-6" />
               <span>Explorar Maya AI People Analytics</span>
@@ -299,75 +408,118 @@ export default function Home() {
       {/* Complete Platform Section */}
       <section id="plataforma" className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl sm:text-5xl font-semibold mb-6 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-              La plataforma completa
+          <div className="text-center mb-20">
+            <div className={`inline-block px-4 py-2 rounded-full border mb-6 transition-colors ${darkMode ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-blue-50 border-blue-200 text-blue-700'}`}>
+              <span className="text-sm font-medium">✨ Módulos principales</span>
+            </div>
+            <h2 className={`text-5xl sm:text-6xl font-semibold mb-8 tracking-tight transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+              Todo lo que necesitas
+              <br />
+              <span className="text-blue-600">en una sola plataforma</span>
             </h2>
-            <p className={`text-xl max-w-3xl mx-auto transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Todos los módulos que necesitas para gestionar tu startup o venture studio
+            <p className={`text-2xl max-w-4xl mx-auto font-normal leading-relaxed transition-colors ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+              Olvídate de integrar 20 herramientas diferentes. Nexus Studio incluye todos los módulos esenciales para hacer crecer tu empresa.
             </p>
           </div>
 
           {/* Modules Grid - Apple style */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Link href="/dashboard" className="group">
-              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
-                  <Activity className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+              <div className={`p-10 rounded-3xl border-2 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 ${darkMode ? 'bg-slate-800 border-slate-700 hover:border-blue-500' : 'bg-white border-slate-200 hover:border-blue-300'}`}>
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-300 ${darkMode ? 'bg-slate-700 group-hover:bg-blue-600' : 'bg-slate-100 group-hover:bg-blue-600'}`}>
+                  <Activity className={`w-8 h-8 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-white' : 'text-slate-600 group-hover:text-white'}`} />
                 </div>
-                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Dashboard Ejecutivo</h3>
-                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Centro de control con métricas clave y KPIs en tiempo real</p>
+                <h3 className={`text-2xl font-bold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>Dashboard Ejecutivo</h3>
+                <p className={`text-lg leading-relaxed transition-colors ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>Centro de control con métricas clave y KPIs en tiempo real para tomar decisiones inteligentes</p>
+                <div className="mt-6 flex items-center text-blue-600 font-medium">
+                  <span>Explorar</span>
+                  <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
               </div>
             </Link>
 
             <Link href="/portfolio" className="group">
-              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
-                  <Briefcase className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+              <div className={`p-10 rounded-3xl border-2 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 ${darkMode ? 'bg-slate-800 border-slate-700 hover:border-emerald-500' : 'bg-white border-slate-200 hover:border-emerald-300'}`}>
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-300 ${darkMode ? 'bg-slate-700 group-hover:bg-emerald-600' : 'bg-slate-100 group-hover:bg-emerald-600'}`}>
+                  <Briefcase className={`w-8 h-8 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-white' : 'text-slate-600 group-hover:text-white'}`} />
                 </div>
-                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Gestión de Proyectos</h3>
-                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Planificación, seguimiento y gestión de equipos</p>
+                <h3 className={`text-2xl font-bold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>Gestión de Proyectos</h3>
+                <p className={`text-lg leading-relaxed transition-colors ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>Planificación, seguimiento y gestión de equipos con herramientas colaborativas avanzadas</p>
+                <div className="mt-6 flex items-center text-emerald-600 font-medium">
+                  <span>Explorar</span>
+                  <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
               </div>
             </Link>
 
             <Link href="/maya-ai-people" className="group">
-              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ring-2 ring-purple-500 ring-opacity-20 ${darkMode ? 'bg-gray-800 border-purple-800' : 'bg-white border-gray-200'}`}>
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl flex items-center justify-center mb-6">
-                  <Brain className="w-6 h-6 text-purple-600" />
+              <div className={`p-10 rounded-3xl border-2 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 ring-2 ring-purple-500/30 ${darkMode ? 'bg-slate-800 border-purple-600 hover:border-purple-400' : 'bg-white border-purple-300 hover:border-purple-500'}`}>
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-8 shadow-lg">
+                  <Brain className="w-8 h-8 text-white" />
                 </div>
-                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Maya AI People</h3>
-                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>IA conversacional para gestión de personas y analytics</p>
-                <div className="mt-4 text-purple-500 text-sm font-medium">✨ Con IA</div>
+                <h3 className={`text-2xl font-bold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>Maya AI People</h3>
+                <p className={`text-lg leading-relaxed transition-colors ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>IA conversacional para gestión de personas y analytics avanzados con predicciones inteligentes</p>
+                <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-purple-500/10 rounded-full">
+                  <span className="text-purple-600 font-medium text-sm">✨ Powered by AI</span>
+                </div>
+                <div className="mt-6 flex items-center text-purple-600 font-medium">
+                  <span>Explorar Maya</span>
+                  <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
               </div>
             </Link>
 
             <Link href="/finance" className="group">
-              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
-                  <DollarSign className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+              <div className={`p-10 rounded-3xl border-2 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 ${darkMode ? 'bg-slate-800 border-slate-700 hover:border-green-500' : 'bg-white border-slate-200 hover:border-green-300'}`}>
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-300 ${darkMode ? 'bg-slate-700 group-hover:bg-green-600' : 'bg-slate-100 group-hover:bg-green-600'}`}>
+                  <DollarSign className={`w-8 h-8 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-white' : 'text-slate-600 group-hover:text-white'}`} />
                 </div>
-                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Gestión Financiera</h3>
-                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Presupuestos, flujos de caja y reportes financieros</p>
+                <h3 className={`text-2xl font-bold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>Gestión Financiera</h3>
+                <p className={`text-lg leading-relaxed transition-colors ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>Presupuestos, flujos de caja y reportes financieros completos para maximizar rentabilidad</p>
+                <div className="mt-6 flex items-center text-green-600 font-medium">
+                  <span>Explorar</span>
+                  <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
               </div>
             </Link>
 
             <Link href="/analytics" className="group">
-              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
-                  <BarChart3 className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+              <div className={`p-10 rounded-3xl border-2 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 ${darkMode ? 'bg-slate-800 border-slate-700 hover:border-indigo-500' : 'bg-white border-slate-200 hover:border-indigo-300'}`}>
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-300 ${darkMode ? 'bg-slate-700 group-hover:bg-indigo-600' : 'bg-slate-100 group-hover:bg-indigo-600'}`}>
+                  <BarChart3 className={`w-8 h-8 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-white' : 'text-slate-600 group-hover:text-white'}`} />
                 </div>
-                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Analytics</h3>
-                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Business intelligence y análisis predictivo</p>
+                <h3 className={`text-2xl font-bold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>Analytics</h3>
+                <p className={`text-lg leading-relaxed transition-colors ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>Business intelligence y análisis predictivo con dashboards interactivos y reportes automatizados</p>
+                <div className="mt-6 flex items-center text-indigo-600 font-medium">
+                  <span>Explorar</span>
+                  <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
               </div>
             </Link>
 
             <Link href="/integrations" className="group">
-              <div className={`p-8 rounded-3xl border hover:shadow-lg transition-all duration-300 ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' : 'bg-white border-gray-200'}`}>
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors ${darkMode ? 'bg-gray-700 group-hover:bg-blue-900' : 'bg-gray-100 group-hover:bg-blue-50'}`}>
-                  <Plug className={`w-6 h-6 transition-colors ${darkMode ? 'text-gray-400 group-hover:text-blue-400' : 'text-gray-600 group-hover:text-blue-600'}`} />
+              <div className={`p-10 rounded-3xl border-2 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 ${darkMode ? 'bg-slate-800 border-slate-700 hover:border-orange-500' : 'bg-white border-slate-200 hover:border-orange-300'}`}>
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-300 ${darkMode ? 'bg-slate-700 group-hover:bg-orange-600' : 'bg-slate-100 group-hover:bg-orange-600'}`}>
+                  <Plug className={`w-8 h-8 transition-colors ${darkMode ? 'text-slate-400 group-hover:text-white' : 'text-slate-600 group-hover:text-white'}`} />
                 </div>
-                <h3 className={`text-xl font-semibold mb-3 transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Integraciones</h3>
-                <p className={`leading-relaxed transition-colors ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Conectores con herramientas externas y APIs</p>
+                <h3 className={`text-2xl font-bold mb-4 transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>Integraciones</h3>
+                <p className={`text-lg leading-relaxed transition-colors ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>Conectores con herramientas externas y APIs para sincronizar toda tu información empresarial</p>
+                <div className="mt-6 flex items-center text-orange-600 font-medium">
+                  <span>Explorar</span>
+                  <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
               </div>
             </Link>
           </div>
@@ -457,7 +609,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className={`transition-colors ${darkMode ? 'bg-black border-t border-gray-800' : 'bg-gray-50 border-t border-gray-200'}`}>
+      <footer className={`transition-colors ${darkMode ? 'bg-black border-t border-slate-800' : 'bg-slate-50 border-t border-slate-200'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Company Info */}
@@ -466,7 +618,7 @@ export default function Home() {
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${darkMode ? 'bg-white' : 'bg-black'}`}>
                   <Building2 className={`w-5 h-5 ${darkMode ? 'text-black' : 'text-white'}`} />
                 </div>
-                <span className={`text-xl font-semibold transition-colors ${darkMode ? 'text-white' : 'text-gray-900'}`}>Nexus Studio</span>
+                <span className={`text-xl font-semibold transition-colors ${darkMode ? 'text-white' : 'text-slate-900'}`}>Nexus Studio</span>
               </div>
               <p className={`mb-4 max-w-md transition-colors ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Plataforma empresarial completa con Maya AI para People Analytics
@@ -507,8 +659,10 @@ export default function Home() {
           setIsLoginModalOpen(false);
           setIsRegisterModalOpen(true);
         }}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
       />
-      
+
       <RegisterModal
         isOpen={isRegisterModalOpen}
         onClose={() => setIsRegisterModalOpen(false)}
@@ -516,6 +670,8 @@ export default function Home() {
           setIsRegisterModalOpen(false);
           setIsLoginModalOpen(true);
         }}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
       />
     </div>
   );

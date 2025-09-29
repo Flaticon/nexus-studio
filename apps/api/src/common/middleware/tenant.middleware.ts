@@ -25,7 +25,7 @@ export class TenantMiddleware implements NestMiddleware {
 
       if (!subdomain) {
         // If no subdomain, this might be the main marketing site or API docs
-        req.subdomain = null;
+        req.subdomain = undefined;
         return next();
       }
 
